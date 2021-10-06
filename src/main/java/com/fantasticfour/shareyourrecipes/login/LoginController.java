@@ -1,5 +1,7 @@
 package com.fantasticfour.shareyourrecipes.login;
 
+import java.security.Principal;
+
 import com.fantasticfour.shareyourrecipes.domains.User;
 
 import org.springframework.stereotype.Controller;
