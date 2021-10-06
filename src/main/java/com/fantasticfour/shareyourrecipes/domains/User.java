@@ -6,16 +6,21 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "users", schema = "public")
 public class User {
 
-    public User(String Username, String password, String email) {
-        this.name = Username;
+    public User(String email, String password, String name) {
+        this.name = name;
         this.password = password;
         this.email = email;
+        this.blocked = false;
+        this.enable = false;
+        this.roles.add(new Role(ERole.ROLE_USER));
     }
 
     @Id
@@ -49,6 +54,41 @@ public class User {
     private String photoURL;
     private String name;
 
+    private Boolean blocked;
+    private Boolean enable;
+
+    public Boolean isBlocked() {
+        return this.blocked;
+    }
+
+    public void setBlocked(Boolean blocked) {
+        this.blocked = blocked;
+    }
+
+    public Boolean isEnable() {
+        return this.enable;
+    }
+
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
+    }
+
+    public List<Recipe> getRecipes() {
+        return this.recipes;
+    }
+
+    public void setRecipes(List<Recipe> recipes) {
+        this.recipes = recipes;
+    }
+
+    public List<RecipeCollection> getRecipeCollections() {
+        return this.recipeCollections;
+    }
+
+    public void setRecipeCollections(List<RecipeCollection> recipeCollections) {
+        this.recipeCollections = recipeCollections;
+    }
+
     public String getPhotoURL() {
         return this.photoURL;
     }
@@ -73,18 +113,18 @@ public class User {
         this.id = id;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return this.roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     @JsonManagedReference
-    private List<Role> roles = new ArrayList<>();
+    private Set<Role> roles;
 
     @OneToMany(mappedBy = "creator")
     private List<Recipe> recipes = new ArrayList<>();
@@ -93,6 +133,8 @@ public class User {
     private List<RecipeCollection> recipeCollections = new ArrayList<>();
 
     public User() {
+        this.blocked = false;
+        this.enable = false;
     }
 
 }
