@@ -47,13 +47,6 @@ public class UserController {
     @Autowired
     EmailService emailSender;
 
-    @GetMapping("signup")
-    public String showRegistrationForm(WebRequest request, Model model) {
-        SignUpRequest srequest = new SignUpRequest();
-        model.addAttribute("request", srequest);
-        return "sign-up";
-    }
-
     @Controller
     public class GreetingController {
 
@@ -66,11 +59,6 @@ public class UserController {
 
     }
 
-    @GetMapping("")
-    public String viewHomePage() {
-        return "index";
-    }
-
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
@@ -80,7 +68,12 @@ public class UserController {
 
     @PostMapping("/process_register")
     @Transactional
-    public String processRegister(User user) {
+    public String processRegister(User user, Model model) {
+
+        if (userService.getUserByEmail(user.getEmail()) != null) {
+            model.addAttribute("message", "Account existed, <a href='/ui/login'>login?</a> ");
+            return "login/sign-up";
+        }
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
@@ -93,6 +86,7 @@ public class UserController {
         emailSender.sendConfirmEmail(token);
         // emailSender.sendConfirmEmail(new EmailConfirmToken());
         return "register_success";
+
     }
 
     @GetMapping("/users")

@@ -27,9 +27,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // disable security config for dev purpose only
         // http.authorizeRequests().antMatchers("/greeting").authenticated().anyRequest().permitAll().and()
 
-        // .formLogin().permitAll().and().httpBasic();
-
         http.authorizeRequests().anyRequest().permitAll();
+        http.formLogin().loginProcessingUrl("/login").loginPage("/ui/login").failureUrl("/ui/login?error")
+                .defaultSuccessUrl("/").permitAll().and().httpBasic().disable();
+
     }
 
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
