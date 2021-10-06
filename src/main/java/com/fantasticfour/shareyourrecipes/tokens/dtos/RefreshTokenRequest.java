@@ -1,4 +1,4 @@
-package com.lvl162.learningspringboot.tokens.dtos;
+package com.fantasticfour.shareyourrecipes.tokens.dtos;
 
 import javax.validation.constraints.NotBlank;
 

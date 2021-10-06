@@ -24,11 +24,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // http.formLogin().usernameParameter("email").successForwardUrl("/");
+        // disable security config for dev purpose only
+        // http.authorizeRequests().antMatchers("/greeting").authenticated().anyRequest().permitAll().and()
 
-        http.authorizeRequests().antMatchers("/greeting").authenticated().anyRequest().permitAll().and()
+        // .formLogin().permitAll().and().httpBasic();
 
-                .formLogin().permitAll().and().httpBasic();
+        http.authorizeRequests().anyRequest().permitAll();
     }
 
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
