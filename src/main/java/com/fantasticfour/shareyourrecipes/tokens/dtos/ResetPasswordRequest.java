@@ -1,4 +1,6 @@
-package com.lvl162.learningspringboot.tokens.dtos;
+// package com.lvl162.learningspringboot.tokens.dtos;
+package com.fantasticfour.shareyourrecipes.tokens.dtos;
+
 
 public class ResetPasswordRequest {
     private String token;
