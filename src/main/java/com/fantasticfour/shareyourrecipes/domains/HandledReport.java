@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "handled_reports", schema = "public")
-public class HandledReport {
+public class HandledReport extends AuditModel{
 
     @Id
     @Column(name = "report_id")

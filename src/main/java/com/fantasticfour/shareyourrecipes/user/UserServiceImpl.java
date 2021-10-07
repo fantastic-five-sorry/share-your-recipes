@@ -130,7 +130,7 @@ public class UserServiceImpl implements UserService {
 
     public User getUserByEmail(String email) {
 
-        return userRepo.findByEmail(email).get();
+        return userRepo.findByEmail(email).orElse(null);
     };
 
     public void resetPasswordByToken(String token, String newPassword) {

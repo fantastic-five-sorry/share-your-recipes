@@ -1,5 +1,5 @@
 package com.fantasticfour.shareyourrecipes.domains;
 
-public class Voting {
+public class Voting extends AuditModel{
     
 }

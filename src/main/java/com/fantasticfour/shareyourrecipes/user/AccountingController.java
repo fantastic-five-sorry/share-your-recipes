@@ -10,6 +10,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
+import com.fantasticfour.shareyourrecipes.domains.ERole;
 import com.fantasticfour.shareyourrecipes.domains.EmailConfirmToken;
 import com.fantasticfour.shareyourrecipes.domains.ForgotPasswordToken;
 import com.fantasticfour.shareyourrecipes.domains.User;
@@ -33,11 +34,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
 @Controller
-public class UserController {
+public class AccountingController {
     @Value("${lvl.app.ConfirmTokenExpireInMinutes}")
     private Long ConfirmTokenExpireInMinutes;
     @Autowired
     UserRepo userRepo;
+    @Autowired
+    RoleRepo roleRepo;
     @Autowired
     UserService userService;
     @Autowired
@@ -78,7 +81,7 @@ public class UserController {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
-
+        user.getRoles().add(roleRepo.findByName(ERole.ROLE_USER));
         userRepo.save(user);
         EmailConfirmToken token = new EmailConfirmToken(UUID.randomUUID().toString(), LocalDateTime.now(),
                 LocalDateTime.now().plus(ConfirmTokenExpireInMinutes, ChronoUnit.MINUTES), user);
@@ -98,17 +101,22 @@ public class UserController {
         return "users";
     }
 
-    @GetMapping("/activate")
-    public ResponseEntity<?> confirmEmail(@RequestParam("token") String token) {
+    @GetMapping("/account/verify-email")
+    public String confirmEmail(@RequestParam("token") String token, Model model) {
         try {
             userService.verifyEmailByToken(token);
             // return ResponseEntity.ok(new MessageResponse("Successfully activated
             // email"));
-            return null;
+            model.addAttribute("token", token);
+            model.addAttribute("message", "OK");
+            return "login/email-verified";
 
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("error: " + e.getMessage());
-
+            // return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("error: " +
+            // e.getMessage());
+            // model.addAttribute("token", token);
+            model.addAttribute("message", e.getMessage());
+            return "login/email-verified";
         }
     }
 
@@ -183,7 +191,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found user with email " + email);
     }
 
-    
     // @PostMapping("/reset-password")
     // public ResponseEntity<?> handleResetPassword(@RequestBody
     // ResetPasswordRequest request) {

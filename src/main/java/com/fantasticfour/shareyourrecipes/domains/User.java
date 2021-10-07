@@ -4,7 +4,11 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -121,13 +125,16 @@ public class User {
         this.roles = roles;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     @JsonManagedReference
-    private Set<Role> roles;
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "creator")
     private List<Recipe> recipes = new ArrayList<>();
+    @OneToMany(mappedBy = "creator")
+    private List<Question> questions = new ArrayList<>();
 
     @OneToMany(mappedBy = "creator")
     private List<RecipeCollection> recipeCollections = new ArrayList<>();
@@ -135,6 +142,22 @@ public class User {
     public User() {
         this.blocked = false;
         this.enable = false;
+    }
+
+    public Boolean getBlocked() {
+        return this.blocked;
+    }
+
+    public Boolean getEnable() {
+        return this.enable;
+    }
+
+    public List<Question> getQuestions() {
+        return this.questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
     }
 
 }

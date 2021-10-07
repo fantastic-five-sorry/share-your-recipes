@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.security;
+package com.fantasticfour.shareyourrecipes.configs;
 
 import java.io.IOException;
 import java.util.HashMap;

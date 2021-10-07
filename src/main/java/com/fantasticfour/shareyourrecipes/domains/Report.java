@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="reports", schema = "public")
-public class Report {
+public class Report extends AuditModel{
 
     @Id
     @GeneratedValue(generator = "report_generator")

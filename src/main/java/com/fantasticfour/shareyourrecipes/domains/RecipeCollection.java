@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "recipes_collection", schema = "public")
-public class RecipeCollection {
+public class RecipeCollection extends AuditModel{
 
     @Id
     @GeneratedValue(generator = "recipe_collection_generator")

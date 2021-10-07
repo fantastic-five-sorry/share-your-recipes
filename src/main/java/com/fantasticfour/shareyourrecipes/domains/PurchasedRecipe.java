@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "purchased_recipes", schema = "public")
-public class PurchasedRecipe {
+public class PurchasedRecipe extends AuditModel{
     @EmbeddedId
     private PurchasedRecipeId id;
 

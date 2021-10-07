@@ -1,9 +1,9 @@
-package controller;
+package com.fantasticfour.shareyourrecipes.recipes;
 
 import java.util.List;
 
 import com.fantasticfour.shareyourrecipes.domains.Recipe;
-import com.fantasticfour.shareyourrecipes.service.RecipeService;
+import com.fantasticfour.shareyourrecipes.recipes.service.RecipeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,16 +19,15 @@ public class RecipeController {
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
     }
-    
 
-    @GetMapping("/")
+    @GetMapping("/test/recipes")
     public String recipe(Model model) {
         List<Recipe> recipes = recipeService.findAll();
 
         System.out.println(recipes);
         model.addAttribute("recipes", recipes);
-        
+
         return "index";
-    } 
+    }
 
 }

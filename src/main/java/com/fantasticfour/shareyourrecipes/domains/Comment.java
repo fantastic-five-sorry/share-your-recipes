@@ -4,14 +4,13 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-
 @Entity
 @Table(name = "comments", schema = "public")
 public class Comment {
 
     @Id
-    @GeneratedValue(generator = "user_generator")
-    @SequenceGenerator(name = "user_generator", sequenceName = "user_sequence", initialValue = 1000, allocationSize = 1)
+    @GeneratedValue(generator = "comment_generator")
+    @SequenceGenerator(name = "comment_generator", sequenceName = "comment_sequence", initialValue = 1, allocationSize = 1)
 
     private Long id;
 
@@ -27,11 +26,8 @@ public class Comment {
     @JsonBackReference
     private Recipe recipe;
 
-
-
     public Comment() {
     }
-
 
     public Long getId() {
         return this.id;
@@ -64,7 +60,5 @@ public class Comment {
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
     }
-
-    
 
 }

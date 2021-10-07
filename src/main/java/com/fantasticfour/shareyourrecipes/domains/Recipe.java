@@ -2,7 +2,10 @@ package com.fantasticfour.shareyourrecipes.domains;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,7 +21,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "recipes", schema = "public")
-public class Recipe {
+
+public class Recipe extends AuditModel {
     @Id
     @GeneratedValue(generator = "recipe_generator")
     @SequenceGenerator(name = "recipe_generator", sequenceName = "recipe_sequence", initialValue = 1000, allocationSize = 1)
@@ -28,9 +32,11 @@ public class Recipe {
 
     private String image;
 
-    private String ingredients;
+    @ElementCollection
+    private Map<String, String> ingredients;
 
-    private String steps;
+    @ElementCollection
+    private List<String> steps;
 
     private String guideVideoUrl;
 
@@ -38,7 +44,6 @@ public class Recipe {
     @JoinColumn(name = "creator_id", nullable = false)
     @JsonBackReference
     private User creator;
-
 
     @OneToMany(mappedBy = "creator")
     private List<Comment> comments = new ArrayList<>();
@@ -72,20 +77,28 @@ public class Recipe {
         this.image = image;
     }
 
-    public String getIngredients() {
+    public Map<String, String> getIngredients() {
         return this.ingredients;
     }
 
-    public void setIngredients(String ingredients) {
+    public void setIngredients(Map<String, String> ingredients) {
         this.ingredients = ingredients;
     }
 
-    public String getSteps() {
+    public List<String> getSteps() {
         return this.steps;
     }
 
-    public void setSteps(String steps) {
+    public void setSteps(List<String> steps) {
         this.steps = steps;
+    }
+
+    public List<Comment> getComments() {
+        return this.comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public String getGuideVideoUrl() {
@@ -127,8 +140,6 @@ public class Recipe {
     public void setSlug(String slug) {
         this.slug = slug;
     }
-
-
 
     public Recipe() {
     }

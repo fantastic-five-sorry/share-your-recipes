@@ -1,9 +1,9 @@
-package com.fantasticfour.shareyourrecipes.service;
+package com.fantasticfour.shareyourrecipes.recipes.service;
 
 import java.util.List;
 
 import com.fantasticfour.shareyourrecipes.domains.Recipe;
-import com.fantasticfour.shareyourrecipes.repository.RecipeRepository;
+import com.fantasticfour.shareyourrecipes.recipes.repository.RecipeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

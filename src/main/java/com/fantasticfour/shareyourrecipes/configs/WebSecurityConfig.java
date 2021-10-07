@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.security;
+package com.fantasticfour.shareyourrecipes.configs;
 
 import javax.sql.DataSource;
 
