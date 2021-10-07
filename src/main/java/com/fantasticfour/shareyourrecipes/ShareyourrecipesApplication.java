@@ -4,9 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fantasticfour.shareyourrecipes.configs.AuditorAwareImpl;
-import com.fantasticfour.shareyourrecipes.domains.ERole;
 import com.fantasticfour.shareyourrecipes.domains.Role;
 import com.fantasticfour.shareyourrecipes.domains.User;
+import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 import com.fantasticfour.shareyourrecipes.emailsender.EmailService;
 import com.fantasticfour.shareyourrecipes.user.RoleRepo;
 import com.fantasticfour.shareyourrecipes.user.UserRepo;

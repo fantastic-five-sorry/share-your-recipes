@@ -1,11 +1,11 @@
 package com.fantasticfour.shareyourrecipes.domains;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,12 +15,20 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-// import com.fantasticfour.shareyourrecipes.domains.User;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.vladmihalcea.hibernate.type.array.ListArrayType;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import com.vladmihalcea.hibernate.type.json.JsonType;
+
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 
 @Entity
 @Table(name = "recipes", schema = "public")
+@TypeDefs({ @TypeDef(name = "list-array", typeClass = ListArrayType.class),
+        @TypeDef(name = "json", typeClass = JsonType.class),
+        @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class) })
 
 public class Recipe extends AuditModel {
     @Id
@@ -32,10 +40,14 @@ public class Recipe extends AuditModel {
 
     private String image;
 
-    @ElementCollection
-    private Map<String, String> ingredients;
-
-    @ElementCollection
+    // @ElementCollection
+    // private Map<String, String> ingredients;
+    @Type(type = "json")
+    @Column(columnDefinition = "jsonb")
+    private Map<String, String> ingredients = new HashMap<>();
+    // @ElementCollection
+    @Type(type = "list-array")
+    @Column(name = "steps", columnDefinition = "text[]")
     private List<String> steps;
 
     private String guideVideoUrl;

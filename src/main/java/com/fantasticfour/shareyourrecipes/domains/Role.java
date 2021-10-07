@@ -3,6 +3,8 @@ package com.fantasticfour.shareyourrecipes.domains;
 
 import javax.persistence.*;
 
+import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
+
 @Entity
 @Table(name="roles", schema = "public")
 public class Role {

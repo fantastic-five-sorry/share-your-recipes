@@ -10,10 +10,10 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
-import com.fantasticfour.shareyourrecipes.domains.ERole;
 import com.fantasticfour.shareyourrecipes.domains.EmailConfirmToken;
 import com.fantasticfour.shareyourrecipes.domains.ForgotPasswordToken;
 import com.fantasticfour.shareyourrecipes.domains.User;
+import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 import com.fantasticfour.shareyourrecipes.emailsender.EmailService;
 import com.fantasticfour.shareyourrecipes.tokens.EmailConfirmTokenService;
 import com.fantasticfour.shareyourrecipes.tokens.ForgotTokenService;

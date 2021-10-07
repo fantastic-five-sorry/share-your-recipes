@@ -3,11 +3,11 @@ package com.fantasticfour.shareyourrecipes.user;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.fantasticfour.shareyourrecipes.domains.ERole;
 import com.fantasticfour.shareyourrecipes.domains.EmailConfirmToken;
 import com.fantasticfour.shareyourrecipes.domains.ForgotPasswordToken;
 import com.fantasticfour.shareyourrecipes.domains.Role;
 import com.fantasticfour.shareyourrecipes.domains.User;
+import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 import com.fantasticfour.shareyourrecipes.tokens.EmailConfirmTokenRepo;
 import com.fantasticfour.shareyourrecipes.tokens.ForgotPasswordTokenRepo;
 import com.fantasticfour.shareyourrecipes.user.payload.SignUpRequest;

@@ -2,6 +2,7 @@ package com.fantasticfour.shareyourrecipes.domains;
 
 import javax.persistence.*;
 
+import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.hibernate.annotations.OnDelete;
