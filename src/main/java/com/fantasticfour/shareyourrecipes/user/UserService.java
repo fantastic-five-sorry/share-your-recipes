@@ -2,7 +2,6 @@ package com.fantasticfour.shareyourrecipes.user;
 
 import java.util.List;
 
-import com.fantasticfour.shareyourrecipes.domains.Provider;
 import com.fantasticfour.shareyourrecipes.domains.Role;
 import com.fantasticfour.shareyourrecipes.domains.Token;
 import com.fantasticfour.shareyourrecipes.domains.User;
@@ -40,6 +39,4 @@ public interface UserService {
     User getUserByEmail(String email);
 
     Token createToken(User user, String token, ETokenPurpose purpose);
-
-    void processOAuthPostLogin(String email, Provider provider);
 }
