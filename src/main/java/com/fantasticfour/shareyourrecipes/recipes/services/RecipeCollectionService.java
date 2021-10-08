@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.recipes.service;
+package com.fantasticfour.shareyourrecipes.recipes.services;
 
 import java.util.List;
 

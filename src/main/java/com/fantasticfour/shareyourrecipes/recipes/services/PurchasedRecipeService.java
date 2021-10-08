@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.recipes.service;
+package com.fantasticfour.shareyourrecipes.recipes.services;
 
 import java.util.List;
 
@@ -8,5 +8,6 @@ public interface PurchasedRecipeService {
 
     List<PurchasedRecipe> findAll();
 
-    
+    void save(PurchasedRecipe recipe);
+
 }
