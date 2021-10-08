@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.recipes.service;
+package com.fantasticfour.shareyourrecipes.recipes.services;
 
 import java.util.List;
 
@@ -9,6 +9,6 @@ public interface RecipeService {
     List<Recipe> findAll();
     void createRecipe(Recipe recipe);
     void deleteRecipe(Recipe recipe);
-    Recipe findById(int idRecipe);
+    Recipe findById(Long id);
     
 }

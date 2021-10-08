@@ -149,4 +149,6 @@ public class Recipe extends AuditModel {
     public Recipe() {
     }
 
+    
+
 }

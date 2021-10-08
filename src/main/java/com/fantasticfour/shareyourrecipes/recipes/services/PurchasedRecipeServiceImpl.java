@@ -1,31 +1,32 @@
-package com.fantasticfour.shareyourrecipes.recipes.service;
+package com.fantasticfour.shareyourrecipes.recipes.services;
 
 import java.util.List;
 
 import com.fantasticfour.shareyourrecipes.domains.PurchasedRecipe;
-import com.fantasticfour.shareyourrecipes.recipes.repository.PurchasedRecipeRepository;
+import com.fantasticfour.shareyourrecipes.recipes.repositories.PurchasedRecipeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PurchasedRecipeImpl implements PurchasedRecipeService{
+public class PurchasedRecipeServiceImpl implements PurchasedRecipeService {
 
     private final PurchasedRecipeRepository purchasedRecipeRepository;
+
     @Autowired
-    public PurchasedRecipeImpl(PurchasedRecipeRepository purchasedRecipeRepository) {
+    public PurchasedRecipeServiceImpl(PurchasedRecipeRepository purchasedRecipeRepository) {
         this.purchasedRecipeRepository = purchasedRecipeRepository;
     }
 
-
     @Override
     public List<PurchasedRecipe> findAll() {
-        // TODO Auto-generated method stub
         return purchasedRecipeRepository.findAll();
     }
 
+    @Override
+    public void save(PurchasedRecipe recipe) {
 
+        purchasedRecipeRepository.save(recipe);
+    }
 
-
-    
 }
