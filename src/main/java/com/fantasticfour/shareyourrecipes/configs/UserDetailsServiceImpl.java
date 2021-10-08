@@ -1,10 +1,11 @@
-package com.fantasticfour.shareyourrecipes.user;
+package com.fantasticfour.shareyourrecipes.configs;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
 import com.fantasticfour.shareyourrecipes.domains.User;
+import com.fantasticfour.shareyourrecipes.user.UserRepo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.fantasticfour.shareyourrecipes.domains.Provider;
 import com.fantasticfour.shareyourrecipes.domains.Role;
 import com.fantasticfour.shareyourrecipes.domains.Token;
 import com.fantasticfour.shareyourrecipes.domains.User;
@@ -157,5 +158,19 @@ public class UserServiceImpl implements UserService {
         Token emailTokenSaved = tokenService.save(emailToken);
 
         return emailTokenSaved;
+    }
+
+    public void processOAuthPostLogin(String email, Provider provider) {
+        User existUser = userRepo.findByEmail(email).orElse(null);
+
+        if (existUser != null) {
+            User newUser = new User();
+            newUser.setEmail(email);
+            newUser.setProvider(provider);
+            newUser.setEnable(true);
+            userRepo.save(newUser);
+            System.out.println("Created new user: " + email);
+        }
+
     }
 }
