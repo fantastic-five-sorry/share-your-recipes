@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.repository;
+package com.fantasticfour.shareyourrecipes.recipecollection;
 
 import com.fantasticfour.shareyourrecipes.domains.RecipeCollection;
 
