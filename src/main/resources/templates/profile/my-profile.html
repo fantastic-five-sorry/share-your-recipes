@@ -24,13 +24,15 @@
   </head>
   <body>
     <div class="container text-center">
-      <h3><a th:href="@{/test/user}">User principal info</a></h3>
       <h3><a th:href="@{/my-profile}">My profile</a></h3>
-      <h3><a th:href="@{/signup}">Register</a></h3>
-      <h3><a th:href="@{/login}">Login</a></h3>
-      <form th:action="@{/logout}" method="POST">
-        <input type="submit" value="Logout" />
-      </form>
+      <h3>
+        Hello
+        <div
+          th:if="${your_email != null}"
+          class="alert alert-info"
+          th:utext="${your_email}"
+        ></div>
+      </h3>
     </div>
   </body>
 </html>

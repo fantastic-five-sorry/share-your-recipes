@@ -37,6 +37,8 @@ public class User {
     @NotBlank
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
     @Column(unique = true)
     private String email;
 
@@ -159,6 +161,14 @@ public class User {
 
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
+    }
+
+    public Provider getProvider() {
+        return this.provider;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
     }
 
 }
