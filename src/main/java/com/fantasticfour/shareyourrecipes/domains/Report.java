@@ -1,10 +1,12 @@
 package com.fantasticfour.shareyourrecipes.domains;
 
+import java.util.Date;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name="reports", schema = "public")
-public class Report extends AuditModel{
+@Table(name = "reports", schema = "public")
+public class Report {
 
     @Id
     @GeneratedValue(generator = "report_generator")
@@ -15,12 +17,13 @@ public class Report extends AuditModel{
 
     // private User handler;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User reporter;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Recipe recipe;
 
+    private Date createdAt;
 }
 
 // handle : report_id + name + status;

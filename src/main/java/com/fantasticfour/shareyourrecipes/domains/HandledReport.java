@@ -1,17 +1,10 @@
 package com.fantasticfour.shareyourrecipes.domains;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "handled_reports", schema = "public")
-public class HandledReport extends AuditModel{
+public class HandledReport extends AuditModel {
 
     @Id
     @Column(name = "report_id")
@@ -21,7 +14,7 @@ public class HandledReport extends AuditModel{
     @JoinColumn(name = "report_id")
     private Report report;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User handler;
 
     private String status;

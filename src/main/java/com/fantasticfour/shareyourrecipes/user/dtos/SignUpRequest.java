@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.user.payload;
+package com.fantasticfour.shareyourrecipes.user.dtos;
 
 public class SignUpRequest {
     private String email;

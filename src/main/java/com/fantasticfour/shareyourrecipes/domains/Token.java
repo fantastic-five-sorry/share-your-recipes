@@ -8,10 +8,12 @@ import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter;
 
+@Entity
+@Table(name = "tokens", schema = "public")
 public class Token {
-    @SequenceGenerator(name = "confirmation_token_sequence", sequenceName = "confirmation_token_sequence", allocationSize = 1)
+    @SequenceGenerator(name = "token_sequence", sequenceName = "token_sequence", allocationSize = 1)
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "confirmation_token_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "token_sequence")
     private Long id;
 
     @Column(nullable = false)
@@ -28,11 +30,71 @@ public class Token {
 
     @Column(nullable = true, columnDefinition = "TIMESTAMP")
     @Convert(converter = LocalDateTimeConverter.class)
-    private LocalDateTime confirmedAt;
+    private LocalDateTime tokenUsedAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
     private ETokenPurpose purpose;
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getToken() {
+        return this.token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getExpiresAt() {
+        return this.expiresAt;
+    }
+
+    public void setExpiresAt(LocalDateTime expiresAt) {
+        this.expiresAt = expiresAt;
+    }
+
+    public LocalDateTime getTokenUsedAt() {
+        return this.tokenUsedAt;
+    }
+
+    public void setTokenUsedAt(LocalDateTime tokenUsedAt) {
+        this.tokenUsedAt = tokenUsedAt;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public ETokenPurpose getPurpose() {
+        return this.purpose;
+    }
+
+    public void setPurpose(ETokenPurpose purpose) {
+        this.purpose = purpose;
+    }
+
+    public Token() {
+    }
+
 }

@@ -1,55 +1,38 @@
 package com.fantasticfour.shareyourrecipes.user;
 
-import java.security.Principal;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
-import com.fantasticfour.shareyourrecipes.domains.EmailConfirmToken;
-import com.fantasticfour.shareyourrecipes.domains.ForgotPasswordToken;
 import com.fantasticfour.shareyourrecipes.domains.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
-import com.fantasticfour.shareyourrecipes.emailsender.EmailService;
-import com.fantasticfour.shareyourrecipes.tokens.EmailConfirmTokenService;
-import com.fantasticfour.shareyourrecipes.tokens.ForgotTokenService;
-import com.fantasticfour.shareyourrecipes.user.payload.SignUpRequest;
+import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
+import com.fantasticfour.shareyourrecipes.tokens.TokenService;
+import com.fantasticfour.shareyourrecipes.user.dtos.SignUpRequest;
+import com.fantasticfour.shareyourrecipes.user.emailsender.EmailService;
+import com.fantasticfour.shareyourrecipes.user.events.SendTokenEmailEvent;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.context.ApplicationEventPublisher;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.WebRequest;
 
 @Controller
 public class AccountingController {
-    @Value("${lvl.app.ConfirmTokenExpireInMinutes}")
-    private Long ConfirmTokenExpireInMinutes;
-    @Autowired
-    UserRepo userRepo;
+
     @Autowired
     RoleRepo roleRepo;
     @Autowired
     UserService userService;
     @Autowired
-    ForgotTokenService forgotTokenService;
-    @Autowired
-
-    EmailConfirmTokenService emailConfirmTokenService;
+    TokenService tokenService;
     @Autowired
     EmailService emailSender;
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     @Controller
     public class GreetingController {
@@ -65,145 +48,100 @@ public class AccountingController {
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("signUpRequest", new SignUpRequest());
 
         return "signup_form";
     }
 
     @PostMapping("/process_register")
     @Transactional
-    public String processRegister(User user, Model model) {
-
+    public String processRegister(User user, Model model, HttpServletRequest request) {
         if (userService.getUserByEmail(user.getEmail()) != null) {
             model.addAttribute("message", "Account existed, <a href='/ui/login'>login?</a> ");
             return "login/sign-up";
         }
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
         user.getRoles().add(roleRepo.findByName(ERole.ROLE_USER));
-        userRepo.save(user);
-        EmailConfirmToken token = new EmailConfirmToken(UUID.randomUUID().toString(), LocalDateTime.now(),
-                LocalDateTime.now().plus(ConfirmTokenExpireInMinutes, ChronoUnit.MINUTES), user);
-        emailConfirmTokenService.save(token);
-        // send email
-        emailSender.sendConfirmEmail(token);
-        // emailSender.sendConfirmEmail(new EmailConfirmToken());
-        return "register_success";
+        User userSaved = userService.saveUser(user);
 
-    }
+        eventPublisher.publishEvent(new SendTokenEmailEvent(userSaved, ETokenPurpose.VERIFY_EMAIL));
 
-    @GetMapping("/users")
-    public String listUsers(Model model) {
-        List<User> listUsers = userRepo.findAll();
-        model.addAttribute("listUsers", listUsers);
+        return "login/register_success";
 
-        return "users";
     }
 
     @GetMapping("/account/verify-email")
     public String confirmEmail(@RequestParam("token") String token, Model model) {
         try {
             userService.verifyEmailByToken(token);
-            // return ResponseEntity.ok(new MessageResponse("Successfully activated
-            // email"));
             model.addAttribute("token", token);
             model.addAttribute("message", "OK");
             return "login/email-verified";
 
         } catch (Exception e) {
-            // return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("error: " +
-            // e.getMessage());
+
             // model.addAttribute("token", token);
             model.addAttribute("message", e.getMessage());
             return "login/email-verified";
         }
     }
 
-    @PostMapping("/email-verify")
-    public ResponseEntity<?> verifyEmail(@RequestParam("token") String token) {
+    @GetMapping("/account/forgot-password")
+    public String viewForgotPasswordRequestPage(Model model, HttpServletRequest request) {
+
         try {
-            userService.verifyEmailByToken(token);
-            // return ResponseEntity.ok(new MessageResponse("Successfully verified
-            // email"));\
-            return null;
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("error: " + e.getMessage());
-
-        }
-    }
-
-    @PostMapping("/validate-forgot-token")
-    public ResponseEntity<?> verifyForgotPasswordToken(@RequestParam("token") String token) {
-
-        Optional<ForgotPasswordToken> tokenOpt = forgotTokenService.findByToken(token);
-        if (tokenOpt.isPresent()) {
-            if (tokenOpt.get().getResetPasswordAt() == null)
-                // return ResponseEntity.ok(new MessageResponse("Reset Password Token
-                // validated"));
-                if (tokenOpt.get().getExpiresAt().isBefore(LocalDateTime.now()))
-                    // return ResponseEntity.ok(new MessageResponse("Reset Password Token
-                    // expired"));
-
-                    return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("error: token already used");
-        }
-        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("error: Not found token");
-
-    }
-
-    @GetMapping("/request-resend-verify-email")
-    public ResponseEntity<?> reSendConfirmEmail(@RequestParam("email") String email) {
-
-        User user = userRepo.findByEmail(email).get();
-        if (user != null) {
-            if (user.isEnable()) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("error: " + "account already activated");
+            String token = request.getParameter("token");
+            if (token != null) {
+                tokenService.findByToken(token, ETokenPurpose.FORGOT_PASSWORD);
+                return "login/reset-password";
 
             }
-            EmailConfirmToken token = new EmailConfirmToken(UUID.randomUUID().toString(), LocalDateTime.now(),
-                    LocalDateTime.now().plus(ConfirmTokenExpireInMinutes, ChronoUnit.MINUTES), user);
-            emailConfirmTokenService.save(token);
-            // send email
-            emailSender.sendConfirmEmail(token);
-            // return ResponseEntity.ok(new MessageResponse("Successfully send activated
-            // email"));
-            return null;
+            return "login/forgot-password-request";
 
-        } else
-            return ResponseEntity.badRequest().body("error: " + "Not found username");
+        } catch (Exception e) {
+
+            // model.addAttribute("token", token);
+            model.addAttribute("message", e.getMessage());
+            return "login/forgot-password-request";
+        }
     }
 
-    @PostMapping("/request-forgot-password-email")
-    public ResponseEntity<?> sendForgotEmail(HttpServletRequest request) {
-        String email = request.getParameter("email");
-        User user = userService.getUserByEmail(email);
-        if (user != null) {
-            ForgotPasswordToken token = new ForgotPasswordToken(UUID.randomUUID().toString(), LocalDateTime.now(),
-                    LocalDateTime.now().plus(ConfirmTokenExpireInMinutes, ChronoUnit.MINUTES), user);
-            forgotTokenService.save(token);
-            // send email
-            emailSender.sendForgotEmail(token);
-            // return ResponseEntity.ok(new MessageResponse("Successfully send forgot
-            // email"));
-            return null;
+    @GetMapping("/account/request-forgot-password-email")
+    public String requestForgotPasswordHandler(@RequestParam("email") String email, Model model) {
+        try {
+            User me = userService.getUserByEmail(email);
+            if (me != null) {
+                model.addAttribute("message", "Da gui tin nhan");
+                eventPublisher.publishEvent(new SendTokenEmailEvent(me, ETokenPurpose.FORGOT_PASSWORD));
+                return "login/forgot-password-request";
+            }
+            model.addAttribute("message", "Fail");
+            return "login/forgot-password-request";
 
-        } else
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found user with email " + email);
+        } catch (Exception e) {
+
+            // model.addAttribute("token", token);
+            model.addAttribute("message", e.getMessage());
+            return "login/forgot-password-request";
+        }
     }
 
-    // @PostMapping("/reset-password")
-    // public ResponseEntity<?> handleResetPassword(@RequestBody
-    // ResetPasswordRequest request) {
+    @GetMapping("/account/reset-password-process")
+    public String resetPasswordProcess(@RequestParam("email") String email, Model model) {
+        try {
+            User me = userService.getUserByEmail(email);
+            if (me != null) {
+                model.addAttribute("message", "Da gui tin nhan");
+                eventPublisher.publishEvent(new SendTokenEmailEvent(me, ETokenPurpose.FORGOT_PASSWORD));
+                return "login/forgot-password-request";
+            }
+            model.addAttribute("message", "Fail");
+            return "login/forgot-password-request";
 
-    // try {
-    // userService.resetPasswordByToken(request.getToken(),
-    // request.getNewPassword());
-    // return ResponseEntity.ok(new MessageResponse("Successfully reset password"));
-    // } catch (Exception e) {
-    // return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("error: " +
-    // e.getMessage());
+        } catch (Exception e) {
 
-    // }
-    // }
+            model.addAttribute("message", e.getMessage());
+            return "login/forgot-password-request";
+        }
+    }
 
 }

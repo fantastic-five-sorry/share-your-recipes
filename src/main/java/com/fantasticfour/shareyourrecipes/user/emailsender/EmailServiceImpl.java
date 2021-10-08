@@ -1,12 +1,13 @@
-package com.fantasticfour.shareyourrecipes.emailsender;
+package com.fantasticfour.shareyourrecipes.user.emailsender;
 
 import java.nio.charset.StandardCharsets;
 
 import javax.mail.internet.MimeMessage;
 
-import com.fantasticfour.shareyourrecipes.domains.EmailConfirmToken;
-import com.fantasticfour.shareyourrecipes.domains.ForgotPasswordToken;
+import com.fantasticfour.shareyourrecipes.domains.Token;
+import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
 
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -18,10 +19,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailServiceImpl implements EmailService {
 
+    Logger logger = LoggerFactory.getLogger(EmailServiceImpl.class);
     final JavaMailSender mailSender;
 
-    // @Value("${lvl.app.frontEndUrl}")
-    private String FRONT_END_URL = "123";
+    @Value("${lvl.app.frontEndUrl}")
+    private String FRONT_END_URL;
 
     @Autowired
     public EmailServiceImpl(JavaMailSender mailSender) {
@@ -53,39 +55,27 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Async
-    public void sendConfirmEmail(EmailConfirmToken token) {
+    public void sendTokenEmail(Token token) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                     StandardCharsets.UTF_8.name());
             helper.setFrom("lvl162@gmail.com");
-            helper.setSubject("Confirm email to activate account on LVL.com");
-
-            helper.setText(buildEmail(token.getUser().getEmail(),
-                    FRONT_END_URL + "/account/verify-email?token=" + token.getToken()), true);
+            if (token.getPurpose().equals(ETokenPurpose.FORGOT_PASSWORD)) {
+                helper.setSubject("Reset password email");
+                helper.setText(buildEmail(token.getUser().getEmail(),
+                        FRONT_END_URL + "/account/reset-password?token=" + token.getToken()), true);
+            }
+            if (token.getPurpose().equals(ETokenPurpose.VERIFY_EMAIL)) {
+                helper.setSubject("Confirm email to activate account on LVL.com");
+                helper.setText(buildEmail(token.getUser().getEmail(),
+                        FRONT_END_URL + "/account/verify-email?token=" + token.getToken()), true);
+            }
             helper.setTo(token.getUser().getEmail());
             mailSender.send(message);
-            System.out.println("Email Sent!");
+            logger.info("Email Sent!");
         } catch (Exception e) {
             System.out.println("email error");
-        }
-    };
-
-    @Async
-    public void sendForgotEmail(ForgotPasswordToken token) {
-        try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
-                    StandardCharsets.UTF_8.name());
-            helper.setFrom("lvl162@gmail.com");
-            helper.setSubject("Confirm email to activate account on LVL.com");
-            helper.setText(buildEmail(token.getUser().getEmail(),
-                    FRONT_END_URL + "/account/reset-password?token=" + token.getToken()), true);
-            helper.setTo(token.getUser().getEmail());
-            mailSender.send(message);
-            System.out.println("Email Sent!");
-        } catch (Exception e) {
-            System.out.println("email error " + e.getMessage());
         }
     };
 

@@ -3,26 +3,28 @@ package com.fantasticfour.shareyourrecipes.user;
 import java.util.List;
 
 import com.fantasticfour.shareyourrecipes.domains.Role;
+import com.fantasticfour.shareyourrecipes.domains.Token;
 import com.fantasticfour.shareyourrecipes.domains.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
-import com.fantasticfour.shareyourrecipes.user.payload.SignUpRequest;
+import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
+import com.fantasticfour.shareyourrecipes.user.dtos.SignUpRequest;
 
 public interface UserService {
     void signUp(SignUpRequest request);
 
-    void getUser(SignUpRequest request);
+    void blockUser(String email);
 
-    void blockUser(SignUpRequest request);
+    void unblockUser(String email);
 
-    void enableUser(SignUpRequest request);
+    void enableUser(String email);
 
     User saveUser(User user);
 
     Role saveRole(Role role);
 
-    void addRoleToUser(String username, ERole roleName);
+    void addRoleToUser(String email, ERole roleName);
 
-    User getUser(String username);
+    User getEnabledUser(String email);
 
     List<User> getUsers();
 
@@ -32,7 +34,9 @@ public interface UserService {
 
     void resetPasswordByToken(String token, String newPassword);
 
-    void activateUser(String username);
+    void activateUser(String email);
 
     User getUserByEmail(String email);
+
+    Token createToken(User user, String token, ETokenPurpose purpose);
 }

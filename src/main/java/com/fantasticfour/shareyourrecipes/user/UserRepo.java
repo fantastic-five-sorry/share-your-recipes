@@ -14,12 +14,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepo extends JpaRepository<User, Long> {
 
-    
     Optional<User> findByEmail(String email);
 
-    // @Query("SELECT u FROM User u WHERE u.active = true AND u.username =
-    // :username")
-    // User findByUsername(String username);
+    @Query("SELECT u FROM User u WHERE u.enable = true AND u.email =:email")
+    User findEnabledUserByEmail(String email);
 
     // User findByEmail(String email);
 
@@ -39,4 +37,5 @@ public interface UserRepo extends JpaRepository<User, Long> {
     @Modifying
     @Query("UPDATE User u set u.password = :newPassword WHERE u.id = :id")
     void resetPassword(Long id, String newPassword);
+
 }

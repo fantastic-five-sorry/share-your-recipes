@@ -25,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin().loginProcessingUrl("/login").loginPage("/ui/login").failureUrl("/ui/login?error")
                 .defaultSuccessUrl("/").permitAll().and().httpBasic().disable();
 
-        http.oauth2Login();
+        http.oauth2Login().loginPage("/ui/login").failureUrl("/ui/login?error");
 
     }
 

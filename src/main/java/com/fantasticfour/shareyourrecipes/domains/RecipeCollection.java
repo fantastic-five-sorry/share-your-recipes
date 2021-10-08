@@ -18,7 +18,7 @@ public class RecipeCollection extends AuditModel{
 
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User creator;
 
     private String slug;

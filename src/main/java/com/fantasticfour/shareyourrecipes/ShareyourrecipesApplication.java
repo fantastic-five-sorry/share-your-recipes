@@ -7,9 +7,9 @@ import com.fantasticfour.shareyourrecipes.configs.AuditorAwareImpl;
 import com.fantasticfour.shareyourrecipes.domains.Role;
 import com.fantasticfour.shareyourrecipes.domains.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
-import com.fantasticfour.shareyourrecipes.emailsender.EmailService;
 import com.fantasticfour.shareyourrecipes.user.RoleRepo;
 import com.fantasticfour.shareyourrecipes.user.UserRepo;
+import com.fantasticfour.shareyourrecipes.user.emailsender.EmailService;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,13 +19,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 @EnableAsync
 @EnableAutoConfiguration
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
-
+@EnableScheduling
 public class ShareyourrecipesApplication {
 	@Bean
 	public AuditorAware<String> auditorAware() {
