@@ -12,6 +12,7 @@ import com.fantasticfour.shareyourrecipes.domains.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.PurchasedRecipeRepository;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.RecipeRepository;
+import com.fantasticfour.shareyourrecipes.recipes.services.RecipeService;
 import com.fantasticfour.shareyourrecipes.user.RoleRepo;
 import com.fantasticfour.shareyourrecipes.user.UserRepo;
 import com.fantasticfour.shareyourrecipes.user.emailsender.EmailService;
@@ -46,7 +47,7 @@ public class ShareyourrecipesApplication {
 
 	@Bean
 	public CommandLineRunner run(RoleRepo roleRepo, UserRepo userRepo, EmailService emailService,
-			PasswordEncoder encoder, RecipeRepository recipeRepo, PurchasedRecipeRepository purRecipeRepo)
+			PasswordEncoder encoder, RecipeRepository recipeRepo, PurchasedRecipeRepository purRecipeRepo, RecipeService recipeService)
 			throws Exception {
 		return args -> {
 			if (roleRepo.findByName(ERole.ROLE_USER) == null) {
@@ -101,7 +102,12 @@ public class ShareyourrecipesApplication {
 			// pr.setId(id);
 			// purRecipeRepo.save(pr);
 
-			purRecipeRepo.findByCreatorEmail("lvl3").forEach(System.out::println);
+
+
+			// purRecipeRepo.findByCreatorEmail("lvl3").forEach(System.out::println);
+			// List<Recipe> recipesByCreator = recipeRepo.findByCreatorId(Long.valueOf(1000));
+			// System.out.println(recipesByCreator.get(0).getId());
+			// recipeService.deleteRecipe(recipeService.findById(recipesByCreator.get(0).getId()));
 
 		};
 	}

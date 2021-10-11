@@ -38,13 +38,6 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Recipe findById(Long idRecipe) {
         // TODO Auto-generated method stub
-        // List<Recipe> recipes = recipeRepository.findAll();
-        // for (int i = 0; i < recipes.size(); i++) {
-        // if (Integer.parseInt(recipes.get(i).getId().toString()) == idRecipe) {
-        // return recipes.get(i);
-        // }
-        // }
-        // return null;
 
         return recipeRepository.findById(idRecipe).orElse(null);
     }
