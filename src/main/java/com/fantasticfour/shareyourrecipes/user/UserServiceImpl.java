@@ -162,7 +162,7 @@ public class UserServiceImpl implements UserService {
 
     public void processOAuthPostLogin(String email, Provider provider) {
         User existUser = userRepo.findByEmail(email).orElse(null);
-
+        System.out.println("CALLLLLLL !!!!!!!!!!!!!!~~~~ " + email);
         if (existUser != null) {
             User newUser = new User();
             newUser.setEmail(email);

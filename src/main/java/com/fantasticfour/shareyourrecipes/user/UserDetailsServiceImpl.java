@@ -2,7 +2,6 @@ package com.fantasticfour.shareyourrecipes.user;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 
 import com.fantasticfour.shareyourrecipes.domains.User;
 
@@ -34,8 +33,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName().toString())));
 
-        return org.springframework.security.core.userdetails.User.builder().authorities(authorities).username(email)
-                .password(user.getPassword()).disabled(!user.isEnable()).accountLocked(user.isBlocked()).build();
+        // org.springframework.security.core.userdetails.User logged = new
+        // org.springframework.security.core.userdetails.User();
+
+        return
+        org.springframework.security.core.userdetails.User.builder().authorities(authorities).username(email)
+        .password(user.getPassword()).disabled(!user.isEnable()).accountLocked(user.isBlocked())
+        .build();
+
+        // return new CustomPrincipleUser(user, authorities);
     }
 
 }

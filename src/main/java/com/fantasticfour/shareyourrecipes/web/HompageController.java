@@ -44,7 +44,8 @@ public class HompageController {
 
     @GetMapping("/my-profile")
     public String myProfile(Principal principal, Model model) {
-        model.addAttribute("your_email", principal.getName());
+        model.addAttribute("your_email", principal.toString());
+        // model.addAttribute("your_name", principal.());
         return "profile/my-profile";
     }
 
