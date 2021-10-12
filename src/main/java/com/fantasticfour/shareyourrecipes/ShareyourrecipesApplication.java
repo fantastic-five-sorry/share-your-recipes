@@ -89,6 +89,8 @@ public class ShareyourrecipesApplication {
 			// r.setIngredients(ingredients);
 
 			// Recipe rSaved = recipeRepo.saveAndFlush(r);
+			// recipeService.deleteRecipe(r);
+			
 
 			// System.out.println("Da them vao $$$$$$" + rSaved.getId());
 			// emailService.testSendEmail("loithui162@gmail.com", "content");
@@ -107,8 +109,14 @@ public class ShareyourrecipesApplication {
 			// purRecipeRepo.findByCreatorEmail("lvl3").forEach(System.out::println);
 			// List<Recipe> recipesByCreator = recipeRepo.findByCreatorId(Long.valueOf(1000));
 			// System.out.println(recipesByCreator.get(0).getId());
-			// recipeService.deleteRecipe(recipeService.findById(recipesByCreator.get(0).getId()));
+	
 
+		
+			// recipeService.deleteRecipe(recipeService.findById(Long.valueOf(1001)));
+			// List<Recipe> testFindAll = recipeRepo.findAll();
+			// for (int i = 0; i < testFindAll.size(); i++) {
+			// 	System.out.println(testFindAll.get(i).getId());
+			// }
 		};
 	}
 

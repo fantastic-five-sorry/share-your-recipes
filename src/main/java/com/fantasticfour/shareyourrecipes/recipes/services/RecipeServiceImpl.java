@@ -31,7 +31,8 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public void deleteRecipe(Recipe recipe) {
-        recipeRepository.delete(recipe);
+        recipe.setDeleted(false);
+        recipeRepository.save(recipe);
 
     }
 
