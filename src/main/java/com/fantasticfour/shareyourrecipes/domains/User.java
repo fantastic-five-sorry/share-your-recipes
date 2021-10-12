@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,7 +18,7 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "users", schema = "public")
-public class User {
+public class User implements Serializable{
 
     public User(String email, String password, String name) {
         this.name = name;
@@ -34,11 +35,15 @@ public class User {
 
     private Long id;
 
-    @NotBlank
+    // @NotBlank
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 20)
     private Provider provider;
+
+    private String providerId;
+
     @Column(unique = true)
     private String email;
 
@@ -58,7 +63,7 @@ public class User {
         this.email = email;
     }
 
-    private String photoURL;
+    private String photoUrl;
     private String name;
 
     private Boolean blocked;
@@ -94,14 +99,6 @@ public class User {
 
     public void setRecipeCollections(List<RecipeCollection> recipeCollections) {
         this.recipeCollections = recipeCollections;
-    }
-
-    public String getPhotoURL() {
-        return this.photoURL;
-    }
-
-    public void setPhotoURL(String photoURL) {
-        this.photoURL = photoURL;
     }
 
     public String getName() {
@@ -169,6 +166,22 @@ public class User {
 
     public void setProvider(Provider provider) {
         this.provider = provider;
+    }
+
+    public String getProviderId() {
+        return this.providerId;
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
+    }
+
+    public String getPhotoUrl() {
+        return this.photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
 }
