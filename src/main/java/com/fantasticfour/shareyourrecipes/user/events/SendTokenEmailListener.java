@@ -1,11 +1,10 @@
-package com.fantasticfour.shareyourrecipes.user.listener;
+package com.fantasticfour.shareyourrecipes.user.events;
 
 import java.util.UUID;
 
 import com.fantasticfour.shareyourrecipes.domains.Token;
 import com.fantasticfour.shareyourrecipes.user.UserService;
 import com.fantasticfour.shareyourrecipes.user.emailsender.EmailService;
-import com.fantasticfour.shareyourrecipes.user.events.SendTokenEmailEvent;
 
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;

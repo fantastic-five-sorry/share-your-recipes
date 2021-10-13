@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.fantasticfour.shareyourrecipes.domains.User;
+import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 
 public class UserPrincipal implements OAuth2User, UserDetails {
     private Long id;
@@ -18,18 +19,27 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
     private Map<String, Object> attributes;
+    private Boolean enable;
+    private Boolean blocked;
+    private String fullName;
 
-    public UserPrincipal(Long id, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(Long id, String email, String password, String name, Boolean enable, Boolean blocked,
+            Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.email = email;
-        this.password = password;
         this.authorities = authorities;
+        this.password = password;
+        this.enable = enable;
+        this.blocked = blocked;
+        this.fullName = name;
     }
 
     public static UserPrincipal create(User user) {
-        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        List<GrantedAuthority> authorities = Collections
+                .singletonList(new SimpleGrantedAuthority(ERole.ROLE_USER.toString()));
 
-        return new UserPrincipal(user.getId(), user.getEmail(), user.getPassword(), authorities);
+        return new UserPrincipal(user.getId(), user.getEmail(), user.getPassword(), user.getName(), user.isEnable(),
+                user.isBlocked(), authorities);
     }
 
     public static UserPrincipal create(User user, Map<String, Object> attributes) {
@@ -42,13 +52,17 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         return id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getFullName() {
+        return this.fullName;
     }
 
     @Override
     public String getPassword() {
         return password;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     @Override
@@ -63,7 +77,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !blocked;
     }
 
     @Override
@@ -73,7 +87,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.enable;
     }
 
     @Override
@@ -94,4 +108,5 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     public String getName() {
         return String.valueOf(id);
     }
+
 }

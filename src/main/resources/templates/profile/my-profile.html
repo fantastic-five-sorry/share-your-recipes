@@ -32,6 +32,12 @@
           class="alert alert-info"
           th:utext="${your_email}"
         ></div>
+        <div th:if="${userInfo != null}" >
+          <div>Id: <span th:text="${userInfo.id}">Id</span></div>
+          <div>Name: <span th:text="${userInfo.name}">Name</span></div>
+          <div>Email: <span th:text="${userInfo.email}">Email</span></div>
+          <div><img th:src="${userInfo.photoUrl}"></img></div>
+        </div>
       </h3>
     </div>
   </body>

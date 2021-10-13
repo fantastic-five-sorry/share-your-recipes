@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import com.fantasticfour.shareyourrecipes.domains.User;
+import com.fantasticfour.shareyourrecipes.user.dtos.UserInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -17,33 +18,35 @@ public class TestOAuthController {
     @Autowired
     UserRepo userRepo;
 
+    @Autowired
+    UserService userService;
+
     @GetMapping("/test/user")
     public Principal user(Principal principal) {
         return principal;
     }
 
     @GetMapping("/test/user1")
-    public String user1(Authentication authentication) {
+    public UserInfo user1(Authentication authentication) {
 
-        return getUserEmailFromAuthentication(authentication);
+        return getUserInfoFromAuthentication(authentication);
     }
 
     @GetMapping("/test/user2")
-    public org.springframework.security.oauth2.core.user.DefaultOAuth2User user2(Authentication authentication) {
-        if (authentication.getPrincipal() instanceof org.springframework.security.oauth2.core.user.DefaultOAuth2User) {
-            org.springframework.security.oauth2.core.user.DefaultOAuth2User userDetails = (org.springframework.security.oauth2.core.user.DefaultOAuth2User) authentication
-                    .getPrincipal();
+    public UserPrincipal user2(Authentication authentication) {
+        if (authentication.getPrincipal() instanceof UserPrincipal) {
+            UserPrincipal userDetails = (UserPrincipal) authentication.getPrincipal();
             return userDetails;
         }
         return null;
     }
 
-    @GetMapping("/test/users")
-    public List<User> test() {
-        return userRepo.findAll();
-    }
+    // @GetMapping("/test/me")
+    // public UserInfo test(Authentication authentication) {
+    //     return userService.;
+    // }
 
-    private String getUserEmailFromAuthentication(Authentication authentication) {
+    private UserInfo getUserInfoFromAuthentication(Authentication authentication) {
         String userEmail = null;
 
         if (authentication.getPrincipal() instanceof UserDetails) {
@@ -57,7 +60,8 @@ public class TestOAuthController {
             userEmail = userDetails.getAttribute("email");
             userEmail = userDetails.getName();
         }
-
-        return userEmail;
+        if (userEmail == null)
+            return null;
+        return userService.getUserInfoByEmail(userEmail);
     }
 }
