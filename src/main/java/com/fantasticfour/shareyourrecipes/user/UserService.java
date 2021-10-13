@@ -2,16 +2,18 @@ package com.fantasticfour.shareyourrecipes.user;
 
 import java.util.List;
 
-import com.fantasticfour.shareyourrecipes.domains.Provider;
 import com.fantasticfour.shareyourrecipes.domains.Role;
 import com.fantasticfour.shareyourrecipes.domains.Token;
 import com.fantasticfour.shareyourrecipes.domains.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
-import com.fantasticfour.shareyourrecipes.user.dtos.SignUpRequest;
+import com.fantasticfour.shareyourrecipes.user.dtos.ChangePasswordDto;
+import com.fantasticfour.shareyourrecipes.user.dtos.ResetPasswordDto;
+import com.fantasticfour.shareyourrecipes.user.dtos.SignUp;
+import com.fantasticfour.shareyourrecipes.user.dtos.UserInfo;
 
 public interface UserService {
-    void signUp(SignUpRequest request);
+    void signUp(SignUp request);
 
     void blockUser(String email);
 
@@ -37,9 +39,15 @@ public interface UserService {
 
     void activateUser(String email);
 
+    User getValidUserByEmail(String email);
+
     User getUserByEmail(String email);
 
     Token createToken(User user, String token, ETokenPurpose purpose);
 
-    void processOAuthPostLogin(String email, Provider provider);
+    UserInfo getUserInfoByEmail(String email);
+
+    void changePassword(ChangePasswordDto dto);
+
+    void resetPassword(ResetPasswordDto dto);
 }

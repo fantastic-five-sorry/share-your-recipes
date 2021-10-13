@@ -18,7 +18,7 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "users", schema = "public")
-public class User implements Serializable{
+public class User implements Serializable {
 
     public User(String email, String password, String name) {
         this.name = name;
@@ -142,6 +142,7 @@ public class User implements Serializable{
     public User() {
         this.blocked = false;
         this.enable = false;
+        this.provider = Provider.local;
     }
 
     public Boolean getBlocked() {

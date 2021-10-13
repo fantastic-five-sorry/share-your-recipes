@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import com.fantasticfour.shareyourrecipes.domains.User;
+import com.fantasticfour.shareyourrecipes.user.dtos.UserInfo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -37,5 +38,8 @@ public interface UserRepo extends JpaRepository<User, Long> {
     @Modifying
     @Query("UPDATE User u set u.password = :newPassword WHERE u.id = :id")
     void resetPassword(Long id, String newPassword);
+
+    // @Query("SELECT u.id, u.email, u.name, u.photoUrl FROM User u WHERE u.enable = true AND u.email =:email")
+    // UserInfo findUserInfoByEmail(String email);
 
 }

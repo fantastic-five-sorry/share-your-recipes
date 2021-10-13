@@ -2,12 +2,14 @@ package com.fantasticfour.shareyourrecipes.configs;
 
 import java.util.Optional;
 
+import org.slf4j.*;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class AuditorAwareImpl implements AuditorAware<String> {
-    private static final String ADMIN = "LVL_SUPA_DZ";
+    Logger logger = LoggerFactory.getLogger(AuditorAwareImpl.class);
+    private static final String ADMIN = "ADMIN_LVL";
 
     @Override
     public Optional<String> getCurrentAuditor() {
@@ -17,6 +19,11 @@ public class AuditorAwareImpl implements AuditorAware<String> {
                 || authentication.getPrincipal().equals("anonymousUser")) {
             return Optional.of(ADMIN);
         }
-        return Optional.of(authentication.getName());
+
+        com.fantasticfour.shareyourrecipes.user.UserPrincipal oauthUser = (com.fantasticfour.shareyourrecipes.user.UserPrincipal) authentication
+                .getPrincipal();
+        String userEmail = oauthUser.getAttribute("email").toString();
+        logger.info("Email: " + userEmail);
+        return Optional.of(userEmail);
     }
 }
