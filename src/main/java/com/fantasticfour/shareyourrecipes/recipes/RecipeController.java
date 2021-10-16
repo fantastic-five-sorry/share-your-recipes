@@ -9,8 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class RecipeController {
 
     private final RecipeService recipeService;
@@ -21,13 +22,13 @@ public class RecipeController {
     }
 
     @GetMapping("/test/recipes")
-    public String recipe(Model model) {
+    public List<Recipe> recipe() {
         List<Recipe> recipes = recipeService.findAll();
 
         System.out.println(recipes);
-        model.addAttribute("recipes", recipes);
+        // model.addAttribute("recipes", recipes);
 
-        return "index";
+        return recipes;
     }
 
 }

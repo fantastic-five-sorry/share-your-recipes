@@ -3,7 +3,10 @@ package com.fantasticfour.shareyourrecipes.recipes.services;
 import java.util.List;
 
 import com.fantasticfour.shareyourrecipes.domains.Recipe;
+import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeDTO;
+import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.RecipeRepository;
+import com.fantasticfour.shareyourrecipes.user.UserRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,10 +15,12 @@ import org.springframework.stereotype.Service;
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
+    private final UserRepo userRepo;
 
     @Autowired
-    public RecipeServiceImpl(RecipeRepository recipeRepository) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, UserRepo userRepo) {
         this.recipeRepository = recipeRepository;
+        this.userRepo = userRepo;
     }
 
     @Override
@@ -24,27 +29,29 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public void createRecipe(Recipe recipe) {
-        recipeRepository.save(recipe);
+    public void createRecipe(CreateRecipeDTO recipe) {
+        Recipe recipe2 = new Recipe();
+        recipe2.setTitle(recipe.getTitle());
+        recipe2.setImage(recipe.getImage());
+        recipe2.setIngredients(recipe.getIngredients());
+        recipe2.setSteps(recipe.getSteps());
+        // recipe2.setCreator(userRepo.findEna); 
+        recipe2.setGuideVideoUrl(recipe.getGuideVideoString());
+        recipeRepository.save(recipe2);
 
     }
 
     @Override
-    public void deleteRecipe(Recipe recipe) {
-        recipeRepository.delete(recipe);
+    public void deleteRecipe(Long recipeid) {
+        Recipe recipe = this.findById(recipeid);
+        recipe.setDeleted(true);
+        recipeRepository.save(recipe);
 
     }
 
     @Override
     public Recipe findById(Long idRecipe) {
         // TODO Auto-generated method stub
-        // List<Recipe> recipes = recipeRepository.findAll();
-        // for (int i = 0; i < recipes.size(); i++) {
-        // if (Integer.parseInt(recipes.get(i).getId().toString()) == idRecipe) {
-        // return recipes.get(i);
-        // }
-        // }
-        // return null;
 
         return recipeRepository.findById(idRecipe).orElse(null);
     }
