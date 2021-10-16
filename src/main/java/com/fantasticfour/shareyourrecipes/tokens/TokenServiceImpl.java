@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 
-import com.fantasticfour.shareyourrecipes.domains.Token;
+import com.fantasticfour.shareyourrecipes.domains.auth.Token;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
 
 import org.springframework.beans.factory.annotation.Autowired;

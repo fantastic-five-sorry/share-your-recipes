@@ -4,7 +4,7 @@ import java.nio.charset.StandardCharsets;
 
 import javax.mail.internet.MimeMessage;
 
-import com.fantasticfour.shareyourrecipes.domains.Token;
+import com.fantasticfour.shareyourrecipes.domains.auth.Token;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
 
 import org.slf4j.*;

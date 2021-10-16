@@ -1,10 +1,12 @@
-package com.fantasticfour.shareyourrecipes.domains;
+package com.fantasticfour.shareyourrecipes.domains.recipes;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.*;
 
+import com.fantasticfour.shareyourrecipes.domains.AuditModel;
+import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter;
@@ -61,6 +63,14 @@ public class PurchasedRecipe extends AuditModel {
 
     public void setPurchasedAt(LocalDateTime purchasedAt) {
         this.purchasedAt = purchasedAt;
+    }
+
+    public User getCreator() {
+        return this.creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 
 }

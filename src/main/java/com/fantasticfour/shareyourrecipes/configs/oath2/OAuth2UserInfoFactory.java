@@ -2,7 +2,7 @@ package com.fantasticfour.shareyourrecipes.configs.oath2;
 
 import java.util.Map;
 
-import com.fantasticfour.shareyourrecipes.domains.Provider;
+import com.fantasticfour.shareyourrecipes.domains.auth.Provider;
 import com.fantasticfour.shareyourrecipes.exception.OAuth2AuthenticationProcessingException;
 
 public class OAuth2UserInfoFactory {

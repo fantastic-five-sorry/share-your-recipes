@@ -2,7 +2,7 @@ package com.fantasticfour.shareyourrecipes.user.events;
 
 import java.util.UUID;
 
-import com.fantasticfour.shareyourrecipes.domains.Token;
+import com.fantasticfour.shareyourrecipes.domains.auth.Token;
 import com.fantasticfour.shareyourrecipes.user.UserService;
 import com.fantasticfour.shareyourrecipes.user.emailsender.EmailService;
 

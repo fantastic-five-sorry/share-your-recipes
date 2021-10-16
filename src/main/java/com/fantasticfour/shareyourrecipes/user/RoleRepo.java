@@ -1,6 +1,6 @@
 package com.fantasticfour.shareyourrecipes.user;
 
-import com.fantasticfour.shareyourrecipes.domains.Role;
+import com.fantasticfour.shareyourrecipes.domains.auth.Role;
 import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 
 import org.springframework.data.jpa.repository.JpaRepository;

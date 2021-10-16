@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.domains;
+package com.fantasticfour.shareyourrecipes.domains.recipes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,7 +7,9 @@ import java.util.Map;
 
 import javax.persistence.*;
 
-
+import com.fantasticfour.shareyourrecipes.domains.AuditModel;
+import com.fantasticfour.shareyourrecipes.domains.Comment;
+import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
@@ -57,6 +59,15 @@ public class Recipe extends AuditModel {
     private Float price;
 
     private String slug;
+    private Long voteCount;
+
+    public Long getVoteCount() {
+        return this.voteCount;
+    }
+
+    public void setVoteCount(Long voteCount) {
+        this.voteCount = voteCount;
+    }
 
     public Long getId() {
         return this.id;
@@ -148,7 +159,5 @@ public class Recipe extends AuditModel {
 
     public Recipe() {
     }
-
-    
 
 }

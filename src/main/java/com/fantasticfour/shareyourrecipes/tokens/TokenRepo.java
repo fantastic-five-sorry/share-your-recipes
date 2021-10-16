@@ -3,7 +3,7 @@ package com.fantasticfour.shareyourrecipes.tokens;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import com.fantasticfour.shareyourrecipes.domains.Token;
+import com.fantasticfour.shareyourrecipes.domains.auth.Token;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
 
 import org.springframework.data.jpa.repository.JpaRepository;

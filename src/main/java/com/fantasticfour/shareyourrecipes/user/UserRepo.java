@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import com.fantasticfour.shareyourrecipes.domains.User;
+import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.user.dtos.UserInfo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,8 +17,11 @@ public interface UserRepo extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
 
-    @Query("SELECT u FROM User u WHERE u.enable = true AND u.email =:email")
+    @Query("SELECT u FROM User u WHERE u.enabled = true AND u.email =:email")
     User findEnabledUserByEmail(String email);
+
+    @Query("SELECT u FROM User u WHERE u.enabled = true AND u.id =:id")
+    User findEnabledUserById(Long id);
 
     // User findByEmail(String email);
 
@@ -31,7 +34,7 @@ public interface UserRepo extends JpaRepository<User, Long> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE User u set u.enable = true WHERE u.email = :email")
+    @Query("UPDATE User u set u.enabled = true WHERE u.email = :email")
     void activateUser(String email);
 
     @Transactional

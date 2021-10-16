@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.domains;
+package com.fantasticfour.shareyourrecipes.domains.auth;
 
 
 import javax.persistence.*;

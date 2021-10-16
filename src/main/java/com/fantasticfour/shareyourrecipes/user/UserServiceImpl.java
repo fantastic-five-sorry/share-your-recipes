@@ -6,15 +6,15 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import com.fantasticfour.shareyourrecipes.domains.Role;
-import com.fantasticfour.shareyourrecipes.domains.Token;
-import com.fantasticfour.shareyourrecipes.domains.User;
+import com.fantasticfour.shareyourrecipes.domains.auth.Role;
+import com.fantasticfour.shareyourrecipes.domains.auth.Token;
+import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
 import com.fantasticfour.shareyourrecipes.tokens.TokenService;
 import com.fantasticfour.shareyourrecipes.user.dtos.ChangePasswordDto;
 import com.fantasticfour.shareyourrecipes.user.dtos.ResetPasswordDto;
-import com.fantasticfour.shareyourrecipes.user.dtos.SignUp;
+import com.fantasticfour.shareyourrecipes.user.dtos.SignUpDto;
 import com.fantasticfour.shareyourrecipes.user.dtos.UserInfo;
 
 import org.slf4j.Logger;
@@ -62,13 +62,19 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void enableUser(String email) {
         User user = userRepo.findByEmail(email).orElseThrow(() -> new IllegalStateException("Email not found"));
-        user.setEnable(true);
+        user.setEnabled(true);
         userRepo.save(user);
     }
 
     @Override
-    public void signUp(SignUp request) {
-        userRepo.save(new User(request.getEmail(), passwordEncoder.encode(request.getPassword()), request.getName()));
+    public void registerNewAccount(SignUpDto request) {
+        if (!request.getPassword().equals(request.getConfirmPassword()))
+            throw new IllegalStateException("Confirm password not match");
+        if (userRepo.findByEmail(request.getEmail()).isPresent())
+            throw new IllegalStateException("Email exists");
+        User newUser = new User(request.getEmail(), passwordEncoder.encode(request.getPassword()), request.getName());
+        newUser.getRoles().add(roleRepo.findByName(ERole.ROLE_USER));
+        userRepo.save(newUser);
     }
 
     public User saveUser(User user) {
@@ -89,7 +95,7 @@ public class UserServiceImpl implements UserService {
 
         User user = userRepo.findByEmail(email).orElseThrow(() -> new IllegalStateException("Email not found"));
         Role role = roleRepo.findByName(roleName);
-        
+
         user.getRoles().add(role);
         userRepo.save(user);
     };
@@ -127,7 +133,7 @@ public class UserServiceImpl implements UserService {
     public void activateUser(String email) {
         User user = userRepo.findByEmail(email).get();
         if (user != null) {
-            user.setEnable(true);
+            user.setEnabled(true);
             userRepo.save(user);
         }
     }
@@ -138,7 +144,7 @@ public class UserServiceImpl implements UserService {
 
         if (user.isBlocked())
             throw new IllegalStateException("Email was blocked");
-        if (!user.isEnable())
+        if (!user.isEnabled())
             throw new IllegalStateException("Email was not verified");
         return user;
     };
@@ -178,11 +184,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changePassword(ChangePasswordDto dto) {
         // TODO Auto-generated method stub
-        
+
     }
+
     @Override
     public void resetPassword(ResetPasswordDto dto) {
         // TODO Auto-generated method stub
-        
+
+    }
+
+    @Override
+    public UserInfo getUserInfoById(Long id) {
+        User user = userRepo.findEnabledUserById(id);
+        if (user == null)
+            return null;
+        return new UserInfo(user);
     }
 }

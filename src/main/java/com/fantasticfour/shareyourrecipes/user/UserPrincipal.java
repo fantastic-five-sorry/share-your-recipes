@@ -5,12 +5,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import com.fantasticfour.shareyourrecipes.domains.User;
+import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 
 public class UserPrincipal implements OAuth2User, UserDetails {
@@ -35,10 +36,11 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     }
 
     public static UserPrincipal create(User user) {
-        List<GrantedAuthority> authorities = Collections
-                .singletonList(new SimpleGrantedAuthority(ERole.ROLE_USER.toString()));
-
-        return new UserPrincipal(user.getId(), user.getEmail(), user.getPassword(), user.getName(), user.isEnable(),
+        // List<GrantedAuthority> authorities = Collections
+        // .singletonList(new SimpleGrantedAuthority(ERole.ROLE_USER.toString()));
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName().toString())));
+        return new UserPrincipal(user.getId(), user.getEmail(), user.getPassword(), user.getName(), user.isEnabled(),
                 user.isBlocked(), authorities);
     }
 

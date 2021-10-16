@@ -8,6 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fantasticfour.shareyourrecipes.exception.LocalAuthenticationFailException;
+
 import org.apache.catalina.startup.FailedContext;
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.slf4j.*;
@@ -41,13 +43,8 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
         if (exception.getMessage().equalsIgnoreCase("User is disabled")) {
 
             errorMessage = messages.getMessage("auth.message.disabled", null, locale);
-            // errorMessage = MessageFormat.format(errorMessage, failEmailUser);
             errorMessage = String.format(errorMessage, failEmailUser);
         } else if (exception.getMessage().equalsIgnoreCase("User account has expired")) {
-            errorMessage = messages.getMessage("auth.message.expired", null, locale);
-        } else if (exception.getMessage().equalsIgnoreCase("User account is locked")) {
-            errorMessage = messages.getMessage("auth.message.blocked", null, locale);
-        } else if (exception.getMessage().equalsIgnoreCase("Bad credentials")) {
             errorMessage = messages.getMessage("auth.message.expired", null, locale);
         } else if (exception.getMessage().equalsIgnoreCase("User account is locked")) {
             errorMessage = messages.getMessage("auth.message.blocked", null, locale);
@@ -57,6 +54,7 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
         // logger.info();
 
         logger.info(errorMessage);
-        request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, errorMessage);
+        request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION,
+                new LocalAuthenticationFailException(errorMessage));
     }
 }

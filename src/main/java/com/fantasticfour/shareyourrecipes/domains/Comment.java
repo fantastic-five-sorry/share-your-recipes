@@ -2,6 +2,8 @@ package com.fantasticfour.shareyourrecipes.domains;
 
 import javax.persistence.*;
 
+import com.fantasticfour.shareyourrecipes.domains.auth.User;
+import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
@@ -25,6 +27,8 @@ public class Comment {
     @JoinColumn(name = "recipe_id", nullable = false)
     @JsonBackReference
     private Recipe recipe;
+
+    private Long voteCount;
 
     public Comment() {
     }
@@ -60,5 +64,15 @@ public class Comment {
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
     }
+
+
+    public Long getVoteCount() {
+        return this.voteCount;
+    }
+
+    public void setVoteCount(Long voteCount) {
+        this.voteCount = voteCount;
+    }
+    
 
 }

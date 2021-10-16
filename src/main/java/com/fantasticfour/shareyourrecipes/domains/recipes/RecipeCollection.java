@@ -1,10 +1,12 @@
-package com.fantasticfour.shareyourrecipes.domains;
+package com.fantasticfour.shareyourrecipes.domains.recipes;
 
 import java.util.List;
 import java.util.ArrayList;
 
 import javax.persistence.*;
 
+import com.fantasticfour.shareyourrecipes.domains.AuditModel;
+import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -27,6 +29,8 @@ public class RecipeCollection extends AuditModel{
     @JoinTable(name = "collection_recipes", joinColumns = @JoinColumn(name = "collection_id"), inverseJoinColumns = @JoinColumn(name = "recipe_id"))
     @JsonManagedReference
     private List<Recipe> recipes = new ArrayList<>();
+
+    private Long voteCount;
 
     public Long getId() {
         return this.id;
@@ -69,6 +73,15 @@ public class RecipeCollection extends AuditModel{
     }
 
     public RecipeCollection() {
+    }
+
+
+    public Long getVoteCount() {
+        return this.voteCount;
+    }
+
+    public void setVoteCount(Long voteCount) {
+        this.voteCount = voteCount;
     }
 
 }

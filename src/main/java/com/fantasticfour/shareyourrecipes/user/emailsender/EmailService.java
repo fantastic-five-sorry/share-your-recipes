@@ -1,6 +1,6 @@
 package com.fantasticfour.shareyourrecipes.user.emailsender;
 
-import com.fantasticfour.shareyourrecipes.domains.Token;
+import com.fantasticfour.shareyourrecipes.domains.auth.Token;
 
 import org.springframework.mail.SimpleMailMessage;
 

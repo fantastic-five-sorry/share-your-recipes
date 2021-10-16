@@ -2,7 +2,7 @@ package com.fantasticfour.shareyourrecipes.recipes.services;
 
 import java.util.List;
 
-import com.fantasticfour.shareyourrecipes.domains.RecipeCollection;
+import com.fantasticfour.shareyourrecipes.domains.recipes.RecipeCollection;
 
 public interface RecipeCollectionService {
 

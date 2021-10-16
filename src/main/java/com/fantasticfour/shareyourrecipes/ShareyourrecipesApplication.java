@@ -4,17 +4,20 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import com.fantasticfour.shareyourrecipes.configs.AuditorAwareImpl;
-import com.fantasticfour.shareyourrecipes.domains.PurchasedRecipe;
-import com.fantasticfour.shareyourrecipes.domains.PurchasedRecipeId;
-import com.fantasticfour.shareyourrecipes.domains.Recipe;
-import com.fantasticfour.shareyourrecipes.domains.Role;
-import com.fantasticfour.shareyourrecipes.domains.User;
+import com.fantasticfour.shareyourrecipes.domains.auth.Role;
+import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
+import com.fantasticfour.shareyourrecipes.domains.enums.VotingType;
+import com.fantasticfour.shareyourrecipes.domains.recipes.PurchasedRecipe;
+import com.fantasticfour.shareyourrecipes.domains.recipes.PurchasedRecipeId;
+import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
+import com.fantasticfour.shareyourrecipes.domains.votings.RecipeVoting;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.PurchasedRecipeRepository;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.RecipeRepository;
 import com.fantasticfour.shareyourrecipes.user.RoleRepo;
 import com.fantasticfour.shareyourrecipes.user.UserRepo;
 import com.fantasticfour.shareyourrecipes.user.emailsender.EmailService;
+import com.fantasticfour.shareyourrecipes.votings.repos.RecipeVotingRepo;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -58,12 +61,12 @@ public class ShareyourrecipesApplication {
 			}
 			if (userRepo != null) {
 				// userRepo.findUserInfoByEmail("loithui162@gmail.com").getEmail();
-				if (!userRepo.findByEmail("lvl3").isPresent()) {
+				if (!userRepo.findByEmail("admin@lvl.gg").isPresent()) {
 					User me = new User();
-					me.setEmail("lvl3");
-					me.setPassword(encoder.encode("1234"));
+					me.setEmail("admin@lvl.gg");
+					me.setPassword(encoder.encode("123456"));
 					// me.setBlocked(false);
-					me.setEnable(true);
+					me.setEnabled(true);
 					Set<Role> roles = new HashSet<>();
 					roles.add(roleRepo.findByName(ERole.ROLE_ADMIN));
 					me.setRoles(roles);
@@ -107,6 +110,11 @@ public class ShareyourrecipesApplication {
 
 			// purRecipeRepo.findByCreatorEmail("lvl3").forEach(System.out::println);
 
+			// RecipeVoting recipeVoting = new RecipeVoting();
+			// recipeVoting.setType(VotingType.UP_VOTING);
+			// recipeVoting.setVoter(userRepo.findEnabledUserByEmail("loithui162@gmail.com"));
+			// recipeVoting.setRecipe(recipeRepo.findById(1000L).get());
+			// votingRepo.save(recipeVoting);
 		};
 	}
 

@@ -7,6 +7,16 @@
     <title>Document</title>
   </head>
   <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        var uri = window.location.toString();
+        if (uri.indexOf('?') > 0) {
+          var clean_uri = uri.substring(0, uri.indexOf('?'));
+          window.history.replaceState({}, document.title, clean_uri);
+        }
+      });
+    </script>
     <h1 th:if="${message != null}" th:utext="${message}"></h1>
     <h2 th:if="${token != null}" th:utext="${token}"></h2>
   </body>

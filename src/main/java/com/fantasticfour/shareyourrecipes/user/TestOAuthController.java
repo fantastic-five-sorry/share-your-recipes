@@ -3,7 +3,7 @@ package com.fantasticfour.shareyourrecipes.user;
 import java.security.Principal;
 import java.util.List;
 
-import com.fantasticfour.shareyourrecipes.domains.User;
+import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.user.dtos.UserInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;

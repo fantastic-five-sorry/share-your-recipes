@@ -2,11 +2,14 @@ package com.fantasticfour.shareyourrecipes.user.dtos;
 
 import javax.validation.constraints.NotBlank;
 
-public class SignUp {
+public class SignUpDto {
     @NotBlank
     private String email;
     @NotBlank
     private String password;
+    @NotBlank
+    private String confirmPassword;
+    @NotBlank
     private String name;
 
     @NotBlank
@@ -32,6 +35,17 @@ public class SignUp {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getConfirmPassword() {
+        return this.confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
+    public SignUpDto() {
     }
 
 }

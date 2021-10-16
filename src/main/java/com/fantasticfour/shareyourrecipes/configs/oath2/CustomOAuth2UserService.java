@@ -13,9 +13,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import com.fantasticfour.shareyourrecipes.domains.Provider;
-import com.fantasticfour.shareyourrecipes.domains.User;
+import com.fantasticfour.shareyourrecipes.domains.auth.Provider;
+import com.fantasticfour.shareyourrecipes.domains.auth.Role;
+import com.fantasticfour.shareyourrecipes.domains.auth.User;
+import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 import com.fantasticfour.shareyourrecipes.exception.OAuth2AuthenticationProcessingException;
+import com.fantasticfour.shareyourrecipes.user.RoleRepo;
 import com.fantasticfour.shareyourrecipes.user.UserPrincipal;
 import com.fantasticfour.shareyourrecipes.user.UserRepo;
 
@@ -25,7 +28,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     Logger logger = org.slf4j.LoggerFactory.getLogger(CustomOAuth2UserService.class);
 
     @Autowired
-    private UserRepo userRepository;
+    private UserRepo userRepo;
+    @Autowired
+    private RoleRepo roleRepo;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
@@ -49,7 +54,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
         logger.info(oAuth2UserInfo.getEmail());
-        Optional<User> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
+        Optional<User> userOptional = userRepo.findByEmail(oAuth2UserInfo.getEmail());
         User user;
         if (userOptional.isPresent()) {
             user = userOptional.get();
@@ -69,20 +74,20 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
         User user = new User();
-
+        user.getRoles().add(roleRepo.findByName(ERole.ROLE_USER));
         user.setProvider(Provider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
         user.setProviderId(oAuth2UserInfo.getId());
         user.setName(oAuth2UserInfo.getName());
         user.setEmail(oAuth2UserInfo.getEmail());
         user.setPhotoUrl(oAuth2UserInfo.getPhotoUrl());
-        user.setEnable(true);
-        return userRepository.saveAndFlush(user);
+        user.setEnabled(true);
+        return userRepo.saveAndFlush(user);
     }
 
     private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
         existingUser.setName(oAuth2UserInfo.getName());
         existingUser.setPhotoUrl(oAuth2UserInfo.getPhotoUrl());
-        return userRepository.saveAndFlush(existingUser);
+        return userRepo.saveAndFlush(existingUser);
     }
 
 }

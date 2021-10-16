@@ -3,16 +3,16 @@ package com.fantasticfour.shareyourrecipes.user;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
-import com.fantasticfour.shareyourrecipes.domains.User;
+import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
 import com.fantasticfour.shareyourrecipes.tokens.TokenService;
-import com.fantasticfour.shareyourrecipes.user.dtos.SignUp;
+import com.fantasticfour.shareyourrecipes.user.dtos.SignUpDto;
 import com.fantasticfour.shareyourrecipes.user.events.SendTokenEmailEvent;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AccountingController {
-
+    @Autowired
+    private MessageSource messages;
     @Autowired
     RoleRepo roleRepo;
     @Autowired
@@ -48,7 +49,7 @@ public class AccountingController {
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
-        model.addAttribute("signUpRequest", new SignUp());
+        model.addAttribute("signUpRequest", new SignUpDto());
 
         return "signup_form";
     }
@@ -66,8 +67,13 @@ public class AccountingController {
 
         eventPublisher.publishEvent(new SendTokenEmailEvent(userSaved, ETokenPurpose.VERIFY_EMAIL));
 
-        return "login/register_success";
+        return "login/register-success";
 
+    }
+
+    @GetMapping("/register-success")
+    private String viewSuccessSignupPage() {
+        return "login/register-success";
     }
 
     @GetMapping("/account/verify-email")
@@ -76,11 +82,15 @@ public class AccountingController {
             userService.verifyEmailByToken(token);
             model.addAttribute("token", token);
             model.addAttribute("message", "OK");
-            return "login/email-verified";
+            return "redirect::/login";
 
         } catch (Exception e) {
 
-            // model.addAttribute("token", token);
+            // String errorMessage = "";
+            // // model.addAttribute("token", token);
+            // errorMessage = messages.getMessage("auth.message.disabled", null, locale);
+            // errorMessage = String.format(errorMessage, failEmailUser);
+
             model.addAttribute("message", e.getMessage());
             return "login/email-verified";
         }

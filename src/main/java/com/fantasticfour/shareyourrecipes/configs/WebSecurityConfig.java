@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fantasticfour.shareyourrecipes.configs.oath2.CustomOAuth2UserService;
+import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -33,10 +34,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // disable security config for dev purpose only
         // http.authorizeRequests().antMatchers("/greeting").authenticated().anyRequest().permitAll().and()
-        http.authorizeRequests().antMatchers("/", "/login", "/oauth/**").permitAll();
-        // http.authorizeRequests().anyRequest().authenticated();
-        http.authorizeRequests().antMatchers("/test/**").hasRole("USER");
-        http.authorizeRequests().antMatchers("/test-role").hasAnyRole("USER");
+        http.authorizeRequests()
+                .antMatchers("/", "/default-avatar.png", "/favicon.ico", "/login/**", "/signup/**", "/oauth/**")
+                .permitAll();
+        http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers("/test/**").authenticated();
+        http.authorizeRequests().antMatchers("/test-role").authenticated();
+        http.authorizeRequests().anyRequest().permitAll();
         http.formLogin().loginProcessingUrl("/login").loginPage("/login").defaultSuccessUrl("/")
                 .failureHandler(authenticationFailureHandler()).and().logout().logoutUrl("/logout")
                 .logoutSuccessUrl("/login").permitAll().and().httpBasic().disable();

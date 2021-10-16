@@ -2,7 +2,7 @@ package com.fantasticfour.shareyourrecipes.recipes;
 
 import java.util.List;
 
-import com.fantasticfour.shareyourrecipes.domains.Recipe;
+import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.recipes.services.RecipeService;
 
 import org.springframework.beans.factory.annotation.Autowired;

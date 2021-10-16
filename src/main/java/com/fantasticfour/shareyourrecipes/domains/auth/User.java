@@ -1,8 +1,11 @@
-package com.fantasticfour.shareyourrecipes.domains;
+package com.fantasticfour.shareyourrecipes.domains.auth;
 
 import javax.persistence.*;
 
+import com.fantasticfour.shareyourrecipes.domains.Question;
 import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
+import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
+import com.fantasticfour.shareyourrecipes.domains.recipes.RecipeCollection;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.hibernate.annotations.OnDelete;
@@ -25,14 +28,13 @@ public class User implements Serializable {
         this.password = password;
         this.email = email;
         this.blocked = false;
-        this.enable = false;
-        this.roles.add(new Role(ERole.ROLE_USER));
+        this.enabled = false;
+        this.provider = Provider.local;
     }
 
     @Id
     @GeneratedValue(generator = "user_generator")
     @SequenceGenerator(name = "user_generator", sequenceName = "user_sequence", initialValue = 1000, allocationSize = 1)
-
     private Long id;
 
     // @NotBlank
@@ -67,7 +69,7 @@ public class User implements Serializable {
     private String name;
 
     private Boolean blocked;
-    private Boolean enable;
+    private Boolean enabled;
 
     public Boolean isBlocked() {
         return this.blocked;
@@ -77,12 +79,12 @@ public class User implements Serializable {
         this.blocked = blocked;
     }
 
-    public Boolean isEnable() {
-        return this.enable;
+    public Boolean isEnabled() {
+        return this.enabled;
     }
 
-    public void setEnable(Boolean enable) {
-        this.enable = enable;
+    public void setEnabled(Boolean enable) {
+        this.enabled = enable;
     }
 
     public List<Recipe> getRecipes() {
@@ -141,7 +143,7 @@ public class User implements Serializable {
 
     public User() {
         this.blocked = false;
-        this.enable = false;
+        this.enabled = false;
         this.provider = Provider.local;
     }
 
@@ -150,7 +152,7 @@ public class User implements Serializable {
     }
 
     public Boolean getEnable() {
-        return this.enable;
+        return this.enabled;
     }
 
     public List<Question> getQuestions() {

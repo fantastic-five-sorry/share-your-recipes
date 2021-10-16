@@ -2,6 +2,8 @@ package com.fantasticfour.shareyourrecipes.domains;
 
 import javax.persistence.*;
 
+import com.fantasticfour.shareyourrecipes.domains.auth.User;
+
 @Entity
 @Table(name = "answers", schema = "public")
 public class Answer extends AuditModel {
@@ -19,5 +21,48 @@ public class Answer extends AuditModel {
     private Question question;
 
     private Long voteCount;
+
+    public Answer() {
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getAnswerer() {
+        return this.answerer;
+    }
+
+    public void setAnswerer(User answerer) {
+        this.answerer = answerer;
+    }
+
+    public String getContent() {
+        return this.content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Question getQuestion() {
+        return this.question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+    public Long getVoteCount() {
+        return this.voteCount;
+    }
+
+    public void setVoteCount(Long voteCount) {
+        this.voteCount = voteCount;
+    }
 
 }

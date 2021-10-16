@@ -4,6 +4,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>Sign up Page</title>
+    <meta th:name="_csrf" th:content="${_csrf.token}" />
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}" />
     <!-- CSS STYLES URL -->
     <link rel="stylesheet" href="/styles/login/auth.css" />
     <link
@@ -12,13 +14,49 @@
       integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
       crossorigin="anonymous"
     />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/fetch/3.6.2/fetch.min.js"
+      integrity="sha512-1Gn7//DzfuF67BGkg97Oc6jPN6hqxuZXnaTpC9P5uw8C6W4yUNj5hoS/APga4g1nO2X6USBb/rXtGzADdaVDeA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+      defer
+    ></script>
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
       integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
       crossorigin="anonymous"
     />
+    <script th:inline="javascript">
+
+      message = {
+        emailExists: "Co mail rui",
+        passwordNotMatch: " sai rui"
+      }
+
+
+      options = {
+              common: {minChar:8},
+              ui: {
+                  showVerdictsInsideProgressBar:true,
+                  showErrors:true,
+                  errorMessages:{
+                        wordLength: [[#{error.wordLength}]],
+                        wordNotEmail: [[#{error.wordNotEmail}]],
+                        wordSequences: [[#{error.wordSequences}]],
+                        wordLowercase: [[#{error.wordLowercase}]],
+                        wordUppercase: [[#{error.wordUppercase}]],
+                            wordOneNumber: [[#{error.wordOneNumber}]],
+                        wordOneSpecialChar: [[#{error.wordOneSpecialChar}]]
+                      }
+                  }
+          };
+    </script>
+    <script th:src="@{/js/login/signup.js}" defer></script>
   </head>
   <body>
     <div class="container h-100">
@@ -34,11 +72,9 @@
             </div>
           </div>
           <div class="d-flex justify-content-center form_container">
-            <form
-              th:object="${user}"
-              th:action="@{/process_register}"
-              method="post"
-            >
+            <!-- th:action="@{/process_register}" -->
+
+            <form>
               <div class="input-group mb-3">
                 <div class="input-group-append">
                   <span class="input-group-text"
@@ -51,7 +87,6 @@
                   class="form-control input_user"
                   value=""
                   placeholder="name"
-                  th:field="*{name}"
                   required
                   minlength="6"
                   maxlength="40"
@@ -69,18 +104,17 @@
                   class="form-control input_user"
                   value=""
                   placeholder="email"
-                  th:field="*{email}"
                   required
                 />
               </div>
-              <div class="input-group mb-2">
+              <div class="input-group mb-3">
                 <div class="input-group-append">
                   <span class="input-group-text"
                     ><i class="fas fa-key"></i
                   ></span>
                 </div>
                 <input
-                  th:field="*{password}"
+                  id="password"
                   type="password"
                   name="password"
                   class="form-control input_pass"
@@ -91,16 +125,43 @@
                   maxlength="10"
                 />
               </div>
+              <div class="input-group mb-3">
+                <div class="input-group-append">
+                  <span class="input-group-text"
+                    ><i class="fas fa-key"></i
+                  ></span>
+                </div>
+                <input
+                  id="confirmPassword"
+                  type="password"
+                  name="confirmPassword"
+                  class="form-control input_pass"
+                  value=""
+                  placeholder="confirm password"
+                  required
+                  minlength="6"
+                  maxlength="10"
+                />
+              </div>
               <div class="d-flex justify-content-center mt-3 login_container">
                 <button type="submit" class="btn login_btn">Sign up</button>
               </div>
-              <div class="d-flex justify-content-center mt-3 login_container">
+              <div
+                class="d-flex justify-content-center mb-4 mt-3 login_container"
+              >
                 <button type="button" name="button" class="btn login_btn">
-                  Login with Google
-                  <img
-                    src="https://image.similarpng.com/very-thumbnail/2020/12/Illustration-of-Google-icon-on-transparent-background-PNG.png"
-                    alt=""
-                  />
+                  <a
+                    th:href="@{/oauth2/authorization/google}"
+                    th:class="link-primary"
+                    th:style="'color: whitesmoke;'"
+                    >Login with Google</a
+                  >
+                  <span>
+                    <img
+                      src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-google-logos-vector-eps-cdr-svg-download-10.png"
+                      alt=""
+                    />
+                  </span>
                 </button>
               </div>
             </form>
@@ -110,6 +171,7 @@
             class="alert alert-info"
             th:utext="${message}"
           ></div>
+          <div id="globalError"></div>
         </div>
       </div>
     </div>

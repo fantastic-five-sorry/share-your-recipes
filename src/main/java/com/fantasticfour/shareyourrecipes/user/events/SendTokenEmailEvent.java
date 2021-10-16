@@ -1,6 +1,6 @@
 package com.fantasticfour.shareyourrecipes.user.events;
 
-import com.fantasticfour.shareyourrecipes.domains.User;
+import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
 
 import org.springframework.context.ApplicationEvent;

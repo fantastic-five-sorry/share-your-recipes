@@ -1,12 +1,12 @@
 package com.fantasticfour.shareyourrecipes.recipes.repositories;
 
-import com.fantasticfour.shareyourrecipes.domains.PurchasedRecipe;
-import com.fantasticfour.shareyourrecipes.domains.PurchasedRecipeId;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+
+import com.fantasticfour.shareyourrecipes.domains.recipes.PurchasedRecipe;
+import com.fantasticfour.shareyourrecipes.domains.recipes.PurchasedRecipeId;
 
 @Repository
 public interface PurchasedRecipeRepository extends JpaRepository<PurchasedRecipe, PurchasedRecipeId> {

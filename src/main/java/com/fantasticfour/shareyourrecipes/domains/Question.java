@@ -9,11 +9,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fantasticfour.shareyourrecipes.domains.auth.User;
+
 import java.util.List;
 import java.util.ArrayList;
 
 @Entity
-@Table(name="questions", schema="public")
+@Table(name = "questions", schema = "public")
 public class Question extends AuditModel {
     @Id
     @GeneratedValue(generator = "quetion_generator")
@@ -30,6 +32,8 @@ public class Question extends AuditModel {
     @OneToMany(mappedBy = "question")
     private List<Answer> answers = new ArrayList<>();
     private Boolean deleted;
+
+    private Long voteCount;
 
     public Question() {
         deleted = false;
@@ -93,6 +97,23 @@ public class Question extends AuditModel {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+
+    public List<Answer> getAnswers() {
+        return this.answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
+    }
+
+    public Long getVoteCount() {
+        return this.voteCount;
+    }
+
+    public void setVoteCount(Long voteCount) {
+        this.voteCount = voteCount;
     }
 
 }
