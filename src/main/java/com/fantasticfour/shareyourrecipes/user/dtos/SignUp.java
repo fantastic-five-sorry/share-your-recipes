@@ -1,10 +1,15 @@
 package com.fantasticfour.shareyourrecipes.user.dtos;
 
-public class SignUpRequest {
+import javax.validation.constraints.NotBlank;
+
+public class SignUp {
+    @NotBlank
     private String email;
+    @NotBlank
     private String password;
     private String name;
 
+    @NotBlank
     public String getEmail() {
         return this.email;
     }

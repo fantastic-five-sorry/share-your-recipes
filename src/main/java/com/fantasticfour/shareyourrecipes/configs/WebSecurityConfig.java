@@ -6,10 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fantasticfour.shareyourrecipes.configs.oath2.CustomOAuth2User;
 import com.fantasticfour.shareyourrecipes.configs.oath2.CustomOAuth2UserService;
-import com.fantasticfour.shareyourrecipes.domains.Provider;
-import com.fantasticfour.shareyourrecipes.user.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,34 +15,35 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @EnableWebSecurity
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private CustomOAuth2UserService oauthUserService;
-    @Autowired
-    private UserService userService;
+    private CustomOAuth2UserService customOAuth2UserService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // disable security config for dev purpose only
         // http.authorizeRequests().antMatchers("/greeting").authenticated().anyRequest().permitAll().and()
         http.authorizeRequests().antMatchers("/", "/login", "/oauth/**").permitAll();
-        http.authorizeRequests().anyRequest().permitAll();
+        // http.authorizeRequests().anyRequest().authenticated();
+        http.authorizeRequests().antMatchers("/test/**").hasRole("USER");
+        http.authorizeRequests().antMatchers("/test-role").hasAnyRole("USER");
         http.formLogin().loginProcessingUrl("/login").loginPage("/login").defaultSuccessUrl("/")
-                .failureUrl("/login?error").and().logout().logoutUrl("/logout").logoutSuccessUrl("/login").permitAll()
-                .and().httpBasic().disable();
-
-        http.oauth2Login().loginPage("/login").userInfoEndpoint().userService(oauthUserService).and()
-                .successHandler(successHandler()).defaultSuccessUrl("/").failureUrl("/login?error").and().logout()
-                .logoutUrl("/logout").logoutSuccessUrl("/login").permitAll();
-
+                .failureHandler(authenticationFailureHandler()).and().logout().logoutUrl("/logout")
+                .logoutSuccessUrl("/login").permitAll().and().httpBasic().disable();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+        http.oauth2Login().loginPage("/login").userInfoEndpoint().userService(customOAuth2UserService).and()
+                .successHandler(successHandler()).failureUrl("/login?error").and().logout().logoutUrl("/logout")
+                .logoutSuccessUrl("/login").permitAll();
     }
 
     @Bean
@@ -54,12 +52,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             @Override
             public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                     Authentication authentication) throws IOException, ServletException {
-                CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
-                userService.processOAuthPostLogin(oauthUser.getEmail(), Provider.GOOGLE);
-                response.sendRedirect("/");
+                // com.fantasticfour.shareyourrecipes.user.UserPrincipal oauthUser =
+                // (com.fantasticfour.shareyourrecipes.user.UserPrincipal) authentication
+                // .getPrincipal();
+                // System.out.println(oauthUser.getAttribute("email").toString());
+                response.sendRedirect("/home");
             }
         };
     }
+
+    @Bean
+    AuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
+    };
 
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());

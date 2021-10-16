@@ -7,8 +7,7 @@ import com.fantasticfour.shareyourrecipes.domains.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
 import com.fantasticfour.shareyourrecipes.tokens.TokenService;
-import com.fantasticfour.shareyourrecipes.user.dtos.SignUpRequest;
-import com.fantasticfour.shareyourrecipes.user.emailsender.EmailService;
+import com.fantasticfour.shareyourrecipes.user.dtos.SignUp;
 import com.fantasticfour.shareyourrecipes.user.events.SendTokenEmailEvent;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +29,10 @@ public class AccountingController {
     @Autowired
     TokenService tokenService;
     @Autowired
-    EmailService emailSender;
-    @Autowired
     private ApplicationEventPublisher eventPublisher;
+
+    @Autowired
+    UserUtils userUtils;
 
     @Controller
     public class GreetingController {
@@ -48,7 +48,7 @@ public class AccountingController {
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
-        model.addAttribute("signUpRequest", new SignUpRequest());
+        model.addAttribute("signUpRequest", new SignUp());
 
         return "signup_form";
     }
@@ -61,6 +61,7 @@ public class AccountingController {
             return "login/sign-up";
         }
         user.getRoles().add(roleRepo.findByName(ERole.ROLE_USER));
+
         User userSaved = userService.saveUser(user);
 
         eventPublisher.publishEvent(new SendTokenEmailEvent(userSaved, ETokenPurpose.VERIFY_EMAIL));
@@ -108,7 +109,7 @@ public class AccountingController {
     @GetMapping("/account/request-forgot-password-email")
     public String requestForgotPasswordHandler(@RequestParam("email") String email, Model model) {
         try {
-            User me = userService.getUserByEmail(email);
+            User me = userService.getValidUserByEmail(email);
             if (me != null) {
                 model.addAttribute("message", "Da gui tin nhan");
                 eventPublisher.publishEvent(new SendTokenEmailEvent(me, ETokenPurpose.FORGOT_PASSWORD));
@@ -128,7 +129,7 @@ public class AccountingController {
     @GetMapping("/account/reset-password-process")
     public String resetPasswordProcess(@RequestParam("email") String email, Model model) {
         try {
-            User me = userService.getUserByEmail(email);
+            User me = userService.getValidUserByEmail(email);
             if (me != null) {
                 model.addAttribute("message", "Da gui tin nhan");
                 eventPublisher.publishEvent(new SendTokenEmailEvent(me, ETokenPurpose.FORGOT_PASSWORD));
@@ -144,4 +145,9 @@ public class AccountingController {
         }
     }
 
+    @GetMapping("/account/change-password")
+    public String viewChangePasswordPage() {
+
+        return "login/change-password";
+    }
 }

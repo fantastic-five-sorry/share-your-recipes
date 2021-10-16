@@ -34,7 +34,7 @@ public class AccountingRestController {
     @GetMapping("/request-resend-verify-email")
     public ResponseEntity<?> reSendConfirmEmail(@RequestParam("email") String email) {
 
-        User user = userService.getUserByEmail(email);
+        User user = userService.getValidUserByEmail(email);
         if (user != null) {
             if (user.isEnable()) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("error: " + "account already activated");
@@ -79,7 +79,7 @@ public class AccountingRestController {
     @PostMapping("/request-forgot-password-email")
     public String sendForgotEmail(HttpServletRequest request) {
         String email = request.getParameter("email");
-        User user = userService.getUserByEmail(email);
+        User user = userService.getValidUserByEmail(email);
         if (user != null) {
             // ForgotPasswordToken token = new
             // ForgotPasswordToken(UUID.randomUUID().toString(), LocalDateTime.now(),

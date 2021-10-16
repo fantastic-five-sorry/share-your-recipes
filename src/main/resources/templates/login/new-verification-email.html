@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="ISO-8859-1" />
+    <title>Home</title>
+
+    <!-- <script src="internationalization.js"></script> -->
+  </head>
+  <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        var uri = window.location.toString();
+        if (uri.indexOf('?') > 0) {
+          var clean_uri = uri.substring(0, uri.indexOf('?'));
+          window.history.replaceState({}, document.title, clean_uri);
+        }
+      });
+    </script>
+    <h1 th:text="#{message.verification.newVerificationEmailSent}"></h1>
+  </body>
+</html>

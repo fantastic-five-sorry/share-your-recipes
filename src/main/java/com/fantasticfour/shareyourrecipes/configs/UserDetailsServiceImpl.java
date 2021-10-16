@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import com.fantasticfour.shareyourrecipes.domains.User;
+import com.fantasticfour.shareyourrecipes.user.UserPrincipal;
 import com.fantasticfour.shareyourrecipes.user.UserRepo;
 
 import org.slf4j.Logger;
@@ -32,11 +33,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         log.info("Email " + email + " found in db");
 
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName().toString())));
+        return UserPrincipal.create(user);
 
-        return org.springframework.security.core.userdetails.User.builder().authorities(authorities).username(email)
-                .password(user.getPassword()).disabled(!user.isEnable()).accountLocked(user.isBlocked()).build();
+        // Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        // user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName().toString())));
+
+        // return org.springframework.security.core.userdetails.User.builder().authorities(authorities).username(email)
+        //         .password(user.getPassword()).disabled(!user.isEnable()).accountLocked(user.isBlocked()).build();
     }
 
 }
