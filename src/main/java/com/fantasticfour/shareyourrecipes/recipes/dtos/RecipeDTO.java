@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.fantasticfour.shareyourrecipes.domains.Comment;
-import com.fantasticfour.shareyourrecipes.domains.User;
+import com.fantasticfour.shareyourrecipes.domains.auth.User;
 
 public class RecipeDTO {
     private String title;
@@ -43,7 +43,7 @@ public class RecipeDTO {
 
     public void setIngredients(Map<String, String> ingredients) {
         this.ingredients = ingredients;
-    } 
+    }
 
     public List<String> getSteps() {
         return this.steps;
@@ -69,8 +69,6 @@ public class RecipeDTO {
         this.creator = creator;
     }
 
-    
-
     public List<Comment> getComments() {
         return this.comments;
     }
@@ -95,6 +93,7 @@ public class RecipeDTO {
         this.price = price;
     }
 
-    public RecipeDTO() {}
+    public RecipeDTO() {
+    }
 
 }

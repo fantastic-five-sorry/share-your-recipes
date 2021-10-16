@@ -38,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/default-avatar.png", "/favicon.ico", "/login/**", "/signup/**", "/oauth/**")
                 .permitAll();
         http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN");
-        http.authorizeRequests().antMatchers("/test/**").authenticated();
+        http.authorizeRequests().antMatchers("/test/**").permitAll();
         http.authorizeRequests().antMatchers("/test-role").authenticated();
         http.authorizeRequests().anyRequest().permitAll();
         http.formLogin().loginProcessingUrl("/login").loginPage("/login").defaultSuccessUrl("/")

@@ -2,7 +2,7 @@ package com.fantasticfour.shareyourrecipes.recipes.services;
 
 import java.util.List;
 
-import com.fantasticfour.shareyourrecipes.domains.Recipe;
+import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.RecipeRepository;
