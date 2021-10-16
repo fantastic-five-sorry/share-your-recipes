@@ -69,6 +69,16 @@ public class Recipe extends AuditModel {
         this.voteCount = voteCount;
     }
 
+    private Boolean deleted;
+
+    public Boolean getDeleted() {
+        return this.deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public Long getId() {
         return this.id;
     }
@@ -158,6 +168,7 @@ public class Recipe extends AuditModel {
     }
 
     public Recipe() {
+        this.deleted = false;
     }
 
 }

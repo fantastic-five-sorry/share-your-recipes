@@ -14,6 +14,7 @@ import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.domains.votings.RecipeVoting;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.PurchasedRecipeRepository;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.RecipeRepository;
+import com.fantasticfour.shareyourrecipes.recipes.services.RecipeService;
 import com.fantasticfour.shareyourrecipes.user.RoleRepo;
 import com.fantasticfour.shareyourrecipes.user.UserRepo;
 import com.fantasticfour.shareyourrecipes.user.emailsender.EmailService;
@@ -50,7 +51,7 @@ public class ShareyourrecipesApplication {
 
 	@Bean
 	public CommandLineRunner run(RoleRepo roleRepo, UserRepo userRepo, EmailService emailService,
-			PasswordEncoder encoder, RecipeRepository recipeRepo, PurchasedRecipeRepository purRecipeRepo)
+			PasswordEncoder encoder, RecipeRepository recipeRepo, PurchasedRecipeRepository purRecipeRepo, RecipeService recipeService)
 			throws Exception {
 		return args -> {
 			if (roleRepo.findByName(ERole.ROLE_USER) == null) {
@@ -95,6 +96,8 @@ public class ShareyourrecipesApplication {
 			// r.setSteps(steps);
 
 			// Recipe rSaved = recipeRepo.saveAndFlush(r);
+			// recipeService.deleteRecipe(r);
+			
 
 			// System.out.println("Da them vao $$$$$$" + rSaved.getId());
 			// emailService.testSendEmail("loithui162@gmail.com", "content");
@@ -108,13 +111,18 @@ public class ShareyourrecipesApplication {
 			// pr.setId(id);
 			// purRecipeRepo.save(pr);
 
-			// purRecipeRepo.findByCreatorEmail("lvl3").forEach(System.out::println);
 
-			// RecipeVoting recipeVoting = new RecipeVoting();
-			// recipeVoting.setType(VotingType.UP_VOTING);
-			// recipeVoting.setVoter(userRepo.findEnabledUserByEmail("loithui162@gmail.com"));
-			// recipeVoting.setRecipe(recipeRepo.findById(1000L).get());
-			// votingRepo.save(recipeVoting);
+			// purRecipeRepo.findByCreatorEmail("lvl3").forEach(System.out::println);
+			// List<Recipe> recipesByCreator = recipeRepo.findByCreatorId(Long.valueOf(1000));
+			// System.out.println(recipesByCreator.get(0).getId());
+	
+
+		
+			// recipeService.deleteRecipe(recipeService.findById(Long.valueOf(1001)));
+			// List<Recipe> testFindAll = recipeRepo.findAll();
+			// for (int i = 0; i < testFindAll.size(); i++) {
+			// 	System.out.println(testFindAll.get(i).getId());
+			// }
 		};
 	}
 
