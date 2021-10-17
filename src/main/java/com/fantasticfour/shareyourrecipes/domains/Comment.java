@@ -8,12 +8,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "comments", schema = "public")
-public class Comment {
+public class Comment extends AuditModel {
 
     @Id
     @GeneratedValue(generator = "comment_generator")
     @SequenceGenerator(name = "comment_generator", sequenceName = "comment_sequence", initialValue = 1, allocationSize = 1)
-
     private Long id;
 
     private String content;
@@ -31,6 +30,7 @@ public class Comment {
     private Long voteCount;
 
     public Comment() {
+        voteCount = 0L;
     }
 
     public Long getId() {
@@ -65,7 +65,6 @@ public class Comment {
         this.recipe = recipe;
     }
 
-
     public Long getVoteCount() {
         return this.voteCount;
     }
@@ -73,6 +72,5 @@ public class Comment {
     public void setVoteCount(Long voteCount) {
         this.voteCount = voteCount;
     }
-    
 
 }

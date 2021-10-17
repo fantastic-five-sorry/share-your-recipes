@@ -21,7 +21,6 @@ public class Token {
 
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     @Convert(converter = LocalDateTimeConverter.class)
-
     private LocalDateTime createdAt;
 
     @Column(nullable = false, columnDefinition = "TIMESTAMP")

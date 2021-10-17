@@ -18,7 +18,9 @@ import com.fantasticfour.shareyourrecipes.recipes.services.RecipeService;
 import com.fantasticfour.shareyourrecipes.user.RoleRepo;
 import com.fantasticfour.shareyourrecipes.user.UserRepo;
 import com.fantasticfour.shareyourrecipes.user.emailsender.EmailService;
+import com.fantasticfour.shareyourrecipes.votings.dtos.VotingDto;
 import com.fantasticfour.shareyourrecipes.votings.repos.RecipeVotingRepo;
+import com.fantasticfour.shareyourrecipes.votings.services.VotingService;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -30,7 +32,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+// import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 @SpringBootApplication
 @EnableAsync
@@ -51,8 +53,8 @@ public class ShareyourrecipesApplication {
 
 	@Bean
 	public CommandLineRunner run(RoleRepo roleRepo, UserRepo userRepo, EmailService emailService,
-			PasswordEncoder encoder, RecipeRepository recipeRepo, PurchasedRecipeRepository purRecipeRepo, RecipeService recipeService)
-			throws Exception {
+			PasswordEncoder encoder, RecipeRepository recipeRepo, PurchasedRecipeRepository purRecipeRepo,
+			RecipeService recipeService, VotingService votingService) throws Exception {
 		return args -> {
 			if (roleRepo.findByName(ERole.ROLE_USER) == null) {
 				roleRepo.save(new Role(ERole.ROLE_USER));
@@ -76,28 +78,32 @@ public class ShareyourrecipesApplication {
 			} else {
 				System.out.println("null");
 			}
-			// Recipe r = new Recipe();
+			Recipe r = new Recipe();
 
-			// r.setCreator(userRepo.findByEmail("lvl3").get());
-			// Map<String, String> ingredients = new HashMap<>();
+			r.setCreator(userRepo.findByEmail("admin@lvl.gg").get());
+			Map<String, String> ingredients = new HashMap<>();
 
-			// ingredients.put("Hanh`", "100g");
-			// ingredients.put("Hanh`1", "100g");
-			// ingredients.put("Hanh`2", "100g");
-			// ingredients.put("Hanh`3", "100g");
+			ingredients.put("Hanh`", "100g");
+			ingredients.put("Hanh`1", "100g");
+			ingredients.put("Hanh`2", "100g");
+			ingredients.put("Hanh`3", "100g");
 
-			// List<String> steps = new ArrayList<>();
+			List<String> steps = new ArrayList<>();
 
-			// steps.add("Buowc1: dot ");
-			// steps.add("Buowc2: dot ");
-			// steps.add("Buowc3: dot ");
-			// steps.add("Buowc4: dot ");
-			// r.setIngredients(ingredients);
-			// r.setSteps(steps);
+			steps.add("Buowc1: dot ");
+			steps.add("Buowc2: dot ");
+			steps.add("Buowc3: dot ");
+			steps.add("Buowc4: dot ");
+			r.setIngredients(ingredients);
+			r.setSteps(steps);
 
 			// Recipe rSaved = recipeRepo.saveAndFlush(r);
+			VotingDto dto = new VotingDto();
+			dto.setSubjectVotingToId(1001L);
+			dto.setVoterId(1000L);
+
+			// votingService.handleVotingToRecipe(dto);
 			// recipeService.deleteRecipe(r);
-			
 
 			// System.out.println("Da them vao $$$$$$" + rSaved.getId());
 			// emailService.testSendEmail("loithui162@gmail.com", "content");
@@ -111,17 +117,15 @@ public class ShareyourrecipesApplication {
 			// pr.setId(id);
 			// purRecipeRepo.save(pr);
 
-
 			// purRecipeRepo.findByCreatorEmail("lvl3").forEach(System.out::println);
-			// List<Recipe> recipesByCreator = recipeRepo.findByCreatorId(Long.valueOf(1000));
+			// List<Recipe> recipesByCreator =
+			// recipeRepo.findByCreatorId(Long.valueOf(1000));
 			// System.out.println(recipesByCreator.get(0).getId());
-	
 
-		
 			// recipeService.deleteRecipe(recipeService.findById(Long.valueOf(1001)));
 			// List<Recipe> testFindAll = recipeRepo.findAll();
 			// for (int i = 0; i < testFindAll.size(); i++) {
-			// 	System.out.println(testFindAll.get(i).getId());
+			// System.out.println(testFindAll.get(i).getId());
 			// }
 		};
 	}

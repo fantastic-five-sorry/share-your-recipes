@@ -171,4 +171,12 @@ public class Recipe extends AuditModel {
         this.deleted = false;
     }
 
+    public void decreaseVoteCount() {
+        this.voteCount--;
+    }
+
+    public void increaseVoteCount() {
+        this.voteCount++;
+
+    }
 }

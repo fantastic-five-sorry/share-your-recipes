@@ -1,13 +1,18 @@
 package com.fantasticfour.shareyourrecipes.domains.votings;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 import javax.persistence.*;
 
 import com.fantasticfour.shareyourrecipes.domains.AuditModel;
 import com.fantasticfour.shareyourrecipes.domains.Comment;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter;
+
 @Entity
-public class CommentVoting  extends AuditModel{
+public class CommentVoting{
     @EmbeddedId
     private VotingId id;
 
@@ -45,5 +50,22 @@ public class CommentVoting  extends AuditModel{
 
     public void setId(VotingId id) {
         this.id = id;
+    }
+    
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    @Convert(converter = LocalDateTimeConverter.class)
+    private LocalDateTime createdAt;
+
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public CommentVoting(VotingId id) {
+        this.id = id;
+        this.createdAt = LocalDateTime.now();
     }
 }
