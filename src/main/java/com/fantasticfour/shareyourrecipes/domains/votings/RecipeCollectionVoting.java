@@ -1,13 +1,18 @@
 package com.fantasticfour.shareyourrecipes.domains.votings;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 import javax.persistence.*;
 
 import com.fantasticfour.shareyourrecipes.domains.AuditModel;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.recipes.RecipeCollection;
 
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter;
+
 @Entity
-public class RecipeCollectionVoting extends AuditModel {
+public class RecipeCollectionVoting {
     @EmbeddedId
     private VotingId id;
 
@@ -33,7 +38,6 @@ public class RecipeCollectionVoting extends AuditModel {
         this.voter = voter;
     }
 
-
     public RecipeCollection getRecipeCollection() {
         return this.recipeCollection;
     }
@@ -41,6 +45,7 @@ public class RecipeCollectionVoting extends AuditModel {
     public void setRecipeCollection(RecipeCollection recipeCollection) {
         this.recipeCollection = recipeCollection;
     }
+
     public VotingId getId() {
         return this.id;
     }
@@ -48,4 +53,22 @@ public class RecipeCollectionVoting extends AuditModel {
     public void setId(VotingId id) {
         this.id = id;
     }
+
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    @Convert(converter = LocalDateTimeConverter.class)
+    private LocalDateTime createdAt;
+
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public RecipeCollectionVoting(VotingId id) {
+        this.id = id;
+        this.createdAt = LocalDateTime.now();
+    }
+
 }
