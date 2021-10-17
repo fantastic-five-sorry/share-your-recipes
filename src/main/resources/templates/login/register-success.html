@@ -5,20 +5,26 @@
     <title>Registration Success</title>
     <link
       rel="stylesheet"
-      type="text/css"
-      href="/webjars/bootstrap/css/bootstrap.min.css"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
     />
-    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script
-      type="text/javascript"
-      src="/webjars/bootstrap/js/bootstrap.min.js"
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+      defer
     ></script>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+      integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
+      crossorigin="anonymous"
+    />
   </head>
   <body>
     <div class="container text-center">
-      <h3>
+      <h2 class="align-middle">
         A verify email had sent to your email. Please verify it before login
-      </h3>
+      </h2>
       <h4><a th:href="@{/login}">Already verified?</a></h4>
     </div>
   </body>

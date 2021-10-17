@@ -82,7 +82,7 @@ public class AccountingController {
             userService.verifyEmailByToken(token);
             model.addAttribute("token", token);
             model.addAttribute("message", "OK");
-            return "redirect::/login";
+            return "redirect::/login?success";
 
         } catch (Exception e) {
 
@@ -90,7 +90,6 @@ public class AccountingController {
             // // model.addAttribute("token", token);
             // errorMessage = messages.getMessage("auth.message.disabled", null, locale);
             // errorMessage = String.format(errorMessage, failEmailUser);
-
             model.addAttribute("message", e.getMessage());
             return "login/email-verified";
         }

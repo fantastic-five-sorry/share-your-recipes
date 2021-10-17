@@ -78,13 +78,13 @@ public class HompageController {
     }
 
     @GetMapping("/signup")
-    public String uiSignUp(Model model) {
+    public String uiSignUp() {
         // Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         // if (auth == null || auth instanceof AnonymousAuthenticationToken) {
         // return "login/login";
         // }
-        model.addAttribute("user", new User());
+        // model.addAttribute("user", new User());
         return "login/sign-up";
     }
 
