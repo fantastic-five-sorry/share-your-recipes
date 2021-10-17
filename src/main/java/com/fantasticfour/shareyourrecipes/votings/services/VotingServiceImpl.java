@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import com.fantasticfour.shareyourrecipes.domains.votings.AnswerVoting;
 import com.fantasticfour.shareyourrecipes.domains.votings.CommentVoting;
 import com.fantasticfour.shareyourrecipes.domains.votings.QuestionVoting;
@@ -50,6 +52,7 @@ public class VotingServiceImpl implements VotingService {
     UserRepo userRepo;
 
     @Override
+    @Transactional
     public void handleVotingToAnswer(VotingDto voting) {
         VotingId id = new VotingId(voting.getVoterId(), voting.getSubjectVotingToId());
         Optional<AnswerVoting> votingOpt = answerVotingRepo.findById(id);

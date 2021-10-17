@@ -1,7 +1,10 @@
 const registerUrl = '/api/account/signup';
 
 const registerSuccessUrl = '/register-success';
+var token = $("meta[name='_csrf']").attr('content');
+var header = $("meta[name='_csrf_header']").attr('content');
 
+console.log(header, token);
 $(document).ready(function () {
   var uri = window.location.toString();
   if (uri.indexOf('?') > 0) {
@@ -52,6 +55,7 @@ function register(event) {
   var formData = getFormData($('form'));
   var token = $("meta[name='_csrf']").attr('content');
   var header = $("meta[name='_csrf_header']").attr('content');
+
   $.ajax({
     type: 'post',
     url: registerUrl,
