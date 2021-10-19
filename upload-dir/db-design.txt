@@ -1,0 +1,26 @@
+Option 1: bad
+messages 
+	- idA__idB
+		+ lastMessage: 
+		+ lastSender
+		+ lastMessagecreatedAt
+		+ chats
+			++ messageId
+				+ senderId
+				+++ [(msg1, createdAt), (msg2, createdAt)]
+
+
+pack(sender, msgcontent, creatdAt)
+get pack.createdAt <> idA__idB.lastcreatedAt
+	+ case 1: > 20m -> insert new record
+	+ case 1 : insert -> lastrecord
+add to doc(idA__idB)/chat/
+	- idB__idC
+Option 2:
+	init: dataonce 29, datalisten 1;
+	state message
+	
+	new message come: 
+		+ add new message to state
+		+ transform state -> render 
+	

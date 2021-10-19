@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.user;
+package com.fantasticfour.shareyourrecipes.account;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -6,16 +6,16 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.fantasticfour.shareyourrecipes.account.dtos.ChangePasswordDto;
+import com.fantasticfour.shareyourrecipes.account.dtos.ResetPasswordDto;
+import com.fantasticfour.shareyourrecipes.account.dtos.SignUpDto;
+import com.fantasticfour.shareyourrecipes.account.dtos.UserInfo;
 import com.fantasticfour.shareyourrecipes.domains.auth.Role;
 import com.fantasticfour.shareyourrecipes.domains.auth.Token;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
 import com.fantasticfour.shareyourrecipes.tokens.TokenService;
-import com.fantasticfour.shareyourrecipes.user.dtos.ChangePasswordDto;
-import com.fantasticfour.shareyourrecipes.user.dtos.ResetPasswordDto;
-import com.fantasticfour.shareyourrecipes.user.dtos.SignUpDto;
-import com.fantasticfour.shareyourrecipes.user.dtos.UserInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +43,11 @@ public class UserServiceImpl implements UserService {
     TokenService tokenService;
 
     @Override
+    public User saveUser(User user) {
+        return userRepo.saveAndFlush(user);
+    }
+
+    @Override
     @Transactional
     public void blockUser(String email) {
         User user = userRepo.findByEmail(email).orElseThrow(() -> new IllegalStateException("Email not found"));
@@ -59,14 +64,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
-    public void enableUser(String email) {
-        User user = userRepo.findByEmail(email).orElseThrow(() -> new IllegalStateException("Email not found"));
-        user.setEnabled(true);
-        userRepo.save(user);
-    }
-
-    @Override
     public void registerNewAccount(SignUpDto request) {
         if (!request.getPassword().equals(request.getConfirmPassword()))
             throw new IllegalStateException("Confirm password not match");
@@ -76,12 +73,6 @@ public class UserServiceImpl implements UserService {
         newUser.getRoles().add(roleRepo.findByName(ERole.ROLE_USER));
         userRepo.save(newUser);
     }
-
-    public User saveUser(User user) {
-        log.info("Saving new user {} to the database", user.getName());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepo.saveAndFlush(user);
-    };
 
     public Role saveRole(Role role) {
         log.info("Saving new role {} to the database", role.getName());
@@ -100,11 +91,6 @@ public class UserServiceImpl implements UserService {
         userRepo.save(user);
     };
 
-    public User getEnabledUser(String email) {
-        return userRepo.findEnabledUserByEmail(email);
-
-    };
-
     public List<User> getUsers() {
         return userRepo.findAll();
     };
@@ -114,7 +100,7 @@ public class UserServiceImpl implements UserService {
     };
 
     public void verifyEmailByToken(String token) {
-        Token confirmationToken = tokenService.findByToken(token, ETokenPurpose.VERIFY_EMAIL);
+        Token confirmationToken = tokenService.getValidToken(token, ETokenPurpose.VERIFY_EMAIL);
 
         if (confirmationToken.getTokenUsedAt() != null) {
             return;
@@ -154,8 +140,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public void resetPasswordByToken(String token, String newPassword) {
-        Token forgotToken = tokenService.findByToken(token, ETokenPurpose.FORGOT_PASSWORD);
-        tokenService.updateTokenUsedAt(token, ETokenPurpose.FORGOT_PASSWORD);
+        Token forgotToken = tokenService.getValidToken(token, ETokenPurpose.RESET_PASSWORD);
+        tokenService.updateTokenUsedAt(token, ETokenPurpose.RESET_PASSWORD);
         userRepo.resetPassword(forgotToken.getUser().getId(), passwordEncoder.encode(newPassword));
     }
 
@@ -174,7 +160,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserInfo getUserInfoByEmail(String email) {
-        User user = userRepo.findEnabledUserByEmail(email);
+        User user = userRepo.findValidUserByEmail(email);
         if (user == null)
             return null;
 
@@ -182,20 +168,46 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changePassword(ChangePasswordDto dto) {
-        // TODO Auto-generated method stub
+    @Transactional
+    public void changePassword(Long uid, ChangePasswordDto dto) {
+        if (!dto.getNewPassword().equals(dto.getConfirmNewPassword()))
+            throw new IllegalStateException("Password not match");
+        // reset pw
+        User user = userRepo.findValidUserById(uid);
 
+        if (!passwordEncoder.matches(dto.getOldPassword(), user.getPassword()))
+            throw new IllegalStateException("Wrong password");
+
+        user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
+        userRepo.save(user);
     }
 
     @Override
+    @Transactional
     public void resetPassword(ResetPasswordDto dto) {
-        // TODO Auto-generated method stub
+        // pw not match check
+        if (!dto.getNewPassword().equals(dto.getConfirmNewPassword()))
+            throw new IllegalStateException("Password not match");
+        // get token valid
+        Token tokenObj = tokenService.getValidToken(dto.getToken(), ETokenPurpose.RESET_PASSWORD);
+
+        // reset pw
+        User user = tokenObj.getUser();
+
+        if (user == null)
+            throw new IllegalStateException("user not found");
+        user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
+
+        //
+        userRepo.save(user);
+
+        tokenService.updateTokenUsedAt(tokenObj.getToken(), ETokenPurpose.RESET_PASSWORD);
 
     }
 
     @Override
     public UserInfo getUserInfoById(Long id) {
-        User user = userRepo.findEnabledUserById(id);
+        User user = userRepo.findValidUserById(id);
         if (user == null)
             return null;
         return new UserInfo(user);

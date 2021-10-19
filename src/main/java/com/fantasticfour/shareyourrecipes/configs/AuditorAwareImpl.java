@@ -20,7 +20,7 @@ public class AuditorAwareImpl implements AuditorAware<String> {
             return Optional.of(ADMIN);
         }
 
-        com.fantasticfour.shareyourrecipes.user.UserPrincipal oauthUser = (com.fantasticfour.shareyourrecipes.user.UserPrincipal) authentication
+        com.fantasticfour.shareyourrecipes.account.UserPrincipal oauthUser = (com.fantasticfour.shareyourrecipes.account.UserPrincipal) authentication
                 .getPrincipal();
         String userEmail = oauthUser.getAttribute("email").toString();
         logger.info("Email: " + userEmail);

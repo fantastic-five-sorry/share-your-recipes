@@ -4,8 +4,8 @@ import java.util.Date;
 
 import javax.validation.constraints.NotBlank;
 
+import com.fantasticfour.shareyourrecipes.account.dtos.UserInfo;
 import com.fantasticfour.shareyourrecipes.domains.Comment;
-import com.fantasticfour.shareyourrecipes.user.dtos.UserInfo;
 
 public class CommentDto {
 

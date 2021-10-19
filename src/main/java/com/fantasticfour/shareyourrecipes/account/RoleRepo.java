@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.user;
+package com.fantasticfour.shareyourrecipes.account;
 
 import com.fantasticfour.shareyourrecipes.domains.auth.Role;
 import com.fantasticfour.shareyourrecipes.domains.enums.ERole;

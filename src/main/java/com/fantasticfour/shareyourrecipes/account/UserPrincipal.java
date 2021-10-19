@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.user;
+package com.fantasticfour.shareyourrecipes.account;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,6 +13,7 @@ import java.util.Map;
 
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserPrincipal implements OAuth2User, UserDetails {
     private Long id;
@@ -20,7 +21,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
     private Map<String, Object> attributes;
-    private Boolean enable;
+    private Boolean enabled;
     private Boolean blocked;
     private String fullName;
 
@@ -30,7 +31,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         this.email = email;
         this.authorities = authorities;
         this.password = password;
-        this.enable = enable;
+        this.enabled = enable;
         this.blocked = blocked;
         this.fullName = name;
     }
@@ -58,6 +59,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         return this.fullName;
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return password;
@@ -89,7 +91,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.enable;
+        return this.enabled;
     }
 
     @Override
@@ -109,6 +111,46 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     @Override
     public String getName() {
         return String.valueOf(id);
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
+
+    public Boolean getEnabled() {
+        return this.enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Boolean isBlocked() {
+        return this.blocked;
+    }
+
+    public Boolean getBlocked() {
+        return this.blocked;
+    }
+
+    public void setBlocked(Boolean blocked) {
+        this.blocked = blocked;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
 }

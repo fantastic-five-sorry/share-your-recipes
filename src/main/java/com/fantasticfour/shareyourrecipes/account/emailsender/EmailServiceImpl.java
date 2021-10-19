@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.user.emailsender;
+package com.fantasticfour.shareyourrecipes.account.emailsender;
 
 import java.nio.charset.StandardCharsets;
 
@@ -61,13 +61,15 @@ public class EmailServiceImpl implements EmailService {
             MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                     StandardCharsets.UTF_8.name());
             helper.setFrom("lvl162@gmail.com");
-            if (token.getPurpose().equals(ETokenPurpose.FORGOT_PASSWORD)) {
+            if (token.getPurpose().equals(ETokenPurpose.RESET_PASSWORD)) {
                 helper.setSubject("Reset password email");
                 helper.setText(buildEmail(token.getUser().getEmail(),
                         FRONT_END_URL + "/account/reset-password?token=" + token.getToken()), true);
             }
             if (token.getPurpose().equals(ETokenPurpose.VERIFY_EMAIL)) {
                 helper.setSubject("Confirm email to activate account on LVL.com");
+                String verifyUrl = FRONT_END_URL + "/account/verify-email?token=" + token.getToken();
+                logger.info("URL: " + verifyUrl);
                 helper.setText(buildEmail(token.getUser().getEmail(),
                         FRONT_END_URL + "/account/verify-email?token=" + token.getToken()), true);
             }

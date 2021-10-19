@@ -2,11 +2,11 @@ package com.fantasticfour.shareyourrecipes.recipes.services;
 
 import java.util.List;
 
+import com.fantasticfour.shareyourrecipes.account.UserRepo;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.RecipeRepository;
-import com.fantasticfour.shareyourrecipes.user.UserRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

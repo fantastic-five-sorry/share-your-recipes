@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -26,6 +27,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 @EnableWebSecurity
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomOAuth2UserService customOAuth2UserService;
@@ -35,17 +37,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // disable security config for dev purpose only
         // http.authorizeRequests().antMatchers("/greeting").authenticated().anyRequest().permitAll().and()
         http.cors().and().csrf().disable();
-        http.authorizeRequests()
-                .antMatchers("/", "/default-avatar.png", "/favicon.ico", "/login/**", "/signup/**", "/oauth/**")
-                .permitAll();
+        http.authorizeRequests().antMatchers("/", "/favicon.ico", "/login/**", "/signup/**", "/oauth/**").permitAll();
         http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN");
         http.authorizeRequests().antMatchers("/test/**").permitAll();
+        http.authorizeRequests().antMatchers("/account/**").permitAll();
         http.authorizeRequests().antMatchers("/test-role").authenticated();
         http.authorizeRequests().anyRequest().permitAll();
         http.formLogin().loginProcessingUrl("/login").loginPage("/login").defaultSuccessUrl("/")
                 .failureHandler(authenticationFailureHandler()).and().logout().logoutUrl("/logout")
                 .logoutSuccessUrl("/login").permitAll().and().httpBasic().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+
         http.oauth2Login().loginPage("/login").userInfoEndpoint().userService(customOAuth2UserService).and()
                 .successHandler(successHandler()).failureUrl("/login?error").and().logout().logoutUrl("/logout")
                 .logoutSuccessUrl("/login").permitAll();
