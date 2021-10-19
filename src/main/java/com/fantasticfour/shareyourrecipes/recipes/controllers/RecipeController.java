@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/recipes")
 public class RecipeController {
 
     private final RecipeService recipeService;
@@ -30,18 +31,21 @@ public class RecipeController {
         this.userRepo = userRepo;
     }
 
-    @GetMapping("/test/recipes")
-    public List<RecipeDTO> recipe() {
+    @GetMapping("/")
+    public List<RecipeDTO> recipe(Paga) {
+
+        // pagable 
+        // page1 page2 (1 page toi da bao nhieu nth page, n_els of page)
         List<RecipeDTO> recipes = recipeService.findAll();
 
-        System.out.println(recipes);
+        // System.out.println(recipes);
         // model.addAttribute("recipes", recipes);
 
         return recipes;
     }
 
-    @GetMapping("/test/createRecipe")
-    public CreateRecipeDTO createRecipe(CreateRecipeDTO recipe) {
+    @PostMapping("/createRecipe")
+    public CreateRecipeDTO createRecipe(@RequestBody CreateRecipeDTO recipe) {
         CreateRecipeDTO r = new CreateRecipeDTO();
         r.setTitle("helloo baby");
         r.setImage("image");
@@ -70,17 +74,18 @@ public class RecipeController {
         return recipe;
     }
 
-    @GetMapping("/test/deleteRecipe/{idRecipe}")
+    // Phan nay deletemapping 
+    @DeleteMapping("/{idRecipe}")
     public Recipe deleteRecipe(@PathVariable("idRecipe") String idRecipe) {
         Long id = Long.parseLong(idRecipe);
         return recipeService.deleteRecipe(id);
         
     }
 
-    @GetMapping("/test/findRecipeById/{idRecipe}")
-    public RecipeDTO findRecipeById(@PathVariable("idRecipe") String idRecipe) {
-        Long id = Long.parseLong(idRecipe);
-        RecipeDTO  recipeDTO = recipeService.viewRecipeById(id);
+    @GetMapping("/{idRecipe}")
+    public RecipeDTO findRecipeById(@PathVariable("idRecipe") Long idRecipe) {
+        // Long id = Long.parseLong(idRecipe);
+        RecipeDTO  recipeDTO = recipeService.viewRecipeById(idRecipe);
         return recipeDTO;
         
     }
