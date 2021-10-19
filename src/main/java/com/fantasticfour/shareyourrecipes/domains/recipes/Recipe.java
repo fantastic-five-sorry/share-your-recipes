@@ -10,6 +10,7 @@ import javax.persistence.*;
 import com.fantasticfour.shareyourrecipes.domains.AuditModel;
 import com.fantasticfour.shareyourrecipes.domains.Comment;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
+import com.fantasticfour.shareyourrecipes.domains.enums.RecipeStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
@@ -54,7 +55,9 @@ public class Recipe extends AuditModel {
 
     @OneToMany(mappedBy = "creator")
     private List<Comment> comments = new ArrayList<>();
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 10)
+    private RecipeStatus status;
 
     private Float price;
 
@@ -144,12 +147,16 @@ public class Recipe extends AuditModel {
         this.creator = creator;
     }
 
-    public String getStatus() {
+    public RecipeStatus getStatus() {
         return this.status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(RecipeStatus status) {
         this.status = status;
+    }
+
+    public Boolean isDeleted() {
+        return this.deleted;
     }
 
     public Float getPrice() {
@@ -172,4 +179,12 @@ public class Recipe extends AuditModel {
         this.deleted = false;
     }
 
+    public void decreaseVoteCount() {
+        this.voteCount--;
+    }
+
+    public void increaseVoteCount() {
+        this.voteCount++;
+
+    }
 }

@@ -34,6 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // disable security config for dev purpose only
         // http.authorizeRequests().antMatchers("/greeting").authenticated().anyRequest().permitAll().and()
+        http.cors().and().csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/", "/default-avatar.png", "/favicon.ico", "/login/**", "/signup/**", "/oauth/**")
                 .permitAll();

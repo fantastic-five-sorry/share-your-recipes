@@ -1,12 +1,16 @@
 package com.fantasticfour.shareyourrecipes.domains;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.*;
 
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter;
+
 @Entity
 @Table(name = "answers", schema = "public")
-public class Answer extends AuditModel {
+public class Answer {
     @Id
     @GeneratedValue(generator = "answer_generator")
     @SequenceGenerator(name = "answer_generator", sequenceName = "answer_sequence", initialValue = 1000, allocationSize = 1)
@@ -65,4 +69,7 @@ public class Answer extends AuditModel {
         this.voteCount = voteCount;
     }
 
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    @Convert(converter = LocalDateTimeConverter.class)
+    private LocalDateTime createdAt;
 }
