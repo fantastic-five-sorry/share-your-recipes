@@ -8,12 +8,14 @@ import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
 
 public interface RecipeService {
 
-    List<Recipe> findAll();
+    List<RecipeDTO> findAll();
 
     void createRecipe(CreateRecipeDTO recipe);
 
-    void deleteRecipe(Long id);
+    Recipe deleteRecipe(Long id);
 
     Recipe findById(Long id);
+
+    RecipeDTO viewRecipeById(Long id);
 
 }

@@ -1,5 +1,6 @@
 package com.fantasticfour.shareyourrecipes.recipes.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
@@ -24,9 +25,25 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<Recipe> findAll() {
-        return recipeRepository.findAll();
+    public List<RecipeDTO> findAll() {
+        List<Recipe> recipes = recipeRepository.findAll();
+        List<RecipeDTO> recipeDTOs = new ArrayList<>();
+        for (int i = 0; i < recipes.size(); i++) {
+            RecipeDTO recipeDTO = new RecipeDTO();
+            recipeDTO.setTitle(recipes.get(i).getTitle());
+            recipeDTO.setImage(recipes.get(i).getImage());
+            recipeDTO.setIngredients(recipes.get(i).getIngredients());
+            recipeDTO.setSteps(recipes.get(i).getSteps());
+            recipeDTO.setGuideVideoString(recipes.get(i).getGuideVideoUrl());
+            recipeDTO.setCreator(recipes.get(i).getCreator());
+            recipeDTO.setStatus(recipes.get(i).getStatus());
+            recipeDTO.setPrice(recipes.get(i).getPrice());
+            recipeDTOs.add(recipeDTO);
+        }
+        return recipeDTOs;
     }
+
+    
 
     @Override
     public void createRecipe(CreateRecipeDTO recipe) {
@@ -35,25 +52,49 @@ public class RecipeServiceImpl implements RecipeService {
         recipe2.setImage(recipe.getImage());
         recipe2.setIngredients(recipe.getIngredients());
         recipe2.setSteps(recipe.getSteps());
-        // recipe2.setCreator(userRepo.findEna); 
+        recipe2.setCreator(userRepo.findEnabledUserById(recipe.getCreatorId())); 
         recipe2.setGuideVideoUrl(recipe.getGuideVideoString());
         recipeRepository.save(recipe2);
+    //    System.out.println("okeoke");
 
     }
 
     @Override
-    public void deleteRecipe(Long recipeid) {
+    public Recipe deleteRecipe(Long recipeid) {
         Recipe recipe = this.findById(recipeid);
         recipe.setDeleted(true);
         recipeRepository.save(recipe);
+        return recipe;
 
     }
 
     @Override
     public Recipe findById(Long idRecipe) {
         // TODO Auto-generated method stub
+        Recipe recipe =recipeRepository.findById(idRecipe).orElse(null);
+        if (recipe!=null && recipe.getDeleted() == true) {
+            return null;
+        }
+        return recipe;
+    }
 
-        return recipeRepository.findById(idRecipe).orElse(null);
+    @Override
+    public RecipeDTO viewRecipeById(Long id) {
+        // TODO Auto-generated method stub
+        Recipe recipe = this.findById(id);
+        RecipeDTO recipeDTO = new RecipeDTO();
+        if (recipe != null) {
+            recipeDTO.setTitle(recipe.getTitle());
+            recipeDTO.setImage(recipe.getImage());
+            recipeDTO.setIngredients(recipe.getIngredients());
+            recipeDTO.setSteps(recipe.getSteps());
+            recipeDTO.setGuideVideoString(recipe.getGuideVideoUrl());
+            recipeDTO.setCreator(recipe.getCreator());
+            recipeDTO.setStatus(recipe.getStatus());
+            recipeDTO.setPrice(recipe.getPrice());
+            
+        }
+        return recipeDTO;
     }
 
 }

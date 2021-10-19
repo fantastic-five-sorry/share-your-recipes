@@ -12,6 +12,8 @@ import com.fantasticfour.shareyourrecipes.domains.recipes.PurchasedRecipe;
 import com.fantasticfour.shareyourrecipes.domains.recipes.PurchasedRecipeId;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.domains.votings.RecipeVoting;
+import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeDTO;
+import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.PurchasedRecipeRepository;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.RecipeRepository;
 import com.fantasticfour.shareyourrecipes.recipes.services.RecipeService;
@@ -30,7 +32,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+// import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+
 
 @SpringBootApplication
 @EnableAsync
@@ -76,9 +79,12 @@ public class ShareyourrecipesApplication {
 			} else {
 				System.out.println("null");
 			}
-			// Recipe r = new Recipe();
-
-			// r.setCreator(userRepo.findByEmail("lvl3").get());
+			// CreateRecipeDTO r = new CreateRecipeDTO();
+			// r.setTitle("helloo baby");
+			// r.setImage("image");
+			// r.setGuideVideoString("guideVideoString");
+			// r.setCreatorId(userRepo.findByEmail("admin@lvl.gg").get().getId());
+			// // r.setCreator(userRepo.findByEmail("admin@lvl.gg").get());
 			// Map<String, String> ingredients = new HashMap<>();
 
 			// ingredients.put("Hanh`", "100g");
@@ -95,7 +101,7 @@ public class ShareyourrecipesApplication {
 			// r.setIngredients(ingredients);
 			// r.setSteps(steps);
 
-			// Recipe rSaved = recipeRepo.saveAndFlush(r);
+			// recipeService.createRecipe(r);
 			// recipeService.deleteRecipe(r);
 			
 

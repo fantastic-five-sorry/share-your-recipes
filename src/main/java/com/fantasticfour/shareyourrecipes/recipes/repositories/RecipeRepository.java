@@ -3,6 +3,7 @@ package com.fantasticfour.shareyourrecipes.recipes.repositories;
 import java.util.List;
 
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
+import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
