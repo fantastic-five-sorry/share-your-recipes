@@ -26,7 +26,7 @@ public class TokenServiceImpl implements TokenService {
         this.tokenRepo = tokenRepo;
     }
 
-    public Token findByToken(String tokenString, ETokenPurpose purpose) {
+    public Token getValidToken(String tokenString, ETokenPurpose purpose) {
         Token token = tokenRepo.findByToken(tokenString, purpose)
                 .orElseThrow(() -> new IllegalStateException("Token not found"));
         if (token.getTokenUsedAt() != null) {
@@ -40,7 +40,7 @@ public class TokenServiceImpl implements TokenService {
         return token;
     };
 
-    public Optional<Token> findUserToken(String email, String token, ETokenPurpose purpose) {
+    public Optional<Token> getUserTokens(String email, String token, ETokenPurpose purpose) {
         // return tokenRepo.findByToken(token);
         TypedQuery<Token> query = entityManager.createQuery(
                 "SELECT t FROM Token t JOIN FETCH t.user WHERE t.user.email = :email AND t.token=:token AND t.purpose=:purpose",

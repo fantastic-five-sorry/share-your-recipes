@@ -1,6 +1,6 @@
-package com.fantasticfour.shareyourrecipes.user;
+package com.fantasticfour.shareyourrecipes.account;
 
-import com.fantasticfour.shareyourrecipes.user.dtos.UserInfo;
+import com.fantasticfour.shareyourrecipes.account.dtos.UserInfo;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;

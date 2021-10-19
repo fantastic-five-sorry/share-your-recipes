@@ -1,18 +1,23 @@
-package com.fantasticfour.shareyourrecipes.user.dtos;
+package com.fantasticfour.shareyourrecipes.account.dtos;
+
+import javax.validation.constraints.NotBlank;
 
 public class ResetPasswordDto {
-    private String oldPassword;
+    @NotBlank
+    private String confirmNewPassword;
 
+    @NotBlank
     private String token;
 
+    @NotBlank
     private String newPassword;
 
-    public String getOldPassword() {
-        return oldPassword;
+    public String getConfirmNewPassword() {
+        return this.confirmNewPassword;
     }
 
-    public void setOldPassword(String oldPassword) {
-        this.oldPassword = oldPassword;
+    public void setConfirmNewPassword(String confirmNewPassword) {
+        this.confirmNewPassword = confirmNewPassword;
     }
 
     public String getNewPassword() {

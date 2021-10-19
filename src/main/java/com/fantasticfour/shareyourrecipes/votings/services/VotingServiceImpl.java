@@ -13,7 +13,6 @@ import com.fantasticfour.shareyourrecipes.domains.votings.RecipeCollectionVoting
 import com.fantasticfour.shareyourrecipes.domains.votings.RecipeVoting;
 import com.fantasticfour.shareyourrecipes.domains.votings.VotingId;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.RecipeRepository;
-import com.fantasticfour.shareyourrecipes.user.UserRepo;
 import com.fantasticfour.shareyourrecipes.votings.dtos.VotingDto;
 import com.fantasticfour.shareyourrecipes.votings.repos.AnswerVotingRepo;
 import com.fantasticfour.shareyourrecipes.votings.repos.CommentVotingRepo;
@@ -25,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import com.fantasticfour.shareyourrecipes.account.UserRepo;
 import com.fantasticfour.shareyourrecipes.domains.Answer;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;

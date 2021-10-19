@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="ISO-8859-1" />
+    <title>Welcome to CodeJava Home</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/webjars/bootstrap/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+      integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container text-center">
+      <form th:action="@{/api/user/save-avatar}">
+        <input accept="image/*" type="file" id="imgInp" />
+        <img id="blah" src="#" alt="your image" hidden />
+        <div><button type="submit">Submit image</button></div>
+      </form>
+    </div>
+  </body>
+  <script>
+    imgInp.onchange = (evt) => {
+      console.log('test');
+      const [file] = imgInp.files;
+      if (file) {
+        blah.hidden = false;
+        blah.src = URL.createObjectURL(file);
+      }
+    };
+  </script>
+  <style>
+    #blah {
+      width: 100px;
+      height: 100px;
+    }
+  </style>
+</html>

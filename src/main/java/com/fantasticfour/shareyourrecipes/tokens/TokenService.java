@@ -7,14 +7,16 @@ import com.fantasticfour.shareyourrecipes.domains.auth.Token;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
 
 public interface TokenService {
-    Token findByToken(String token, ETokenPurpose purpose);
+    Token getValidToken(String token, ETokenPurpose purpose);
 
-    Optional<Token> findUserToken(String email, String token, ETokenPurpose purpose);
+    Optional<Token> getUserTokens(String email, String token, ETokenPurpose purpose);
 
     int updateTokenUsedAt(String token, ETokenPurpose purpose);
 
     Token save(Token Token);
 
     void purgeExpiredTokens(LocalDateTime now);
+
+
 
 }

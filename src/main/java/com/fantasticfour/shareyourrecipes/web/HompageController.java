@@ -2,10 +2,11 @@ package com.fantasticfour.shareyourrecipes.web;
 
 import java.security.Principal;
 
+import com.fantasticfour.shareyourrecipes.account.UserPrincipal;
+import com.fantasticfour.shareyourrecipes.account.UserService;
+import com.fantasticfour.shareyourrecipes.account.events.SendTokenEmailEvent;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
-import com.fantasticfour.shareyourrecipes.user.UserService;
-import com.fantasticfour.shareyourrecipes.user.events.SendTokenEmailEvent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +65,7 @@ public class HompageController {
         if (auth == null || auth instanceof AnonymousAuthenticationToken) {
             return "login/login";
         }
-        com.fantasticfour.shareyourrecipes.user.UserPrincipal oauthUser = (com.fantasticfour.shareyourrecipes.user.UserPrincipal) auth
+        com.fantasticfour.shareyourrecipes.account.UserPrincipal oauthUser = (com.fantasticfour.shareyourrecipes.account.UserPrincipal) auth
                 .getPrincipal();
         Long yourId = oauthUser.getId();
         if (yourId != null) {
@@ -93,18 +94,7 @@ public class HompageController {
         return "international";
     }
 
-    @GetMapping("/new-verification-email")
-    public String requestNewEmailVerification(@RequestParam(name = "email", required = false) String email) {
-        logger.info("request new v email from " + email);
-        if (email != null) {
-            User user = userService.getUserByEmail(email);
-            if (user != null) {
-                eventPublisher.publishEvent(new SendTokenEmailEvent(user, ETokenPurpose.VERIFY_EMAIL));
-                return "login/new-verification-email";
-            }
-        }
-        return "redirect:/404";
-    }
+    
 
     @GetMapping("/404")
     public String notfoundPage() {
@@ -126,4 +116,15 @@ public class HompageController {
         model.addAttribute("userInfo", userService.getUserInfoById(uid));
         return "profile/my-profile";
     }
+
+    @GetMapping("/change-avatar")
+    public String changeAvt(Model model) {
+        // System.out.println(oauthUser.getAttribute("email").toString());
+        // model.addAttribute("your_email", uid.toString());
+        // model.addAttribute("userInfo", userService.getUserInfoById(uid));
+        return "profile/change-avatar";
+    }
+
+    
+
 }

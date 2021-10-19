@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.user.dtos;
+package com.fantasticfour.shareyourrecipes.account.dtos;
 
 public class ChangePasswordDto {
     private String oldPassword;

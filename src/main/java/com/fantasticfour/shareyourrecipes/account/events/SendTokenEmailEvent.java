@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.user.events;
+package com.fantasticfour.shareyourrecipes.account.events;
 
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;

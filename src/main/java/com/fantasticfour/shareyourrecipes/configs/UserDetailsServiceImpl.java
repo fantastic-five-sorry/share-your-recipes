@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
+import com.fantasticfour.shareyourrecipes.account.UserPrincipal;
+import com.fantasticfour.shareyourrecipes.account.UserRepo;
+import com.fantasticfour.shareyourrecipes.domains.auth.Provider;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
-import com.fantasticfour.shareyourrecipes.user.UserPrincipal;
-import com.fantasticfour.shareyourrecipes.user.UserRepo;
+import com.fantasticfour.shareyourrecipes.exception.LocalAuthenticationFailException;
+import com.fantasticfour.shareyourrecipes.exception.OAuth2AuthenticationProcessingException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,15 +34,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             return new UsernameNotFoundException("Email " + email + " not found in db");
         });
 
+        if (!user.getProvider().equals(Provider.local))
+            throw new OAuth2AuthenticationProcessingException("not local user");
         log.info("Email " + email + " found in db");
 
         return UserPrincipal.create(user);
 
         // Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        // user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName().toString())));
+        // user.getRoles().forEach(role -> authorities.add(new
+        // SimpleGrantedAuthority(role.getName().toString())));
 
-        // return org.springframework.security.core.userdetails.User.builder().authorities(authorities).username(email)
-        //         .password(user.getPassword()).disabled(!user.isEnable()).accountLocked(user.isBlocked()).build();
+        // return
+        // org.springframework.security.core.userdetails.User.builder().authorities(authorities).username(email)
+        // .password(user.getPassword()).disabled(!user.isEnable()).accountLocked(user.isBlocked()).build();
     }
 
 }

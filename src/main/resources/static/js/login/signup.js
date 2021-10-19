@@ -12,7 +12,7 @@ $(document).ready(function () {
     window.history.replaceState({}, document.title, clean_uri);
   }
   $('form').submit(function (event) {
-    register(event);
+    resetPassword(event);
   });
 
   $(':password').keyup(function () {
@@ -37,7 +37,7 @@ function getFormData($form) {
   return indexed_array;
 }
 
-function register(event) {
+function resetPassword(event) {
   console.log('sign up click');
   event.preventDefault();
   $('.alert').html('').hide();
@@ -58,7 +58,7 @@ function register(event) {
 
   $.ajax({
     type: 'post',
-    url: registerUrl,
+    url: resetPasswordUrl,
     data: JSON.stringify(formData),
     contentType: 'application/json; charset=utf-8',
     headers: {
@@ -67,7 +67,7 @@ function register(event) {
     traditional: true,
     success: function (data, textStatus, xhr) {
       if (xhr.status == 200) {
-        window.location.href = registerSuccessUrl;
+        window.location.href = resetPasswordSuccessUrl;
       }
     },
     error: function (error) {

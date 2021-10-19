@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.user.emailsender;
+package com.fantasticfour.shareyourrecipes.account.emailsender;
 
 import com.fantasticfour.shareyourrecipes.domains.auth.Token;
 
