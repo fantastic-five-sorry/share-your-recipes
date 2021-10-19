@@ -12,6 +12,8 @@ import com.fantasticfour.shareyourrecipes.domains.recipes.PurchasedRecipe;
 import com.fantasticfour.shareyourrecipes.domains.recipes.PurchasedRecipeId;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.domains.votings.RecipeVoting;
+import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeDTO;
+import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.PurchasedRecipeRepository;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.RecipeRepository;
 import com.fantasticfour.shareyourrecipes.recipes.services.RecipeService;
@@ -78,6 +80,7 @@ public class ShareyourrecipesApplication {
 			} else {
 				System.out.println("null");
 			}
+
 			Recipe r = new Recipe();
 
 			r.setCreator(userRepo.findByEmail("admin@lvl.gg").get());
@@ -96,13 +99,6 @@ public class ShareyourrecipesApplication {
 			steps.add("Buowc4: dot ");
 			r.setIngredients(ingredients);
 			r.setSteps(steps);
-
-			// Recipe rSaved = recipeRepo.saveAndFlush(r);
-			VotingDto dto = new VotingDto();
-			dto.setSubjectVotingToId(1001L);
-			dto.setVoterId(1000L);
-
-			// votingService.handleVotingToRecipe(dto);
 			// recipeService.deleteRecipe(r);
 
 			// System.out.println("Da them vao $$$$$$" + rSaved.getId());

@@ -63,6 +63,7 @@ public class Recipe extends AuditModel {
 
     private String slug;
     private Long voteCount;
+    private Boolean deleted;
 
     public Long getVoteCount() {
         return this.voteCount;
@@ -72,7 +73,7 @@ public class Recipe extends AuditModel {
         this.voteCount = voteCount;
     }
 
-    private Boolean deleted;
+
 
     public Boolean getDeleted() {
         return this.deleted;

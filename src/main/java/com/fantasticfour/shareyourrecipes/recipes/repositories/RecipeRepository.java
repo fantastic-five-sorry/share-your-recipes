@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
+import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,6 +20,10 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
     @Query(value = "SELECT * FROM recipes r WHERE r.deleted=" + false, nativeQuery = true)
     List<Recipe> findAll();
+
+
+    @Query("SELECT r FROM Recipe r WHERE r.deleted=false AND r.id=:id")
+    Optional<Recipe> findById(Long id);
 
     @Modifying
     @Transactional
