@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.account;
+package com.fantasticfour.shareyourrecipes.configs;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

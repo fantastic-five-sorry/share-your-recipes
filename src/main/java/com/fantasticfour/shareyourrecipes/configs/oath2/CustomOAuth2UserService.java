@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 import com.fantasticfour.shareyourrecipes.account.RoleRepo;
-import com.fantasticfour.shareyourrecipes.account.UserPrincipal;
 import com.fantasticfour.shareyourrecipes.account.UserRepo;
+import com.fantasticfour.shareyourrecipes.configs.UserPrincipal;
 import com.fantasticfour.shareyourrecipes.domains.auth.Provider;
 import com.fantasticfour.shareyourrecipes.domains.auth.Role;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;

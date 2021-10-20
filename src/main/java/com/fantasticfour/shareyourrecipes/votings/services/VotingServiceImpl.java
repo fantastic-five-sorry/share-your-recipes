@@ -134,21 +134,7 @@ public class VotingServiceImpl implements VotingService {
 
     }
 
-    // private <T> void handleVoting(VotingDto voting, JpaRepository<T, VotingId>
-    // repository) {
-    // VotingId id = new VotingId(voting.getVoterId(),
-    // voting.getSubjectVotingToId());
-    // Optional<T> votingOpt = repository.findById(id);
-
-    // // un-vote
-    // if (votingOpt.isPresent()) {
-    // repository.delete(votingOpt.get());
-    // }
-
-    // T newT = new T(id);
-
-    // repository.save(newT);
-    // }
+    
     @Override
     public List<AnswerVoting> getListVotingToAnswer(Long id) {
 

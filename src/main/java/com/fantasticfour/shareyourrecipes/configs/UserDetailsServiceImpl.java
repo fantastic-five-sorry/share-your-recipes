@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
-import com.fantasticfour.shareyourrecipes.account.UserPrincipal;
 import com.fantasticfour.shareyourrecipes.account.UserRepo;
 import com.fantasticfour.shareyourrecipes.domains.auth.Provider;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;

@@ -9,6 +9,7 @@ import com.fantasticfour.shareyourrecipes.domains.Comment;
 
 public class CommentDto {
 
+    private Long id;
     private UserInfo writer;
 
     @NotBlank
@@ -55,9 +56,19 @@ public class CommentDto {
     }
 
     public CommentDto(Comment comment) {
+        this.id = comment.getId();
         this.writer = new UserInfo(comment.getCreator());
         this.content = comment.getContent();
         this.createdAt = comment.getCreatedDate();
         this.recipeId = comment.getRecipe().getId();
     }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 }
