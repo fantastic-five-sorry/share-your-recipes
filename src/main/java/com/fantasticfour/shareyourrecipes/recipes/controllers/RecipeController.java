@@ -1,21 +1,25 @@
-package com.fantasticfour.shareyourrecipes.recipes;
+package com.fantasticfour.shareyourrecipes.recipes.controllers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fantasticfour.shareyourrecipes.account.UserRepo;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.services.RecipeService;
-import com.fantasticfour.shareyourrecipes.user.UserRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -32,9 +36,9 @@ public class RecipeController {
     }
 
     @GetMapping("/")
-    public List<RecipeDTO> recipe(Paga) {
+    public List<RecipeDTO> recipe() {
 
-        // pagable 
+        // pagable
         // page1 page2 (1 page toi da bao nhieu nth page, n_els of page)
         List<RecipeDTO> recipes = recipeService.findAll();
 
@@ -74,21 +78,20 @@ public class RecipeController {
         return recipe;
     }
 
-    // Phan nay deletemapping 
+    // Phan nay deletemapping
     @DeleteMapping("/{idRecipe}")
     public Recipe deleteRecipe(@PathVariable("idRecipe") String idRecipe) {
         Long id = Long.parseLong(idRecipe);
         return recipeService.deleteRecipe(id);
-        
+
     }
 
     @GetMapping("/{idRecipe}")
     public RecipeDTO findRecipeById(@PathVariable("idRecipe") Long idRecipe) {
         // Long id = Long.parseLong(idRecipe);
-        RecipeDTO  recipeDTO = recipeService.viewRecipeById(idRecipe);
+        RecipeDTO recipeDTO = recipeService.viewRecipeById(idRecipe);
         return recipeDTO;
-        
-    }
 
+    }
 
 }
