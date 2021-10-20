@@ -33,19 +33,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             return new UsernameNotFoundException("Email " + email + " not found in db");
         });
 
-        if (!user.getProvider().equals(Provider.local))
-            throw new OAuth2AuthenticationProcessingException("not local user");
+        // if (!user.getProvider().equals(Provider.local))
+        // throw new OAuth2AuthenticationProcessingException("not local user");
         log.info("Email " + email + " found in db");
 
         return UserPrincipal.create(user);
-
-        // Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        // user.getRoles().forEach(role -> authorities.add(new
-        // SimpleGrantedAuthority(role.getName().toString())));
-
-        // return
-        // org.springframework.security.core.userdetails.User.builder().authorities(authorities).username(email)
-        // .password(user.getPassword()).disabled(!user.isEnable()).accountLocked(user.isBlocked()).build();
     }
 
 }

@@ -56,6 +56,11 @@ public class AccountController {
         return "redirect:/404";
     }
 
+    @GetMapping("/account/new-verification")
+    public String requestNewEmailVerification2() {
+        return "login/request-verification-email-form";
+    }
+
     @GetMapping("/register-success")
     private String viewSuccessSignupPage() {
 
@@ -67,20 +72,13 @@ public class AccountController {
         try {
             if (token != null) {
                 userService.verifyEmailByToken(token);
-                model.addAttribute("token", token);
-                model.addAttribute("message", "OK");
                 return "redirect:/login?success";
             } else {
                 return "404";
             }
 
         } catch (Exception e) {
-
-            // String errorMessage = "";
-            // // model.addAttribute("token", token);
-            // errorMessage = messages.getMessage("auth.message.disabled", null, locale);
-            // errorMessage = String.format(errorMessage, failEmailUser);
-            model.addAttribute("message", e.getMessage());
+            model.addAttribute("error", e.getMessage());
             return "login/email-verified";
         }
     }
@@ -104,7 +102,6 @@ public class AccountController {
             return "login/forgot-password-form";
         }
     }
-
 
     @GetMapping("/account/reset-password")
     public String viewResetPasswordPage(@RequestParam(name = "token", required = false) String token, Model model) {
@@ -151,5 +148,10 @@ public class AccountController {
         }
 
         return "redirect:/login?logout";
+    }
+
+    @GetMapping("request-success")
+    private String viewRequestResetPwSuccessPage() {
+        return "login/forgot-pw-email-success";
     }
 }

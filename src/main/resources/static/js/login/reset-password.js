@@ -7,27 +7,38 @@ const resetPasswordSuccessUrl = '/logout';
 
 const missTokenUrl = '/account/forgot-password';
 
-const goToSuccessPageAfter = 3000;
+const goToSuccessPageAfter = 1000;
 
-var token = $("meta[name='_csrf']").attr('content');
+var resetPwToken = $("meta[name='_csrf']").attr('content');
 var header = $("meta[name='_csrf_header']").attr('content');
 
-var token = null;
+var resetPwToken = null;
 $(document).ready(function () {
   var uri = window.location.toString();
 
-  token = getUrlParameter('token');
-  if (!token) window.location.href = missTokenUrl;
+  resetPwToken = getUrlParameter('token');
+  // if (!resetPwToken) handleError();
+  if (resetPwToken) validateToken(resetPwToken);
+
   if (uri.indexOf('?') > 0) {
     var clean_uri = uri.substring(0, uri.indexOf('?'));
     window.history.replaceState({}, document.title, clean_uri);
   }
   // validate token
-  validateToken(token);
-
   $('form').submit(function (event) {
     event.preventDefault();
-    requestEmail(event, token);
+    requestEmail(event, resetPwToken);
+  });
+  var timeout;
+  $('#confirmNewPassword').keyup(function () {
+    clearTimeout(timeout);
+    timeout = setTimeout(function () {
+      if ($('#newPassword').val() != $('#confirmNewPassword').val()) {
+        $('#globalError').show().html('not match');
+      } else {
+        $('#globalError').html('').hide();
+      }
+    }, 250);
   });
 });
 
@@ -81,6 +92,10 @@ function requestEmail(event, token) {
     traditional: true,
     success: function (data, textStatus, xhr) {
       if (xhr.status == 200) {
+        $.notify('Reset password successfully', {
+          position: 'top center',
+          className: 'success',
+        });
         setTimeout(
           () => (window.location.href = resetPasswordSuccessUrl),
           goToSuccessPageAfter
@@ -117,14 +132,21 @@ function validateToken(token) {
     contentType: false,
     type: 'POST',
     success: function (data) {
-      alert(data);
+      $.notify('Token valid. Enter your new password', {
+        position: 'top center',
+        className: 'success',
+      });
     },
     error: function (data) {
-      alert(data.responseText);
-      setTimeout(
-        () => (window.location.href = missTokenUrl),
-        goToSuccessPageAfter
-      );
+      handleError();
     },
   });
+}
+
+function handleError() {
+  $.notify('Token not found or expired. Request new forgot password email?', {
+    position: 'top center',
+    className: 'info',
+  });
+  setTimeout(() => (window.location.href = missTokenUrl), goToSuccessPageAfter);
 }

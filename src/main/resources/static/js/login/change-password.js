@@ -2,9 +2,9 @@ const changePasswordUrl = '/api/account/change-password';
 
 const changePasswordSuccessUrl = '/logout';
 
-const goToSuccessPageAfter = 3000;
+const goToSuccessPageAfter = 1000;
 
-var token = $("meta[name='_csrf']").attr('content');
+var resetPwToken = $("meta[name='_csrf']").attr('content');
 var header = $("meta[name='_csrf_header']").attr('content');
 
 $(document).ready(function () {
@@ -26,18 +26,7 @@ $(document).ready(function () {
         $('#globalError').html('').hide();
       }
     }, 250);
-    // if ($('#newPassword').val() != $('#confirmNewPassword').val()) {
-    //   // $('#globalError').show().html('not match');
-    //   // $.notify('Password not match', {
-    //   //   position: 'top center',
-    //   //   className: 'info',
-    //   // });
-    // } else {
-    //   $('#globalError').html('').hide();
-    // }
   });
-
-  //  $('#password').pwstrength(options);
 });
 
 function getFormData($form) {
@@ -72,7 +61,7 @@ function requestEmail(event) {
     data: JSON.stringify(formData),
     contentType: 'application/json; charset=utf-8',
     headers: {
-      [header]: token,
+      [header]: resetPwToken,
     },
     traditional: true,
     success: function (data, textStatus, xhr) {
@@ -92,7 +81,10 @@ function requestEmail(event) {
       }
     },
     error: function (error) {
-      console.log(error.responseText);
+      $.notify(error.responseText, {
+        position: 'top center',
+        className: 'info',
+      });
       $('#globalError').show().html(error.responseText);
     },
   });

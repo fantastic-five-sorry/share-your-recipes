@@ -14,7 +14,6 @@ import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
 import com.fantasticfour.shareyourrecipes.tokens.TokenService;
 
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -58,23 +57,23 @@ public class AccountRestController {
         }
     }
 
-    @GetMapping("/request-resend-verify-email")
+    @PostMapping("/request-resend-verify-email")
     public ResponseEntity<?> reSendConfirmEmail(@RequestParam("email") String email) {
 
         User user = userService.getUserByEmail(email);
         if (user != null) {
             if (user.isEnabled()) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("error: " + "account already activated");
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("error: " + "Account already activated");
             }
             if (user.isBlocked()) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("error: " + "account was blocked");
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("error: " + "Account was blocked");
             }
             eventPublisher.publishEvent(new SendTokenEmailEvent(user, ETokenPurpose.VERIFY_EMAIL));
             // send email
             // emailSender.sendConfirmEmail(token);
             return ResponseEntity.ok().body("Successfully send activated email");
         } else
-            return ResponseEntity.badRequest().body("error: " + "Not found username");
+            return ResponseEntity.badRequest().body("error: " + "Not found this email");
     }
 
     @PostMapping("/validate-forgot-token")
@@ -118,7 +117,6 @@ public class AccountRestController {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> handleChangePassword(@RequestBody ChangePasswordDto request,
             Authentication authentication) {
-        logger.info("call change password ");
         try {
             Long userId = getIdFromRequest(authentication).orElseThrow(() -> new IllegalStateException("not auth"));
             userService.changePassword(userId, request);
@@ -137,6 +135,18 @@ public class AccountRestController {
             return ResponseEntity.ok("Successfully registered new account");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("error: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/exists-email")
+    public ResponseEntity<?> handleSignUp(@RequestParam("email") String email) {
+
+        try {
+            if (userService.getUserByEmail(email) == null)
+                return ResponseEntity.ok("Email not exists");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email exists");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error: " + e.getMessage());
         }
     }
 

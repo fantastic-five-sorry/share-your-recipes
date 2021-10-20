@@ -176,7 +176,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepo.findValidUserById(uid);
 
         if (!passwordEncoder.matches(dto.getOldPassword(), user.getPassword()))
-            throw new IllegalStateException("Wrong password");
+            throw new IllegalStateException("Current password not match");
 
         user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
         userRepo.save(user);

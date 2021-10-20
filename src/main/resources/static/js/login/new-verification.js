@@ -1,6 +1,6 @@
-const requestResetEmailUrl = '/api/account/request-forgot-password-email';
+const requestVerificationUrl = '/api/account/request-resend-verify-email';
 
-const requestEmailSuccessUrl = '/request-success';
+const requestVerificationSuccessUrl = '/register-success';
 
 const goToSuccessPageAfter = 1000;
 
@@ -22,19 +22,16 @@ function requestEmail(event) {
   event.preventDefault();
   const formData = $('form').serialize();
 
-  $.post(requestResetEmailUrl, formData, function (data) {
-    $.notify(
-      'Successfully sent reset password email.\nPlease check your email',
-      {
-        position: 'top center',
-        className: 'success',
-      }
-    );
+  $.post(requestVerificationUrl, formData, function (data) {
+    $.notify('Successfully sent verification email.\nPlease check your email', {
+      position: 'top center',
+      className: 'success',
+    });
     setTimeout(() => {
-      window.location.href = requestEmailSuccessUrl;
+      window.location.href = requestVerificationSuccessUrl;
     }, 1000);
   }).fail(function (data) {
-    $.notify('Email not found', {
+    $.notify(data.responseText, {
       position: 'top center',
       className: 'warn',
     });
