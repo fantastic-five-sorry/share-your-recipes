@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import com.fantasticfour.shareyourrecipes.account.dtos.UserInfo;
+import com.fantasticfour.shareyourrecipes.configs.UserPrincipal;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 
 import org.springframework.beans.factory.annotation.Autowired;

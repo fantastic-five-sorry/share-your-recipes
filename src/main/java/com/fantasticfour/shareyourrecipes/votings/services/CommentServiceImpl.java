@@ -9,6 +9,7 @@ import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.RecipeRepository;
 import com.fantasticfour.shareyourrecipes.votings.dtos.CommentDto;
+import com.fantasticfour.shareyourrecipes.votings.dtos.EditCommentDto;
 import com.fantasticfour.shareyourrecipes.votings.dtos.NewCommentDto;
 import com.fantasticfour.shareyourrecipes.votings.repos.CommentRepo;
 
@@ -46,5 +47,24 @@ public class CommentServiceImpl implements CommentService {
         return commentRepo.findByRecipeId(recipeId).stream().map(comment -> new CommentDto(comment))
                 .collect(Collectors.toList());
 
+    }
+
+    @Override
+    public void editRecipeComment(EditCommentDto dto) {
+
+        Comment comment = commentRepo.findById(dto.getId())
+                .orElseThrow(() -> new IllegalStateException("Comment not found"));
+
+        if (!dto.getNewContent().equals(comment.getContent())) {
+            comment.setContent(dto.getNewContent());
+            commentRepo.save(comment);
+        }
+        throw new IllegalStateException("Comment has not any change");
+
+    }
+
+    @Override
+    public void deleteCommentToRecipe(Long id) {
+        commentRepo.deleteById(id);
     }
 }

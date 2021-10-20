@@ -8,6 +8,7 @@ import com.fantasticfour.shareyourrecipes.account.dtos.ChangePasswordDto;
 import com.fantasticfour.shareyourrecipes.account.dtos.ResetPasswordDto;
 import com.fantasticfour.shareyourrecipes.account.dtos.SignUpDto;
 import com.fantasticfour.shareyourrecipes.account.events.SendTokenEmailEvent;
+import com.fantasticfour.shareyourrecipes.configs.UserPrincipal;
 import com.fantasticfour.shareyourrecipes.domains.auth.Token;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;

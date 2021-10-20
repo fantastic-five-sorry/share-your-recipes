@@ -2,9 +2,9 @@ package com.fantasticfour.shareyourrecipes.web;
 
 import java.security.Principal;
 
-import com.fantasticfour.shareyourrecipes.account.UserPrincipal;
 import com.fantasticfour.shareyourrecipes.account.UserService;
 import com.fantasticfour.shareyourrecipes.account.events.SendTokenEmailEvent;
+import com.fantasticfour.shareyourrecipes.configs.UserPrincipal;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
 
@@ -65,7 +65,7 @@ public class HompageController {
         if (auth == null || auth instanceof AnonymousAuthenticationToken) {
             return "login/login";
         }
-        com.fantasticfour.shareyourrecipes.account.UserPrincipal oauthUser = (com.fantasticfour.shareyourrecipes.account.UserPrincipal) auth
+        com.fantasticfour.shareyourrecipes.configs.UserPrincipal oauthUser = (com.fantasticfour.shareyourrecipes.configs.UserPrincipal) auth
                 .getPrincipal();
         Long yourId = oauthUser.getId();
         if (yourId != null) {
