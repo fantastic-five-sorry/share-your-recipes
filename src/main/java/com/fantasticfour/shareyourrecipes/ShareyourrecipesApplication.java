@@ -83,24 +83,48 @@ public class ShareyourrecipesApplication {
 				System.out.println("null");
 			}
 
-			Recipe r = new Recipe();
+			// Recipe r = new Recipe();
 
-			r.setCreator(userRepo.findByEmail("admin@lvl.gg").get());
+			// r.setCreator(userRepo.findByEmail("admin@lvl.gg").get());
+			// Map<String, String> ingredients = new HashMap<>();
+
+			// ingredients.put("Hanh`", "100g");
+			// ingredients.put("Hanh`1", "100g");
+			// ingredients.put("Hanh`2", "100g");
+			// ingredients.put("Hanh`3", "100g");
+
+			// List<String> steps = new ArrayList<>();
+
+			// steps.add("Buowc1: dot ");
+			// steps.add("Buowc2: dot ");
+			// steps.add("Buowc3: dot ");
+			// steps.add("Buowc4: dot ");
+			// r.setIngredients(ingredients);
+			// r.setSteps(steps);
+			CreateRecipeDTO r = new CreateRecipeDTO();
+			r.setTitle("helloo baby");
+			r.setImage("image");
+			r.setGuideVideoString("guideVideoString");
+			r.setCreatorId(userRepo.findByEmail("admin@lvl.gg").get().getId());
+			// r.setCreator(userRepo.findByEmail("admin@lvl.gg").get());
 			Map<String, String> ingredients = new HashMap<>();
-
+	
 			ingredients.put("Hanh`", "100g");
 			ingredients.put("Hanh`1", "100g");
 			ingredients.put("Hanh`2", "100g");
 			ingredients.put("Hanh`3", "100g");
-
+	
 			List<String> steps = new ArrayList<>();
-
+	
 			steps.add("Buowc1: dot ");
 			steps.add("Buowc2: dot ");
 			steps.add("Buowc3: dot ");
 			steps.add("Buowc4: dot ");
 			r.setIngredients(ingredients);
 			r.setSteps(steps);
+	
+			// recipeService.createRecipe(r);
+			recipeService.createRecipe(r);
 			// recipeService.deleteRecipe(r);
 
 			// System.out.println("Da them vao $$$$$$" + rSaved.getId());
