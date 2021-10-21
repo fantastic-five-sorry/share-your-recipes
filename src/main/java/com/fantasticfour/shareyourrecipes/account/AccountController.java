@@ -104,25 +104,10 @@ public class AccountController {
     }
 
     @GetMapping("/account/reset-password")
-    public String viewResetPasswordPage(@RequestParam(name = "token", required = false) String token, Model model) {
-        try {
-            // User me = userService.getValidUserByEmail(email);
-            // if (me != null) {
-            // model.addAttribute("message", "Da gui tin nhan");
-            // eventPublisher.publishEvent(new SendTokenEmailEvent(me,
-            // ETokenPurpose.FORGOT_PASSWORD));
-            // return "login/forgot-password-form";
-            // }
-            // model.addAttribute("message", "Fail");
-            // if (token == null)
-            // return "404";
-            return "login/reset-password";
+    public String viewResetPasswordPage(Model model) {
 
-        } catch (Exception e) {
+        return "login/reset-password";
 
-            model.addAttribute("message", e.getMessage());
-            return "login/forgot-password-form";
-        }
     }
 
     @GetMapping("/account/change-password")
