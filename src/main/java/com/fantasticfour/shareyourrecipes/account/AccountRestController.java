@@ -92,7 +92,13 @@ public class AccountRestController {
     public ResponseEntity<?> sendForgotEmail(HttpServletRequest request) {
         try {
             String email = request.getParameter("email");
-            User user = userService.getValidUserByEmail(email);
+            User user = userService.getUserByEmail(email);
+            if (user.isBlocked()) {
+                throw new IllegalStateException("Email was blocked");
+            }
+            if (user.isEnabled()) {
+                throw new IllegalStateException("Email already verified");
+            }
             eventPublisher.publishEvent(new SendTokenEmailEvent(user, ETokenPurpose.RESET_PASSWORD));
             return ResponseEntity.ok().body("Successfully send forgot email");
 

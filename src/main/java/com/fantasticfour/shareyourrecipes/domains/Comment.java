@@ -19,12 +19,10 @@ public class Comment extends AuditModel {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id", nullable = false)
-    @JsonBackReference
     private User creator;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id", nullable = false)
-    @JsonBackReference
     private Recipe recipe;
 
     private Long voteCount;

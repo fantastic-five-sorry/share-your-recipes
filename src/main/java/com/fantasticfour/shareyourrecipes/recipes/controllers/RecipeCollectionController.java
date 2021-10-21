@@ -1,4 +1,5 @@
 package com.fantasticfour.shareyourrecipes.recipes.controllers;
+
 import com.fantasticfour.shareyourrecipes.domains.recipes.RecipeCollection;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeCollectionDTO;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeCollectionDTO;
@@ -21,7 +22,7 @@ import java.util.List;
 public class RecipeCollectionController {
 
     private final RecipeCollectionService recipeCollectionService;
-    
+
     @Autowired
     public RecipeCollectionController(RecipeCollectionService recipeCollectionService) {
         this.recipeCollectionService = recipeCollectionService;
@@ -29,23 +30,23 @@ public class RecipeCollectionController {
 
     @GetMapping("/")
     public ResponseEntity<?> recipeCollection() {
-        List<RecipeCollection> collectionDTOs = recipeCollectionService.findAll();
+        List<RecipeCollectionDTO> collectionDTOs = recipeCollectionService.findAll();
         if (collectionDTOs.size() > 0) {
-            return new ResponseEntity<List<RecipeCollection>>(collectionDTOs , HttpStatus.OK);
+            return new ResponseEntity<List<RecipeCollectionDTO>>(collectionDTOs, HttpStatus.OK);
         }
 
-        return ResponseEntity.badRequest().body("error : " + "Collection is empty" );
+        return ResponseEntity.badRequest().body("error : " + "Collection is empty");
     }
 
     @PostMapping("/createCollection")
     public ResponseEntity<?> createCollection(@RequestBody CreateRecipeCollectionDTO createRecipeCollectionDTO) {
         try {
-           
+
             System.out.println(createRecipeCollectionDTO);
             recipeCollectionService.createRecipeCollection(createRecipeCollectionDTO);
         } catch (Exception e) {
-            //TODO: handle exception
-            return ResponseEntity.badRequest().body("error : " + e.getMessage() );
+            // TODO: handle exception
+            return ResponseEntity.badRequest().body("error : " + e.getMessage());
         }
 
         return ResponseEntity.ok().body("message: " + "create collection success");

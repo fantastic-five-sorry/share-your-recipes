@@ -50,7 +50,6 @@ public class Recipe extends AuditModel {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id", nullable = false)
-    @JsonBackReference
     private User creator;
 
     @OneToMany(mappedBy = "creator")
@@ -72,8 +71,6 @@ public class Recipe extends AuditModel {
     public void setVoteCount(Long voteCount) {
         this.voteCount = voteCount;
     }
-
-
 
     public Boolean getDeleted() {
         return this.deleted;

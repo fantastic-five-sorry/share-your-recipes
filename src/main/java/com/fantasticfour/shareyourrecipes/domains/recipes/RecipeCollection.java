@@ -11,7 +11,7 @@ import com.fantasticfour.shareyourrecipes.domains.auth.User;
 
 @Entity
 @Table(name = "recipes_collection", schema = "public")
-public class RecipeCollection extends AuditModel{
+public class RecipeCollection extends AuditModel {
 
     @Id
     @GeneratedValue(generator = "recipe_collection_generator")
@@ -23,6 +23,7 @@ public class RecipeCollection extends AuditModel{
     @ManyToOne(fetch = FetchType.LAZY)
     private User creator;
 
+    @Column(unique = true)
     private String slug;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -89,16 +90,12 @@ public class RecipeCollection extends AuditModel{
         this.deleted = false;
     }
 
-
     public Long getVoteCount() {
         return this.voteCount;
     }
 
     public void setVoteCount(Long voteCount) {
         this.voteCount = voteCount;
-        
+
     }
-
-    
-
 }

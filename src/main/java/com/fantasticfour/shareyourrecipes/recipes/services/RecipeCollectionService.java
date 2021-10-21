@@ -9,7 +9,7 @@ import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeCollectionDTO;
 
 public interface RecipeCollectionService {
 
-    List<RecipeCollection> findAll();
+    List<RecipeCollectionDTO> findAll();
 
     void createRecipeCollection(CreateRecipeCollectionDTO collection) throws Exception;
 
@@ -19,5 +19,4 @@ public interface RecipeCollectionService {
 
     RecipeCollectionDTO viewDRecipeCollectionDTO(Long collectionId);
 
-    
 }

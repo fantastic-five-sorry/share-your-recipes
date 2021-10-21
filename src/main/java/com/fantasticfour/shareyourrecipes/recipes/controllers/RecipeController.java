@@ -11,10 +11,6 @@ import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.services.RecipeService;
 
-import com.fantasticfour.shareyourrecipes.user.UserRepo;
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.http.HttpStatus;
@@ -34,27 +30,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class RecipeController {
 
     private final RecipeService recipeService;
-   
 
     @Autowired
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
-     
+
     }
 
     @GetMapping("/")
 
     public ResponseEntity<?> recipe() {
 
-
         // pagable
         // page1 page2 (1 page toi da bao nhieu nth page, n_els of page)
         List<RecipeDTO> recipes = recipeService.findAll();
         if (recipes.size() > 0) {
-            return  new ResponseEntity<List<RecipeDTO>>(recipes , HttpStatus.OK);
+            return new ResponseEntity<List<RecipeDTO>>(recipes, HttpStatus.OK);
         }
         return ResponseEntity.badRequest().body("error: " + "Recipes is empty");
-        // Page<RecipeDTO> allRecipes = 
+        // Page<RecipeDTO> allRecipes =
         // System.out.println(recipes);
         // model.addAttribute("recipes", recipes);
 
@@ -62,11 +56,11 @@ public class RecipeController {
     }
 
     @PostMapping("/createRecipe")
-    public  ResponseEntity<?> createRecipe(@RequestBody CreateRecipeDTO recipe) {
+    public ResponseEntity<?> createRecipe(@RequestBody CreateRecipeDTO recipe) {
         try {
             recipeService.createRecipe(recipe);
-        }catch (Exception e) {
-            return  ResponseEntity.badRequest().body("error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("error: " + e.getMessage());
         }
         return ResponseEntity.ok().body("message: " + "add recipe success");
     }
@@ -74,15 +68,13 @@ public class RecipeController {
     // Phan nay deletemapping
     @DeleteMapping("/{idRecipe}")
 
-    public ResponseEntity<?>  deleteRecipe(@PathVariable("idRecipe") Long idRecipe) {
+    public ResponseEntity<?> deleteRecipe(@PathVariable("idRecipe") Long idRecipe) {
         try {
             recipeService.deleteRecipe(idRecipe);
-        }catch (Exception e) {
-            return  ResponseEntity.badRequest().body("error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("error: " + e.getMessage());
         }
         return ResponseEntity.ok().body("message: " + "delete recipe success");
-
-        
 
     }
 
@@ -90,14 +82,11 @@ public class RecipeController {
     public ResponseEntity<?> findRecipeById(@PathVariable("idRecipe") Long idRecipe) {
         // Long id = Long.parseLong(idRecipe);
 
-        RecipeDTO  recipeDTO = recipeService.viewRecipeById(idRecipe);
+        RecipeDTO recipeDTO = recipeService.viewRecipeById(idRecipe);
         if (recipeDTO.getTitle() != null) {
-            return  new ResponseEntity<RecipeDTO>(recipeDTO , HttpStatus.OK);
+            return new ResponseEntity<RecipeDTO>(recipeDTO, HttpStatus.OK);
         }
-        return  ResponseEntity.badRequest().body("error: " + "can't find recipe");
-        
-    }
-
+        return ResponseEntity.badRequest().body("error: " + "can't find recipe");
 
     }
 
