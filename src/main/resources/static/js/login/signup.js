@@ -1,6 +1,9 @@
 const registerUrl = '/api/account/signup';
-
+const goToSuccessPageAfter = 500;
 const registerSuccessUrl = '/register-success';
+
+const emailExistUrl = '/api/account/exists-email';
+
 var token = $("meta[name='_csrf']").attr('content');
 var header = $("meta[name='_csrf_header']").attr('content');
 
@@ -15,14 +18,23 @@ $(document).ready(function () {
     register(event);
   });
 
-  $(':password').keyup(function () {
+  $('#confirmPassword').keyup(function () {
     if ($('#password').val() != $('#confirmPassword').val()) {
-      $('#globalError').show().html(/*[[#{PasswordMatches.user}]]*/);
+      $('#globalError').show().html('not match');
     } else {
       $('#globalError').html('').hide();
     }
   });
-
+  var timeout;
+  $('#email').keyup(function (e) {
+    if (validateEmail($('#email').val())) {
+      clearTimeout(timeout);
+      timeout = setTimeout(function () {
+        isEmailExist();
+      }, 200);
+    }
+    // isEmailExist();
+  });
   //  $('#password').pwstrength(options);
 });
 
@@ -53,8 +65,6 @@ function register(event) {
   // post form data
   // var formData = $('form').serialize();
   var formData = getFormData($('form'));
-  var token = $("meta[name='_csrf']").attr('content');
-  var header = $("meta[name='_csrf_header']").attr('content');
 
   $.ajax({
     type: 'post',
@@ -67,40 +77,49 @@ function register(event) {
     traditional: true,
     success: function (data, textStatus, xhr) {
       if (xhr.status == 200) {
-        window.location.href = registerSuccessUrl;
+        $('#globalError').show().html('ok');
+        $.notify('Successfully signup new account.', {
+          position: 'top center',
+          className: 'success',
+        });
+        setTimeout(
+          () => (window.location.href = registerSuccessUrl),
+          goToSuccessPageAfter
+        );
       }
     },
     error: function (error) {
-      console.log(error.responseText);
+      $.notify('Error', {
+        position: 'top center',
+        className: 'warn',
+      });
     },
   });
+}
 
-  // $.post('/' + 'api/account/signup', formData, function (data) {
-  //   console.log(data);
-  //   // if (data.message == 'success') {
-  //   //   window.location.href = serverContext + 'successRegister.html';
-  //   // }
-  // }).fail(function (data) {
-  //   if (data.responseJSON.error.indexOf('MailError') > -1) {
-  //     window.location.href = serverContext + 'emailError.html';
-  //   } else if (data.responseJSON.error == 'UserAlreadyExist') {
-  //     $('#emailError').show().html(data.responseJSON.message);
-  //   } else if (data.responseJSON.error.indexOf('InternalError') > -1) {
-  //     window.location.href =
-  //       serverContext + 'login?message=' + data.responseJSON.message;
-  //   } else {
-  //     var errors = $.parseJSON(data.responseJSON.message);
-  //     $.each(errors, function (index, item) {
-  //       if (item.field) {
-  //         $('#' + item.field + 'Error')
-  //           .show()
-  //           .append(item.defaultMessage + '<br/>');
-  //       } else {
-  //         $('#globalError')
-  //           .show()
-  //           .append(item.defaultMessage + '<br/>');
-  //       }
-  //     });
-  //   }
-  // });
+function isEmailExist() {
+  var fd = new FormData();
+  fd.append('email', $('#email').val());
+  $.ajax({
+    url: emailExistUrl,
+    data: fd,
+    processData: false,
+    contentType: false,
+    type: 'POST',
+    success: function (data) {
+      $('#globalError').show().html('Email approved');
+      // setTimeout(() => {
+      //   $('#globalError').hide();
+      // }, 1000);
+    },
+    error: function (data) {
+      $('#globalError').show().html('Email already existed');
+    },
+  });
+}
+
+function validateEmail(email) {
+  const re =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
 }

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Change password Page</title>
+    <!-- <meta th:name="_csrf" th:content="${_csrf.token}" />
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}" /> -->
+    <!-- CSS STYLES URL -->
+    <link rel="stylesheet" href="/styles/login/auth.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
+      integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+      defer
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+      integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
+      crossorigin="anonymous"
+    />
+    <script th:inline="javascript">
+      message = {
+        emailExists: 'Co mail rui',
+        passwordNotMatch: ' sai rui',
+      };
+    </script>
+    <script th:src="@{/js/login/new-verification.js}" defer></script>
+  </head>
+  <body>
+    <div class="container h-100">
+      <div class="d-flex justify-content-center h-100">
+        <div class="user_card">
+          <div class="d-flex justify-content-center">
+            <div class="brand_logo_container">
+              <img
+                src="https://cdn.freebiesupply.com/logos/large/2x/pinterest-circle-logo-png-transparent.png"
+                class="brand_logo"
+                alt="Logo"
+              />
+            </div>
+          </div>
+          <div class="d-flex justify-content-center form_container">
+            <form>
+              <h5 class="text-center font-weight-normal">
+                To receive a verification email
+              </h5>
+              <div class="input-group mb-3">
+                <div class="input-group-append">
+                  <span class="input-group-text"
+                    ><i class="fas fa-user"></i
+                  ></span>
+                </div>
+                <input
+                  id="email"
+                  type="email"
+                  name="email"
+                  class="form-control input_pass"
+                  value=""
+                  placeholder="Enter your email?"
+                  required
+                />
+              </div>
+              <div class="d-flex justify-content-center mt-3 login_container">
+                <button type="submit" class="btn login_btn">
+                  Request email
+                </button>
+              </div>
+              <div
+                class="d-flex justify-content-center mb-4 mt-3 login_container"
+              >
+                <button type="button" name="button" class="btn login_btn">
+                  <a
+                    th:href="@{/home}"
+                    th:class="link-primary"
+                    th:style="'color: whitesmoke;'"
+                    >Cancel and go home</a
+                  >
+                </button>
+              </div>
+            </form>
+          </div>
+          <div id="globalError"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -5,12 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fantasticfour.shareyourrecipes.account.UserRepo;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.services.RecipeService;
+
 import com.fantasticfour.shareyourrecipes.user.UserRepo;
-import com.nimbusds.oauth2.sdk.Response;
+
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
@@ -40,9 +43,11 @@ public class RecipeController {
     }
 
     @GetMapping("/")
+
     public ResponseEntity<?> recipe() {
 
-        // pagable 
+
+        // pagable
         // page1 page2 (1 page toi da bao nhieu nth page, n_els of page)
         List<RecipeDTO> recipes = recipeService.findAll();
         if (recipes.size() > 0) {
@@ -66,8 +71,9 @@ public class RecipeController {
         return ResponseEntity.ok().body("message: " + "add recipe success");
     }
 
-    // Phan nay deletemapping 
+    // Phan nay deletemapping
     @DeleteMapping("/{idRecipe}")
+
     public ResponseEntity<?>  deleteRecipe(@PathVariable("idRecipe") Long idRecipe) {
         try {
             recipeService.deleteRecipe(idRecipe);
@@ -77,11 +83,13 @@ public class RecipeController {
         return ResponseEntity.ok().body("message: " + "delete recipe success");
 
         
+
     }
 
     @GetMapping("/{idRecipe}")
     public ResponseEntity<?> findRecipeById(@PathVariable("idRecipe") Long idRecipe) {
         // Long id = Long.parseLong(idRecipe);
+
         RecipeDTO  recipeDTO = recipeService.viewRecipeById(idRecipe);
         if (recipeDTO.getTitle() != null) {
             return  new ResponseEntity<RecipeDTO>(recipeDTO , HttpStatus.OK);
@@ -90,5 +98,7 @@ public class RecipeController {
         
     }
 
+
+    }
 
 }

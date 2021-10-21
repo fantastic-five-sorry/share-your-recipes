@@ -3,6 +3,9 @@ package com.fantasticfour.shareyourrecipes;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import com.fantasticfour.shareyourrecipes.account.RoleRepo;
+import com.fantasticfour.shareyourrecipes.account.UserRepo;
+import com.fantasticfour.shareyourrecipes.account.emailsender.EmailService;
 import com.fantasticfour.shareyourrecipes.configs.AuditorAwareImpl;
 import com.fantasticfour.shareyourrecipes.domains.auth.Role;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
@@ -17,9 +20,7 @@ import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.PurchasedRecipeRepository;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.RecipeRepository;
 import com.fantasticfour.shareyourrecipes.recipes.services.RecipeService;
-import com.fantasticfour.shareyourrecipes.user.RoleRepo;
-import com.fantasticfour.shareyourrecipes.user.UserRepo;
-import com.fantasticfour.shareyourrecipes.user.emailsender.EmailService;
+import com.fantasticfour.shareyourrecipes.storages.StorageService;
 import com.fantasticfour.shareyourrecipes.votings.dtos.VotingDto;
 import com.fantasticfour.shareyourrecipes.votings.repos.RecipeVotingRepo;
 import com.fantasticfour.shareyourrecipes.votings.services.VotingService;
@@ -49,15 +50,16 @@ public class ShareyourrecipesApplication {
 
 	public static void main(String[] args) {
 		System.setProperty("jasypt.encryptor.password", "dummy");
-
 		SpringApplication.run(ShareyourrecipesApplication.class, args);
 	}
 
 	@Bean
-	public CommandLineRunner run(RoleRepo roleRepo, UserRepo userRepo, EmailService emailService,
-			PasswordEncoder encoder, RecipeRepository recipeRepo, PurchasedRecipeRepository purRecipeRepo,
-			RecipeService recipeService, VotingService votingService) throws Exception {
+	public CommandLineRunner run(StorageService storage, RoleRepo roleRepo, UserRepo userRepo,
+			EmailService emailService, PasswordEncoder encoder, RecipeRepository recipeRepo,
+			PurchasedRecipeRepository purRecipeRepo, RecipeService recipeService, VotingService votingService)
+			throws Exception {
 		return args -> {
+			storage.init();
 			if (roleRepo.findByName(ERole.ROLE_USER) == null) {
 				roleRepo.save(new Role(ERole.ROLE_USER));
 			}

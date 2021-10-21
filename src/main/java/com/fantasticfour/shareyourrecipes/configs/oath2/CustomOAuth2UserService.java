@@ -13,14 +13,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import com.fantasticfour.shareyourrecipes.account.RoleRepo;
+import com.fantasticfour.shareyourrecipes.account.UserRepo;
+import com.fantasticfour.shareyourrecipes.configs.UserPrincipal;
 import com.fantasticfour.shareyourrecipes.domains.auth.Provider;
 import com.fantasticfour.shareyourrecipes.domains.auth.Role;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 import com.fantasticfour.shareyourrecipes.exception.OAuth2AuthenticationProcessingException;
-import com.fantasticfour.shareyourrecipes.user.RoleRepo;
-import com.fantasticfour.shareyourrecipes.user.UserPrincipal;
-import com.fantasticfour.shareyourrecipes.user.UserRepo;
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {

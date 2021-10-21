@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
   <head>
     <meta charset="ISO-8859-1" />
     <title>Index test</title>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/webjars/bootstrap/css/bootstrap.min.css"
-    />
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -24,11 +22,25 @@
   </head>
   <body>
     <div class="container text-center">
-      <h3><a th:href="@{/test/user}">User principal info</a></h3>
-      <h3><a th:href="@{/my-profile}">My profile</a></h3>
-      <h3><a th:href="@{/signup}">Register</a></h3>
-      <h3><a th:href="@{/login}">Login</a></h3>
-      <form th:action="@{/logout}" method="POST">
+      <h3 sec:authorize="isAuthenticated()">
+        <a th:href="@{/test/user}">User principal info</a>
+      </h3>
+      <h3 sec:authorize="isAuthenticated()">
+        <a th:href="@{/my-profile}">My profile</a>
+      </h3>
+      <h3 sec:authorize="isAuthenticated()">
+        <a th:href="@{/account/change-password}">change pw</a>
+      </h3>
+      <h3 sec:authorize="!isAuthenticated()">
+        <a th:href="@{/account/forgot-password}">forgot pw</a>
+      </h3>
+      <h3 sec:authorize="!isAuthenticated()">
+        <a th:href="@{/signup}">Register</a>
+      </h3>
+      <h3 sec:authorize="!isAuthenticated()">
+        <a th:href="@{/login}">Login</a>
+      </h3>
+      <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="POST">
         <input type="submit" value="Logout" />
       </form>
     </div>

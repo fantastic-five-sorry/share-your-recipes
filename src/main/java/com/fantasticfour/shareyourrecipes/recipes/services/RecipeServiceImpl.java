@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.fantasticfour.shareyourrecipes.account.UserRepo;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.RecipeRepository;
-import com.fantasticfour.shareyourrecipes.user.UserRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,14 +37,13 @@ public class RecipeServiceImpl implements RecipeService {
             recipeDTO.setSteps(recipes.get(i).getSteps());
             recipeDTO.setGuideVideoString(recipes.get(i).getGuideVideoUrl());
             recipeDTO.setCreator(recipes.get(i).getCreator());
-            // recipeDTO.setStatus(recipes.get(i).getStatus());
+
+            recipeDTO.setStatus(recipes.get(i).getStatus().toString());
             recipeDTO.setPrice(recipes.get(i).getPrice());
             recipeDTOs.add(recipeDTO);
         }
         return recipeDTOs;
     }
-
-    
 
     @Override
     public void createRecipe(CreateRecipeDTO recipe) {
@@ -53,10 +52,10 @@ public class RecipeServiceImpl implements RecipeService {
         recipe2.setImage(recipe.getImage());
         recipe2.setIngredients(recipe.getIngredients());
         recipe2.setSteps(recipe.getSteps());
-        recipe2.setCreator(userRepo.findEnabledUserById(recipe.getCreatorId())); 
+        recipe2.setCreator(userRepo.findValidUserById(recipe.getCreatorId()));
         recipe2.setGuideVideoUrl(recipe.getGuideVideoString());
         recipeRepository.save(recipe2);
-    //    System.out.println("okeoke");
+        // System.out.println("okeoke");
 
     }
 
@@ -74,8 +73,10 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Recipe findById(Long idRecipe) {
         // TODO Auto-generated method stub
+
         Recipe recipe =recipeRepository.findById(idRecipe).orElse(null);
     
+
         return recipe;
     }
 
@@ -91,9 +92,10 @@ public class RecipeServiceImpl implements RecipeService {
             recipeDTO.setSteps(recipe.getSteps());
             recipeDTO.setGuideVideoString(recipe.getGuideVideoUrl());
             recipeDTO.setCreator(recipe.getCreator());
-            // recipeDTO.setStatus(recipe.getStatus());
+
+            recipeDTO.setStatus(recipe.getStatus().toString());
+
             recipeDTO.setPrice(recipe.getPrice());
-            
         }
         return recipeDTO;
     }

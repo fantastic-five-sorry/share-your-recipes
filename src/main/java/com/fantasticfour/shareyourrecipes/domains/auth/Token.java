@@ -96,4 +96,14 @@ public class Token {
     public Token() {
     }
 
+    public Token(String token, LocalDateTime createdAt, LocalDateTime expiresAt, LocalDateTime tokenUsedAt, User user,
+            ETokenPurpose purpose) {
+        this.token = token;
+        this.createdAt = createdAt;
+        this.expiresAt = expiresAt;
+        this.tokenUsedAt = tokenUsedAt;
+        this.user = user;
+        this.purpose = purpose;
+    }
+
 }

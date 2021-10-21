@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Successfully sent email</title>
+    <!-- <meta th:name="_csrf" th:content="${_csrf.token}" />
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}" /> -->
+    <!-- CSS STYLES URL -->
+    <link rel="stylesheet" href="/styles/login/auth.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+      integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container h-100">
+      <div class="d-flex justify-content-center h-100">
+        <div class="user_card">
+          <h1 class="text-center">Email sent!</h1>
+          <div class="d-flex justify-content-center mb-4 mt-3 login_container">
+            <button type="button" name="button" class="btn login_btn">
+              <a
+                th:href="@{/home}"
+                th:class="link-primary"
+                th:style="'color: whitesmoke;'"
+                >Go home</a
+              >
+              <!-- <span>
+                    <img
+                      src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-google-logos-vector-eps-cdr-svg-download-10.png"
+                      alt=""
+                    />
+                  </span> -->
+            </button>
+          </div>
+          <div
+            th:if="${message != null}"
+            class="alert alert-info"
+            th:utext="${message}"
+          ></div>
+          <div id="globalError"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
