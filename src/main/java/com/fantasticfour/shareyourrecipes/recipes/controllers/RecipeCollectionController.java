@@ -48,7 +48,6 @@ public class RecipeCollectionController {
             // TODO: handle exception
             return ResponseEntity.badRequest().body("error : " + e.getMessage());
         }
-
         return ResponseEntity.ok().body("message: " + "create collection success");
     }
 

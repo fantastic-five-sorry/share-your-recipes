@@ -18,6 +18,8 @@ $(document).ready(function () {
     register(event);
   });
 
+  
+
   $('#confirmPassword').keyup(function () {
     if ($('#password').val() != $('#confirmPassword').val()) {
       $('#globalError').show().html('not match');
@@ -32,6 +34,8 @@ $(document).ready(function () {
       timeout = setTimeout(function () {
         isEmailExist();
       }, 200);
+    } else {
+      $('#globalError').show().html('Email format wrong');
     }
     // isEmailExist();
   });

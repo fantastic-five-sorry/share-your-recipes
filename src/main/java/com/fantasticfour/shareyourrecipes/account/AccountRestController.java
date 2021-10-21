@@ -21,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +35,9 @@ public class AccountRestController {
     Logger logger = org.slf4j.LoggerFactory.getLogger(AccountRestController.class);
     @Autowired
     UserService userService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     TokenService tokenService;
@@ -96,9 +100,6 @@ public class AccountRestController {
             if (user.isBlocked()) {
                 throw new IllegalStateException("Email was blocked");
             }
-            if (user.isEnabled()) {
-                throw new IllegalStateException("Email already verified");
-            }
             eventPublisher.publishEvent(new SendTokenEmailEvent(user, ETokenPurpose.RESET_PASSWORD));
             return ResponseEntity.ok().body("Successfully send forgot email");
 
@@ -151,6 +152,21 @@ public class AccountRestController {
             if (userService.getUserByEmail(email) == null)
                 return ResponseEntity.ok("Email not exists");
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Email exists");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/validate-current-password")
+    public ResponseEntity<?> validateCurrentPw(@RequestParam("currentPassword") String password,
+            Authentication authentication) {
+        Long id = getIdFromRequest(authentication).orElseThrow(() -> new IllegalStateException("User not found"));
+
+        try {
+            User user = userService.getValidUserById(id);
+            if (passwordEncoder.matches(password, user.getPassword()))
+                return ResponseEntity.status(HttpStatus.OK).body("Current password match");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Current password not match");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error: " + e.getMessage());
         }

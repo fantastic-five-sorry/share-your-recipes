@@ -35,6 +35,8 @@ public interface UserService {
 
     User getValidUserByEmail(String email);
 
+    User getValidUserById(Long email);
+
     User getUserByEmail(String email);
 
     Token createToken(User user, String token, ETokenPurpose purpose);
@@ -48,4 +50,5 @@ public interface UserService {
     void resetPassword(ResetPasswordDto dto);
 
     User saveUser(User user);
+
 }

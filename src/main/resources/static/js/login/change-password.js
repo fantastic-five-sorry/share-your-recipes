@@ -1,4 +1,5 @@
 const changePasswordUrl = '/api/account/change-password';
+const validateCurrentPasswordUrl = '/api/account/validate-current-password';
 
 const changePasswordSuccessUrl = '/logout';
 
@@ -25,7 +26,30 @@ $(document).ready(function () {
       } else {
         $('#globalError').html('').hide();
       }
+      if ($('#newPassword').val() == $('#oldPassword').val()) {
+        $('#globalError').show().html('new password must be difference');
+      } else {
+        $('#globalError').hide();
+      }
     }, 250);
+  });
+  var timeout3;
+  $('#newPassword').keyup(function () {
+    clearTimeout(timeout3);
+    timeout = setTimeout(function () {
+      if ($('#newPassword').val() == $('#oldPassword').val()) {
+        $('#globalError').show().html('new password must be difference');
+      } else {
+        $('#globalError').hide();
+      }
+    }, 250);
+  });
+  var timeout2;
+  $('#oldPassword').keyup(function () {
+    clearTimeout(timeout);
+    timeout2 = setTimeout(function () {
+      currentPasswordValidate($('#oldPassword').val());
+    }, 500);
   });
 });
 
@@ -49,7 +73,7 @@ function requestEmail(event) {
   // check pw match
   if ($('#newPassword').val() != $('#confirmNewPassword').val()) {
     // console.log($('#password').val(), )
-    $('#globalError').show().html('not match');
+    $('#globalError').show().html('confirm password not match');
     return;
   }
 
@@ -86,6 +110,25 @@ function requestEmail(event) {
         className: 'info',
       });
       $('#globalError').show().html(error.responseText);
+    },
+  });
+}
+
+function currentPasswordValidate(password) {
+  var fd = new FormData();
+  fd.append('currentPassword', password);
+
+  $.ajax({
+    url: validateCurrentPasswordUrl,
+    data: fd,
+    processData: false,
+    contentType: false,
+    type: 'POST',
+    success: function (data) {
+      $('#globalError').show().html('Current password match');
+    },
+    error: function (data) {
+      $('#globalError').show().html('Current password not match');
     },
   });
 }

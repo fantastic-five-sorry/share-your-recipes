@@ -34,7 +34,7 @@ $(document).ready(function () {
     clearTimeout(timeout);
     timeout = setTimeout(function () {
       if ($('#newPassword').val() != $('#confirmNewPassword').val()) {
-        $('#globalError').show().html('not match');
+        $('#globalError').show().html('confirm password not match');
       } else {
         $('#globalError').html('').hide();
       }

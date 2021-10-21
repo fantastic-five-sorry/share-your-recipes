@@ -135,6 +135,17 @@ public class UserServiceImpl implements UserService {
         return user;
     };
 
+    public User getValidUserById(Long id) {
+
+        User user = userRepo.findById(id).orElseThrow(() -> new IllegalStateException("Email not found"));
+
+        if (user.isBlocked())
+            throw new IllegalStateException("Email was blocked");
+        if (!user.isEnabled())
+            throw new IllegalStateException("Email was not verified");
+        return user;
+    };
+
     public User getUserByEmail(String email) {
         return userRepo.findByEmail(email).orElse(null);
     }
