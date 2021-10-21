@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.recipes;
+package com.fantasticfour.shareyourrecipes.recipes.controllers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,12 +10,20 @@ import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.services.RecipeService;
 import com.fantasticfour.shareyourrecipes.user.UserRepo;
+import com.nimbusds.oauth2.sdk.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,70 +31,62 @@ import org.springframework.web.bind.annotation.RestController;
 public class RecipeController {
 
     private final RecipeService recipeService;
-    private final UserRepo userRepo;
+   
 
     @Autowired
-    public RecipeController(RecipeService recipeService, UserRepo userRepo) {
+    public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
-        this.userRepo = userRepo;
+     
     }
 
     @GetMapping("/")
-    public List<RecipeDTO> recipe(Paga) {
+    public ResponseEntity<?> recipe() {
 
         // pagable 
         // page1 page2 (1 page toi da bao nhieu nth page, n_els of page)
         List<RecipeDTO> recipes = recipeService.findAll();
-
+        if (recipes.size() > 0) {
+            return  new ResponseEntity<List<RecipeDTO>>(recipes , HttpStatus.OK);
+        }
+        return ResponseEntity.badRequest().body("error: " + "Recipes is empty");
+        // Page<RecipeDTO> allRecipes = 
         // System.out.println(recipes);
         // model.addAttribute("recipes", recipes);
 
-        return recipes;
+        // return recipes;
     }
 
     @PostMapping("/createRecipe")
-    public CreateRecipeDTO createRecipe(@RequestBody CreateRecipeDTO recipe) {
-        CreateRecipeDTO r = new CreateRecipeDTO();
-        r.setTitle("helloo baby");
-        r.setImage("image");
-        r.setGuideVideoString("guideVideoString");
-        r.setCreatorId(userRepo.findByEmail("admin@lvl.gg").get().getId());
-        // r.setCreator(userRepo.findByEmail("admin@lvl.gg").get());
-        Map<String, String> ingredients = new HashMap<>();
-
-        ingredients.put("Hanh`", "100g");
-        ingredients.put("Hanh`1", "100g");
-        ingredients.put("Hanh`2", "100g");
-        ingredients.put("Hanh`3", "100g");
-
-        List<String> steps = new ArrayList<>();
-
-        steps.add("Buowc1: dot ");
-        steps.add("Buowc2: dot ");
-        steps.add("Buowc3: dot ");
-        steps.add("Buowc4: dot ");
-        r.setIngredients(ingredients);
-        r.setSteps(steps);
-
-        // recipeService.createRecipe(r);
-        recipe = r;
-        recipeService.createRecipe(recipe);
-        return recipe;
+    public  ResponseEntity<?> createRecipe(@RequestBody CreateRecipeDTO recipe) {
+        try {
+            recipeService.createRecipe(recipe);
+        }catch (Exception e) {
+            return  ResponseEntity.badRequest().body("error: " + e.getMessage());
+        }
+        return ResponseEntity.ok().body("message: " + "add recipe success");
     }
 
     // Phan nay deletemapping 
     @DeleteMapping("/{idRecipe}")
-    public Recipe deleteRecipe(@PathVariable("idRecipe") String idRecipe) {
-        Long id = Long.parseLong(idRecipe);
-        return recipeService.deleteRecipe(id);
+    public ResponseEntity<?>  deleteRecipe(@PathVariable("idRecipe") Long idRecipe) {
+        try {
+            recipeService.deleteRecipe(idRecipe);
+        }catch (Exception e) {
+            return  ResponseEntity.badRequest().body("error: " + e.getMessage());
+        }
+        return ResponseEntity.ok().body("message: " + "delete recipe success");
+
         
     }
 
     @GetMapping("/{idRecipe}")
-    public RecipeDTO findRecipeById(@PathVariable("idRecipe") Long idRecipe) {
+    public ResponseEntity<?> findRecipeById(@PathVariable("idRecipe") Long idRecipe) {
         // Long id = Long.parseLong(idRecipe);
         RecipeDTO  recipeDTO = recipeService.viewRecipeById(idRecipe);
-        return recipeDTO;
+        if (recipeDTO.getTitle() != null) {
+            return  new ResponseEntity<RecipeDTO>(recipeDTO , HttpStatus.OK);
+        }
+        return  ResponseEntity.badRequest().body("error: " + "can't find recipe");
         
     }
 

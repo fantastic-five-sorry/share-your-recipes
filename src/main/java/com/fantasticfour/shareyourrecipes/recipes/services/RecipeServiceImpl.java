@@ -2,6 +2,7 @@ package com.fantasticfour.shareyourrecipes.recipes.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeDTO;
@@ -36,7 +37,7 @@ public class RecipeServiceImpl implements RecipeService {
             recipeDTO.setSteps(recipes.get(i).getSteps());
             recipeDTO.setGuideVideoString(recipes.get(i).getGuideVideoUrl());
             recipeDTO.setCreator(recipes.get(i).getCreator());
-            recipeDTO.setStatus(recipes.get(i).getStatus());
+            // recipeDTO.setStatus(recipes.get(i).getStatus());
             recipeDTO.setPrice(recipes.get(i).getPrice());
             recipeDTOs.add(recipeDTO);
         }
@@ -62,8 +63,10 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Recipe deleteRecipe(Long recipeid) {
         Recipe recipe = this.findById(recipeid);
-        recipe.setDeleted(true);
-        recipeRepository.save(recipe);
+        if (recipe != null){
+            recipe.setDeleted(true);
+            recipeRepository.save(recipe);
+        }
         return recipe;
 
     }
@@ -72,9 +75,7 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe findById(Long idRecipe) {
         // TODO Auto-generated method stub
         Recipe recipe =recipeRepository.findById(idRecipe).orElse(null);
-        if (recipe!=null && recipe.getDeleted() == true) {
-            return null;
-        }
+    
         return recipe;
     }
 
@@ -90,7 +91,7 @@ public class RecipeServiceImpl implements RecipeService {
             recipeDTO.setSteps(recipe.getSteps());
             recipeDTO.setGuideVideoString(recipe.getGuideVideoUrl());
             recipeDTO.setCreator(recipe.getCreator());
-            recipeDTO.setStatus(recipe.getStatus());
+            // recipeDTO.setStatus(recipe.getStatus());
             recipeDTO.setPrice(recipe.getPrice());
             
         }

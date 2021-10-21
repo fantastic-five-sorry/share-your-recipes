@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.fantasticfour.shareyourrecipes.domains.Comment;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
+import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 
 public class RecipeDTO {
     private String title;
@@ -96,4 +97,14 @@ public class RecipeDTO {
     public RecipeDTO() {
     }
 
+    public RecipeDTO(Recipe recipe) {
+        this.title = recipe.getTitle();
+        this.image = recipe.getImage();
+        this.ingredients = recipe.getIngredients();
+        this.steps = recipe.getSteps();
+        // 
+    }
+
+
+    
 }
