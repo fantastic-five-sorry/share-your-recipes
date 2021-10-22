@@ -1,8 +1,13 @@
 package com.fantasticfour.shareyourrecipes.recipes.services;
 
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import com.fantasticfour.shareyourrecipes.account.UserRepo;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
@@ -17,18 +22,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RecipeConllectionImpl implements RecipeCollectionService {
+public class RecipeCollectionImpl implements RecipeCollectionService {
 
     private final RecipeCollectionRepository collectionRepository;
     private final UserRepo userRepo;
     private final RecipeRepository recipeRepository;
 
     @Autowired
-    public RecipeConllectionImpl(RecipeCollectionRepository collectionRepository, UserRepo userRepo,
+    public RecipeCollectionImpl(RecipeCollectionRepository collectionRepository, UserRepo userRepo,
             RecipeRepository recipeRepository) {
         this.collectionRepository = collectionRepository;
         this.userRepo = userRepo;
         this.recipeRepository = recipeRepository;
+    }
+
+    private final Pattern NONLATIN = Pattern.compile("[^\\w-]");
+    private  final Pattern WHITESPACE = Pattern.compile("[\\s]");
+
+    public String toSlug(String input) {
+        String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
+        String normalized = Normalizer.normalize(nowhitespace, Form.NFD);
+        String slug = NONLATIN.matcher(normalized).replaceAll("");
+        return slug.toLowerCase(Locale.ENGLISH);
     }
 
     @Override
@@ -36,15 +51,7 @@ public class RecipeConllectionImpl implements RecipeCollectionService {
         // TODO Auto-generated method stub
         List<RecipeCollection> recipeCollections = collectionRepository.findAll();
         List<RecipeCollectionDTO> recipeCollectionDTOs = new ArrayList<>();
-        for (int i = 0; i < recipeCollections.size(); i++) {
-            RecipeCollectionDTO dto = new RecipeCollectionDTO(recipeCollections.get(i));
-
-            // dto.setName(recipeCollections.get(i).getName());
-            // dto.setRecipes(recipeCollections.get(i).getRecipes());
-            // dto.setVoteCount(recipeCollections.get(i).getVoteCount());
-            // dto.setCreator(recipeCollections.get(i).getCreator());
-            recipeCollectionDTOs.add(dto);
-        }
+        recipeCollectionDTOs = recipeCollections.stream().map(RecipeCollectionDTO::new).collect(Collectors.toList());
         return recipeCollectionDTOs;
     }
 
@@ -63,6 +70,7 @@ public class RecipeConllectionImpl implements RecipeCollectionService {
         recipeCollection.setName(collection.getName());
         recipeCollection.setCreator(userRepo.findValidUserById(collection.getCreatorId()));
         // recipeCollection.setRecipes(recipeRepository.findById(collection.getRecipesId()));
+        recipeCollection.setSlug(this.toSlug(collection.getName()));
         List<Recipe> recipes = new ArrayList<>();
         for (Long collectionDTOId : collection.getRecipesId()) {
             Recipe recipe = recipeRepository.findById(collectionDTOId).get();
@@ -77,27 +85,34 @@ public class RecipeConllectionImpl implements RecipeCollectionService {
     }
 
     @Override
-    public void deleteRecipeCollection(Long collectionId) {
+    public void deleteRecipeCollection(Long collectionId) throws Exception {
         // TODO Auto-generated method stub
         RecipeCollection recipeCollection = this.findById(collectionId);
+        if (recipeCollection == null) {
+            throw new Exception("not found collection");
+        }
         recipeCollection.setDeleted(true);
-        collectionRepository.delete(recipeCollection);
+        collectionRepository.save(recipeCollection);
 
     }
 
     @Override
-    public RecipeCollectionDTO viewDRecipeCollectionDTO(Long collectionId) {
+    public RecipeCollectionDTO viewDRecipeCollectionDTO(Long collectionId)  throws Exception{
         // TODO Auto-generated method stub
         RecipeCollection collection = this.findById(collectionId);
-        RecipeCollectionDTO collectionDTO = new RecipeCollectionDTO();
-        if (collection != null) {
-            // collectionDTO.setCreator((collection.getCreator()));
-            // collectionDTO.setName(collection.getName());
-            // collectionDTO.setRecipes(collection.getRecipes());
-            // collectionDTO.setVoteCount(collection.getVoteCount());
-            collectionDTO = new RecipeCollectionDTO(collection);
+        if (collection == null) {
+            throw new Exception("not found collection");
         }
-        return collectionDTO;
+        return  new RecipeCollectionDTO(collection);
+    }
+
+    @Override
+    public List<RecipeCollectionDTO> findByCreatorId(Long creatorId) {
+        // TODO Auto-generated method stub
+        List<RecipeCollection> recipeCollections = collectionRepository.findByCreatorId(creatorId);
+        List<RecipeCollectionDTO> collectionDTOs = new ArrayList<>();
+        collectionDTOs = recipeCollections.stream().map(RecipeCollectionDTO::new).collect(Collectors.toList());
+        return collectionDTOs;
     }
 
 }

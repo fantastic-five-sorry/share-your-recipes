@@ -18,7 +18,15 @@ public class RecipeCollectionDTO {
     private List<RecipeDTO> recipes = new ArrayList<>();
 
     private Long voteCount;
+    private String slug;
 
+    public String getSlug() {
+        return this.slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
 
 
     public String getName() {
@@ -59,6 +67,8 @@ public class RecipeCollectionDTO {
         this.creator =  new UserInfo(collection.getCreator());
         this.name = collection.getName();
         this.recipes = collection.getRecipes().stream().map(RecipeDTO::new).collect(Collectors.toList());
+        this.voteCount = collection.getVoteCount();
+        this.slug  =  collection.getSlug();
     }
     
 }
