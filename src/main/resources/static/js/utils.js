@@ -16,7 +16,26 @@ function handleGetComments(recipeId) {
       [header]: token,
     },
     success: function (response) {
-      response.map(cmt => console.log(cmt.id, cmt.content))
+      response.map((cmt) => console.log(cmt.id, cmt.content));
     },
   });
 }
+function handleGetRecipe(recipeId) {
+  const apiUrl = `/api/recipes/${recipeId}`;
+  console.log(apiUrl);
+  $.ajax({
+    type: 'get',
+    url: apiUrl,
+    header: {
+      [header]: token,
+    },
+    success: function (response) {
+      console.log(response);
+    },
+  });
+}
+
+$(document).ready(function () {
+  // handleGetComments(1000);
+  handleGetRecipe(1000);
+});

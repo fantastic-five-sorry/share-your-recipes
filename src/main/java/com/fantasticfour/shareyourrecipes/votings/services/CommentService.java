@@ -9,6 +9,8 @@ import com.fantasticfour.shareyourrecipes.votings.dtos.NewCommentDto;
 public interface CommentService {
     void writeCommentToRecipe(NewCommentDto comment);
 
+    CommentDto getComment(Long id);
+
     List<CommentDto> getCommentsOfRecipe(Long recipeId);
 
     void editRecipeComment(EditCommentDto dto);

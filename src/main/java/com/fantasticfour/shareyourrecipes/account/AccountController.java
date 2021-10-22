@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -42,6 +43,29 @@ public class AccountController {
     ApplicationEventPublisher eventPublisher;
     @Autowired
     UserUtils userUtils;
+
+    @GetMapping("/login")
+    public String uiLogin() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth == null || auth instanceof AnonymousAuthenticationToken) {
+            return "login/login";
+        }
+
+        return "redirect:/";
+
+    }
+
+    @GetMapping("/signup")
+    public String uiSignUp() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken)) {
+            return "redirect:/";
+        }
+
+        return "login/sign-up";
+    }
 
     @GetMapping("/new-verification-email")
     public String requestNewEmailVerification(@RequestParam(name = "email", required = false) String email) {

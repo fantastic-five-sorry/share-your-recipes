@@ -67,4 +67,10 @@ public class CommentServiceImpl implements CommentService {
     public void deleteCommentToRecipe(Long id) {
         commentRepo.deleteById(id);
     }
+
+    @Override
+    public CommentDto getComment(Long id) {
+        Comment comment = commentRepo.findById(id).orElseThrow(() -> new IllegalStateException("Comment not found"));
+        return new CommentDto(comment);
+    }
 }

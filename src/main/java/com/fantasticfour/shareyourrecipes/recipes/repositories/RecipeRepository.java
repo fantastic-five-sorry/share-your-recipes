@@ -24,7 +24,7 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     List<Recipe> findAll();
 
 
-    @Query("SELECT r FROM Recipe r WHERE r.deleted=false AND r.id=:id")
+    @Query("SELECT r FROM Recipe r WHERE r.deleted=FALSE AND id=:id")
     Optional<Recipe> findById(Long id);
 
     @Modifying

@@ -23,13 +23,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentController {
     @Autowired
     CommentService commentService;
-    
+
     @PostMapping("/recipe")
     private ResponseEntity<?> commentToRecipe(@RequestBody NewCommentDto comment) {
         try {
 
             commentService.writeCommentToRecipe(comment);
             return ResponseEntity.ok().body("success");
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("error: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/{commentId}")
+    private ResponseEntity<?> getCommentById(@PathVariable("commentId") Long commentId) {
+        try {
+
+            CommentDto comment = commentService.getComment(commentId);
+            return ResponseEntity.ok().body(comment);
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("error: " + e.getMessage());

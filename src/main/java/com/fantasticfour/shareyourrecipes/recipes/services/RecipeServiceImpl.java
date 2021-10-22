@@ -32,14 +32,14 @@ public class RecipeServiceImpl implements RecipeService {
         for (int i = 0; i < recipes.size(); i++) {
             RecipeDTO recipeDTO = new RecipeDTO();
             recipeDTO.setTitle(recipes.get(i).getTitle());
-            recipeDTO.setImage(recipes.get(i).getImage());
+            // recipeDTO.setImage(recipes.get(i).getImage());
             recipeDTO.setIngredients(recipes.get(i).getIngredients());
             recipeDTO.setSteps(recipes.get(i).getSteps());
             recipeDTO.setGuideVideoString(recipes.get(i).getGuideVideoUrl());
-            recipeDTO.setCreator(recipes.get(i).getCreator());
+            // recipeDTO.setCreator(recipes.get(i).getCreator());
 
-            recipeDTO.setStatus(recipes.get(i).getStatus().toString());
-            recipeDTO.setPrice(recipes.get(i).getPrice());
+            // recipeDTO.setStatus(recipes.get(i).getStatus().toString());
+            // recipeDTO.setPrice(recipes.get(i).getPrice());
             recipeDTOs.add(recipeDTO);
         }
         return recipeDTOs;
@@ -73,7 +73,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Recipe findById(Long idRecipe) {
         // TODO Auto-generated method stub
-
+            // xai orElseThrow(() -> new IllegalStateException("Recipe not found"))
         Recipe recipe =recipeRepository.findById(idRecipe).orElse(null);
     
 
@@ -82,7 +82,6 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public RecipeDTO viewRecipeById(Long id) {
-        // TODO Auto-generated method stub
         Recipe recipe = this.findById(id);
         RecipeDTO recipeDTO = new RecipeDTO();
         if (recipe != null) {

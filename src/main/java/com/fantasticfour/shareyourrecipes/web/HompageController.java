@@ -47,17 +47,7 @@ public class HompageController {
         return "index";
     }
 
-    @GetMapping("/login")
-    public String uiLogin() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if (auth == null || auth instanceof AnonymousAuthenticationToken) {
-            return "login/login";
-        }
-
-        return "redirect:/";
-
-    }
+    
 
     @GetMapping("/my-profile")
     @PreAuthorize("isAuthenticated()")
@@ -80,17 +70,7 @@ public class HompageController {
         // model.addAttribute("your_name", principal.());
     }
 
-    @GetMapping("/signup")
-    public String uiSignUp() {
-        // Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        // if (auth == null || auth instanceof AnonymousAuthenticationToken) {
-        // return "login/login";
-        // }
-        // model.addAttribute("user", new User());
-        return "login/sign-up";
-    }
-
+   
     @GetMapping("/international")
     public String getInternationalPage() {
         return "international";
