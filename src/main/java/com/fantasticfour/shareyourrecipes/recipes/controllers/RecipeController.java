@@ -41,21 +41,16 @@ public class RecipeController {
 
     public ResponseEntity<?> recipe() {
 
-        // pagable
-        // page1 page2 (1 page toi da bao nhieu nth page, n_els of page)
+
         List<RecipeDTO> recipes = recipeService.findAll();
         if (recipes.size() > 0) {
             return new ResponseEntity<List<RecipeDTO>>(recipes, HttpStatus.OK);
         }
         return ResponseEntity.badRequest().body("error: " + "Recipes is empty");
-        // Page<RecipeDTO> allRecipes =
-        // System.out.println(recipes);
-        // model.addAttribute("recipes", recipes);
-
-        // return recipes;
+ 
     }
 
-    @PostMapping("/createRecipe")
+    @PostMapping("/")
     public ResponseEntity<?> createRecipe(@RequestBody CreateRecipeDTO recipe) {
         try {
             recipeService.createRecipe(recipe);
@@ -82,12 +77,14 @@ public class RecipeController {
     public ResponseEntity<?> findRecipeById(@PathVariable("idRecipe") Long idRecipe) {
         // Long id = Long.parseLong(idRecipe);
 
-        RecipeDTO recipeDTO = recipeService.viewRecipeById(idRecipe);
-        if (recipeDTO.getTitle() != null) {
-            return new ResponseEntity<RecipeDTO>(recipeDTO, HttpStatus.OK);
+        RecipeDTO recipeDTO;
+        try {
+            recipeDTO = recipeService.viewRecipeById(idRecipe);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            return ResponseEntity.badRequest().body("error: " + e.getMessage());
         }
-        return ResponseEntity.badRequest().body("error: " + "can't find recipe");
-
+        return  new ResponseEntity<RecipeDTO>(recipeDTO, HttpStatus.OK);
     }
 
 }

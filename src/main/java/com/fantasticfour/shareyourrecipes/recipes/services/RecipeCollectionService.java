@@ -13,10 +13,12 @@ public interface RecipeCollectionService {
 
     void createRecipeCollection(CreateRecipeCollectionDTO collection) throws Exception;
 
-    void deleteRecipeCollection(Long collectionId);
+    void deleteRecipeCollection(Long collectionId) throws Exception;
 
     RecipeCollection findById(Long collectionId);
 
-    RecipeCollectionDTO viewDRecipeCollectionDTO(Long collectionId);
+    RecipeCollectionDTO viewDRecipeCollectionDTO(Long collectionId) throws Exception;
+
+    List<RecipeCollectionDTO> findByCreatorId(Long creatorId);
 
 }

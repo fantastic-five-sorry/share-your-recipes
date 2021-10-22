@@ -26,6 +26,28 @@ public class Answer {
 
     private Long voteCount;
 
+    private Boolean deleted;
+
+    public Boolean isDeleted() {
+        return this.deleted;
+    }
+
+    public Boolean getDeleted() {
+        return this.deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public Answer() {
     }
 

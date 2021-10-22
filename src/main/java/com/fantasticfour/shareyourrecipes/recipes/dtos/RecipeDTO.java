@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fantasticfour.shareyourrecipes.account.dtos.UserInfo;
 import com.fantasticfour.shareyourrecipes.domains.Comment;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
@@ -15,13 +16,20 @@ public class RecipeDTO {
     private Map<String, String> ingredients = new HashMap<>();
     private List<String> steps;
     private String guideVideoString;
-    private User creator;
+    private UserInfo creator;
+    private String slug;
 
     private List<Comment> comments = new ArrayList<>();
     private String status;
 
     private Float price;
+    public String getSlug() {
+        return this.slug;
+    }
 
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
     public String getTitle() {
         return this.title;
     }
@@ -62,11 +70,11 @@ public class RecipeDTO {
         this.guideVideoString = guideVideoString;
     }
 
-    public User getCreator() {
+    public UserInfo getCreator() {
         return this.creator;
     }
 
-    public void setCreator(User creator) {
+    public void setCreator(UserInfo creator) {
         this.creator = creator;
     }
 
@@ -102,7 +110,9 @@ public class RecipeDTO {
         this.image = recipe.getImage();
         this.ingredients = recipe.getIngredients();
         this.steps = recipe.getSteps();
-        // 
+        this.guideVideoString = recipe.getGuideVideoUrl();
+        this.creator = new UserInfo(recipe.getCreator());
+        this.slug = recipe.getSlug();
     }
 
 

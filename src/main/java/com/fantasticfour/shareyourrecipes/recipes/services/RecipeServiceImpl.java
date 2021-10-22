@@ -1,8 +1,12 @@
 package com.fantasticfour.shareyourrecipes.recipes.services;
 
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 import com.fantasticfour.shareyourrecipes.account.UserRepo;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
@@ -25,22 +29,22 @@ public class RecipeServiceImpl implements RecipeService {
         this.userRepo = userRepo;
     }
 
+    private final Pattern NONLATIN = Pattern.compile("[^\\w-]");
+    private  final Pattern WHITESPACE = Pattern.compile("[\\s]");
+
+    public String toSlug(String input) {
+        String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
+        String normalized = Normalizer.normalize(nowhitespace, Form.NFD);
+        String slug = NONLATIN.matcher(normalized).replaceAll("");
+        return slug.toLowerCase(Locale.ENGLISH);
+    }
+
     @Override
     public List<RecipeDTO> findAll() {
         List<Recipe> recipes = recipeRepository.findAll();
         List<RecipeDTO> recipeDTOs = new ArrayList<>();
-        for (int i = 0; i < recipes.size(); i++) {
-            RecipeDTO recipeDTO = new RecipeDTO();
-            recipeDTO.setTitle(recipes.get(i).getTitle());
-            // recipeDTO.setImage(recipes.get(i).getImage());
-            recipeDTO.setIngredients(recipes.get(i).getIngredients());
-            recipeDTO.setSteps(recipes.get(i).getSteps());
-            recipeDTO.setGuideVideoString(recipes.get(i).getGuideVideoUrl());
-            // recipeDTO.setCreator(recipes.get(i).getCreator());
-
-            // recipeDTO.setStatus(recipes.get(i).getStatus().toString());
-            // recipeDTO.setPrice(recipes.get(i).getPrice());
-            recipeDTOs.add(recipeDTO);
+        for (Recipe recipe: recipes) {
+            recipeDTOs.add(new RecipeDTO(recipe));
         }
         return recipeDTOs;
     }
@@ -54,18 +58,20 @@ public class RecipeServiceImpl implements RecipeService {
         recipe2.setSteps(recipe.getSteps());
         recipe2.setCreator(userRepo.findValidUserById(recipe.getCreatorId()));
         recipe2.setGuideVideoUrl(recipe.getGuideVideoString());
+        recipe2.setSlug(this.toSlug(recipe.getTitle()));
         recipeRepository.save(recipe2);
         // System.out.println("okeoke");
 
     }
 
     @Override
-    public Recipe deleteRecipe(Long recipeid) {
+    public Recipe deleteRecipe(Long recipeid)  throws Exception {
         Recipe recipe = this.findById(recipeid);
-        if (recipe != null){
-            recipe.setDeleted(true);
-            recipeRepository.save(recipe);
+        if (recipe == null) {
+            throw new Exception("can't find recipe");
         }
+        recipe.setDeleted(true);
+        recipeRepository.save(recipe);
         return recipe;
 
     }
@@ -81,22 +87,14 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public RecipeDTO viewRecipeById(Long id) {
+    public RecipeDTO viewRecipeById(Long id) throws Exception {
+        // TODO Auto-generated method stub
         Recipe recipe = this.findById(id);
-        RecipeDTO recipeDTO = new RecipeDTO();
-        if (recipe != null) {
-            recipeDTO.setTitle(recipe.getTitle());
-            recipeDTO.setImage(recipe.getImage());
-            recipeDTO.setIngredients(recipe.getIngredients());
-            recipeDTO.setSteps(recipe.getSteps());
-            recipeDTO.setGuideVideoString(recipe.getGuideVideoUrl());
-            recipeDTO.setCreator(recipe.getCreator());
-
-            recipeDTO.setStatus(recipe.getStatus().toString());
-
-            recipeDTO.setPrice(recipe.getPrice());
+        
+        if (recipe == null) {
+            throw new Exception("can't find recipe");
         }
-        return recipeDTO;
+        return new RecipeDTO(recipe);
     }
 
 }

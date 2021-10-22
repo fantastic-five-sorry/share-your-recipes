@@ -12,10 +12,10 @@ public interface RecipeService {
 
     void createRecipe(CreateRecipeDTO recipe);
 
-    Recipe deleteRecipe(Long id);
+    Recipe deleteRecipe(Long id)  throws Exception;
 
     Recipe findById(Long id);
 
-    RecipeDTO viewRecipeById(Long id);
+    RecipeDTO viewRecipeById(Long id) throws Exception;
 
 }
