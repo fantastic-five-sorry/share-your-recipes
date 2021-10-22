@@ -55,6 +55,7 @@ function register(event) {
   if ($('#password').val() != $('#confirmPassword').val()) {
     // console.log($('#password').val(), )
     showError('Password not match');
+    return;
   }
 
   // post form data
@@ -133,5 +134,5 @@ function showSuccess(message) {
 }
 
 function hideMessage() {
-  hideMessage();
+  $('#globalError').hide();
 }

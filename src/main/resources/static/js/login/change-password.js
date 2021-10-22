@@ -146,5 +146,5 @@ function showSuccess(message) {
 }
 
 function hideMessage() {
-  hideMessage();
+  $('#globalError').hide();
 }
