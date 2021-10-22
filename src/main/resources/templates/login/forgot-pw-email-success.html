@@ -18,7 +18,15 @@
       integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
       crossorigin="anonymous"
     />
+    <script>
+      var uri = window.location.toString();
+      if (uri.indexOf('?') > 0) {
+        var clean_uri = uri.substring(0, uri.indexOf('?'));
+        window.history.replaceState({}, document.title, clean_uri);
+      }
+    </script>
   </head>
+
   <body>
     <div class="container h-100">
       <div class="d-flex justify-content-center h-100">
