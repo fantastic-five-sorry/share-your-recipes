@@ -50,7 +50,7 @@ public class AccountController {
             User user = userService.getUserByEmail(email);
             if (user != null && !user.isBlocked()) {
                 eventPublisher.publishEvent(new SendTokenEmailEvent(user, ETokenPurpose.VERIFY_EMAIL));
-                return "login/new-verification-email";
+                return "login/forgot-pw-email-success";
             }
         }
         return "redirect:/404";
