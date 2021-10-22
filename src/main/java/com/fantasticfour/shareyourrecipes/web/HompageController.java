@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -59,6 +60,7 @@ public class HompageController {
     }
 
     @GetMapping("/my-profile")
+    @PreAuthorize("isAuthenticated()")
     public String myProfile(Principal principal, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -94,8 +96,6 @@ public class HompageController {
         return "international";
     }
 
-    
-
     @GetMapping("/404")
     public String notfoundPage() {
         return "404";
@@ -124,7 +124,5 @@ public class HompageController {
         // model.addAttribute("userInfo", userService.getUserInfoById(uid));
         return "profile/change-avatar";
     }
-
-    
 
 }

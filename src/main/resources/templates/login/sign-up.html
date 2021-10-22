@@ -61,11 +61,7 @@
         <div class="user_card">
           <div class="d-flex justify-content-center">
             <div class="brand_logo_container">
-              <img
-                src="https://cdn.freebiesupply.com/logos/large/2x/pinterest-circle-logo-png-transparent.png"
-                class="brand_logo"
-                alt="Logo"
-              />
+              <img src="/imgs/logo.png" class="brand_logo" alt="Logo" />
             </div>
           </div>
           <div class="d-flex justify-content-center form_container">
@@ -83,7 +79,7 @@
                   name="name"
                   class="form-control input_user"
                   value=""
-                  placeholder="name"
+                  placeholder="Name"
                   required
                   minlength="6"
                   maxlength="40"
@@ -101,7 +97,7 @@
                   name="email"
                   class="form-control input_user"
                   value=""
-                  placeholder="email"
+                  placeholder="Email"
                   required
                 />
               </div>
@@ -117,7 +113,7 @@
                   name="password"
                   class="form-control input_pass"
                   value=""
-                  placeholder="password"
+                  placeholder="Password"
                   required
                   minlength="6"
                   maxlength="10"
@@ -135,12 +131,14 @@
                   name="confirmPassword"
                   class="form-control input_pass"
                   value=""
-                  placeholder="confirm password"
+                  placeholder="Confirm password"
                   required
                   minlength="6"
                   maxlength="10"
                 />
               </div>
+              <div id="globalError" class="text-center"></div>
+
               <div class="d-flex justify-content-center mt-3 login_container">
                 <button type="submit" class="btn login_btn">Sign up</button>
               </div>
@@ -168,7 +166,6 @@
               </div>
             </form>
           </div>
-          <div id="globalError"></div>
         </div>
       </div>
     </div>

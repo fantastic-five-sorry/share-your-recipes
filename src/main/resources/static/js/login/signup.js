@@ -18,13 +18,11 @@ $(document).ready(function () {
     register(event);
   });
 
-  
-
   $('#confirmPassword').keyup(function () {
     if ($('#password').val() != $('#confirmPassword').val()) {
-      $('#globalError').show().html('not match');
+      showError('Password not match');
     } else {
-      $('#globalError').html('').hide();
+      hideMessage();
     }
   });
   var timeout;
@@ -33,13 +31,11 @@ $(document).ready(function () {
       clearTimeout(timeout);
       timeout = setTimeout(function () {
         isEmailExist();
-      }, 200);
+      }, 300);
     } else {
-      $('#globalError').show().html('Email format wrong');
+      showError('Email format wrong');
     }
-    // isEmailExist();
   });
-  //  $('#password').pwstrength(options);
 });
 
 function getFormData($form) {
@@ -54,16 +50,11 @@ function getFormData($form) {
 }
 
 function register(event) {
-  console.log('sign up click');
   event.preventDefault();
-  $('.alert').html('').hide();
-  $('.error-list').html('');
-
   // check pw match
   if ($('#password').val() != $('#confirmPassword').val()) {
     // console.log($('#password').val(), )
-    $('#globalError').show().html(message.passwordNotMatch);
-    return;
+    showError('Password not match');
   }
 
   // post form data
@@ -81,7 +72,7 @@ function register(event) {
     traditional: true,
     success: function (data, textStatus, xhr) {
       if (xhr.status == 200) {
-        $('#globalError').show().html('ok');
+        showError('ok');
         $.notify('Successfully signup new account.', {
           position: 'top center',
           className: 'success',
@@ -93,7 +84,7 @@ function register(event) {
       }
     },
     error: function (error) {
-      $.notify('Error', {
+      $.notify(error.responseText, {
         position: 'top center',
         className: 'warn',
       });
@@ -111,13 +102,11 @@ function isEmailExist() {
     contentType: false,
     type: 'POST',
     success: function (data) {
-      $('#globalError').show().html('Email approved');
-      // setTimeout(() => {
-      //   $('#globalError').hide();
-      // }, 1000);
+      showSuccess('Email approved');
     },
     error: function (data) {
-      $('#globalError').show().html('Email already existed');
+      // showError('Email already existed');
+      showError('Email already existed');
     },
   });
 }
@@ -126,4 +115,23 @@ function validateEmail(email) {
   const re =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
+}
+
+function showError(message) {
+  $('#globalError')
+    .show()
+    .html(message)
+    .removeClass('text-success')
+    .addClass('text-danger');
+}
+function showSuccess(message) {
+  $('#globalError')
+    .show()
+    .html(message)
+    .removeClass('text-danger')
+    .addClass('text-success');
+}
+
+function hideMessage() {
+  hideMessage();
 }

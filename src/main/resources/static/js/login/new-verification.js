@@ -39,3 +39,21 @@ function requestEmail(event) {
     console.log(data);
   });
 }
+function showError(message) {
+  $('#globalError')
+    .show()
+    .html(message)
+    .removeClass('text-success')
+    .addClass('text-danger');
+}
+function showSuccess(message) {
+  $('#globalError')
+    .show()
+    .html(message)
+    .removeClass('text-danger')
+    .addClass('text-success');
+}
+
+function hideMessage() {
+  hideMessage();
+}

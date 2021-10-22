@@ -17,7 +17,7 @@ $(document).ready(function () {
   var uri = window.location.toString();
 
   resetPwToken = getUrlParameter('token');
-  // if (!resetPwToken) handleError();
+  if (!resetPwToken) handleError();
   if (resetPwToken) validateToken(resetPwToken);
 
   if (uri.indexOf('?') > 0) {
@@ -34,9 +34,11 @@ $(document).ready(function () {
     clearTimeout(timeout);
     timeout = setTimeout(function () {
       if ($('#newPassword').val() != $('#confirmNewPassword').val()) {
-        $('#globalError').show().html('confirm password not match');
+        showError('confirm password not match');
+        // $('input[type="submit"]').disable();
       } else {
-        $('#globalError').html('').hide();
+        hideMessage();
+        // $('input[type="submit"]').enable();
       }
     }, 250);
   });
@@ -63,13 +65,10 @@ const getUrlParameter = function getUrlParameter(sParam) {
 function requestEmail(event, token) {
   console.log('sign up click');
   event.preventDefault();
-  $('.alert').html('').hide();
-  $('.error-list').html('');
-
   // check pw match
   if ($('#newPassword').val() != $('#confirmNewPassword').val()) {
     // console.log($('#password').val(), )
-    $('#globalError').show().html('not match');
+    showError('Password not match');
     return;
   }
 
@@ -100,11 +99,11 @@ function requestEmail(event, token) {
           () => (window.location.href = resetPasswordSuccessUrl),
           goToSuccessPageAfter
         );
-        $('#globalError').show().html('Success');
+        showError('Success');
       }
     },
     error: function (error) {
-      $('#globalError').show().html('Error');
+      showError('Error');
       console.log(error.responseText);
     },
   });
@@ -149,4 +148,22 @@ function handleError() {
     className: 'info',
   });
   setTimeout(() => (window.location.href = missTokenUrl), goToSuccessPageAfter);
+}
+function showError(message) {
+  $('#globalError')
+    .show()
+    .html(message)
+    .removeClass('text-success')
+    .addClass('text-danger');
+}
+function showSuccess(message) {
+  $('#globalError')
+    .show()
+    .html(message)
+    .removeClass('text-danger')
+    .addClass('text-success');
+}
+
+function hideMessage() {
+  hideMessage();
 }

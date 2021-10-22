@@ -49,23 +49,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
 
         http.oauth2Login().loginPage("/login").userInfoEndpoint().userService(customOAuth2UserService).and()
-                .successHandler(successHandler()).failureUrl("/login?error").and().logout().logoutUrl("/logout")
+                .defaultSuccessUrl("/").failureUrl("/login?error").and().logout().logoutUrl("/logout")
                 .logoutSuccessUrl("/login").permitAll();
-    }
-
-    @Bean
-    AuthenticationSuccessHandler successHandler() {
-        return new AuthenticationSuccessHandler() {
-            @Override
-            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                    Authentication authentication) throws IOException, ServletException {
-                // com.fantasticfour.shareyourrecipes.user.UserPrincipal oauthUser =
-                // (com.fantasticfour.shareyourrecipes.user.UserPrincipal) authentication
-                // .getPrincipal();
-                // System.out.println(oauthUser.getAttribute("email").toString());
-                response.sendRedirect("/home");
-            }
-        };
     }
 
     @Bean

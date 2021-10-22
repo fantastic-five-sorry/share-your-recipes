@@ -22,14 +22,14 @@ $(document).ready(function () {
     clearTimeout(timeout);
     timeout = setTimeout(function () {
       if ($('#newPassword').val() != $('#confirmNewPassword').val()) {
-        $('#globalError').show().html('not match');
+        showError('confirm password not match');
       } else {
-        $('#globalError').html('').hide();
+        hideMessage();
       }
       if ($('#newPassword').val() == $('#oldPassword').val()) {
-        $('#globalError').show().html('new password must be difference');
+        showError('new password must be difference');
       } else {
-        $('#globalError').hide();
+        hideMessage();
       }
     }, 250);
   });
@@ -38,9 +38,9 @@ $(document).ready(function () {
     clearTimeout(timeout3);
     timeout = setTimeout(function () {
       if ($('#newPassword').val() == $('#oldPassword').val()) {
-        $('#globalError').show().html('new password must be difference');
+        showError('new password must be difference');
       } else {
-        $('#globalError').hide();
+        hideMessage();
       }
     }, 250);
   });
@@ -65,7 +65,6 @@ function getFormData($form) {
 }
 
 function requestEmail(event) {
-  console.log('change pw click');
   event.preventDefault();
   $('.alert').html('').hide();
   $('.error-list').html('');
@@ -73,7 +72,7 @@ function requestEmail(event) {
   // check pw match
   if ($('#newPassword').val() != $('#confirmNewPassword').val()) {
     // console.log($('#password').val(), )
-    $('#globalError').show().html('confirm password not match');
+    showError('confirm password not match');
     return;
   }
 
@@ -90,7 +89,6 @@ function requestEmail(event) {
     traditional: true,
     success: function (data, textStatus, xhr) {
       if (xhr.status == 200) {
-        $('#globalError').show().html('ok');
         $.notify(
           'Successfully changed password. Automatically logout after 2 seconds',
           {
@@ -109,7 +107,7 @@ function requestEmail(event) {
         position: 'top center',
         className: 'info',
       });
-      $('#globalError').show().html(error.responseText);
+      showError(error.responseText);
     },
   });
 }
@@ -125,10 +123,28 @@ function currentPasswordValidate(password) {
     contentType: false,
     type: 'POST',
     success: function (data) {
-      $('#globalError').show().html('Current password match');
+      showSuccess('Current password match');
     },
     error: function (data) {
-      $('#globalError').show().html('Current password not match');
+      showError('Current password not match');
     },
   });
+}
+function showError(message) {
+  $('#globalError')
+    .show()
+    .html(message)
+    .removeClass('text-success')
+    .addClass('text-danger');
+}
+function showSuccess(message) {
+  $('#globalError')
+    .show()
+    .html(message)
+    .removeClass('text-danger')
+    .addClass('text-success');
+}
+
+function hideMessage() {
+  hideMessage();
 }
