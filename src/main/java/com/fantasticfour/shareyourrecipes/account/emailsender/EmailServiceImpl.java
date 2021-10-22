@@ -54,11 +54,11 @@ public class EmailServiceImpl implements EmailService {
             }
             helper.setTo(token.getUser().getEmail());
             mailSender.send(message);
+            logger.info("Email sent to " + token.getUser().getEmail());
         } catch (Exception e) {
             logger.warn("Email Error: " + e.getMessage());
 
         }
-        logger.info("Email sent to " + token.getUser().getEmail());
     };
 
     public String buildVerifyEmail(String toEmail, String link) {
