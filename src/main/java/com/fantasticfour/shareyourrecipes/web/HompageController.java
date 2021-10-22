@@ -125,4 +125,12 @@ public class HompageController {
         return "profile/change-avatar";
     }
 
+    @GetMapping("/newfunc")
+    public String newfunc(Model model) {
+        // System.out.println(oauthUser.getAttribute("email").toString());
+        // model.addAttribute("your_email", uid.toString());
+        // model.addAttribute("userInfo", userService.getUserInfoById(uid));
+        return "testingFunc";
+    }
+
 }

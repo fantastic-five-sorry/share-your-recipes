@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CommentRepo extends JpaRepository<Comment, Long> {
 
-    @Query(value="SELECT * FROM Comments WHERE recipe_id=:id ORDER BY id ASC", nativeQuery = true)
+    @Query(value="SELECT * FROM Comments WHERE recipe_id=:id ORDER BY id DESC", nativeQuery = true)
     List<Comment> findByRecipeId(Long id);
 }

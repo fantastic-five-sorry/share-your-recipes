@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentController {
     @Autowired
     CommentService commentService;
-
+    
     @PostMapping("/recipe")
     private ResponseEntity<?> commentToRecipe(@RequestBody NewCommentDto comment) {
         try {
