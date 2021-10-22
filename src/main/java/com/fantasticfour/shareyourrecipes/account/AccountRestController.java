@@ -138,8 +138,15 @@ public class AccountRestController {
     public ResponseEntity<?> handleSignUp(@RequestBody SignUpDto request) {
 
         try {
-            userService.registerNewAccount(request);
-            return ResponseEntity.ok("Successfully registered new account");
+            User user = userService.registerNewAccount(request);
+
+            if (user != null) {
+                eventPublisher.publishEvent(new SendTokenEmailEvent(user, ETokenPurpose.VERIFY_EMAIL));
+
+                return ResponseEntity.ok("Successfully registered new account");
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("error: user cannot be saved");
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("error: " + e.getMessage());
         }

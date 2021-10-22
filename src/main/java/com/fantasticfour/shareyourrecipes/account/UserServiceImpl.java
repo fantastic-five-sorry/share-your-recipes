@@ -64,14 +64,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void registerNewAccount(SignUpDto request) {
+    public User registerNewAccount(SignUpDto request) {
         if (!request.getPassword().equals(request.getConfirmPassword()))
             throw new IllegalStateException("Confirm password not match");
         if (userRepo.findByEmail(request.getEmail()).isPresent())
             throw new IllegalStateException("Email exists");
         User newUser = new User(request.getEmail(), passwordEncoder.encode(request.getPassword()), request.getName());
         newUser.getRoles().add(roleRepo.findByName(ERole.ROLE_USER));
-        userRepo.save(newUser);
+        return userRepo.saveAndFlush(newUser);
     }
 
     public Role saveRole(Role role) {

@@ -13,7 +13,7 @@ import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
 
 public interface UserService {
-    void registerNewAccount(SignUpDto request);
+    User registerNewAccount(SignUpDto request);
 
     void blockUser(String email);
 
