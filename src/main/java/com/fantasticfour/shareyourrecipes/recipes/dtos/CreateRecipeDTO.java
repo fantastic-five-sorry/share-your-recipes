@@ -70,4 +70,6 @@ public class CreateRecipeDTO {
         this.price = price;
     }
 
+    public CreateRecipeDTO() {}
+
 }

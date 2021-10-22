@@ -3,7 +3,6 @@ package com.fantasticfour.shareyourrecipes.recipes.dtos;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 
 public class CreateRecipeCollectionDTO {
     private String name;
@@ -33,4 +32,6 @@ public class CreateRecipeCollectionDTO {
     public void setRecipesId(List<Long> recipeId) {
         this.recipesId = recipeId;
     }
+
+    public CreateRecipeCollectionDTO() {}
 }
