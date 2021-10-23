@@ -45,6 +45,7 @@ public class AnswerServiceImpl implements AnswerService{
         answer.setAnswerer(userRepo.findValidUserById(createAnswerDTO.getAnswererId()));
         answer.setQuestion(questionRepo.findById(createAnswerDTO.getQuestionId()).get());
         answer.setContent(createAnswerDTO.getContent());
+        answerRepo.save(answer);
 
     }
 

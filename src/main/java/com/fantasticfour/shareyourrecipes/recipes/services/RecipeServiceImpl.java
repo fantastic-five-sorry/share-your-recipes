@@ -65,14 +65,13 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Recipe deleteRecipe(Long recipeid)  throws Exception {
+    public void deleteRecipe(Long recipeid)  throws Exception {
         Recipe recipe = this.findById(recipeid);
-        if (recipe == null) {
-            throw new Exception("can't find recipe");
-        }
+        // if (recipe == null) {
+        //     throw new Exception("can't find recipe");
+        // }
         recipe.setDeleted(true);
         recipeRepository.save(recipe);
-        return recipe;
 
     }
 
@@ -80,7 +79,7 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe findById(Long idRecipe) {
         // TODO Auto-generated method stub
             // xai orElseThrow(() -> new IllegalStateException("Recipe not found"))
-        Recipe recipe =recipeRepository.findById(idRecipe).orElse(null);
+        Recipe recipe =recipeRepository.findById(idRecipe).orElseThrow(()-> new IllegalStateException("recipe not found"));
     
 
         return recipe;
@@ -91,9 +90,6 @@ public class RecipeServiceImpl implements RecipeService {
         // TODO Auto-generated method stub
         Recipe recipe = this.findById(id);
         
-        if (recipe == null) {
-            throw new Exception("can't find recipe");
-        }
         return new RecipeDTO(recipe);
     }
 

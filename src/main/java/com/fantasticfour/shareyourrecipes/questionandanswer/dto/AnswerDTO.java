@@ -7,7 +7,6 @@ import com.fantasticfour.shareyourrecipes.domains.Question;
 public class AnswerDTO {
     private UserInfo answerer;
     private String content;
-    private Question question;
     private Long voteCount;
 
     public UserInfo getAnswerer() {
@@ -26,13 +25,7 @@ public class AnswerDTO {
         this.content = content;
     }
 
-    public Question getQuestion() {
-        return this.question;
-    }
-
-    public void setQuestion(Question question) {
-        this.question = question;
-    }
+  
 
     public Long getVoteCount() {
         return this.voteCount;
@@ -47,7 +40,6 @@ public class AnswerDTO {
     public AnswerDTO(Answer answer) {
         this.answerer = new UserInfo(answer.getAnswerer());
         this.content = answer.getContent();
-        this.question = answer.getQuestion();
         this.voteCount = answer.getVoteCount();
     }
 }
