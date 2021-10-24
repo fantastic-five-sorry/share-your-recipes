@@ -17,8 +17,26 @@ public class RecipeCollectionDTO {
     private UserInfo creator;
     private List<RecipeDTO> recipes = new ArrayList<>();
 
-    private Long voteCount;
+
     private String slug;
+    private Long upVoteCount;
+    private Long downVoteCount;
+
+    public Long getUpVoteCount() {
+        return this.upVoteCount;
+    }
+
+    public void setUpVoteCount(Long upVoteCount) {
+        this.upVoteCount = upVoteCount;
+    }
+
+    public Long getDownVoteCount() {
+        return this.downVoteCount;
+    }
+
+    public void setDownVoteCount(Long downVoteCount) {
+        this.downVoteCount = downVoteCount;
+    }
 
     public String getSlug() {
         return this.slug;
@@ -53,13 +71,7 @@ public class RecipeCollectionDTO {
         this.recipes = recipes;
     }
 
-    public Long getVoteCount() {
-        return this.voteCount;
-    }
-
-    public void setVoteCount(Long voteCount) {
-        this.voteCount = voteCount;
-    }
+  
 
     public RecipeCollectionDTO() {}
 
@@ -67,7 +79,8 @@ public class RecipeCollectionDTO {
         this.creator =  new UserInfo(collection.getCreator());
         this.name = collection.getName();
         this.recipes = collection.getRecipes().stream().map(RecipeDTO::new).collect(Collectors.toList());
-        this.voteCount = collection.getVoteCount();
+        this.upVoteCount = collection.getUpVoteCount();
+        this.downVoteCount = collection.getDownVoteCount();
         this.slug  =  collection.getSlug();
     }
     

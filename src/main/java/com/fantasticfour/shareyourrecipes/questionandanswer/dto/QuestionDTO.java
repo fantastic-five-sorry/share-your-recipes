@@ -16,6 +16,25 @@ public class QuestionDTO {
     private String status;
     private UserInfo creator;
     private List<AnswerDTO> answerDTOs = new ArrayList<>();
+    private Long upVoteCount;
+    private Long downVoteCount;
+
+    public Long getUpVoteCount() {
+        return this.upVoteCount;
+    }
+
+    public void setUpVoteCount(Long upVoteCount) {
+        this.upVoteCount = upVoteCount;
+    }
+
+    public Long getDownVoteCount() {
+        return this.downVoteCount;
+    }
+
+    public void setDownVoteCount(Long downVoteCount) {
+        this.downVoteCount = downVoteCount;
+    }
+
 
     public String getSlug() {
         return this.slug;
@@ -74,6 +93,8 @@ public class QuestionDTO {
         this.status = question.getStatus();
         this.creator = new UserInfo(question.getCreator());
         this.answerDTOs = question.getAnswers().stream().map(AnswerDTO::new).collect(Collectors.toList());
+        this.downVoteCount =  question.getDownVoteCount();
+        this.upVoteCount = question.getUpVoteCount();
     }
 
     

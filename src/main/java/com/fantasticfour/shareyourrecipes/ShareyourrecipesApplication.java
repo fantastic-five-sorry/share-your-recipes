@@ -124,7 +124,7 @@ public class ShareyourrecipesApplication {
 			r.setSteps(steps);
 	
 			// recipeService.createRecipe(r);
-			recipeService.createRecipe(r);
+			// recipeService.createRecipe(r);
 			// recipeService.deleteRecipe(r);
 
 			// System.out.println("Da them vao $$$$$$" + rSaved.getId());

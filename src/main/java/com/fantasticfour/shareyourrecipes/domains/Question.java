@@ -33,10 +33,29 @@ public class Question extends AuditModel {
     private List<Answer> answers = new ArrayList<>();
     private Boolean deleted;
 
-    private Long voteCount;
+    private Long upVoteCount;
+    private Long downVoteCount;
+
+    public Long getUpVoteCount() {
+        return this.upVoteCount;
+    }
+
+    public void setUpVoteCount(Long upVoteCount) {
+        this.upVoteCount = upVoteCount;
+    }
+
+    public Long getDownVoteCount() {
+        return this.downVoteCount;
+    }
+
+    public void setDownVoteCount(Long downVoteCount) {
+        this.downVoteCount = downVoteCount;
+    }
 
     public Question() {
         deleted = false;
+        this.upVoteCount = 0L;
+        this.downVoteCount = 0L;
     }
 
     public Long getId() {
@@ -108,12 +127,20 @@ public class Question extends AuditModel {
         this.answers = answers;
     }
 
-    public Long getVoteCount() {
-        return this.voteCount;
+    public void decreaseUpVoteCount() {
+        this.upVoteCount--;
     }
 
-    public void setVoteCount(Long voteCount) {
-        this.voteCount = voteCount;
+    public void increaseUpVoteCount() {
+        this.upVoteCount++;
+    }
+
+    public void decreaseDownVoteCount() {
+        this.downVoteCount--;
+    }
+
+    public void increaseDownVoteCount() {
+        this.downVoteCount++;
     }
 
 }
