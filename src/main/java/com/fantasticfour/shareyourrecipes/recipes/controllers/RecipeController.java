@@ -37,7 +37,7 @@ public class RecipeController {
 
     }
 
-    @GetMapping("/")
+    @GetMapping("")
 
     public ResponseEntity<?> recipe() {
 
@@ -50,7 +50,7 @@ public class RecipeController {
  
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<?> createRecipe(@RequestBody CreateRecipeDTO recipe) {
         try {
             recipeService.createRecipe(recipe);

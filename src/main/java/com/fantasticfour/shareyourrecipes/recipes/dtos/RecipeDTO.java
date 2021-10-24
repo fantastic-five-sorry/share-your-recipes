@@ -139,6 +139,7 @@ public class RecipeDTO {
         this.status = recipe.getStatus().toString();
         this.upVoteCount = recipe.getUpVoteCount();
         this.downVoteCount = recipe.getDownVoteCount();
+        this.price = recipe.getPrice();
     }
 
 }

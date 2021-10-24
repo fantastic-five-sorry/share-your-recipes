@@ -181,6 +181,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void changePassword(Long uid, ChangePasswordDto dto) {
+        if (dto.getOldPassword().equals(dto.getNewPassword()))
+            throw new IllegalStateException("New password must be difference");
         if (!dto.getNewPassword().equals(dto.getConfirmNewPassword()))
             throw new IllegalStateException("Password not match");
         // reset pw
