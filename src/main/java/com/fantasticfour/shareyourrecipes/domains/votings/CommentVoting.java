@@ -8,11 +8,12 @@ import javax.persistence.*;
 import com.fantasticfour.shareyourrecipes.domains.AuditModel;
 import com.fantasticfour.shareyourrecipes.domains.Comment;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
+import com.fantasticfour.shareyourrecipes.domains.enums.VotingType;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter;
 
 @Entity
-public class CommentVoting{
+public class CommentVoting {
     @EmbeddedId
     private VotingId id;
 
@@ -25,6 +26,18 @@ public class CommentVoting{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "voter_id", nullable = false)
     private User voter;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 15)
+    private VotingType type;
+
+    public VotingType getType() {
+        return this.type;
+    }
+
+    public void setType(VotingType type) {
+        this.type = type;
+    }
 
     public Comment getComment() {
         return this.comment;
@@ -44,6 +57,7 @@ public class CommentVoting{
 
     public CommentVoting() {
     }
+
     public VotingId getId() {
         return this.id;
     }
@@ -51,7 +65,7 @@ public class CommentVoting{
     public void setId(VotingId id) {
         this.id = id;
     }
-    
+
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     @Convert(converter = LocalDateTimeConverter.class)
     private LocalDateTime createdAt;

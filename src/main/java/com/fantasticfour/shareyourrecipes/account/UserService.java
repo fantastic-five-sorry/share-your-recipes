@@ -51,4 +51,6 @@ public interface UserService {
 
     User saveUser(User user);
 
+    void updateAvatar(Long id, String url);
+
 }

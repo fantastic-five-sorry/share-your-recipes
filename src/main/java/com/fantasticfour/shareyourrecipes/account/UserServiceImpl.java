@@ -223,4 +223,13 @@ public class UserServiceImpl implements UserService {
             return null;
         return new UserInfo(user);
     }
+
+    @Override
+    public void updateAvatar(Long id, String url) {
+        User user = getValidUserById(id);
+
+        user.setPhotoUrl(url);
+
+        userRepo.save(user);
+    }
 }

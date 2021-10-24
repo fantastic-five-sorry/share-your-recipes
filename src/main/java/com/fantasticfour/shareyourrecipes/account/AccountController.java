@@ -1,34 +1,31 @@
 package com.fantasticfour.shareyourrecipes.account;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.transaction.Transactional;
 
-import com.fantasticfour.shareyourrecipes.account.dtos.SignUpDto;
 import com.fantasticfour.shareyourrecipes.account.events.SendTokenEmailEvent;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
-import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
+import com.fantasticfour.shareyourrecipes.storages.StorageService;
 import com.fantasticfour.shareyourrecipes.tokens.TokenService;
 
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+@RequestMapping("/account")
 public class AccountController {
     Logger logger = LoggerFactory.getLogger(AccountController.class);
     @Autowired
@@ -44,30 +41,16 @@ public class AccountController {
     @Autowired
     UserUtils userUtils;
 
-    @GetMapping("/login")
-    public String uiLogin() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    @Autowired
+    @Qualifier("avatar")
+    StorageService avatarStorageService;
 
-        if (auth == null || auth instanceof AnonymousAuthenticationToken) {
-            return "login/login";
-        }
-
-        return "redirect:/";
-
+    @GetMapping("/new-verification")
+    public String requestNewEmailVerification2() {
+        return "login/request-verification-email-form";
     }
 
-    @GetMapping("/signup")
-    public String uiSignUp() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if (auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken)) {
-            return "redirect:/";
-        }
-
-        return "login/sign-up";
-    }
-
-    @GetMapping("/new-verification-email")
+    @GetMapping("/get-verification-email")
     public String requestNewEmailVerification(@RequestParam(name = "email", required = false) String email) {
         logger.info("request new v email from " + email);
         if (email != null) {
@@ -80,18 +63,7 @@ public class AccountController {
         return "redirect:/404";
     }
 
-    @GetMapping("/account/new-verification")
-    public String requestNewEmailVerification2() {
-        return "login/request-verification-email-form";
-    }
-
-    @GetMapping("/register-success")
-    private String viewSuccessSignupPage() {
-
-        return "login/register-success";
-    }
-
-    @GetMapping("/account/verify-email")
+    @GetMapping("/verify-email")
     public String confirmEmail(@RequestParam(name = "token", required = false) String token, Model model) {
         try {
             if (token != null) {
@@ -107,7 +79,7 @@ public class AccountController {
         }
     }
 
-    @GetMapping("/account/forgot-password")
+    @GetMapping("/forgot-password")
     public String viewForgotPasswordRequestPage(Model model, HttpServletRequest request) {
 
         try {
@@ -127,40 +99,51 @@ public class AccountController {
         }
     }
 
-    @GetMapping("/account/reset-password")
+    @GetMapping("/reset-password")
     public String viewResetPasswordPage(Model model) {
 
         return "login/reset-password";
 
     }
 
-    @GetMapping("/account/change-password")
+    @GetMapping("/change-password")
     @PreAuthorize("isAuthenticated()")
     public String viewChangePasswordPage() {
 
         return "login/change-password";
     }
 
-    @GetMapping(value = { "/logout" })
-    public String logoutDo(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        HttpSession session = request.getSession(false);
-        session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
-        for (Cookie cookie : request.getCookies()) {
-            cookie.setMaxAge(0);
-        }
-
-        return "redirect:/login?logout";
+    @GetMapping("/change-avatar")
+    private String viewChangeAvatar() {
+        return "profile/change-avatar";
     }
 
-    @GetMapping("request-success")
-    private String viewRequestResetPwSuccessPage() {
-        return "login/forgot-pw-email-success";
+    @PostMapping("/change-avatar")
+    public String handleChangeAvatar(Authentication authentication, @RequestParam("file") MultipartFile file,
+            RedirectAttributes redirectAttributes) {
+        logger.info("upload file wt: " + file.getContentType());
+        try {
+            if (file.getContentType().contains("image")) {
+                String fileName = avatarStorageService.store(file);
+                // update avt url to user
+                String avatarUrl = "/storage/avatar/" + fileName;
+                //
+                Long uid = UserUtils.getIdFromRequest(authentication)
+                        .orElseThrow(() -> new IllegalStateException("User not found"));
+
+                userService.updateAvatar(uid, avatarUrl);
+
+                logger.info("User " + uid + " has change the avatar by the file " + avatarUrl);
+
+                redirectAttributes.addFlashAttribute("message", "You successfully uploaded " + fileName + "!");
+            } else {
+                redirectAttributes.addFlashAttribute("message",
+                        "Accept image type only. " + file.getOriginalFilename() + " dame dane!");
+            }
+            return "redirect:/my-profile";
+        } catch (Exception e) {
+            return "404";
+        }
     }
+
 }

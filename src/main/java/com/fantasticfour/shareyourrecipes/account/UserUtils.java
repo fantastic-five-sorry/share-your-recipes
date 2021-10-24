@@ -1,6 +1,8 @@
 package com.fantasticfour.shareyourrecipes.account;
 
-import com.fantasticfour.shareyourrecipes.account.dtos.UserInfo;
+import java.util.Optional;
+
+import com.fantasticfour.shareyourrecipes.configs.UserPrincipal;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserUtils {
-    private String getUserEmailFromAuthentication(Authentication authentication) {
+    public static String getUserEmailFromAuthentication(Authentication authentication) {
         String userEmail = null;
 
         if (authentication.getPrincipal() instanceof UserDetails) {
@@ -22,5 +24,14 @@ public class UserUtils {
             userEmail = userDetails.getAttribute("email");
         }
         return userEmail;
+    }
+
+    public static Optional<Long> getIdFromRequest(Authentication authentication) {
+
+        if (authentication.getPrincipal() instanceof UserPrincipal) {
+            UserPrincipal userDetails = (UserPrincipal) authentication.getPrincipal();
+            return Optional.of(userDetails.getId());
+        }
+        return null;
     }
 }

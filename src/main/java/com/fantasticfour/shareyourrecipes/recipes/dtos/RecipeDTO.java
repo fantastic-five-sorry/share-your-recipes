@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import com.fantasticfour.shareyourrecipes.account.dtos.UserInfo;
 import com.fantasticfour.shareyourrecipes.domains.Comment;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
+import com.fantasticfour.shareyourrecipes.votings.dtos.CommentDto;
 
 public class RecipeDTO {
     private String title;
@@ -19,10 +22,11 @@ public class RecipeDTO {
     private UserInfo creator;
     private String slug;
 
-    private List<Comment> comments = new ArrayList<>();
+    private List<CommentDto> comments = new ArrayList<>();
     private String status;
 
     private Float price;
+
     public String getSlug() {
         return this.slug;
     }
@@ -30,6 +34,7 @@ public class RecipeDTO {
     public void setSlug(String slug) {
         this.slug = slug;
     }
+
     public String getTitle() {
         return this.title;
     }
@@ -78,11 +83,11 @@ public class RecipeDTO {
         this.creator = creator;
     }
 
-    public List<Comment> getComments() {
+    public List<CommentDto> getComments() {
         return this.comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(List<CommentDto> comments) {
         this.comments = comments;
     }
 
@@ -113,8 +118,9 @@ public class RecipeDTO {
         this.guideVideoString = recipe.getGuideVideoUrl();
         this.creator = new UserInfo(recipe.getCreator());
         this.slug = recipe.getSlug();
+        
+        // ToDo : make list comments pageable here  
+        this.comments = recipe.getComments().stream().map(CommentDto::new).collect(Collectors.toList());
     }
 
-
-    
 }

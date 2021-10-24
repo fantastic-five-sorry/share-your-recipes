@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import com.fantasticfour.shareyourrecipes.account.dtos.UserInfo;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;

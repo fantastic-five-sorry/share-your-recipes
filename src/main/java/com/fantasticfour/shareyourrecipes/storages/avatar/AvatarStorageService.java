@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.storages;
+package com.fantasticfour.shareyourrecipes.storages.avatar;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,31 +9,41 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
+import com.fantasticfour.shareyourrecipes.storages.StorageException;
+import com.fantasticfour.shareyourrecipes.storages.StorageFileNotFoundException;
+import com.fantasticfour.shareyourrecipes.storages.StorageProperties;
+import com.fantasticfour.shareyourrecipes.storages.StorageService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class FileSystemStorageService implements StorageService {
+@Qualifier("avatar")
+public class AvatarStorageService implements StorageService {
 
     private final Path rootLocation;
 
     @Autowired
-    public FileSystemStorageService(StorageProperties properties) {
-        this.rootLocation = Paths.get(properties.getLocation());
+    public AvatarStorageService(StorageProperties properties) {
+        this.rootLocation = Paths.get(properties.getLocation() + "/avatars");
     }
 
     @Override
-    public void store(MultipartFile file) {
+    public String store(MultipartFile file) {
         try {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file.");
             }
-            Path destinationFile = this.rootLocation.resolve(Paths.get(file.getOriginalFilename())).normalize()
-                    .toAbsolutePath();
+
+            // remove spaces and make lowercase
+            String filename = StringUtils.cleanPath(file.getOriginalFilename()).toLowerCase().replaceAll(" ", "-");
+            Path destinationFile = this.rootLocation.resolve(Paths.get(filename)).normalize().toAbsolutePath();
             if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
                 // This is a security check
                 throw new StorageException("Cannot store file outside current directory.");
@@ -41,6 +51,7 @@ public class FileSystemStorageService implements StorageService {
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
             }
+            return filename;
         } catch (IOException e) {
             throw new StorageException("Failed to store file.", e);
         }

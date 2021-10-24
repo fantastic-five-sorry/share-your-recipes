@@ -8,6 +8,7 @@ import javax.persistence.*;
 import com.fantasticfour.shareyourrecipes.domains.AuditModel;
 import com.fantasticfour.shareyourrecipes.domains.Question;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
+import com.fantasticfour.shareyourrecipes.domains.enums.VotingType;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter;
 
@@ -29,9 +30,19 @@ public class QuestionVoting {
         this.question = question;
     }
 
-    public QuestionVoting() {
-        super();
+    @Enumerated(EnumType.STRING)
+    @Column(length = 15)
+    private VotingType type;
 
+    public VotingType getType() {
+        return this.type;
+    }
+
+    public void setType(VotingType type) {
+        this.type = type;
+    }
+
+    public QuestionVoting() {
     }
 
     @MapsId("voterId")
@@ -46,6 +57,7 @@ public class QuestionVoting {
     public void setVoter(User voter) {
         this.voter = voter;
     }
+
     public VotingId getId() {
         return this.id;
     }

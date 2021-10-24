@@ -113,7 +113,7 @@ public class VotingServiceImpl implements VotingService {
         }
 
         recipeRepo.increaseVoteCount(voting.getSubjectVotingToId());
-        recipeVotingRepo.addVoting(id.getSubjectId(), id.getVoterId());
+        recipeVotingRepo.addUpVoting(id.getSubjectId(), id.getVoterId());
 
     }
 

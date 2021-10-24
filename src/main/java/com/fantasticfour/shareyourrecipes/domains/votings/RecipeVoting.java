@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 import com.fantasticfour.shareyourrecipes.domains.AuditModel;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
+import com.fantasticfour.shareyourrecipes.domains.enums.VotingType;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter;
@@ -30,6 +31,18 @@ public class RecipeVoting {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "voter_id", nullable = false)
     private User voter;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 15)
+    private VotingType type;
+
+    public VotingType getType() {
+        return this.type;
+    }
+
+    public void setType(VotingType type) {
+        this.type = type;
+    }
 
     public User getVoter() {
         return this.voter;

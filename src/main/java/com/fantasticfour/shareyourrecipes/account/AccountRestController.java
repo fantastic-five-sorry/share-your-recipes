@@ -1,14 +1,11 @@
 package com.fantasticfour.shareyourrecipes.account;
 
-import java.util.Optional;
-
 import javax.servlet.http.HttpServletRequest;
 
 import com.fantasticfour.shareyourrecipes.account.dtos.ChangePasswordDto;
 import com.fantasticfour.shareyourrecipes.account.dtos.ResetPasswordDto;
 import com.fantasticfour.shareyourrecipes.account.dtos.SignUpDto;
 import com.fantasticfour.shareyourrecipes.account.events.SendTokenEmailEvent;
-import com.fantasticfour.shareyourrecipes.configs.UserPrincipal;
 import com.fantasticfour.shareyourrecipes.domains.auth.Token;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
@@ -125,7 +122,8 @@ public class AccountRestController {
     public ResponseEntity<?> handleChangePassword(@RequestBody ChangePasswordDto request,
             Authentication authentication) {
         try {
-            Long userId = getIdFromRequest(authentication).orElseThrow(() -> new IllegalStateException("not auth"));
+            Long userId = UserUtils.getIdFromRequest(authentication)
+                    .orElseThrow(() -> new IllegalStateException("not auth"));
             userService.changePassword(userId, request);
             return ResponseEntity.ok("Successfully changed password");
         } catch (Exception e) {
@@ -167,7 +165,8 @@ public class AccountRestController {
     @PostMapping("/validate-current-password")
     public ResponseEntity<?> validateCurrentPw(@RequestParam("currentPassword") String password,
             Authentication authentication) {
-        Long id = getIdFromRequest(authentication).orElseThrow(() -> new IllegalStateException("User not found"));
+        Long id = UserUtils.getIdFromRequest(authentication)
+                .orElseThrow(() -> new IllegalStateException("User not found"));
 
         try {
             User user = userService.getValidUserById(id);
@@ -179,16 +178,8 @@ public class AccountRestController {
         }
     }
 
-    private String getAppUrl(HttpServletRequest request) {
-        return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-    }
-
-    private Optional<Long> getIdFromRequest(Authentication authentication) {
-
-        if (authentication.getPrincipal() instanceof UserPrincipal) {
-            UserPrincipal userDetails = (UserPrincipal) authentication.getPrincipal();
-            return Optional.of(userDetails.getId());
-        }
-        return null;
-    }
+    // private String getAppUrl(HttpServletRequest request) {
+    // return "http://" + request.getServerName() + ":" + request.getServerPort() +
+    // request.getContextPath();
+    // }
 }

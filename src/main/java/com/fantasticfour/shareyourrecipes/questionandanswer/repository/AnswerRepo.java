@@ -17,6 +17,6 @@ public interface AnswerRepo extends JpaRepository<Answer, Long> {
     @Query(value= "SELECT * FROM answers a WHERE a.answerer=:answerer",nativeQuery = true)
     List<Answer> findByIdAnswerer();
 
-
+    
     
 }

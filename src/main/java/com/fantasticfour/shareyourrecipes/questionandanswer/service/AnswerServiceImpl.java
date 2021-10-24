@@ -14,19 +14,20 @@ import com.fantasticfour.shareyourrecipes.questionandanswer.repository.AnswerRep
 import com.fantasticfour.shareyourrecipes.questionandanswer.repository.QuestionRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-
 @Service
-public class AnswerServiceImpl implements AnswerService{
+public class AnswerServiceImpl implements AnswerService {
 
     private final AnswerRepo answerRepo;
     private final UserRepo userRepo;
     private final QuestionRepo questionRepo;
-    @Autowired 
+
+    @Autowired
     public AnswerServiceImpl(AnswerRepo answerRepo, UserRepo userRepo, QuestionRepo questionRepo) {
         this.answerRepo = answerRepo;
-        this.userRepo =  userRepo;
+        this.userRepo = userRepo;
         this.questionRepo = questionRepo;
     }
 
@@ -57,7 +58,7 @@ public class AnswerServiceImpl implements AnswerService{
         }
         answer.setDeleted(true);
         answerRepo.save(answer);
-        
+
     }
 
     @Override
@@ -77,5 +78,4 @@ public class AnswerServiceImpl implements AnswerService{
         return new AnswerDTO(answer);
     }
 
-    
 }

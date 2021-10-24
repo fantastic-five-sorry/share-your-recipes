@@ -5,7 +5,7 @@
     </div>
 
     <div>
-      <form method="POST" enctype="multipart/form-data" action="/storage">
+      <form method="POST" enctype="multipart/form-data">
         <table>
           <tr>
             <td>File to upload:</td>
@@ -23,9 +23,9 @@
 
     <div>
       <ul>
-        <li th:each="file : ${files}">
-          <a th:href="${file}" th:text="${file}" />
-        </li>
+        <img th:each="file : ${files}" th:src="${file}">
+          <!-- <a th:href="${file}" th:text="${file}" /> -->
+        </img>
       </ul>
     </div>
   </body>
