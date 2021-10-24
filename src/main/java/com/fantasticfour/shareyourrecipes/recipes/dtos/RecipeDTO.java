@@ -113,6 +113,7 @@ public class RecipeDTO {
         this.guideVideoString = recipe.getGuideVideoUrl();
         this.creator = new UserInfo(recipe.getCreator());
         this.slug = recipe.getSlug();
+        this.status = recipe.getStatus().toString();
     }
 
 
