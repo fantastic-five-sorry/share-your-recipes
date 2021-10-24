@@ -1,9 +1,11 @@
 package com.fantasticfour.shareyourrecipes.votings;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import com.fantasticfour.shareyourrecipes.account.dtos.UserInfo;
 import com.fantasticfour.shareyourrecipes.domains.votings.AnswerVoting;
 import com.fantasticfour.shareyourrecipes.domains.votings.CommentVoting;
 import com.fantasticfour.shareyourrecipes.domains.votings.QuestionVoting;
@@ -30,13 +32,10 @@ public class VotingController {
     @PostMapping("/answer")
     private ResponseEntity<?> handleAnswerVoting(@Valid VotingDto dto) {
         try {
-
             votingService.handleVotingToAnswer(dto);
-
             return ResponseEntity.ok().body("success");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("error");
-
         }
     }
 
@@ -93,28 +92,32 @@ public class VotingController {
     }
 
     @GetMapping("/answer/{id}")
-    private List<AnswerVoting> getAllVotingToAnswer(@PathVariable("id") Long id) 
-    {
-        return votingService.getListVotingToAnswer(id);
+    private List<UserInfo> getAllVotingToAnswer(@PathVariable("id") Long id) {
+        return votingService.getListVotingToAnswer(id).stream().map(m -> new UserInfo(m.getVoter()))
+                .collect(Collectors.toList());
     }
+
     @GetMapping("/question/{id}")
-    private List<QuestionVoting> getAllVotingToQuestion(@PathVariable("id") Long id) 
-    {
-        return votingService.getListVotingToQuestion(id);
+    private List<UserInfo> getAllVotingToQuestion(@PathVariable("id") Long id) {
+        return votingService.getListVotingToQuestion(id).stream().map(m -> new UserInfo(m.getVoter()))
+                .collect(Collectors.toList());
     }
+
     @GetMapping("/recipe/{id}")
-    private List<RecipeVoting> getAllVotingToRecipe(@PathVariable("id") Long id) 
-    {
-        return votingService.getListVotingToRecipe(id);
+    private List<UserInfo> getAllVotingToRecipe(@PathVariable("id") Long id) {
+        return votingService.getListVotingToRecipe(id).stream().map(m -> new UserInfo(m.getVoter()))
+                .collect(Collectors.toList());
     }
-    @GetMapping("/recipeCollection/{id}")
-    private List<RecipeCollectionVoting> getAllVotingToRecipeCollection(@PathVariable("id") Long id) 
-    {
-        return votingService.getListVotingToRecipeCollection(id);
+
+    @GetMapping("/recipe-collection/{id}")
+    private List<UserInfo> getAllVotingToRecipeCollection(@PathVariable("id") Long id) {
+        return votingService.getListVotingToRecipeCollection(id).stream().map(m -> new UserInfo(m.getVoter()))
+                .collect(Collectors.toList());
     }
+
     @GetMapping("/comment/{id}")
-    private List<CommentVoting> getAllVotingToComment(@PathVariable("id") Long id) 
-    {
-        return votingService.getListVotingToComment(id);
+    private List<UserInfo> getAllVotingToComment(@PathVariable("id") Long id) {
+        return votingService.getListVotingToComment(id).stream().map(m -> new UserInfo(m.getVoter()))
+                .collect(Collectors.toList());
     }
 }

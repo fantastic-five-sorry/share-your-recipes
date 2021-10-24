@@ -1,19 +1,18 @@
 package com.fantasticfour.shareyourrecipes.domains.auth;
 
-
 import javax.persistence.*;
 
 import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 
 @Entity
-@Table(name="roles", schema = "public")
+@Table(name = "roles", schema = "public")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     private ERole name;
 
     public Role() {

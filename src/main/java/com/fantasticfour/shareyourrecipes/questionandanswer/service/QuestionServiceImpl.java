@@ -20,19 +20,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class QuestionServiceImpl implements QuestionService{
+public class QuestionServiceImpl implements QuestionService {
     private final AnswerRepo answerRepo;
     private final UserRepo userRepo;
     private final QuestionRepo questionRepo;
-    @Autowired 
+
+    @Autowired
     public QuestionServiceImpl(AnswerRepo answerRepo, UserRepo userRepo, QuestionRepo questionRepo) {
         this.answerRepo = answerRepo;
-        this.userRepo =  userRepo;
+        this.userRepo = userRepo;
         this.questionRepo = questionRepo;
     }
 
     private final Pattern NONLATIN = Pattern.compile("[^\\w-]");
-    private  final Pattern WHITESPACE = Pattern.compile("[\\s]");
+    private final Pattern WHITESPACE = Pattern.compile("[\\s]");
 
     public String toSlug(String input) {
         String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
@@ -53,18 +54,14 @@ public class QuestionServiceImpl implements QuestionService{
         Question question = new Question();
         question.setTitle(createQuestionDTO.getTitle());
         question.setContent(createQuestionDTO.getContent());
-        question.setStatus(createQuestionDTO.getStatus());
         question.setSlug(this.toSlug(createQuestionDTO.getTitle()));
 
-        
         User user = userRepo.findValidUserById(createQuestionDTO.getCreatorId());
         if (user == null) {
             throw new Exception("not found creator");
         }
         question.setCreator(user);
-        
-        
- 
+
         questionRepo.save(question);
     }
 
@@ -77,7 +74,7 @@ public class QuestionServiceImpl implements QuestionService{
         }
         question.setDeleted(true);
         questionRepo.save(question);
-        
+
     }
 
     @Override
@@ -88,7 +85,7 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
-    public QuestionDTO viewQuestionDTO(Long id) throws Exception  {
+    public QuestionDTO viewQuestionDTO(Long id) throws Exception {
         // TODO Auto-generated method stub
         Question question = this.findById(id);
         if (question == null) {
@@ -96,5 +93,5 @@ public class QuestionServiceImpl implements QuestionService{
         }
         return new QuestionDTO(question);
     }
-    
+
 }

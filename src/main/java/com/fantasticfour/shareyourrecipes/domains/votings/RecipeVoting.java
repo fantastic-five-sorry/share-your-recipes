@@ -1,11 +1,9 @@
 package com.fantasticfour.shareyourrecipes.domains.votings;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.*;
 
-import com.fantasticfour.shareyourrecipes.domains.AuditModel;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.VotingType;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
@@ -33,7 +31,7 @@ public class RecipeVoting {
     private User voter;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 15)
+    @Column(length = 15, nullable = false)
     private VotingType type;
 
     public VotingType getType() {

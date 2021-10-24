@@ -3,7 +3,7 @@ package com.fantasticfour.shareyourrecipes.votings.dtos;
 import javax.validation.constraints.NotBlank;
 
 public class NewCommentDto {
-    @NotBlank
+    
     private Long writerId;
 
     @NotBlank

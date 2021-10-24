@@ -16,7 +16,8 @@ public class Report {
     @GeneratedValue(generator = "report_generator")
     @SequenceGenerator(name = "report_generator", sequenceName = "report_sequence", initialValue = 1000, allocationSize = 1)
     private Long id;
-
+    
+    @Column(nullable = false)
     private String reason;
 
     // private User handler;

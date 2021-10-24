@@ -58,6 +58,7 @@ public class HandledReport extends AuditModel {
     }
 
     public HandledReport() {
+        
     }
 
 }

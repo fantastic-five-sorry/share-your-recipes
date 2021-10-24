@@ -11,7 +11,6 @@ import com.fantasticfour.shareyourrecipes.domains.AuditModel;
 import com.fantasticfour.shareyourrecipes.domains.Comment;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.RecipeStatus;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import com.vladmihalcea.hibernate.type.json.JsonType;
@@ -32,6 +31,7 @@ public class Recipe extends AuditModel {
     @SequenceGenerator(name = "recipe_generator", sequenceName = "recipe_sequence", initialValue = 1000, allocationSize = 1)
     private Long id;
 
+    @Column(nullable = false)
     private String title;
 
     private String image;
@@ -55,14 +55,19 @@ public class Recipe extends AuditModel {
     @OneToMany(mappedBy = "creator")
     private List<Comment> comments = new ArrayList<>();
     @Enumerated(EnumType.STRING)
-    @Column(length = 10)
+    @Column(length = 10, nullable = false)
     private RecipeStatus status;
 
+    @Column(nullable = false)
     private Float price;
 
+    @Column(nullable = false, unique = true)
     private String slug;
+    @Column(nullable = false)
     private Long upVoteCount;
+    @Column(nullable = false)
     private Long downVoteCount;
+    @Column(nullable = false)
     private Boolean deleted;
 
     public Long getUpVoteCount() {
@@ -80,9 +85,6 @@ public class Recipe extends AuditModel {
     public void setDownVoteCount(Long downVoteCount) {
         this.downVoteCount = downVoteCount;
     }
-
-
-    
 
     public Boolean getDeleted() {
         return this.deleted;

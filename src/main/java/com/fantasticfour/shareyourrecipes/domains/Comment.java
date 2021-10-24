@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "comments", schema = "public")
@@ -15,6 +15,8 @@ public class Comment extends AuditModel {
     @SequenceGenerator(name = "comment_generator", sequenceName = "comment_sequence", initialValue = 1, allocationSize = 1)
     private Long id;
 
+    @Column(nullable = false)
+    @Length(max = 65535)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -25,6 +27,7 @@ public class Comment extends AuditModel {
     @JoinColumn(name = "recipe_id", nullable = false)
     private Recipe recipe;
 
+    @Column(nullable = false)
     private Long voteCount;
 
     public Comment() {
