@@ -107,13 +107,13 @@ public class VotingServiceImpl implements VotingService {
 
         // un-vote
         if (votingOpt.isPresent()) {
-            recipeRepo.decreaseVoteCount(voting.getSubjectVotingToId());
+            recipeRepo.decreaseUpVoteCount(voting.getSubjectVotingToId());
             recipeVotingRepo.delete(votingOpt.get());
             return;
         }
 
-        recipeRepo.increaseVoteCount(voting.getSubjectVotingToId());
-        recipeVotingRepo.addUpVoting(id.getSubjectId(), id.getVoterId());
+        recipeRepo.increaseUpVoteCount(voting.getSubjectVotingToId());
+        // recipeVotingRepo.addVoting(id.getSubjectId(), id.getVoterId());
 
     }
 
@@ -134,7 +134,6 @@ public class VotingServiceImpl implements VotingService {
 
     }
 
-    
     @Override
     public List<AnswerVoting> getListVotingToAnswer(Long id) {
 

@@ -29,12 +29,22 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
     @Modifying
     @Transactional
-    @Query("update Recipe u set u.voteCount = u.voteCount - 1 where u.id = :id")
-    void decreaseVoteCount(Long id);
+    @Query("update Recipe u set u.upVoteCount = u.upVoteCount - 1 where u.id = :id")
+    void decreaseUpVoteCount(Long id);
 
     @Modifying
     @Transactional
-    @Query("update Recipe u set u.voteCount = u.voteCount + 1 where u.id = :id")
-    void increaseVoteCount(Long id);
+    @Query("update Recipe u set u.upVoteCount = u.upVoteCount + 1 where u.id = :id")
+    void increaseUpVoteCount(Long id);
+
+    @Modifying
+    @Transactional
+    @Query("update Recipe u set u.downVoteCount = u.downVoteCount - 1 where u.id = :id")
+    void decreaseDownVoteCount(Long id);
+
+    @Modifying
+    @Transactional
+    @Query("update Recipe u set u.downVoteCount = u.downVoteCount + 1 where u.id = :id")
+    void increaseDownVoteCount(Long id);
 
 }

@@ -61,16 +61,28 @@ public class Recipe extends AuditModel {
     private Float price;
 
     private String slug;
-    private Long voteCount;
+    private Long upVoteCount;
+    private Long downVoteCount;
     private Boolean deleted;
 
-    public Long getVoteCount() {
-        return this.voteCount;
+    public Long getUpVoteCount() {
+        return this.upVoteCount;
     }
 
-    public void setVoteCount(Long voteCount) {
-        this.voteCount = voteCount;
+    public void setUpVoteCount(Long upVoteCount) {
+        this.upVoteCount = upVoteCount;
     }
+
+    public Long getDownVoteCount() {
+        return this.downVoteCount;
+    }
+
+    public void setDownVoteCount(Long downVoteCount) {
+        this.downVoteCount = downVoteCount;
+    }
+
+
+    
 
     public Boolean getDeleted() {
         return this.deleted;
@@ -174,14 +186,25 @@ public class Recipe extends AuditModel {
 
     public Recipe() {
         this.deleted = false;
+        this.status = RecipeStatus.PENDING;
+        this.price = 0f;
+        this.upVoteCount = 0L;
+        this.downVoteCount = 0L;
     }
 
-    public void decreaseVoteCount() {
-        this.voteCount--;
+    public void decreaseUpVoteCount() {
+        this.upVoteCount--;
     }
 
-    public void increaseVoteCount() {
-        this.voteCount++;
+    public void increaseUpVoteCount() {
+        this.upVoteCount++;
+    }
 
+    public void decreaseDownVoteCount() {
+        this.downVoteCount--;
+    }
+
+    public void increaseDownVoteCount() {
+        this.downVoteCount++;
     }
 }

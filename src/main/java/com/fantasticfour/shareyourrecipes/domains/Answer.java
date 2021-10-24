@@ -10,7 +10,7 @@ import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDa
 
 @Entity
 @Table(name = "answers", schema = "public")
-public class Answer {
+public class Answer extends AuditModel {
     @Id
     @GeneratedValue(generator = "answer_generator")
     @SequenceGenerator(name = "answer_generator", sequenceName = "answer_sequence", initialValue = 1000, allocationSize = 1)
@@ -24,7 +24,24 @@ public class Answer {
     @ManyToOne(fetch = FetchType.LAZY)
     private Question question;
 
-    private Long voteCount;
+    private Long upVoteCount;
+    private Long downVoteCount;
+
+    public Long getUpVoteCount() {
+        return this.upVoteCount;
+    }
+
+    public void setUpVoteCount(Long upVoteCount) {
+        this.upVoteCount = upVoteCount;
+    }
+
+    public Long getDownVoteCount() {
+        return this.downVoteCount;
+    }
+
+    public void setDownVoteCount(Long downVoteCount) {
+        this.downVoteCount = downVoteCount;
+    }
 
     private Boolean deleted;
 
@@ -40,16 +57,20 @@ public class Answer {
         this.deleted = deleted;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return this.createdAt;
-    }
+    // public LocalDateTime getCreatedAt() {
+    //     return this.createdAt;
+    // }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+    // public void setCreatedAt(LocalDateTime createdAt) {
+    //     this.createdAt = createdAt;
+    // }
 
     public Answer() {
+        this.deleted = false;
+        this.upVoteCount = 0L;
+        this.downVoteCount = 0L;
     }
+
 
     public Long getId() {
         return this.id;
@@ -83,15 +104,25 @@ public class Answer {
         this.question = question;
     }
 
-    public Long getVoteCount() {
-        return this.voteCount;
+    public void decreaseUpVoteCount() {
+        this.upVoteCount--;
     }
 
-    public void setVoteCount(Long voteCount) {
-        this.voteCount = voteCount;
+    public void increaseUpVoteCount() {
+        this.upVoteCount++;
     }
 
-    @Column(nullable = false, columnDefinition = "TIMESTAMP")
-    @Convert(converter = LocalDateTimeConverter.class)
-    private LocalDateTime createdAt;
+    public void decreaseDownVoteCount() {
+        this.downVoteCount--;
+    }
+
+    public void increaseDownVoteCount() {
+        this.downVoteCount++;
+    }
+
+  
+
+    // @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    // @Convert(converter = LocalDateTimeConverter.class)
+    // private LocalDateTime createdAt;
 }
