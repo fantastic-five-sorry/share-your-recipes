@@ -30,7 +30,24 @@ public class RecipeCollection extends AuditModel {
     @JoinTable(name = "collection_recipes", joinColumns = @JoinColumn(name = "collection_id"), inverseJoinColumns = @JoinColumn(name = "recipe_id"))
     private List<Recipe> recipes = new ArrayList<>();
 
-    private Long voteCount;
+    private Long upVoteCount;
+    private Long downVoteCount;
+
+    public Long getUpVoteCount() {
+        return this.upVoteCount;
+    }
+
+    public void setUpVoteCount(Long upVoteCount) {
+        this.upVoteCount = upVoteCount;
+    }
+
+    public Long getDownVoteCount() {
+        return this.downVoteCount;
+    }
+
+    public void setDownVoteCount(Long downVoteCount) {
+        this.downVoteCount = downVoteCount;
+    }
 
     private Boolean deleted;
 
@@ -88,14 +105,23 @@ public class RecipeCollection extends AuditModel {
 
     public RecipeCollection() {
         this.deleted = false;
+        this.upVoteCount = 0L;
+        this.downVoteCount = 0L;
     }
 
-    public Long getVoteCount() {
-        return this.voteCount;
+    public void decreaseUpVoteCount() {
+        this.upVoteCount--;
     }
 
-    public void setVoteCount(Long voteCount) {
-        this.voteCount = voteCount;
+    public void increaseUpVoteCount() {
+        this.upVoteCount++;
+    }
 
+    public void decreaseDownVoteCount() {
+        this.downVoteCount--;
+    }
+
+    public void increaseDownVoteCount() {
+        this.downVoteCount++;
     }
 }

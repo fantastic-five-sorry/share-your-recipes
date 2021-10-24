@@ -24,7 +24,24 @@ public class Answer extends AuditModel {
     @ManyToOne(fetch = FetchType.LAZY)
     private Question question;
 
-    private Long voteCount;
+    private Long upVoteCount;
+    private Long downVoteCount;
+
+    public Long getUpVoteCount() {
+        return this.upVoteCount;
+    }
+
+    public void setUpVoteCount(Long upVoteCount) {
+        this.upVoteCount = upVoteCount;
+    }
+
+    public Long getDownVoteCount() {
+        return this.downVoteCount;
+    }
+
+    public void setDownVoteCount(Long downVoteCount) {
+        this.downVoteCount = downVoteCount;
+    }
 
     private Boolean deleted;
 
@@ -50,6 +67,8 @@ public class Answer extends AuditModel {
 
     public Answer() {
         this.deleted = false;
+        this.upVoteCount = 0L;
+        this.downVoteCount = 0L;
     }
 
 
@@ -85,13 +104,23 @@ public class Answer extends AuditModel {
         this.question = question;
     }
 
-    public Long getVoteCount() {
-        return this.voteCount;
+    public void decreaseUpVoteCount() {
+        this.upVoteCount--;
     }
 
-    public void setVoteCount(Long voteCount) {
-        this.voteCount = voteCount;
+    public void increaseUpVoteCount() {
+        this.upVoteCount++;
     }
+
+    public void decreaseDownVoteCount() {
+        this.downVoteCount--;
+    }
+
+    public void increaseDownVoteCount() {
+        this.downVoteCount++;
+    }
+
+  
 
     // @Column(nullable = false, columnDefinition = "TIMESTAMP")
     // @Convert(converter = LocalDateTimeConverter.class)

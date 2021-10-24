@@ -7,7 +7,25 @@ import com.fantasticfour.shareyourrecipes.domains.Question;
 public class AnswerDTO {
     private UserInfo answerer;
     private String content;
-    private Long voteCount;
+    private Long upVoteCount;
+    private Long downVoteCount;
+
+    public Long getUpVoteCount() {
+        return this.upVoteCount;
+    }
+
+    public void setUpVoteCount(Long upVoteCount) {
+        this.upVoteCount = upVoteCount;
+    }
+
+    public Long getDownVoteCount() {
+        return this.downVoteCount;
+    }
+
+    public void setDownVoteCount(Long downVoteCount) {
+        this.downVoteCount = downVoteCount;
+    }
+
 
     public UserInfo getAnswerer() {
         return this.answerer;
@@ -25,21 +43,15 @@ public class AnswerDTO {
         this.content = content;
     }
 
-  
 
-    public Long getVoteCount() {
-        return this.voteCount;
-    }
-
-    public void setVoteCount(Long voteCount) {
-        this.voteCount = voteCount;
-    }
 
     public AnswerDTO () {}
 
     public AnswerDTO(Answer answer) {
         this.answerer = new UserInfo(answer.getAnswerer());
         this.content = answer.getContent();
-        this.voteCount = answer.getVoteCount();
+        this.upVoteCount = answer.getUpVoteCount();
+        this.downVoteCount = answer.getDownVoteCount();
+
     }
 }

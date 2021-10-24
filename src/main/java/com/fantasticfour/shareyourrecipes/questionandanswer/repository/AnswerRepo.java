@@ -7,6 +7,10 @@ import com.fantasticfour.shareyourrecipes.domains.Answer;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.Modifying;
+import javax.transaction.Transactional;
+
+
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -22,5 +26,24 @@ public interface AnswerRepo extends JpaRepository<Answer, Long> {
     Optional<Answer> findById(Long id); 
 
 
+    @Modifying
+    @Transactional
+    @Query("update Answer u set u.upVoteCount = u.upVoteCount - 1 where u.id = :id")
+    void decreaseUpVoteCount(Long id);
+
+    @Modifying
+    @Transactional
+    @Query("update Answer u set u.upVoteCount = u.upVoteCount + 1 where u.id = :id")
+    void increaseUpVoteCount(Long id);
+
+    @Modifying
+    @Transactional
+    @Query("update Answer u set u.downVoteCount = u.downVoteCount - 1 where u.id = :id")
+    void decreaseDownVoteCount(Long id);
+
+    @Modifying
+    @Transactional
+    @Query("update Answer u set u.downVoteCount = u.downVoteCount + 1 where u.id = :id")
+    void increaseDownVoteCount(Long id);
     
 }

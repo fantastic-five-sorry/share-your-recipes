@@ -23,6 +23,25 @@ public class RecipeDTO {
     private String status;
 
     private Float price;
+    private Long upVoteCount;
+    private Long downVoteCount;
+
+    public Long getUpVoteCount() {
+        return this.upVoteCount;
+    }
+
+    public void setUpVoteCount(Long upVoteCount) {
+        this.upVoteCount = upVoteCount;
+    }
+
+    public Long getDownVoteCount() {
+        return this.downVoteCount;
+    }
+
+    public void setDownVoteCount(Long downVoteCount) {
+        this.downVoteCount = downVoteCount;
+    }
+    
     public String getSlug() {
         return this.slug;
     }
@@ -114,6 +133,8 @@ public class RecipeDTO {
         this.creator = new UserInfo(recipe.getCreator());
         this.slug = recipe.getSlug();
         this.status = recipe.getStatus().toString();
+        this.upVoteCount = recipe.getUpVoteCount();
+        this.downVoteCount = recipe.getDownVoteCount();
     }
 
 
