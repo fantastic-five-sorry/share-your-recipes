@@ -97,6 +97,14 @@ public class VotingServiceImpl implements VotingService {
             if (!dto.getType().equals(voting.getType().toString())) {
 
                 // update voting table
+                try {
+                    logger.info("Voting Type: " + VotingType.valueOf(dto.getType()).toString());
+                    voting.setType(VotingType.valueOf(dto.getType()));
+                    recipeVotingRepo.save(voting);
+
+                } catch (Exception e) {
+                    throw new IllegalStateException(e.getMessage());
+                }
 
                 // update vote count
                 if (dto.getType().equals("UP")) {
@@ -137,7 +145,7 @@ public class VotingServiceImpl implements VotingService {
         try
 
         {
-            recipeVotingRepo.addVoting(id.getSubjectId(), id.getVoterId(), VotingType.valueOf(dto.getType()));
+            recipeVotingRepo.addVoting(id.getSubjectId(), id.getVoterId(), dto.getType());
         } catch (Exception e) {
             throw new IllegalStateException(e.getMessage());
         }

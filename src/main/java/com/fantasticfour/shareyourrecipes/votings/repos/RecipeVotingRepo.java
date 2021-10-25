@@ -21,7 +21,7 @@ public interface RecipeVotingRepo extends JpaRepository<RecipeVoting, VotingId> 
     @Modifying
     @Transactional
     @Query(value = "insert into recipe_voting (recipe_id, voter_id, type, created_at) values (:recipeId, :voterId,:type, now())", nativeQuery = true)
-    void addVoting(Long recipeId, Long voterId, VotingType type);
+    void addVoting(Long recipeId, Long voterId, String type);
 
     // @Modifying
     // @Transactional
