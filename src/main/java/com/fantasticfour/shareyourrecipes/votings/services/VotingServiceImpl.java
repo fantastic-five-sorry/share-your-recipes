@@ -88,24 +88,15 @@ public class VotingServiceImpl implements VotingService {
         Optional<RecipeVoting> votingOpt = recipeVotingRepo.findById(id);
         // neu roi, check xem voting nay la UP hay DOWN hay UNVOTED va so sanh voi
         // [type] trong dto
-        // case1: dto type == existed type (giu nguyen)
+        // case1: dto type == existed type (un vote)
         // case2: dto type UP != existed type DOWN (do update)
         // case3: dto type DOWN != existed type UP (do update)
-        // case4: dto type DEVOTED != UP~DOWN (do update)
         if (votingOpt.isPresent()) {
             RecipeVoting voting = votingOpt.get();
             // case 2, 3, 4
             if (!dto.getType().equals(voting.getType().toString())) {
 
                 // update voting table
-                try {
-                    logger.info("Voting Type: " + VotingType.valueOf(dto.getType()).toString());
-                    voting.setType(VotingType.valueOf(dto.getType()));
-                    recipeVotingRepo.save(voting);
-
-                } catch (Exception e) {
-                    throw new IllegalStateException(e.getMessage());
-                }
 
                 // update vote count
                 if (dto.getType().equals("UP")) {
@@ -120,20 +111,32 @@ public class VotingServiceImpl implements VotingService {
                         recipeRepo.decreaseUpVoteCount(id.getSubjectId());
                     }
                 }
-                if (dto.getType().equals("DEVOTED")) {
-                    if (voting.getType().equals(VotingType.UP)) {
-                        recipeRepo.decreaseUpVoteCount(id.getSubjectId());
-                    }
-                    if (voting.getType().equals(VotingType.DOWN)) {
-                        recipeRepo.decreaseDownVoteCount(id.getSubjectId());
-                    }
-                }
+                return;
+
             }
+            try {
+                logger.info("Voting Type: " + VotingType.valueOf(dto.getType()).toString());
+                voting.setType(VotingType.DEVOTED);
+                recipeVotingRepo.save(voting);
+
+            } catch (Exception e) {
+                throw new IllegalStateException(e.getMessage());
+            }
+            // case 1 un vote
+            if (voting.getType().equals(VotingType.UP)) {
+                recipeRepo.decreaseUpVoteCount(id.getSubjectId());
+            }
+            if (voting.getType().equals(VotingType.DOWN)) {
+                recipeRepo.decreaseDownVoteCount(id.getSubjectId());
+            }
+
             return;
         }
         // add voting to voting table
         // neu khong ton tai (moi voting lan dau tien) thi add voting
-        try {
+        try
+
+        {
             recipeVotingRepo.addVoting(id.getSubjectId(), id.getVoterId(), VotingType.valueOf(dto.getType()));
         } catch (Exception e) {
             throw new IllegalStateException(e.getMessage());
