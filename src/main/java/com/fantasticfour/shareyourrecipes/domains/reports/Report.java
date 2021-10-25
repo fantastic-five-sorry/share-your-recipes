@@ -1,7 +1,6 @@
 package com.fantasticfour.shareyourrecipes.domains.reports;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.*;
 
@@ -19,8 +18,6 @@ public class Report {
     
     @Column(nullable = false)
     private String reason;
-
-    // private User handler;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User reporter;

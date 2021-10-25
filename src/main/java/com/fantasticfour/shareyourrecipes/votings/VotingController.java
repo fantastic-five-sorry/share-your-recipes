@@ -30,7 +30,7 @@ public class VotingController {
     private VotingService votingService;
 
     @PostMapping("/answer")
-    private ResponseEntity<?> handleAnswerVoting(@Valid VotingDto dto) {
+    private ResponseEntity<?> handleAnswerVoting(@RequestBody VotingDto dto) {
         try {
             votingService.handleVotingToAnswer(dto);
             return ResponseEntity.ok().body("success");
@@ -52,7 +52,7 @@ public class VotingController {
     }
 
     @PostMapping("/recipeCollection")
-    private ResponseEntity<?> handleRecipeCollectionVoting(@Valid VotingDto dto) {
+    private ResponseEntity<?> handleRecipeCollectionVoting(@RequestBody VotingDto dto) {
         try {
 
             votingService.handleVotingToRecipeCollection(dto);
@@ -65,7 +65,7 @@ public class VotingController {
     }
 
     @PostMapping("/comment")
-    private ResponseEntity<?> handleCommentVoting(@Valid VotingDto dto) {
+    private ResponseEntity<?> handleCommentVoting(@RequestBody VotingDto dto) {
         try {
 
             votingService.handleVotingToComment(dto);
@@ -78,7 +78,7 @@ public class VotingController {
     }
 
     @PostMapping("/question")
-    private ResponseEntity<?> handleQuestionVoting(@Valid VotingDto dto) {
+    private ResponseEntity<?> handleQuestionVoting(@RequestBody VotingDto dto) {
         try {
 
             votingService.handleVotingToQuestion(dto);

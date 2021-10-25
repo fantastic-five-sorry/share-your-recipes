@@ -1,5 +1,5 @@
 package com.fantasticfour.shareyourrecipes.reports;
 
-public class ReportService {
+public interface ReportService {
     
 }

@@ -14,6 +14,8 @@ import com.fantasticfour.shareyourrecipes.votings.dtos.NewCommentDto;
 import com.fantasticfour.shareyourrecipes.votings.repos.CommentRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -43,10 +45,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDto> getCommentsOfRecipe(Long recipeId) {
-        return commentRepo.findByRecipeId(recipeId).stream().map(comment -> new CommentDto(comment))
-                .collect(Collectors.toList());
-
+    public Page<CommentDto> getCommentsOfRecipe(Long recipeId, Pageable page) {
+        return commentRepo.findByRecipeId(recipeId, page).map(CommentDto::new);
     }
 
     @Override
@@ -72,5 +72,10 @@ public class CommentServiceImpl implements CommentService {
     public CommentDto getComment(Long id) {
         Comment comment = commentRepo.findById(id).orElseThrow(() -> new IllegalStateException("Comment not found"));
         return new CommentDto(comment);
+    }
+
+    @Override
+    public Page<CommentDto> getAllComments(Pageable page) {
+        return commentRepo.findAll(page).map(CommentDto::new);
     }
 }

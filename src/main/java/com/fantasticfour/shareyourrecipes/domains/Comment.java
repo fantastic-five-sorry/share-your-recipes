@@ -28,10 +28,29 @@ public class Comment extends AuditModel {
     private Recipe recipe;
 
     @Column(nullable = false)
-    private Long voteCount;
+    private Long upVoteCount;
+    @Column(nullable = false)
+    private Long downVoteCount;
+
+    public Long getUpVoteCount() {
+        return this.upVoteCount;
+    }
+
+    public void setUpVoteCount(Long upVoteCount) {
+        this.upVoteCount = upVoteCount;
+    }
+
+    public Long getDownVoteCount() {
+        return this.downVoteCount;
+    }
+
+    public void setDownVoteCount(Long downVoteCount) {
+        this.downVoteCount = downVoteCount;
+    }
 
     public Comment() {
-        voteCount = 0L;
+        upVoteCount = 0L;
+        downVoteCount = 0L;
     }
 
     public Long getId() {
@@ -67,11 +86,11 @@ public class Comment extends AuditModel {
     }
 
     public Long getVoteCount() {
-        return this.voteCount;
+        return this.upVoteCount;
     }
 
     public void setVoteCount(Long voteCount) {
-        this.voteCount = voteCount;
+        this.upVoteCount = voteCount;
     }
 
 }

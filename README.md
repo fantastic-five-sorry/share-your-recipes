@@ -15,3 +15,7 @@ https://medium.com/@mail2rajeevshukla/hiding-encrypting-database-password-in-the
 docker run -d --name elasticsearch  -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:6.5.0
 
 ```
+
+```
+SELECT down_vote_count, up_vote_count, recipe_id FROM public.recipe_voting V inner join public.recipes R on V.recipe_id = R.id
+```
