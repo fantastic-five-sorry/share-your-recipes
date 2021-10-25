@@ -44,7 +44,6 @@ public class VotingController {
         try {
 
             votingService.handleVotingToRecipe(dto);
-
             return ResponseEntity.ok().body("success");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("error");
