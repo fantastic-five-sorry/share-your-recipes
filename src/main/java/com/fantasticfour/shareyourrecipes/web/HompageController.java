@@ -52,6 +52,16 @@ public class HompageController {
         return "recipe/recipe-detail";
     }
 
+    @GetMapping("/postQuestion")
+    public String postQuestion() {
+        return "qa/post-question";
+    }
+
+    @GetMapping("/answer")
+    public String anwerQuestion() {
+        return "qa/answer";
+    }
+
     @GetMapping("/my-profile")
     @PreAuthorize("isAuthenticated()")
     public String myProfile(Principal principal, Model model) {

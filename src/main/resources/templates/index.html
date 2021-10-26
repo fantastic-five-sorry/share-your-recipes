@@ -22,8 +22,17 @@
   </head>
   <body>
     <div class="container text-center">
-      <h3 sec:authorize="isAuthenticated()">
-        <a th:href="@{/test/user}">User principal info</a>
+      <h3>
+        <a th:href="@{/home}">Home page</a>
+      </h3>
+      <h3>
+        <a th:href="@{/recipeDetail}">Recipe Detail </a>
+      </h3>
+      <h3>
+        <a th:href="@{/postQuestion}">Post question</a>
+      </h3>
+      <h3>
+        <a th:href="@{/answer}">Question Detail - Answer</a>
       </h3>
       <h3 sec:authorize="isAuthenticated()">
         <a th:href="@{/my-profile}">My profile</a>
