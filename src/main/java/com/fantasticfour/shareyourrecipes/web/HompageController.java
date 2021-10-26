@@ -39,7 +39,7 @@ public class HompageController {
     // @
     @GetMapping("/home")
     public String getHome() {
-        return "index";
+        return "home";
     }
 
     @GetMapping("/")
@@ -47,7 +47,10 @@ public class HompageController {
         return "index";
     }
 
-    
+    @GetMapping("/recipeDetail")
+    public String getHom2xxxx() {
+        return "recipe/recipe-detail";
+    }
 
     @GetMapping("/my-profile")
     @PreAuthorize("isAuthenticated()")
@@ -70,7 +73,6 @@ public class HompageController {
         // model.addAttribute("your_name", principal.());
     }
 
-   
     @GetMapping("/international")
     public String getInternationalPage() {
         return "international";

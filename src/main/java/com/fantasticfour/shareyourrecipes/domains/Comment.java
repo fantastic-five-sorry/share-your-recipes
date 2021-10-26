@@ -1,9 +1,16 @@
 package com.fantasticfour.shareyourrecipes.domains;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
+import com.fantasticfour.shareyourrecipes.domains.votings.CommentVoting;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
 
 @Entity

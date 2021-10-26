@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import com.fantasticfour.shareyourrecipes.account.UserUtils;
 import com.fantasticfour.shareyourrecipes.account.dtos.UserInfo;
 import com.fantasticfour.shareyourrecipes.domains.votings.AnswerVoting;
 import com.fantasticfour.shareyourrecipes.domains.votings.CommentVoting;
@@ -16,6 +17,7 @@ import com.fantasticfour.shareyourrecipes.votings.services.VotingService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,11 +29,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/voting")
 public class VotingController {
     @Autowired
-    private VotingService votingService;
+    public VotingService votingService;
 
     @PostMapping("/answer")
-    private ResponseEntity<?> handleAnswerVoting(@RequestBody VotingDto dto) {
+    public ResponseEntity<?> handleAnswerVoting(@RequestBody VotingDto dto, Authentication authentication) {
         try {
+            Long uid = UserUtils.getIdFromRequest(authentication)
+                    .orElseThrow(() -> new IllegalStateException("User not found"));
+            dto.setVoterId(uid);
+
             votingService.handleVotingToAnswer(dto);
             return ResponseEntity.ok().body("success");
         } catch (Exception e) {
@@ -40,8 +46,11 @@ public class VotingController {
     }
 
     @PostMapping("/recipe")
-    private ResponseEntity<?> handleRecipeVoting(@RequestBody VotingDto dto) {
+    public ResponseEntity<?> handleRecipeVoting(@RequestBody VotingDto dto, Authentication authentication) {
         try {
+            Long uid = UserUtils.getIdFromRequest(authentication)
+                    .orElseThrow(() -> new IllegalStateException("User not found"));
+            dto.setVoterId(uid);
 
             votingService.handleVotingToRecipe(dto);
             return ResponseEntity.ok().body("success");
@@ -52,9 +61,11 @@ public class VotingController {
     }
 
     @PostMapping("/recipeCollection")
-    private ResponseEntity<?> handleRecipeCollectionVoting(@RequestBody VotingDto dto) {
+    public ResponseEntity<?> handleRecipeCollectionVoting(@RequestBody VotingDto dto, Authentication authentication) {
         try {
-
+            Long uid = UserUtils.getIdFromRequest(authentication)
+                    .orElseThrow(() -> new IllegalStateException("User not found"));
+            dto.setVoterId(uid);
             votingService.handleVotingToRecipeCollection(dto);
 
             return ResponseEntity.ok().body("success");
@@ -65,9 +76,11 @@ public class VotingController {
     }
 
     @PostMapping("/comment")
-    private ResponseEntity<?> handleCommentVoting(@RequestBody VotingDto dto) {
+    public ResponseEntity<?> handleCommentVoting(@RequestBody VotingDto dto, Authentication authentication) {
         try {
-
+            Long uid = UserUtils.getIdFromRequest(authentication)
+                    .orElseThrow(() -> new IllegalStateException("User not found"));
+            dto.setVoterId(uid);
             votingService.handleVotingToComment(dto);
 
             return ResponseEntity.ok().body("success");
@@ -78,8 +91,11 @@ public class VotingController {
     }
 
     @PostMapping("/question")
-    private ResponseEntity<?> handleQuestionVoting(@RequestBody VotingDto dto) {
+    public ResponseEntity<?> handleQuestionVoting(@RequestBody VotingDto dto, Authentication authentication) {
         try {
+            Long uid = UserUtils.getIdFromRequest(authentication)
+                    .orElseThrow(() -> new IllegalStateException("User not found"));
+            dto.setVoterId(uid);
 
             votingService.handleVotingToQuestion(dto);
 
@@ -91,31 +107,31 @@ public class VotingController {
     }
 
     @GetMapping("/answer/{id}")
-    private List<UserInfo> getAllVotingToAnswer(@PathVariable("id") Long id) {
+    public List<UserInfo> getAllVotingToAnswer(@PathVariable("id") Long id) {
         return votingService.getListVotingToAnswer(id).stream().map(m -> new UserInfo(m.getVoter()))
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/question/{id}")
-    private List<UserInfo> getAllVotingToQuestion(@PathVariable("id") Long id) {
+    public List<UserInfo> getAllVotingToQuestion(@PathVariable("id") Long id) {
         return votingService.getListVotingToQuestion(id).stream().map(m -> new UserInfo(m.getVoter()))
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/recipe/{id}")
-    private List<UserInfo> getAllVotingToRecipe(@PathVariable("id") Long id) {
+    public List<UserInfo> getAllVotingToRecipe(@PathVariable("id") Long id) {
         return votingService.getListVotingToRecipe(id).stream().map(m -> new UserInfo(m.getVoter()))
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/recipe-collection/{id}")
-    private List<UserInfo> getAllVotingToRecipeCollection(@PathVariable("id") Long id) {
+    public List<UserInfo> getAllVotingToRecipeCollection(@PathVariable("id") Long id) {
         return votingService.getListVotingToRecipeCollection(id).stream().map(m -> new UserInfo(m.getVoter()))
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/comment/{id}")
-    private List<UserInfo> getAllVotingToComment(@PathVariable("id") Long id) {
+    public List<UserInfo> getAllVotingToComment(@PathVariable("id") Long id) {
         return votingService.getListVotingToComment(id).stream().map(m -> new UserInfo(m.getVoter()))
                 .collect(Collectors.toList());
     }

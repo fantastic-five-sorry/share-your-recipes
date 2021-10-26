@@ -1,7 +1,7 @@
 var token = $("meta[name='_csrf']").attr('content');
 var header = $("meta[name='_csrf_header']").attr('content');
 
-const votingUrl = `/api/voting/recipe`;
+const votingUrl = `/api/voting/comment`;
 
 function handleGetComments(recipeId) {
   const apiUrl = `/api/comment/recipe/${recipeId}`;
@@ -31,11 +31,17 @@ function handleGetRecipe(recipeId) {
       const { comments, creator, ingredients, steps } = response;
       // console.log(comments, creator, ingredients, steps);
       console.log(response);
-      const commentsDiv = response.map(
+      const commentsDiv = response.content.map(
         (comment) =>
-          `<div class="text-danger comment"><p>${comment.content} by ${comment.writer.email}</p>
-          <button id='upvote-${comment.id}' class="up-vote">UP VOTE</button>
-          <button id='downvote-${comment.id}' class="down-vote">DOWN VOTE</button>
+          `<div class="text-danger comment"><p>${comment.id} by ${
+            comment.writerEmail
+          }</p>
+          <button id='upvote-${comment.id}' class="up-vote ${
+            comment.type == 'UP' && 'text-success'
+          }">UP VOTE</button>
+          <button id='downvote-${comment.id}' class="down-vote ${
+            comment.type == 'DOWN' && 'text-success'
+          }">DOWN VOTE</button>
           </div>`
       );
 
@@ -60,21 +66,21 @@ $(document).ready(function () {
     const cmtId = e.target.id.split('-')[1];
 
     $(`#downvote-${cmtId}`).removeClass('text-success');
-    doVote('UP');
+    doVote(cmtId, 'UP');
   });
   $(document).on('click', '.down-vote', function (e) {
     const likeBtnId = e.target.id;
     $(`#${likeBtnId}`).toggleClass('text-success');
     const cmtId = e.target.id.split('-')[1];
     $(`#upvote-${cmtId}`).removeClass('text-success');
-    doVote('DOWN');
+    doVote(cmtId,'DOWN');
   });
 });
 
-function doVote(type) {
+function doVote(subjectId, type) {
   var data = {
-    subjectVotingToId: 1000,
-    voterId: 1000,
+    subjectVotingToId: subjectId,
+    voterId: 1001,
     type: type,
   };
 

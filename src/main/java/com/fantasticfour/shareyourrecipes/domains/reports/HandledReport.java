@@ -13,6 +13,7 @@ public class HandledReport extends AuditModel {
     @Id
     @Column(name = "report_id")
     private Long id;
+    
     @OneToOne
     @MapsId
     @JoinColumn(name = "report_id")
@@ -24,6 +25,16 @@ public class HandledReport extends AuditModel {
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private ReportStatus status;
+
+    private String description;
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public Report getReport() {
         return this.report;
@@ -58,7 +69,7 @@ public class HandledReport extends AuditModel {
     }
 
     public HandledReport() {
-        
+
     }
 
 }

@@ -121,9 +121,7 @@ public class VotingServiceImpl implements VotingService {
         }
         // add voting to voting table
         // neu khong ton tai (moi voting lan dau tien) thi add voting
-        try
-
-        {
+        try {
             answerVotingRepo.addVoting(id.getSubjectId(), id.getVoterId(), dto.getType());
         } catch (Exception e) {
             throw new IllegalStateException(e.getMessage());
