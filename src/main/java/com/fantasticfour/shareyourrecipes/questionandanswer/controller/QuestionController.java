@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.fantasticfour.shareyourrecipes.questionandanswer.dto.CreateQuestionDTO;
 import com.fantasticfour.shareyourrecipes.questionandanswer.dto.QuestionDTO;
-import com.fantasticfour.shareyourrecipes.questionandanswer.dto.UpdateQuestionDTO;
 import com.fantasticfour.shareyourrecipes.questionandanswer.service.QuestionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,18 +46,6 @@ public class QuestionController {
             return ResponseEntity.badRequest().body("error : "  + e.getMessage());
         }
         return ResponseEntity.ok().body("message: " + "add Question success");
-    }
-
-    @PutMapping("/update/{idQuestion}")
-    public ResponseEntity<?> update(@RequestBody UpdateQuestionDTO questionDTO, @PathVariable("idQuestion")  Long idQuestion) {
-        try {
-            QuestionService.updateQuestion(idQuestion, questionDTO);
-        } catch (Exception e) {
-            //TODO: handle exception
-            return ResponseEntity.badRequest().body("error : " + e.getMessage());
-        }
-
-        return ResponseEntity.ok().body("message: " +  "update question success");
     }
 
     @DeleteMapping("/{idQuestion}")
