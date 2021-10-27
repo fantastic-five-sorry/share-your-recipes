@@ -40,9 +40,9 @@ public class RecipeCollectionController {
             Page<RecipeCollectionDTO> collectionDTOs = recipeCollectionService.findAll(pageable);
             return new ResponseEntity<Page<RecipeCollectionDTO>>(collectionDTOs, HttpStatus.OK);
         } catch (Exception e) {
-            //TODO: handle exception
+            // TODO: handle exception
             return ResponseEntity.badRequest().body("error : " + "Collection is empty");
-        } 
+        }
     }
 
     @PostMapping("/create")
@@ -58,53 +58,56 @@ public class RecipeCollectionController {
         return ResponseEntity.ok().body("message: " + "create collection success");
     }
 
-    @PutMapping("/update/{idCollection}")
-    public ResponseEntity<?> updateCollection(@RequestBody UpdateRecipeCollectionDTO collectionDTO, @PathVariable("idCollection") Long idCollection) {
+    // Update Collection dung List<Long> recipeIds chu nhi, @RequestBody kieu gi de
+    // co dc List<Recipe>
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateCollection(@RequestBody UpdateRecipeCollectionDTO collectionDTO,
+            @PathVariable("id") Long id) {
         try {
-            recipeCollectionService.updateRecipeCollection(idCollection, collectionDTO);
+            recipeCollectionService.updateRecipeCollection(id, collectionDTO);
         } catch (Exception e) {
-            //TODO: handle exception
+            // TODO: handle exception
             return ResponseEntity.badRequest().body("error : " + e.getMessage());
         }
         return ResponseEntity.ok().body("message : " + "update collection success");
     }
 
-    @DeleteMapping("/{idcollection}")
-    public ResponseEntity<?> deleteCollection(@PathVariable("idcollection") Long idcollection) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteCollection(@PathVariable("id") Long id) {
         try {
-            recipeCollectionService.deleteRecipeCollection(idcollection);
+            recipeCollectionService.deleteRecipeCollection(id);
+            return ResponseEntity.ok().body("mesage : " + "delete collection success");
+
         } catch (Exception e) {
-            //TODO: handle exception
+            // TODO: handle exception
             return ResponseEntity.badRequest().body("error : " + e.getMessage());
         }
-        return ResponseEntity.ok().body("mesage : " + "delete collection success");
     }
 
-    @GetMapping("/{idcollection}")
-    public ResponseEntity<?> findCollectionById(@PathVariable("idcollection") Long idcollection) {
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findCollectionById(@PathVariable("id") Long id) {
         RecipeCollectionDTO collectionDTO;
         try {
-            collectionDTO = recipeCollectionService.viewDRecipeCollectionDTO(idcollection);
+            collectionDTO = recipeCollectionService.viewDRecipeCollectionDTO(id);
+            return new ResponseEntity<RecipeCollectionDTO>(collectionDTO, HttpStatus.OK);
+
         } catch (Exception e) {
-            //TODO: handle exception
-            return  ResponseEntity.badRequest().body("error: " + e.getMessage());
+            // TODO: handle exception
+            return ResponseEntity.badRequest().body("error: " + e.getMessage());
         }
-        return  new ResponseEntity<RecipeCollectionDTO>(collectionDTO, HttpStatus.OK);
-    
+
     }
 
     @GetMapping("/creator/{creatorId}")
-    public  ResponseEntity<?> findCollectionByCreatorId(@PathVariable("creatorId") Long creatorId, Pageable pageable) {
-        
+    public ResponseEntity<?> findCollectionByCreatorId(@PathVariable("creatorId") Long creatorId, Pageable pageable) {
+
         try {
             Page<RecipeCollectionDTO> collectionDTOs = recipeCollectionService.findByCreatorId(creatorId, pageable);
             return new ResponseEntity<Page<RecipeCollectionDTO>>(collectionDTOs, HttpStatus.OK);
         } catch (Exception e) {
-            //TODO: handle exception
+            // TODO: handle exception
             return ResponseEntity.badRequest().body("error : " + "Collection is empty");
         }
     }
-        
-
 
 }

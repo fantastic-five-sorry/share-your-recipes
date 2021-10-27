@@ -6,6 +6,7 @@ import java.util.List;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 
 public class UpdateRecipeCollectionDTO {
+    
     private String name;
     private List<Recipe> recipes;
 
@@ -29,20 +30,21 @@ public class UpdateRecipeCollectionDTO {
     }
 
     // public Long getUpVoteCount() {
-    //     return this.upVoteCount;
-    // }
+    // return this.upVoteCount;
+    //
 
     // public void setUpVoteCount(Long upVoteCount) {
-    //     this.upVoteCount = upVoteCount;
-    // }
+    // this.upVoteCount = upVoteCount;
+    //
 
     // public Long getDownVoteCount() {
-    //     return this.downVoteCount;
-    // }
+    // return this.downVoteCount;
+    //
 
     // public void setDownVoteCount(Long downVoteCount) {
-    //     this.downVoteCount = downVoteCount;
-    // }
+    // this.downVoteCount = downVoteCount;
+    //
 
-    public UpdateRecipeCollectionDTO() {}
+    public UpdateRecipeCollectionDTO() {
+    }
 }

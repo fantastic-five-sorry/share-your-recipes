@@ -41,7 +41,7 @@ public class RecipeCollectionImpl implements RecipeCollectionService {
     }
 
     private final Pattern NONLATIN = Pattern.compile("[^\\w-]");
-    private  final Pattern WHITESPACE = Pattern.compile("[\\s]");
+    private final Pattern WHITESPACE = Pattern.compile("[\\s]");
 
     public String toSlug(String input) {
         String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
@@ -55,14 +55,16 @@ public class RecipeCollectionImpl implements RecipeCollectionService {
         // TODO Auto-generated method stub
         // List<RecipeCollection> recipeCollections = collectionRepository.findAll();
         // List<RecipeCollectionDTO> recipeCollectionDTOs = new ArrayList<>();
-        // recipeCollectionDTOs = recipeCollections.stream().map(RecipeCollectionDTO::new).collect(Collectors.toList());
+        // recipeCollectionDTOs =
+        // recipeCollections.stream().map(RecipeCollectionDTO::new).collect(Collectors.toList());
         return collectionRepository.findAll(pageable).map(RecipeCollectionDTO::new);
     }
 
     @Override
     public RecipeCollection findById(Long collectionId) {
         // TODO Auto-generated method stub
-        RecipeCollection recipeCollection = collectionRepository.findById(collectionId).orElseThrow(()-> new IllegalStateException("collection not found"));
+        RecipeCollection recipeCollection = collectionRepository.findById(collectionId)
+                .orElseThrow(() -> new IllegalStateException("collection not found"));
         return recipeCollection;
     }
 
@@ -93,7 +95,7 @@ public class RecipeCollectionImpl implements RecipeCollectionService {
         // TODO Auto-generated method stub
         RecipeCollection recipeCollection = this.findById(collectionId);
         // if (recipeCollection == null) {
-        //     throw new Exception("not found collection");
+        // throw new Exception("not found collection");
         // }
         recipeCollection.setDeleted(true);
         collectionRepository.save(recipeCollection);
@@ -101,21 +103,23 @@ public class RecipeCollectionImpl implements RecipeCollectionService {
     }
 
     @Override
-    public RecipeCollectionDTO viewDRecipeCollectionDTO(Long collectionId)  throws Exception{
+    public RecipeCollectionDTO viewDRecipeCollectionDTO(Long collectionId) throws Exception {
         // TODO Auto-generated method stub
         RecipeCollection collection = this.findById(collectionId);
         // if (collection == null) {
-        //     throw new Exception("not found collection");
+        // throw new Exception("not found collection");
         // }
-        return  new RecipeCollectionDTO(collection);
+        return new RecipeCollectionDTO(collection);
     }
 
     @Override
     public Page<RecipeCollectionDTO> findByCreatorId(Long creatorId, Pageable pageable) {
         // TODO Auto-generated method stub
-        // List<RecipeCollection> recipeCollections = collectionRepository.findByCreatorId(creatorId);
+        // List<RecipeCollection> recipeCollections =
+        // collectionRepository.findByCreatorId(creatorId);
         // List<RecipeCollectionDTO> collectionDTOs = new ArrayList<>();
-        // collectionDTOs = recipeCollections.stream().map(RecipeCollectionDTO::new).collect(Collectors.toList());
+        // collectionDTOs =
+        // recipeCollections.stream().map(RecipeCollectionDTO::new).collect(Collectors.toList());
         return collectionRepository.findByCreatorId(creatorId, pageable).map(RecipeCollectionDTO::new);
     }
 
@@ -125,15 +129,15 @@ public class RecipeCollectionImpl implements RecipeCollectionService {
 
         RecipeCollection recipeCollection = this.findById(id);
         // if (recipeCollection == null) {
-        //     throw new Exception("not found collection");
+        // throw new Exception("not found collection");
         // }
 
         for (Field field : collectionDTO.getClass().getDeclaredFields()) {
             field.setAccessible(true);
-            if (field.get(collectionDTO) !=  null) {
+            if (field.get(collectionDTO) != null) {
                 for (Field fieldCollection : recipeCollection.getClass().getDeclaredFields()) {
                     fieldCollection.setAccessible(true);
-                    if (field.getName() ==  fieldCollection.getName()) {
+                    if (field.getName() == fieldCollection.getName()) {
                         fieldCollection.set(recipeCollection, field.get(collectionDTO));
                     }
                 }
@@ -141,7 +145,7 @@ public class RecipeCollectionImpl implements RecipeCollectionService {
         }
 
         collectionRepository.save(recipeCollection);
-        
+
     }
 
 }

@@ -4,14 +4,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class CreateRecipeDTO {
+    @NotBlank
     private String title;
+
     private String image;
+
+    @NotNull
     private Map<String, String> ingredients = new HashMap<>();
+    @NotNull
     private List<String> steps;
     private String guideVideoString;
     private Long creatorId;
 
+    @NotBlank
     private Float price;
 
     public String getTitle() {
@@ -36,7 +45,7 @@ public class CreateRecipeDTO {
 
     public void setIngredients(Map<String, String> ingredients) {
         this.ingredients = ingredients;
-    } 
+    }
 
     public List<String> getSteps() {
         return this.steps;
@@ -70,6 +79,7 @@ public class CreateRecipeDTO {
         this.price = price;
     }
 
-    public CreateRecipeDTO() {}
+    public CreateRecipeDTO() {
+    }
 
 }

@@ -34,65 +34,60 @@ public class AnswerController {
 
     // @GetMapping("/")
     // public ResponseEntity<?> answer(Pageable page) {
-    //     // Page page =new Page();
-    //     // page.getP
-    //     List<AnswerDTO> answerDTOs = answerService.findAll();
-    //     if (answerDTOs.size() > 0) {
-    //         return new ResponseEntity<List<AnswerDTO>>(answerDTOs, HttpStatus.OK);
-    //     }
-    //     return ResponseEntity.badRequest().body("error : " + "list is empty");
+    // // Page page =new Page();
+    // // page.getP
+    // List<AnswerDTO> answerDTOs = answerService.findAll();
+    // if (answerDTOs.size() > 0) {
+    // return new ResponseEntity<List<AnswerDTO>>(answerDTOs, HttpStatus.OK);
     // }
-    @GetMapping("/")
+    // return ResponseEntity.badRequest().body("error : " + "list is empty");
+    // }
+    @GetMapping("")
     public ResponseEntity<?> answer() {
-    List<AnswerDTO> answerDTOs = answerService.findAll();
-    if (answerDTOs.size() > 0) {
-    return new ResponseEntity<List<AnswerDTO>>(answerDTOs, HttpStatus.OK);
-    }
-    return ResponseEntity.badRequest().body("error : " + "list is empty");
+        List<AnswerDTO> answerDTOs = answerService.findAll();
+        if (answerDTOs.size() > 0) {
+            return new ResponseEntity<List<AnswerDTO>>(answerDTOs, HttpStatus.OK);
+        }
+        return ResponseEntity.badRequest().body("error : " + "list is empty");
     }
 
-    @PostMapping("/create")
+    @PostMapping("")
     public ResponseEntity<?> create(@RequestBody CreateAnswerDTO answerDTO) {
         try {
             answerService.createAnswer(answerDTO);
         } catch (Exception e) {
-            // TODO: handle exception
             return ResponseEntity.badRequest().body("error : " + e.getMessage());
         }
         return ResponseEntity.ok().body("message: " + "add answer success");
     }
 
-    @PutMapping("/update/{idAnswer}")
-    public ResponseEntity<?> update(@RequestBody UpdateAnswerDTO answerDTO, @PathVariable("idAnswer") Long idAnswer) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@RequestBody UpdateAnswerDTO answerDTO, @PathVariable("id") Long id) {
         try {
-            answerService.updateAnswer(idAnswer, answerDTO);
+            answerService.updateAnswer(id, answerDTO);
         } catch (Exception e) {
-            //TODO: handle exception
             return ResponseEntity.badRequest().body("error : " + e.getMessage());
         }
         return ResponseEntity.ok().body("message : update answer success");
     }
 
-
-    @DeleteMapping("/{idanswer}")
-    public ResponseEntity<?> delete(@PathVariable("idanswer") Long idanswer) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         try {
-            answerService.deleteAnswer(idanswer);
+            answerService.deleteAnswer(id);
         } catch (Exception e) {
-            // TODO: handle exception
             return ResponseEntity.badRequest().body("error : " + e.getMessage());
         }
 
         return ResponseEntity.ok().body("message: " + "delete answer success");
     }
 
-    @GetMapping("/{idanswer}")
-    public ResponseEntity<?> findById(@PathVariable("idanswer") Long idanswer) {
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable("id") Long id) {
         AnswerDTO answerDTO;
         try {
-            answerDTO = answerService.viewAnswerDTO(idanswer);
+            answerDTO = answerService.viewAnswerDTO(id);
         } catch (Exception e) {
-            // TODO: handle exception
             return ResponseEntity.badRequest().body("error: " + e.getMessage());
         }
         return new ResponseEntity<AnswerDTO>(answerDTO, HttpStatus.OK);
