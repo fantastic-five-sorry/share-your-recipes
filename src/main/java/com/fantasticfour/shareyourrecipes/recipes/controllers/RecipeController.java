@@ -46,7 +46,7 @@ public class RecipeController {
 
         try {
             Page<RecipeDTO> recipes = recipeService.findAll(pageable);
-            return  new ResponseEntity<Page<RecipeDTO>>(recipes, HttpStatus.OK);
+            return new ResponseEntity<Page<RecipeDTO>>(recipes, HttpStatus.OK);
         } catch (Exception e) {
             //TODO: handle exception
         return ResponseEntity.badRequest().body("error: " + "Recipes is empty");

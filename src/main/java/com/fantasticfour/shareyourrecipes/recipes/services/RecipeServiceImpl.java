@@ -57,9 +57,10 @@ public class RecipeServiceImpl implements RecipeService {
         // Page<Recipe> recipes = recipeRepository.findAll();
         // Page<RecipeDTO> recipeDTOs = new ArrayList<>();
         // for (Recipe recipe: recipes) {
-        //     recipeDTOs.add(new RecipeDTO(recipe));
+        // recipeDTOs.add(new RecipeDTO(recipe));
         // }
         return recipeRepository.findAll(pageable).map(RecipeDTO::new);
+    }
 
     public List<RecipeDTO> findAll() {
         List<Recipe> recipes = recipeRepository.findAll();
@@ -115,12 +116,12 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public void updateRecipe(Long id, UpdateRecipeDTO updateRecipeDTO ) throws Exception {
+    public void updateRecipe(Long id, UpdateRecipeDTO updateRecipeDTO) throws Exception {
         // TODO Auto-generated method stub
         Recipe recipe = this.findById(id);
         // if (recipe == null) {
-        //     throw new Exception("not found recipe");
-            
+        // throw new Exception("not found recipe");
+
         // }
 
         for (Field field : updateRecipeDTO.getClass().getDeclaredFields()) {
@@ -128,7 +129,7 @@ public class RecipeServiceImpl implements RecipeService {
             if (field.get(updateRecipeDTO) != null) {
                 for (Field fieldRecipe : recipe.getClass().getDeclaredFields()) {
                     fieldRecipe.setAccessible(true);
-                    
+
                     if (field.getName() == fieldRecipe.getName()) {
                         // System.out.println(field.get(updateRecipeDTO));
                         // System.out.println(field.get(updateRecipeDTO));
