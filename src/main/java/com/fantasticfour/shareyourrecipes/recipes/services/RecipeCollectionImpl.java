@@ -1,6 +1,5 @@
 package com.fantasticfour.shareyourrecipes.recipes.services;
 
-import java.lang.reflect.Field;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.util.ArrayList;
@@ -16,13 +15,10 @@ import com.fantasticfour.shareyourrecipes.domains.recipes.RecipeCollection;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeCollectionDTO;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeCollectionDTO;
-import com.fantasticfour.shareyourrecipes.recipes.dtos.UpdateRecipeCollectionDTO;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.RecipeCollectionRepository;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.RecipeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -51,18 +47,18 @@ public class RecipeCollectionImpl implements RecipeCollectionService {
     }
 
     @Override
-    public Page<RecipeCollectionDTO> findAll(Pageable pageable) {
+    public List<RecipeCollectionDTO> findAll() {
         // TODO Auto-generated method stub
-        // List<RecipeCollection> recipeCollections = collectionRepository.findAll();
-        // List<RecipeCollectionDTO> recipeCollectionDTOs = new ArrayList<>();
-        // recipeCollectionDTOs = recipeCollections.stream().map(RecipeCollectionDTO::new).collect(Collectors.toList());
-        return collectionRepository.findAll(pageable).map(RecipeCollectionDTO::new);
+        List<RecipeCollection> recipeCollections = collectionRepository.findAll();
+        List<RecipeCollectionDTO> recipeCollectionDTOs = new ArrayList<>();
+        recipeCollectionDTOs = recipeCollections.stream().map(RecipeCollectionDTO::new).collect(Collectors.toList());
+        return recipeCollectionDTOs;
     }
 
     @Override
     public RecipeCollection findById(Long collectionId) {
         // TODO Auto-generated method stub
-        RecipeCollection recipeCollection = collectionRepository.findById(collectionId).orElseThrow(()-> new IllegalStateException("collection not found"));
+        RecipeCollection recipeCollection = collectionRepository.findById(collectionId).orElse(null);
         return recipeCollection;
     }
 
@@ -92,9 +88,9 @@ public class RecipeCollectionImpl implements RecipeCollectionService {
     public void deleteRecipeCollection(Long collectionId) throws Exception {
         // TODO Auto-generated method stub
         RecipeCollection recipeCollection = this.findById(collectionId);
-        // if (recipeCollection == null) {
-        //     throw new Exception("not found collection");
-        // }
+        if (recipeCollection == null) {
+            throw new Exception("not found collection");
+        }
         recipeCollection.setDeleted(true);
         collectionRepository.save(recipeCollection);
 
@@ -104,44 +100,19 @@ public class RecipeCollectionImpl implements RecipeCollectionService {
     public RecipeCollectionDTO viewDRecipeCollectionDTO(Long collectionId)  throws Exception{
         // TODO Auto-generated method stub
         RecipeCollection collection = this.findById(collectionId);
-        // if (collection == null) {
-        //     throw new Exception("not found collection");
-        // }
+        if (collection == null) {
+            throw new Exception("not found collection");
+        }
         return  new RecipeCollectionDTO(collection);
     }
 
     @Override
-    public Page<RecipeCollectionDTO> findByCreatorId(Long creatorId, Pageable pageable) {
+    public List<RecipeCollectionDTO> findByCreatorId(Long creatorId) {
         // TODO Auto-generated method stub
-        // List<RecipeCollection> recipeCollections = collectionRepository.findByCreatorId(creatorId);
-        // List<RecipeCollectionDTO> collectionDTOs = new ArrayList<>();
-        // collectionDTOs = recipeCollections.stream().map(RecipeCollectionDTO::new).collect(Collectors.toList());
-        return collectionRepository.findByCreatorId(creatorId, pageable).map(RecipeCollectionDTO::new);
-    }
-
-    @Override
-    public void updateRecipeCollection(Long id, UpdateRecipeCollectionDTO collectionDTO) throws Exception {
-        // TODO Auto-generated method stub
-
-        RecipeCollection recipeCollection = this.findById(id);
-        // if (recipeCollection == null) {
-        //     throw new Exception("not found collection");
-        // }
-
-        for (Field field : collectionDTO.getClass().getDeclaredFields()) {
-            field.setAccessible(true);
-            if (field.get(collectionDTO) !=  null) {
-                for (Field fieldCollection : recipeCollection.getClass().getDeclaredFields()) {
-                    fieldCollection.setAccessible(true);
-                    if (field.getName() ==  fieldCollection.getName()) {
-                        fieldCollection.set(recipeCollection, field.get(collectionDTO));
-                    }
-                }
-            }
-        }
-
-        collectionRepository.save(recipeCollection);
-        
+        List<RecipeCollection> recipeCollections = collectionRepository.findByCreatorId(creatorId);
+        List<RecipeCollectionDTO> collectionDTOs = new ArrayList<>();
+        collectionDTOs = recipeCollections.stream().map(RecipeCollectionDTO::new).collect(Collectors.toList());
+        return collectionDTOs;
     }
 
 }

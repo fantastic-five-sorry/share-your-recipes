@@ -1,6 +1,5 @@
 package com.fantasticfour.shareyourrecipes.recipes.services;
 
-import java.lang.reflect.Field;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.util.ArrayList;
@@ -11,17 +10,12 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 import com.fantasticfour.shareyourrecipes.account.UserRepo;
-import com.fantasticfour.shareyourrecipes.domains.enums.RecipeStatus;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
-import com.fantasticfour.shareyourrecipes.recipes.dtos.UpdateRecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.RecipeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -61,7 +55,6 @@ public class RecipeServiceImpl implements RecipeService {
         // }
         return recipeRepository.findAll(pageable).map(RecipeDTO::new);
     }
-
     public List<RecipeDTO> findAll() {
         List<Recipe> recipes = recipeRepository.findAll();
         List<RecipeDTO> recipeDTOs = new ArrayList<>();
