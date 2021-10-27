@@ -187,7 +187,7 @@ public class Recipe extends AuditModel {
     public Recipe() {
         this.deleted = false;
         this.status = RecipeStatus.PENDING;
-        this.price = 0f;
+        this.price = 0F;
         this.upVoteCount = 0L;
         this.downVoteCount = 0L;
     }

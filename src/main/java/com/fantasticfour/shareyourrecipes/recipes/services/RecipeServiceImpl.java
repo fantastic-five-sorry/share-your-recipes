@@ -1,5 +1,6 @@
 package com.fantasticfour.shareyourrecipes.recipes.services;
 
+import java.lang.reflect.Field;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.util.ArrayList;
@@ -9,12 +10,16 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 import com.fantasticfour.shareyourrecipes.account.UserRepo;
+import com.fantasticfour.shareyourrecipes.domains.enums.RecipeStatus;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
+import com.fantasticfour.shareyourrecipes.recipes.dtos.UpdateRecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.RecipeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -40,13 +45,13 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<RecipeDTO> findAll() {
-        List<Recipe> recipes = recipeRepository.findAll();
-        List<RecipeDTO> recipeDTOs = new ArrayList<>();
-        for (Recipe recipe: recipes) {
-            recipeDTOs.add(new RecipeDTO(recipe));
-        }
-        return recipeDTOs;
+    public Page<RecipeDTO> findAll(Pageable pageable) {
+        // Page<Recipe> recipes = recipeRepository.findAll();
+        // Page<RecipeDTO> recipeDTOs = new ArrayList<>();
+        // for (Recipe recipe: recipes) {
+        //     recipeDTOs.add(new RecipeDTO(recipe));
+        // }
+        return recipeRepository.findAll(pageable).map(RecipeDTO::new);
     }
 
     @Override
@@ -91,6 +96,40 @@ public class RecipeServiceImpl implements RecipeService {
         Recipe recipe = this.findById(id);
         
         return new RecipeDTO(recipe);
+    }
+
+    @Override
+    public void updateRecipe(Long id, UpdateRecipeDTO updateRecipeDTO ) throws Exception {
+        // TODO Auto-generated method stub
+        Recipe recipe = this.findById(id);
+        // if (recipe == null) {
+        //     throw new Exception("not found recipe");
+            
+        // }
+
+        for (Field field : updateRecipeDTO.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            if (field.get(updateRecipeDTO) != null) {
+                for (Field fieldRecipe : recipe.getClass().getDeclaredFields()) {
+                    fieldRecipe.setAccessible(true);
+                    
+                    if (field.getName() == fieldRecipe.getName()) {
+                        // System.out.println(field.get(updateRecipeDTO));
+                        // System.out.println(field.get(updateRecipeDTO));
+                        fieldRecipe.set(recipe, field.get(updateRecipeDTO));
+                    }
+                }
+            }
+
+        }
+        // System.out.println(recipe.getPrice());
+        recipeRepository.save(recipe);
+    }
+
+    @Override
+    public Page<RecipeDTO> findByStatus(String recipeStatus, Pageable pageable) {
+        // TODO Auto-generated method stub
+        return recipeRepository.findByStatus(recipeStatus, pageable).map(RecipeDTO::new);
     }
 
 }

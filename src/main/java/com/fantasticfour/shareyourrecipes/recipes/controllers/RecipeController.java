@@ -6,13 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 import com.fantasticfour.shareyourrecipes.account.UserRepo;
+import com.fantasticfour.shareyourrecipes.domains.enums.RecipeStatus;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
+import com.fantasticfour.shareyourrecipes.recipes.dtos.UpdateRecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.services.RecipeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,20 +41,20 @@ public class RecipeController {
 
     }
 
-    @GetMapping("/")
+    @GetMapping("")
+    public ResponseEntity<?> recipe(Pageable pageable) {
 
-    public ResponseEntity<?> recipe() {
 
-
-        List<RecipeDTO> recipes = recipeService.findAll();
-        if (recipes.size() > 0) {
-            return new ResponseEntity<List<RecipeDTO>>(recipes, HttpStatus.OK);
-        }
+        try {
+            Page<RecipeDTO> recipes = recipeService.findAll(pageable);
+            return  new ResponseEntity<Page<RecipeDTO>>(recipes, HttpStatus.OK);
+        } catch (Exception e) {
+            //TODO: handle exception
         return ResponseEntity.badRequest().body("error: " + "Recipes is empty");
- 
+        }
     }
 
-    @PostMapping("/")
+    @PostMapping("/create")
     public ResponseEntity<?> createRecipe(@RequestBody CreateRecipeDTO recipe) {
         try {
             recipeService.createRecipe(recipe);
@@ -59,6 +63,18 @@ public class RecipeController {
         }
         return ResponseEntity.ok().body("message: " + "add recipe success");
     }
+
+    @PutMapping("/{idRecipe}")
+    public ResponseEntity<?> updateRecipe(@PathVariable("idRecipe") Long idRecipe, @RequestBody UpdateRecipeDTO updateRecipeDTO) {
+        try {
+            recipeService.updateRecipe(idRecipe ,updateRecipeDTO);
+        } catch (Exception e ) {
+            return ResponseEntity.badRequest().body("error: " + e.getMessage());
+        }
+        return ResponseEntity.ok().body("message: " + "update recipe success");
+    }
+
+
 
     // Phan nay deletemapping
     @DeleteMapping("/{idRecipe}")
@@ -85,6 +101,17 @@ public class RecipeController {
             return ResponseEntity.badRequest().body("error: " + e.getMessage());
         }
         return  new ResponseEntity<RecipeDTO>(recipeDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/status/{status}")
+    public ResponseEntity<?> findByStatus(@PathVariable("status") RecipeStatus status, Pageable pageable) {
+        try {
+            System.out.println(status.toString());
+            return  new ResponseEntity<Page<RecipeDTO>>(recipeService.findByStatus(status.toString(), pageable), HttpStatus.OK);
+        } catch (Exception e) {
+            //TODO: handle exception
+            return ResponseEntity.badRequest().body("error: " + e.getMessage());
+        }
     }
 
 }
