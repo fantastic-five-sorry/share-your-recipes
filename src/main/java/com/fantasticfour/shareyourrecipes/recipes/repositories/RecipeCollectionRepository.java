@@ -2,8 +2,6 @@ package com.fantasticfour.shareyourrecipes.recipes.repositories;
 
 import com.fantasticfour.shareyourrecipes.domains.recipes.RecipeCollection;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,13 +17,13 @@ import javax.transaction.Transactional;
 public interface RecipeCollectionRepository extends JpaRepository<RecipeCollection, Long>{
 
     @Query(value = "SELECT * FROM recipes_collection r WHERE r.deleted=" + false, nativeQuery = true)
-    Page<RecipeCollection> findAll(Pageable pageable);
+    List<RecipeCollection> findAll();
 
     @Query(value ="SELECT * FROM recipes_collection r WHERE r.deleted=false AND r.id=:id", nativeQuery = true)
     Optional<RecipeCollection> findById(Long id);
 
     @Query(value ="SELECT * FROM recipes_collection r  WHERE r.deleted=false AND r.creator_id=:creatorId",  nativeQuery = true)
-    Page<RecipeCollection> findByCreatorId(Long creatorId, Pageable pageable);
+    List<RecipeCollection> findByCreatorId(Long creatorId);
     
     
     @Modifying

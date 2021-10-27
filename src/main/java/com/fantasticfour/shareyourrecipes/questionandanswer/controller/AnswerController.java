@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.fantasticfour.shareyourrecipes.questionandanswer.dto.AnswerDTO;
 import com.fantasticfour.shareyourrecipes.questionandanswer.dto.CreateAnswerDTO;
-import com.fantasticfour.shareyourrecipes.questionandanswer.dto.UpdateAnswerDTO;
 import com.fantasticfour.shareyourrecipes.questionandanswer.service.AnswerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,24 +30,24 @@ public class AnswerController {
         this.answerService = answerService;
     }
 
-    // @GetMapping("/")
-    // public ResponseEntity<?> answer(Pageable page) {
-    //     // Page page =new Page();
-    //     // page.getP
-    //     List<AnswerDTO> answerDTOs = answerService.findAll();
-    //     if (answerDTOs.size() > 0) {
-    //         return new ResponseEntity<List<AnswerDTO>>(answerDTOs, HttpStatus.OK);
-    //     }
-    //     return ResponseEntity.badRequest().body("error : " + "list is empty");
-    // }
     @GetMapping("/")
-    public ResponseEntity<?> answer() {
-    List<AnswerDTO> answerDTOs = answerService.findAll();
-    if (answerDTOs.size() > 0) {
-    return new ResponseEntity<List<AnswerDTO>>(answerDTOs, HttpStatus.OK);
+    public ResponseEntity<?> answer(Pageable page) {
+        // Page page =new Page();
+        // page.getP
+        List<AnswerDTO> answerDTOs = answerService.findAll();
+        if (answerDTOs.size() > 0) {
+            return new ResponseEntity<List<AnswerDTO>>(answerDTOs, HttpStatus.OK);
+        }
+        return ResponseEntity.badRequest().body("error : " + "list is empty");
     }
-    return ResponseEntity.badRequest().body("error : " + "list is empty");
-    }
+    // @GetMapping("/")
+    // public ResponseEntity<?> answer() {
+    // List<AnswerDTO> answerDTOs = answerService.findAll();
+    // if (answerDTOs.size() > 0) {
+    // return new ResponseEntity<List<AnswerDTO>>(answerDTOs, HttpStatus.OK);
+    // }
+    // return ResponseEntity.badRequest().body("error : " + "list is empty");
+    // }
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody CreateAnswerDTO answerDTO) {
@@ -61,18 +59,6 @@ public class AnswerController {
         }
         return ResponseEntity.ok().body("message: " + "add answer success");
     }
-
-    @PutMapping("/update/{idAnswer}")
-    public ResponseEntity<?> update(@RequestBody UpdateAnswerDTO answerDTO, @PathVariable("idAnswer") Long idAnswer) {
-        try {
-            answerService.updateAnswer(idAnswer, answerDTO);
-        } catch (Exception e) {
-            //TODO: handle exception
-            return ResponseEntity.badRequest().body("error : " + e.getMessage());
-        }
-        return ResponseEntity.ok().body("message : update answer success");
-    }
-
 
     @DeleteMapping("/{idanswer}")
     public ResponseEntity<?> delete(@PathVariable("idanswer") Long idanswer) {
