@@ -5,10 +5,11 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.fantasticfour.shareyourrecipes.domains.enums.RecipeStatus;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
-import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
 
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,7 +22,10 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     List<Recipe> findByCreatorId(Long creatorId);
 
     @Query(value = "SELECT * FROM recipes r WHERE r.deleted=" + false, nativeQuery = true)
-    List<Recipe> findAll();
+    Page<Recipe> findAll(Pageable pageable);
+
+    @Query(value = "SELECT * FROM recipes r WHERE r.status=:status", nativeQuery = true)
+    Page<Recipe> findByStatus(String status, Pageable pageable);
 
     @Query("SELECT r FROM Recipe r WHERE r.deleted=FALSE AND id=:id")
     Optional<Recipe> findById(Long id);

@@ -1,5 +1,6 @@
 package com.fantasticfour.shareyourrecipes.questionandanswer.service;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collector;
@@ -10,6 +11,7 @@ import com.fantasticfour.shareyourrecipes.domains.Answer;
 import com.fantasticfour.shareyourrecipes.domains.Question;
 import com.fantasticfour.shareyourrecipes.questionandanswer.dto.AnswerDTO;
 import com.fantasticfour.shareyourrecipes.questionandanswer.dto.CreateAnswerDTO;
+import com.fantasticfour.shareyourrecipes.questionandanswer.dto.UpdateAnswerDTO;
 import com.fantasticfour.shareyourrecipes.questionandanswer.repository.AnswerRepo;
 import com.fantasticfour.shareyourrecipes.questionandanswer.repository.QuestionRepo;
 
@@ -54,9 +56,9 @@ public class AnswerServiceImpl implements AnswerService {
     public void deleteAnswer(Long id) throws Exception {
         // TODO Auto-generated method stub
         Answer answer = this.findById(id);
-        if (answer == null) {
-            throw new Exception("not found answer");
-        }
+        // if (answer == null) {
+        //     throw new Exception("not found answer");
+        // }
         answer.setDeleted(true);
         answerRepo.save(answer);
 
@@ -65,7 +67,7 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public Answer findById(Long id) {
         // TODO Auto-generated method stub
-        Answer answer = answerRepo.findById(id).orElse(null);
+        Answer answer = answerRepo.findById(id).orElseThrow(()-> new IllegalStateException("question not found"));
         return answer;
     }
 
@@ -73,10 +75,38 @@ public class AnswerServiceImpl implements AnswerService {
     public AnswerDTO viewAnswerDTO(Long id) throws Exception {
         // TODO Auto-generated method stub
         Answer answer = this.findById(id);
-        if (answer == null) {
-            throw new Exception("not found answer");
-        }
+        // if (answer == null) {
+        //     throw new Exception("not found answer");
+        // }
         return new AnswerDTO(answer);
+    }
+
+    @Override
+    public void updateAnswer(long idAnswer, UpdateAnswerDTO answerDTO) throws Exception {
+        // TODO Auto-generated method stub
+        Answer answer = this.findById(idAnswer);
+        // if (answer == null) {
+        //     throw new Exception("not found answer");
+            
+        // }
+
+        for (Field field : answerDTO.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            if (field.get(answerDTO) != null) {
+                for (Field fieldanswer : answer.getClass().getDeclaredFields()) {
+                    fieldanswer.setAccessible(true);
+                    
+                    if (field.getName() == fieldanswer.getName()) {
+                        // System.out.println(field.get(dto));
+                        // System.out.println(field.get(dto));
+                        fieldanswer.set(answer, field.get(answerDTO));
+                    }
+                }
+            }
+
+        }
+        // System.out.println(answer.getPrice());
+        answerRepo.save(answer);
     }
 
 }

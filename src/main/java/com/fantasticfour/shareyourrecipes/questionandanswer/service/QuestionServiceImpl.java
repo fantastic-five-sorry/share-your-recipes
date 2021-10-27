@@ -1,5 +1,6 @@
 package com.fantasticfour.shareyourrecipes.questionandanswer.service;
 
+import java.lang.reflect.Field;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.util.List;
@@ -13,6 +14,7 @@ import com.fantasticfour.shareyourrecipes.domains.Question;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.questionandanswer.dto.CreateQuestionDTO;
 import com.fantasticfour.shareyourrecipes.questionandanswer.dto.QuestionDTO;
+import com.fantasticfour.shareyourrecipes.questionandanswer.dto.UpdateQuestionDTO;
 import com.fantasticfour.shareyourrecipes.questionandanswer.repository.AnswerRepo;
 import com.fantasticfour.shareyourrecipes.questionandanswer.repository.QuestionRepo;
 
@@ -69,9 +71,9 @@ public class QuestionServiceImpl implements QuestionService {
     public void deleteQuestion(Long id) throws Exception {
         // TODO Auto-generated method stub
         Question question = this.findById(id);
-        if (question == null) {
-            throw new Exception("not found creator");
-        }
+        // if (question == null) {
+        //     throw new Exception("not found creator");
+        // }
         question.setDeleted(true);
         questionRepo.save(question);
 
@@ -80,7 +82,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Question findById(Long id) {
         // TODO Auto-generated method stub
-        Question question = questionRepo.findById(id).get();
+        Question question = questionRepo.findById(id).orElseThrow(()-> new IllegalStateException("question not found"));
         return question;
     }
 
@@ -88,10 +90,37 @@ public class QuestionServiceImpl implements QuestionService {
     public QuestionDTO viewQuestionDTO(Long id) throws Exception {
         // TODO Auto-generated method stub
         Question question = this.findById(id);
-        if (question == null) {
-            throw new Exception("not found creator");
-        }
+        // if (question == null) {
+        //     throw new Exception("not found creator");
+        // }
         return new QuestionDTO(question);
     }
+    @Override
+    public void updateQuestion(Long id, UpdateQuestionDTO dto) throws Exception {
+        // TODO Auto-generated method stub
+        Question question = this.findById(id);
+        // if (question == null) {
+        //     throw new Exception("not found question");
+            
+        // }
 
+        for (Field field : dto.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            if (field.get(dto) != null) {
+                for (Field fieldquestion : question.getClass().getDeclaredFields()) {
+                    fieldquestion.setAccessible(true);
+                    
+                    if (field.getName() == fieldquestion.getName()) {
+                        // System.out.println(field.get(dto));
+                        // System.out.println(field.get(dto));
+                        fieldquestion.set(question, field.get(dto));
+                    }
+                }
+            }
+
+        }
+        // System.out.println(question.getPrice());
+        questionRepo.save(question);
+    }
+    
 }
