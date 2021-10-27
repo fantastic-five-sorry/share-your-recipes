@@ -1,7 +1,6 @@
 package com.fantasticfour.shareyourrecipes.domains.reports;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.*;
 
@@ -17,15 +16,25 @@ public class Report {
     @SequenceGenerator(name = "report_generator", sequenceName = "report_sequence", initialValue = 1000, allocationSize = 1)
     private Long id;
 
+    @Column(nullable = false)
     private String reason;
-
-    // private User handler;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User reporter;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Recipe recipe;
+
+    @OneToOne(mappedBy = "report", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    private HandledReport handledReport;
+
+    public HandledReport getHandledReport() {
+        return this.handledReport;
+    }
+
+    public void setHandledReport(HandledReport handledReport) {
+        this.handledReport = handledReport;
+    }
 
     public Long getId() {
         return this.id;
@@ -61,7 +70,6 @@ public class Report {
 
     private LocalDateTime createdAt;
 
-
     public LocalDateTime getCreatedAt() {
         return this.createdAt;
     }
@@ -73,7 +81,9 @@ public class Report {
     public Report() {
     }
 
-    
+    public Boolean isHandled() {
+        return this.handledReport != null;
+    }
 
 }
 

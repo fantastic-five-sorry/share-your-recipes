@@ -1,6 +1,9 @@
 package com.fantasticfour.shareyourrecipes.domains;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,6 +13,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
+import com.fantasticfour.shareyourrecipes.domains.enums.QuestionStatus;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -21,19 +29,32 @@ public class Question extends AuditModel {
     @GeneratedValue(generator = "quetion_generator")
     @SequenceGenerator(name = "quetion_generator", sequenceName = "quetion_sequence", initialValue = 1000, allocationSize = 1)
     private Long id;
+
+    @Column(nullable = false)
     private String slug;
+    @Column(nullable = false)
+    @Length(max = 100)
     private String title;
+    @Column(nullable = false)
+    @Length(max = 65535)
     private String content;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private QuestionStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User creator;
 
     @OneToMany(mappedBy = "question")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Answer> answers = new ArrayList<>();
-    private Boolean deleted;
 
+    @Column(nullable = false)
+    private Boolean deleted;
+    @Column(nullable = false)
     private Long upVoteCount;
+    @Column(nullable = false)
     private Long downVoteCount;
 
     public Long getUpVoteCount() {
@@ -53,6 +74,7 @@ public class Question extends AuditModel {
     }
 
     public Question() {
+        status = QuestionStatus.PENDING;
         deleted = false;
         this.upVoteCount = 0L;
         this.downVoteCount = 0L;
@@ -90,11 +112,11 @@ public class Question extends AuditModel {
         this.content = content;
     }
 
-    public String getStatus() {
+    public QuestionStatus getStatus() {
         return this.status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(QuestionStatus status) {
         this.status = status;
     }
 
@@ -117,7 +139,6 @@ public class Question extends AuditModel {
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
     }
-
 
     public List<Answer> getAnswers() {
         return this.answers;

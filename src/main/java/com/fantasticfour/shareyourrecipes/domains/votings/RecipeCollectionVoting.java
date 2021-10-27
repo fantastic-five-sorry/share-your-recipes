@@ -1,11 +1,8 @@
 package com.fantasticfour.shareyourrecipes.domains.votings;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-
 import javax.persistence.*;
 
-import com.fantasticfour.shareyourrecipes.domains.AuditModel;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.VotingType;
 import com.fantasticfour.shareyourrecipes.domains.recipes.RecipeCollection;
@@ -22,7 +19,7 @@ public class RecipeCollectionVoting {
     @JoinColumn(name = "recipe_collection_id", nullable = false)
     private RecipeCollection recipeCollection;
     @Enumerated(EnumType.STRING)
-    @Column(length = 15)
+    @Column(length = 15, nullable = false)
     private VotingType type;
 
     public VotingType getType() {

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/admin")
 public class AdminController {
     @GetMapping("hello")
-    private String sayHi(@RequestParam(name="name", required = false) String name) {
+    public String sayHi(@RequestParam(name="name", required = false) String name) {
 
         return name == null ? "lvl" : name;
     }

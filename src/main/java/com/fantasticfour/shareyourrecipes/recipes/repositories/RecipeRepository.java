@@ -27,7 +27,6 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     @Query(value = "SELECT * FROM recipes r WHERE r.status=:status", nativeQuery = true)
     Page<Recipe> findByStatus(String status, Pageable pageable);
 
-
     @Query("SELECT r FROM Recipe r WHERE r.deleted=FALSE AND id=:id")
     Optional<Recipe> findById(Long id);
 

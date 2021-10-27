@@ -52,4 +52,11 @@ public class UserInfo {
         this.name = user.getName();
     }
 
+    public UserInfo(Long id, String email, String name, String photoUrl) {
+        this.email = email;
+        this.name = name;
+        this.photoUrl = photoUrl;
+        this.id = id;
+    }
+
 }

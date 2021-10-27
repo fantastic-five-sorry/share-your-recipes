@@ -1,12 +1,10 @@
 package com.fantasticfour.shareyourrecipes.domains;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.*;
 
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 
-import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "answers", schema = "public")
@@ -19,12 +17,15 @@ public class Answer extends AuditModel {
     @ManyToOne(fetch = FetchType.LAZY)
     private User answerer;
 
+    @Column(nullable = false)
+    @Length(max = 65535)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Question question;
-
+    @Column(nullable = false)
     private Long upVoteCount;
+    @Column(nullable = false)
     private Long downVoteCount;
 
     public Long getUpVoteCount() {
@@ -57,20 +58,11 @@ public class Answer extends AuditModel {
         this.deleted = deleted;
     }
 
-    // public LocalDateTime getCreatedAt() {
-    //     return this.createdAt;
-    // }
-
-    // public void setCreatedAt(LocalDateTime createdAt) {
-    //     this.createdAt = createdAt;
-    // }
-
     public Answer() {
         this.deleted = false;
         this.upVoteCount = 0L;
         this.downVoteCount = 0L;
     }
-
 
     public Long getId() {
         return this.id;
@@ -119,8 +111,6 @@ public class Answer extends AuditModel {
     public void increaseDownVoteCount() {
         this.downVoteCount++;
     }
-
-  
 
     // @Column(nullable = false, columnDefinition = "TIMESTAMP")
     // @Convert(converter = LocalDateTimeConverter.class)

@@ -1,14 +1,17 @@
 package com.fantasticfour.shareyourrecipes.votings;
 
-import java.util.List;
-
+import com.fantasticfour.shareyourrecipes.account.UserUtils;
 import com.fantasticfour.shareyourrecipes.votings.dtos.CommentDto;
 import com.fantasticfour.shareyourrecipes.votings.dtos.EditCommentDto;
 import com.fantasticfour.shareyourrecipes.votings.dtos.NewCommentDto;
 import com.fantasticfour.shareyourrecipes.votings.services.CommentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -22,10 +25,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/comment")
 public class CommentController {
     @Autowired
-    CommentService commentService;
+    public CommentService commentService;
+
+    @GetMapping("")
+    public ResponseEntity<?> getAllComments(Pageable page) {
+        try {
+
+            return ResponseEntity.ok().body(commentService.getAllComments(page));
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("error: " + e.getMessage());
+        }
+    }
 
     @PostMapping("/recipe")
-    private ResponseEntity<?> commentToRecipe(@RequestBody NewCommentDto comment) {
+    public ResponseEntity<?> commentToRecipe(@RequestBody NewCommentDto comment) {
         try {
 
             commentService.writeCommentToRecipe(comment);
@@ -37,7 +51,7 @@ public class CommentController {
     }
 
     @GetMapping("/{commentId}")
-    private ResponseEntity<?> getCommentById(@PathVariable("commentId") Long commentId) {
+    public ResponseEntity<?> getCommentById(@PathVariable("commentId") Long commentId) {
         try {
 
             CommentDto comment = commentService.getComment(commentId);
@@ -49,7 +63,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/{commentId}")
-    private ResponseEntity<?> deleteComment(@PathVariable("commentId") Long commentId) {
+    public ResponseEntity<?> deleteComment(@PathVariable("commentId") Long commentId) {
         try {
 
             commentService.deleteCommentToRecipe(commentId);
@@ -60,12 +74,29 @@ public class CommentController {
         }
     }
 
-    @GetMapping("/recipe/{recipeId}")
-    private ResponseEntity<?> getAllCommentsToRecipe(@PathVariable("recipeId") Long recipeId) {
+    @GetMapping("/recipe2/{recipeId}")
+    public ResponseEntity<?> getAllCommentsToRecipe(@PathVariable("recipeId") Long recipeId, Pageable page,
+            Authentication authentication) {
         try {
 
-            List<CommentDto> comments = commentService.getCommentsOfRecipe(recipeId);
-            return ResponseEntity.ok().body(comments);
+            Page<CommentDto> pageDto = commentService.getCommentsOfRecipe(recipeId, page);
+            return ResponseEntity.ok().body(pageDto);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("error: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/recipe/{recipeId}")
+    @PreAuthorize("hasAnyRole('USER')")
+    public ResponseEntity<?> getCommentVotingsOfRecipe(@PathVariable("recipeId") Long recipeId, Pageable page,
+            Authentication authentication) {
+        try {
+
+            Long uid = UserUtils.getIdFromRequest(authentication)
+                    .orElseThrow(() -> new IllegalStateException("User not found"));
+
+            return ResponseEntity.ok().body(commentService.getCommentVotingsOfRecipe(recipeId, uid, page));
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("error: " + e.getMessage());
@@ -73,7 +104,7 @@ public class CommentController {
     }
 
     @PatchMapping("/edit")
-    private ResponseEntity<?> editCommentToRecipe(@RequestBody EditCommentDto dto) {
+    public ResponseEntity<?> editCommentToRecipe(@RequestBody EditCommentDto dto) {
         try {
 
             commentService.editRecipeComment(dto);

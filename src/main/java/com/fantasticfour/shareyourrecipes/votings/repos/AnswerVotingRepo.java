@@ -19,6 +19,6 @@ public interface AnswerVotingRepo extends JpaRepository<AnswerVoting, VotingId> 
 
     @Modifying
     @Transactional
-    @Query(value = "insert into answer_voting (answer_id, voter_id, created_at) values (:answerId, :voterId, now())", nativeQuery = true)
-    void addVoting(Long answerId, Long voterId);
+    @Query(value = "insert into answer_voting (answer_id, voter_id, type, created_at) values (:answerId, :voterId, :type, now())", nativeQuery = true)
+    void addVoting(Long answerId, Long voterId, String type);
 }

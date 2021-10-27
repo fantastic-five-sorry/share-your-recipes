@@ -1,12 +1,17 @@
 package com.fantasticfour.shareyourrecipes.questionandanswer.dto;
 
+import javax.validation.constraints.NotBlank;
 
+import org.hibernate.validator.constraints.Length;
 
 public class CreateAnswerDTO {
-    private Long answererId;
-    private String content;
-    private Long questionId;
 
+    private Long answererId;
+    @NotBlank
+    @Length(max = 65535)
+    private String content;
+    @NotBlank
+    private Long questionId;
 
     public Long getAnswererId() {
         return this.answererId;
@@ -32,6 +37,7 @@ public class CreateAnswerDTO {
         this.questionId = questionId;
     }
 
-    public CreateAnswerDTO() {}
+    public CreateAnswerDTO() {
+    }
 
 }

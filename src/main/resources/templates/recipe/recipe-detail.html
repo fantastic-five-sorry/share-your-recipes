@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipe Detail</title>
+    <link rel="stylesheet" href="/styles/qa/style.css" />
+    <script src="/js/qa/main.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
+      integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+      defer
+    ></script>
+  </head>
+  <body style="background-color: #f5f5f5">
+    <div class="container-fluid">
+      <!-- begin header -->
+      <div class="row mt-5 ms-5">
+        <div class="col-md-9">
+          <div class="img-header">
+            <div class="icon-report">
+              <i class="arow-up fas fa-caret-up"></i>
+              <i class="arow-up arow-report fas fa-sort-down"></i>
+              <input
+                type="button"
+                class="btn-report btn btn-danger"
+                value="Report"
+              />
+            </div>
+            <div class="img_detail">
+              <img
+                src="/imgs/taboyaki.jpg"
+                alt="takoyaki"
+                class="img_details"
+              />
+              <h4 class="name_details">TaKoYaKi</h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="user_img">
+            <img src="/imgs/102180246.jpg" class="user" alt="user" />
+            <h4 class="name-user">Ta Dinh Han</h4>
+          </div>
+        </div>
+      </div>
+      <!-- end header -->
+      <!-- begin 食材 -->
+      <div
+        class="container mt-5 mb-5"
+        style="padding-left: 164px; padding-right: 164px"
+      >
+        <div class="congthuc">
+          <h4 class="tilte_nguyenlieu">Here’s what you need:</h4>
+          <ul class="list-group" style="font-weight: bold">
+            <li
+              class="list-group-item list_bottom step"
+              style="
+                border-style: none;
+                border-top: 1px dashed rgb(170, 170, 170);
+              "
+            >
+              <div class="step_n">1. Eggs.</div>
+            </li>
+            <li
+              class="list-group-item list_bottom step"
+              style="
+                border-style: none;
+                border-top: 1px dashed rgb(170, 170, 170);
+              "
+            >
+              <div class="step_n">2. Flour.</div>
+            </li>
+            <li
+              class="list-group-item list_bottom step"
+              style="
+                border-style: none;
+                border-top: 1px dashed rgb(170, 170, 170);
+              "
+            >
+              <div class="step_n">3. Dashi powder.</div>
+            </li>
+            <li
+              class="list-group-item list_bottom step"
+              style="
+                border-style: none;
+                border-top: 1px dashed rgb(170, 170, 170);
+              "
+            >
+              <div class="step_n">4. Soy sauce.</div>
+            </li>
+            <li
+              class="list-group-item list_bottom step"
+              style="
+                border-style: none;
+                border-top: 1px dashed rgb(170, 170, 170);
+              "
+            >
+              <div class="step_n">5. Octopus/tako.</div>
+            </li>
+            <li
+              class="list-group-item list_bottom step"
+              style="
+                border-style: none;
+                border-top: 1px dashed rgb(170, 170, 170);
+              "
+            >
+              <div class="step_n">6. Tenkasu.</div>
+            </li>
+            <li
+              class="list-group-item list_bottom step"
+              style="
+                border-style: none;
+                border-top: 1px dashed rgb(170, 170, 170);
+              "
+            >
+              <div class="step_n">7. Takoyaki sauce.</div>
+            </li>
+            <li
+              class="list-group-item list_bottom step"
+              style="
+                border-style: none;
+                border-top: 1px dashed rgb(170, 170, 170);
+              "
+            >
+              <div class="step_n">8. Kewpie mayo.</div>
+            </li>
+            <li
+              class="list-group-item list_bottom step"
+              style="
+                border-style: none;
+                border-top: 1px dashed rgb(170, 170, 170);
+              "
+            >
+              <div class="step_n">9. Bonito flakes.</div>
+            </li>
+            <li
+              class="list-group-item list_bottom step"
+              style="
+                border-style: none;
+                border-top: 1px dashed rgb(170, 170, 170);
+              "
+            >
+              <div class="step_n">10. Seaweed.</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- end 食材 -->
+      <!-- begin 作り方 -->
+      <div
+        class="container mt-5 mb-5"
+        style="padding-left: 164px; padding-right: 164px"
+      >
+        <div class="congthuc">
+          <h4 class="tilte_nguyenlieu">How to make:</h4>
+          <ul class="list-group">
+            <li
+              class="list-group-item list_bottom step"
+              style="
+                border-style: none;
+                border-top: 1px dashed rgb(170, 170, 170);
+              "
+            >
+              <div class="step_n">
+                <span style="font-weight: bold; margin-right: 5px"
+                  >1. Mix:</span
+                >
+                Mix the batter up with a whisk making sure there are no floury
+                bits.
+              </div>
+            </li>
+            <li
+              class="list-group-item list_bottom step"
+              style="
+                border-style: none;
+                border-top: 1px dashed rgb(170, 170, 170);
+              "
+            >
+              <div class="step_n">
+                <span style="font-weight: bold; margin-right: 5px"
+                  >2.Prep:</span
+                >
+                Prep all of the fillings. Cut up the octopus, slice the green
+                onions and make sure you have everything at the ready: a little
+                dish of oil, all your ingredients, some skewers to flip the
+                balls, and a plate to serve on. Heat up the pan.
+              </div>
+            </li>
+            <li
+              class="list-group-item list_bottom step"
+              style="
+                border-style: none;
+                border-top: 1px dashed rgb(170, 170, 170);
+              "
+            >
+              <div class="step_n">
+                <span style="font-weight: bold; margin-right: 5px"
+                  >3.Pour and fill:</span
+                >Generously oil the pan with a brush or a paper towel dipped in
+                oil. Give the batter a whisk then pour into the individual
+                compartments all the way up to the top. It’s okay if they
+                overflow a bit. Add in the fillings and let cook until the edges
+                start to look more solid and opaque.
+              </div>
+            </li>
+            <li
+              class="list-group-item list_bottom step"
+              style="
+                border-style: none;
+                border-top: 1px dashed rgb(170, 170, 170);
+              "
+            >
+              <div class="step_n">
+                <span style="font-weight: bold; margin-right: 5px"
+                  >4.Flip:</span
+                >
+                Use your skewers to turn the takoyaki 90 degrees. If they don’t
+                easily move, they need more time to crisp up. Once they’re at a
+                90° angle, pour in a bit more batter to ensure a super round
+                ball. Let cook, stuffing in any excess batter that’s outside the
+                ball, then turn again. You should have a round ball. Cook until
+                the balls are crispy and brown, moving the balls around from
+                mold to mold to evenly cook (this is because most pans will have
+                uneven heating). As the balls crisp up, it will be easier to
+                flip them.
+              </div>
+            </li>
+            <li
+              class="list-group-item list_bottom step"
+              style="
+                border-style: none;
+                border-top: 1px dashed rgb(170, 170, 170);
+              "
+            >
+              <div class="step_n">
+                <span style="font-weight: bold; margin-right: 5px"
+                  >5.Sauce:</span
+                >
+                When the balls are golden and crisp, pop them on a plate and
+                brush with takoyaki sauce and squeeze on some mayo. Top. Finish
+                with a sprinkle of bonito and aonori. Enjoy!
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- end 作り方 -->
+
+      <!-- begin video -->
+      <div
+        class="nguyenlieu container"
+        style="padding-left: 164px; padding-right: 164px"
+      >
+        <div class="congthuc">
+          <h4 class="tilte_nguyenlieu">Guide video:</h4>
+          <div class="video">
+            <iframe
+              class="videocongthuc"
+              src="https://www.youtube.com/embed/b6aRDlV_TUg"
+            >
+            </iframe>
+          </div>
+        </div>
+      </div>
+      <!-- end video -->
+
+      <!-- begin cmt -->
+      <div class="container mt-5 mb-5">
+        <div class="d-flex justify-content-center row">
+          <div class="d-flex flex-column col-md-8">
+            <div class="coment-bottom bg-white p-2 px-4">
+              <div class="d-flex flex-row add-comment-section mt-4 mb-4">
+                <input
+                  type="text"
+                  class="form-control mr-3"
+                  placeholder="Add comment"
+                /><button class="btn btn-primary" type="button">Comment</button>
+              </div>
+              <div class="commented-section mt-2">
+                <div class="d-flex flex-row align-items-center commented-user">
+                  <h5 class="mr-2">Corey oates</h5>
+                  <span class="dot mb-1"></span
+                  ><span class="mb-1 ml-2">4 hours ago</span>
+                </div>
+                <div class="comment-text-sm">
+                  <span
+                    >Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat.</span
+                  >
+                </div>
+                <div class="reply-section">
+                  <div class="d-flex flex-row align-items-center voting-icons">
+                    <i class="fa fa-sort-up fa-2x mt-3 hit-voting"></i
+                    ><i class="fa fa-sort-down fa-2x mb-3 hit-voting"></i
+                    ><span class="ml-2 ms-2">10</span
+                    ><span class="dot ml-2"></span>
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="commented-section mt-2">
+                <div class="d-flex flex-row align-items-center commented-user">
+                  <h5 class="mr-2">Samoya Johns</h5>
+                  <span class="dot mb-1"></span
+                  ><span class="mb-1 ml-2">5 hours ago</span>
+                </div>
+                <div class="comment-text-sm">
+                  <span
+                    >Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua..</span
+                  >
+                </div>
+                <div class="reply-section">
+                  <div class="d-flex flex-row align-items-center voting-icons">
+                    <i class="fa fa-sort-up fa-2x mt-3 hit-voting"></i
+                    ><i class="fa fa-sort-down fa-2x mb-3 hit-voting"></i
+                    ><span class="ml-2 ms-2">15</span
+                    ><span class="dot ml-2"></span>
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="commented-section mt-2">
+                <div class="d-flex flex-row align-items-center commented-user">
+                  <h5 class="mr-2">Makhaya andrew</h5>
+                  <span class="dot mb-1"></span
+                  ><span class="mb-1 ml-2">10 hours ago</span>
+                </div>
+                <div class="comment-text-sm">
+                  <span
+                    >Nunc sed id semper risus in hendrerit gravida rutrum. Non
+                    odio euismod lacinia at quis risus sed. Commodo ullamcorper
+                    a lacus vestibulum sed arcu non odio euismod. Enim facilisis
+                    gravida neque convallis a. In mollis nunc sed id. Adipiscing
+                    elit pellentesque habitant morbi tristique senectus et
+                    netus. Ultrices mi tempus imperdiet nulla malesuada
+                    pellentesque.</span
+                  >
+                </div>
+                <div class="reply-section">
+                  <div class="d-flex flex-row align-items-center voting-icons">
+                    <i class="fa fa-sort-up fa-2x mt-3 hit-voting"></i
+                    ><i class="fa fa-sort-down fa-2x mb-3 hit-voting"></i
+                    ><span class="ml-2 ms-2">25</span
+                    ><span class="dot ml-2"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end cmt -->
+    </div>
+
+  </body>
+</html>

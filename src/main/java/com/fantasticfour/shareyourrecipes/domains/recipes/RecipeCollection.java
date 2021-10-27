@@ -9,6 +9,9 @@ import com.fantasticfour.shareyourrecipes.domains.AuditModel;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 // import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 @Table(name = "recipes_collection", schema = "public")
 public class RecipeCollection extends AuditModel {
@@ -18,6 +21,7 @@ public class RecipeCollection extends AuditModel {
     @SequenceGenerator(name = "recipe_collection_generator", sequenceName = "recipe_collection_sequence", initialValue = 1000, allocationSize = 1)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -28,9 +32,12 @@ public class RecipeCollection extends AuditModel {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "collection_recipes", joinColumns = @JoinColumn(name = "collection_id"), inverseJoinColumns = @JoinColumn(name = "recipe_id"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Recipe> recipes = new ArrayList<>();
 
+    @Column(nullable = false)
     private Long upVoteCount;
+    @Column(nullable = false)
     private Long downVoteCount;
 
     public Long getUpVoteCount() {

@@ -18,7 +18,7 @@ $(document).ready(function () {
     requestEmail(event);
   });
   var timeout;
-  $('#confirmNewPassword').keyup(function () {
+  $(':password').keyup(function () {
     clearTimeout(timeout);
     timeout = setTimeout(function () {
       if ($('#newPassword').val() != $('#confirmNewPassword').val()) {

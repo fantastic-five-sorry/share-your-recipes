@@ -41,7 +41,7 @@ public class User implements Serializable {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     private Provider provider;
 
     private String providerId;
@@ -66,9 +66,13 @@ public class User implements Serializable {
     }
 
     private String photoUrl;
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private Boolean blocked;
+
+    @Column(nullable = false)
     private Boolean enabled;
 
     public Boolean isBlocked() {
@@ -133,14 +137,18 @@ public class User implements Serializable {
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "creator")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Recipe> recipes = new ArrayList<>();
     @OneToMany(mappedBy = "creator")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Question> questions = new ArrayList<>();
 
     @OneToMany(mappedBy = "creator")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<RecipeCollection> recipeCollections = new ArrayList<>();
 
     public User() {
+        this.name = "Default Name";
         this.blocked = false;
         this.enabled = false;
         this.provider = Provider.local;

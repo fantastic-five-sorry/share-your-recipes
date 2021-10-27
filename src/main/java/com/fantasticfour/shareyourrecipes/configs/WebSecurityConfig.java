@@ -24,6 +24,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 @Configuration
@@ -31,17 +32,25 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomOAuth2UserService customOAuth2UserService;
+    @Autowired
+    public AuthEntryPointJwt unauthorizedHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // disable security config for dev purpose only
         // http.authorizeRequests().antMatchers("/greeting").authenticated().anyRequest().permitAll().and()
         http.cors().and().csrf().disable();
+
+        // http.exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
+
         http.authorizeRequests().antMatchers("/", "/favicon.ico", "/login/**", "/signup/**", "/oauth/**").permitAll();
         http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN");
         http.authorizeRequests().antMatchers("/test/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/comment/**").permitAll();
         http.authorizeRequests().antMatchers("/account/**").permitAll();
         http.authorizeRequests().antMatchers("/test-role").authenticated();
+        http.exceptionHandling().defaultAuthenticationEntryPointFor(unauthorizedHandler,
+                new AntPathRequestMatcher("/api/**"));
         http.authorizeRequests().anyRequest().permitAll();
         http.formLogin().loginProcessingUrl("/login").loginPage("/login").defaultSuccessUrl("/")
                 .failureHandler(authenticationFailureHandler()).and().logout().logoutUrl("/logout")
@@ -51,6 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.oauth2Login().loginPage("/login").userInfoEndpoint().userService(customOAuth2UserService).and()
                 .defaultSuccessUrl("/").failureUrl("/login?error").and().logout().logoutUrl("/logout")
                 .logoutSuccessUrl("/login").permitAll();
+
     }
 
     @Bean

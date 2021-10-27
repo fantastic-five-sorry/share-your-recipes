@@ -44,7 +44,6 @@ public class RecipeController {
     @GetMapping("")
     public ResponseEntity<?> recipe(Pageable pageable) {
 
-
         try {
             Page<RecipeDTO> recipes = recipeService.findAll(pageable);
             return  new ResponseEntity<Page<RecipeDTO>>(recipes, HttpStatus.OK);
@@ -55,6 +54,7 @@ public class RecipeController {
     }
 
     @PostMapping("/create")
+
     public ResponseEntity<?> createRecipe(@RequestBody CreateRecipeDTO recipe) {
         try {
             recipeService.createRecipe(recipe);

@@ -16,7 +16,7 @@ public class Token {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "token_sequence")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String token;
 
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
@@ -35,6 +35,8 @@ public class Token {
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20, nullable = false)
     private ETokenPurpose purpose;
 
     public Long getId() {

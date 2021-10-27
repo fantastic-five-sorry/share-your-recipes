@@ -33,7 +33,7 @@
       <p sec:authorize="hasRole('ROLE_ADMIN')" th:utext="${adminMessage}">
         Access to ADMIN section
       </p>
-      <p sec:authorize="hasRole('ROLE_ADMIN')" th:utext="${staffMessage}">
+      <p sec:authorize="hasRole('ROLE_CHEF')" th:utext="${staffMessage}">
         Access to STAFF section
       </p>
       <p sec:authorize="hasRole('ROLE_USER')" th:utext="${userMessage}">

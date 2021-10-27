@@ -6,8 +6,6 @@ const emailExistUrl = '/api/account/exists-email';
 
 var token = $("meta[name='_csrf']").attr('content');
 var header = $("meta[name='_csrf_header']").attr('content');
-
-console.log(header, token);
 $(document).ready(function () {
   var uri = window.location.toString();
   if (uri.indexOf('?') > 0) {
@@ -18,7 +16,7 @@ $(document).ready(function () {
     register(event);
   });
 
-  $('#confirmPassword').keyup(function () {
+  $(':password').keyup(function () {
     if ($('#password').val() != $('#confirmPassword').val()) {
       showError('Password not match');
     } else {

@@ -18,6 +18,9 @@ public interface CommentVotingRepo extends JpaRepository<CommentVoting, VotingId
 
     @Modifying
     @Transactional
-    @Query(value = "insert into comment_voting (comment_id, voter_id, created_at) values (:commentId, :voterId, now())", nativeQuery = true)
-    void addVoting(Long commentId, Long voterId);
+    @Query(value = "insert into comment_voting (comment_id, voter_id, type, created_at) values (:commentId, :voterId, :type, now())", nativeQuery = true)
+    void addVoting(Long commentId, Long voterId, String type);
+
+    @Query(value = "SELECT v FROM comment_voting v WHERE v.recipe_id=:recipeId AND v.voter_id=:voterId", nativeQuery = true)
+    List<CommentVoting> getListCommentsHadVote(Long recipeId, Long voterId);
 }

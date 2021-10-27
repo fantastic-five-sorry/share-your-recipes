@@ -60,7 +60,7 @@ public class CommentDto {
         this.writer = new UserInfo(comment.getCreator());
         this.content = comment.getContent();
         this.createdAt = comment.getCreatedDate();
-        this.recipeId = comment.getRecipe().getId();
+        // this.recipeId = comment.getRecipe().getId();
     }
 
     public Long getId() {

@@ -25,6 +25,4 @@ public interface VotingService {
     List<RecipeVoting> getListVotingToRecipe(Long id);
 
     List<RecipeCollectionVoting> getListVotingToRecipeCollection(Long id);
-
-    
 }

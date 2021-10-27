@@ -73,6 +73,7 @@ public class ShareyourrecipesApplication {
 				// userRepo.findUserInfoByEmail("loithui162@gmail.com").getEmail();
 				if (!userRepo.findByEmail("admin@lvl.gg").isPresent()) {
 					User me = new User();
+					me.setName("ADMIN LVL");
 					me.setEmail("admin@lvl.gg");
 					me.setPassword(encoder.encode("123456"));
 					// me.setBlocked(false);
@@ -126,9 +127,7 @@ public class ShareyourrecipesApplication {
 			r.setIngredients(ingredients);
 			r.setSteps(steps);
 
-			// recipeService.createRecipe(r);
-			// recipeService.createRecipe(r);
-			// recipeService.createRecipe(r);
+			recipeService.createRecipe(r);
 			// recipeService.deleteRecipe(r);
 
 			// System.out.println("Da them vao $$$$$$" + rSaved.getId());

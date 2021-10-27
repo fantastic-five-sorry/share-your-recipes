@@ -1,13 +1,11 @@
 package com.fantasticfour.shareyourrecipes.domains.recipes;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.*;
 
 import com.fantasticfour.shareyourrecipes.domains.AuditModel;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter;
 
@@ -24,13 +22,11 @@ public class PurchasedRecipe extends AuditModel {
     @MapsId("recipeId")
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id", nullable = false)
-    @JsonBackReference
     private Recipe recipe;
 
     @MapsId("creatorId")
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id", nullable = false)
-    @JsonBackReference
     private User creator;
 
     public Recipe getRecipe() {

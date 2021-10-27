@@ -35,7 +35,6 @@ public class QuestionDTO {
         this.downVoteCount = downVoteCount;
     }
 
-
     public String getSlug() {
         return this.slug;
     }
@@ -84,18 +83,18 @@ public class QuestionDTO {
         this.answerDTOs = answerDTOs;
     }
 
-    public QuestionDTO() {}
+    public QuestionDTO() {
+    }
 
     public QuestionDTO(Question question) {
         this.slug = question.getSlug();
         this.title = question.getTitle();
         this.content = question.getContent();
-        this.status = question.getStatus();
+        this.status = question.getStatus().toString();
         this.creator = new UserInfo(question.getCreator());
         this.answerDTOs = question.getAnswers().stream().map(AnswerDTO::new).collect(Collectors.toList());
-        this.downVoteCount =  question.getDownVoteCount();
+        this.downVoteCount = question.getDownVoteCount();
         this.upVoteCount = question.getUpVoteCount();
     }
 
-    
 }

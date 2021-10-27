@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post Question</title>
+    <link rel="stylesheet" href="/styles/qa/style.css" />
+    <script src="/js/qa/main.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="container mt-5">
+        <div>
+          <a href="#"> Back</a>
+          <form action="post">
+            <div>
+              <input class="title" type="text" placeholder="Title" />
+            </div>
+            <div class="form-group mt-4 mb-5">
+              <label for="exampleFormControlTextarea3">
+                Question you want to ask</label
+              >
+              <textarea
+                class="form-control mt-1"
+                id="exampleFormControlTextarea3"
+                placeholder="Write something here..."
+                rows="7"
+              ></textarea>
+            </div>
+            <div class="btn mb-5">
+              <button type="button" class="btn btn-success ms-4">Cancel</button>
+              <button type="button" class="btn btn-secondary me-2 ms-2">
+                Post
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
