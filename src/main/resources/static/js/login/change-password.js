@@ -15,19 +15,30 @@ $(document).ready(function () {
     window.history.replaceState({}, document.title, clean_uri);
   }
   $('form').submit(function (event) {
-    requestEmail(event);
+    event.preventDefault();
+    $.confirm({
+      title: 'Confirm',
+      content: 'Are you sure to change your password?',
+      type: 'green',
+      buttons: {
+        ok: {
+          text: 'Yes',
+          btnClass: 'btn-primary',
+          keys: ['enter'],
+          action: function () {
+            changePassword(event);
+          },
+        },
+        cancel: function () {},
+      },
+    });
   });
   var timeout;
-  $(':password').keyup(function () {
+  $('#confirmNewPassword').keyup(function () {
     clearTimeout(timeout);
     timeout = setTimeout(function () {
       if ($('#newPassword').val() != $('#confirmNewPassword').val()) {
         showError('confirm password not match');
-      } else {
-        hideMessage();
-      }
-      if ($('#newPassword').val() == $('#oldPassword').val()) {
-        showError('new password must be difference');
       } else {
         hideMessage();
       }
@@ -36,17 +47,17 @@ $(document).ready(function () {
   var timeout3;
   $('#newPassword').keyup(function () {
     clearTimeout(timeout3);
-    timeout = setTimeout(function () {
+    timeout3 = setTimeout(function () {
       if ($('#newPassword').val() == $('#oldPassword').val()) {
         showError('new password must be difference');
       } else {
         hideMessage();
       }
-    }, 250);
+    }, 300);
   });
   var timeout2;
   $('#oldPassword').keyup(function () {
-    clearTimeout(timeout);
+    clearTimeout(timeout2);
     timeout2 = setTimeout(function () {
       currentPasswordValidate($('#oldPassword').val());
     }, 500);
@@ -64,8 +75,7 @@ function getFormData($form) {
   return indexed_array;
 }
 
-function requestEmail(event) {
-  event.preventDefault();
+function changePassword(event) {
   $('.alert').html('').hide();
   $('.error-list').html('');
 

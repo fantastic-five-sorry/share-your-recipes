@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -51,9 +52,10 @@
                             </button>
                           </form>
                       </li>
-                      <li class="nav-item nav-login"><a href="#">Login</a></li>
-                      
-                     
+                      <li sec:authorize="!isAuthenticated()" class="nav-item nav-login"><a href="/login">Login</a></li>                     
+                      <li sec:authorize="!isAuthenticated()" class="nav-item nav-login"><a href="/signup">Sign up</a></li>                     
+                      <li sec:authorize="isAuthenticated()" class="nav-item nav-login"><a th:href="@{/profile/{id}(id=${user.id})}"><span><img th:src="${user.photoUrl}" class="avatar" />  </span><span th:text="${user.name}"></span></a></li>                     
+                      <li sec:authorize="isAuthenticated()" class="nav-item nav-login"><a href="/logout">Logout</a></li>                     
                     </ul> 
                    
                   </div>
