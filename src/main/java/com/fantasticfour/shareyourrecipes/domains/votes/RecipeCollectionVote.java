@@ -1,46 +1,39 @@
-package com.fantasticfour.shareyourrecipes.domains.votings;
+package com.fantasticfour.shareyourrecipes.domains.votes;
 
 import java.time.LocalDateTime;
-
 import javax.persistence.*;
 
-import com.fantasticfour.shareyourrecipes.domains.Question;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
-import com.fantasticfour.shareyourrecipes.domains.enums.VotingType;
+import com.fantasticfour.shareyourrecipes.domains.enums.VoteType;
+import com.fantasticfour.shareyourrecipes.domains.recipes.RecipeCollection;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter;
 
 @Entity
-public class QuestionVoting {
+@Table(name = "recipe_collection_votes")
+
+public class RecipeCollectionVote {
     @EmbeddedId
-    private VotingId id;
+    private VoteId id;
 
     @MapsId("subjectId")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
-
-    public Question getQuestion() {
-        return this.question;
-    }
-
-    public void setQuestion(Question question) {
-        this.question = question;
-    }
-
+    @JoinColumn(name = "recipe_collection_id", nullable = false)
+    private RecipeCollection recipeCollection;
     @Enumerated(EnumType.STRING)
     @Column(length = 15, nullable = false)
-    private VotingType type;
+    private VoteType type;
 
-    public VotingType getType() {
+    public VoteType getType() {
         return this.type;
     }
 
-    public void setType(VotingType type) {
+    public void setType(VoteType type) {
         this.type = type;
     }
 
-    public QuestionVoting() {
+    public RecipeCollectionVote() {
+
     }
 
     @MapsId("voterId")
@@ -56,11 +49,19 @@ public class QuestionVoting {
         this.voter = voter;
     }
 
-    public VotingId getId() {
+    public RecipeCollection getRecipeCollection() {
+        return this.recipeCollection;
+    }
+
+    public void setRecipeCollection(RecipeCollection recipeCollection) {
+        this.recipeCollection = recipeCollection;
+    }
+
+    public VoteId getId() {
         return this.id;
     }
 
-    public void setId(VotingId id) {
+    public void setId(VoteId id) {
         this.id = id;
     }
 
@@ -76,7 +77,7 @@ public class QuestionVoting {
         this.createdAt = createdAt;
     }
 
-    public QuestionVoting(VotingId id) {
+    public RecipeCollectionVote(VoteId id) {
         this.id = id;
         this.createdAt = LocalDateTime.now();
     }

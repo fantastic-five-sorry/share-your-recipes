@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.votings.repos;
+package com.fantasticfour.shareyourrecipes.votes.repos;
 
 import java.util.List;
 

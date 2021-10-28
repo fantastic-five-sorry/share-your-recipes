@@ -88,6 +88,11 @@ public class HompageController {
         return "international";
     }
 
+    @GetMapping("/testpage")
+    public String gettestpagePagex() {
+        return "testpage";
+    }
+
     @GetMapping("/404")
     public String notfoundPage() {
         return "404";

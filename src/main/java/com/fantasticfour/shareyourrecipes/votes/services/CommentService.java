@@ -1,9 +1,9 @@
-package com.fantasticfour.shareyourrecipes.votings.services;
+package com.fantasticfour.shareyourrecipes.votes.services;
 
-import com.fantasticfour.shareyourrecipes.votings.dtos.CommentDto;
-import com.fantasticfour.shareyourrecipes.votings.dtos.CommentVotingDto;
-import com.fantasticfour.shareyourrecipes.votings.dtos.EditCommentDto;
-import com.fantasticfour.shareyourrecipes.votings.dtos.NewCommentDto;
+import com.fantasticfour.shareyourrecipes.votes.dtos.CommentDto;
+import com.fantasticfour.shareyourrecipes.votes.dtos.CommentVoteDto;
+import com.fantasticfour.shareyourrecipes.votes.dtos.EditCommentDto;
+import com.fantasticfour.shareyourrecipes.votes.dtos.NewCommentDto;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +13,7 @@ public interface CommentService {
 
     CommentDto getComment(Long id);
 
-    Page<CommentVotingDto> getCommentVotingsOfRecipe(Long recipeId, Long voterId, Pageable page);
+    Page<CommentVoteDto> getCommentVotingsOfRecipe(Long recipeId, Long voterId, Pageable page);
 
     Page<CommentDto> getCommentsOfRecipe(Long recipeId, Pageable page);
 

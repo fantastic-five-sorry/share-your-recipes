@@ -1,5 +1,5 @@
 package com.fantasticfour.shareyourrecipes.domains.enums;
 
-public enum VotingType {
+public enum VoteType {
     UP, DOWN, DEVOTED
 }

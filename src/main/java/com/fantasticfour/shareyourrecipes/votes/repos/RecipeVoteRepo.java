@@ -1,13 +1,13 @@
-package com.fantasticfour.shareyourrecipes.votings.repos;
+package com.fantasticfour.shareyourrecipes.votes.repos;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
-import com.fantasticfour.shareyourrecipes.domains.enums.VotingType;
-import com.fantasticfour.shareyourrecipes.domains.votings.RecipeVoting;
-import com.fantasticfour.shareyourrecipes.domains.votings.VotingId;
+import com.fantasticfour.shareyourrecipes.domains.enums.VoteType;
+import com.fantasticfour.shareyourrecipes.domains.votes.RecipeVote;
+import com.fantasticfour.shareyourrecipes.domains.votes.VoteId;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -15,12 +15,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RecipeVotingRepo extends JpaRepository<RecipeVoting, VotingId> {
-    List<RecipeVoting> findByRecipeId(Long id);
+public interface RecipeVoteRepo extends JpaRepository<RecipeVote, VoteId> {
+    List<RecipeVote> findByRecipeId(Long id);
 
     @Modifying
     @Transactional
-    @Query(value = "insert into recipe_voting (recipe_id, voter_id, type, created_at) values (:recipeId, :voterId,:type, now())", nativeQuery = true)
+    @Query(value = "insert into recipe_votes (recipe_id, voter_id, type, created_at) values (:recipeId, :voterId,:type, now())", nativeQuery = true)
     void addVoting(Long recipeId, Long voterId, String type);
 
     // @Modifying

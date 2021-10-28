@@ -1,13 +1,14 @@
-package com.fantasticfour.shareyourrecipes.votings.dtos;
+package com.fantasticfour.shareyourrecipes.votes.dtos;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-public class VotingDto {
-    
+public class VoteDto {
+
     private Long voterId;
 
-    @NotBlank
-    private Long subjectVotingToId;
+    @NotNull
+    private Long subjectId;
 
     @NotBlank
     private String type;
@@ -20,7 +21,7 @@ public class VotingDto {
         this.type = type;
     }
 
-    public VotingDto() {
+    public VoteDto() {
     }
 
     public Long getVoterId() {
@@ -31,12 +32,12 @@ public class VotingDto {
         this.voterId = voterId;
     }
 
-    public Long getSubjectVotingToId() {
-        return this.subjectVotingToId;
+    public Long getSubjectId() {
+        return this.subjectId;
     }
 
-    public void setSubjectVotingToId(Long subjectVotingToId) {
-        this.subjectVotingToId = subjectVotingToId;
+    public void setSubjectId(Long subjectId) {
+        this.subjectId = subjectId;
     }
 
 }

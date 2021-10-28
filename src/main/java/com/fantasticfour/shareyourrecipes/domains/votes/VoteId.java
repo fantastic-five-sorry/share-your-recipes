@@ -1,11 +1,11 @@
-package com.fantasticfour.shareyourrecipes.domains.votings;
+package com.fantasticfour.shareyourrecipes.domains.votes;
 
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class VotingId implements Serializable {
+public class VoteId implements Serializable {
 
     private Long voterId;
 
@@ -19,12 +19,12 @@ public class VotingId implements Serializable {
         this.voterId = voterId;
     }
 
-    public VotingId(Long voterId, Long subjectId) {
+    public VoteId(Long voterId, Long subjectId) {
         this.voterId = voterId;
         this.subjectId = subjectId;
     }
 
-    public VotingId() {
+    public VoteId() {
     }
 
     public Long getSubjectId() {

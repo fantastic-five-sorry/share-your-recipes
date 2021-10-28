@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.votings.dtos;
+package com.fantasticfour.shareyourrecipes.votes.dtos;
 
 import javax.validation.constraints.NotBlank;
 

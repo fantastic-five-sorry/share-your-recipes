@@ -1,8 +1,8 @@
-package com.fantasticfour.shareyourrecipes.votings.dtos;
+package com.fantasticfour.shareyourrecipes.votes.dtos;
 
 import java.time.LocalDateTime;
 
-public class CommentVotingDto {
+public class CommentVoteDto {
     private LocalDateTime createdAt;
     private String writerName;
     private String writerEmail;
@@ -12,11 +12,14 @@ public class CommentVotingDto {
     private Long writerId;
     private Long id;
 
-    public CommentVotingDto() {
+    private Long upVoteCount;
+    private Long downVoteCount;
+
+    public CommentVoteDto() {
     }
 
-    public CommentVotingDto(LocalDateTime createdAt, String creatorName, String creatorEmail, String photoUrl,
-            String commentContent, String type, Long creatorId, Long commentId) {
+    public CommentVoteDto(LocalDateTime createdAt, String creatorName, String creatorEmail, String photoUrl,
+            String commentContent, String type, Long creatorId, Long commentId, Long upVoteCount, Long downVoteCount) {
         this.createdAt = createdAt;
         this.writerName = creatorName;
         this.writerEmail = creatorEmail;
@@ -25,6 +28,8 @@ public class CommentVotingDto {
         this.type = type;
         this.writerId = creatorId;
         this.id = commentId;
+        this.upVoteCount = upVoteCount;
+        this.downVoteCount = downVoteCount;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -89,6 +94,22 @@ public class CommentVotingDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getUpVoteCount() {
+        return this.upVoteCount;
+    }
+
+    public void setUpVoteCount(Long upVoteCount) {
+        this.upVoteCount = upVoteCount;
+    }
+
+    public Long getDownVoteCount() {
+        return this.downVoteCount;
+    }
+
+    public void setDownVoteCount(Long downVoteCount) {
+        this.downVoteCount = downVoteCount;
     }
 
 }
