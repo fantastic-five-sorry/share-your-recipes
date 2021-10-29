@@ -5,10 +5,21 @@ import com.fantasticfour.shareyourrecipes.domains.Answer;
 import com.fantasticfour.shareyourrecipes.domains.Question;
 
 public class AnswerDTO {
+    private Long id;
+
+    
     private UserInfo answerer;
     private String content;
     private Long upVoteCount;
     private Long downVoteCount;
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getUpVoteCount() {
         return this.upVoteCount;
@@ -48,6 +59,7 @@ public class AnswerDTO {
     public AnswerDTO () {}
 
     public AnswerDTO(Answer answer) {
+        this.id = answer.getId();
         this.answerer = new UserInfo(answer.getAnswerer());
         this.content = answer.getContent();
         this.upVoteCount = answer.getUpVoteCount();

@@ -14,6 +14,9 @@ import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.votings.dtos.CommentDto;
 
 public class RecipeDTO {
+    private Long id;
+
+   
     private String title;
     private String image;
     private Map<String, String> ingredients = new HashMap<>();
@@ -28,6 +31,14 @@ public class RecipeDTO {
     private Float price;
     private Long upVoteCount;
     private Long downVoteCount;
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getUpVoteCount() {
         return this.upVoteCount;
@@ -129,6 +140,7 @@ public class RecipeDTO {
     }
 
     public RecipeDTO(Recipe recipe) {
+        this.id = recipe.getId();
         this.title = recipe.getTitle();
         this.image = recipe.getImage();
         this.ingredients = recipe.getIngredients();

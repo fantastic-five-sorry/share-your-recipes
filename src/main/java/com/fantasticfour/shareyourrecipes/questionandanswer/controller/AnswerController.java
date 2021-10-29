@@ -8,8 +8,9 @@ import com.fantasticfour.shareyourrecipes.questionandanswer.dto.UpdateAnswerDTO;
 import com.fantasticfour.shareyourrecipes.questionandanswer.service.AnswerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,12 +44,13 @@ public class AnswerController {
     // return ResponseEntity.badRequest().body("error : " + "list is empty");
     // }
     @GetMapping("")
-    public ResponseEntity<?> answer() {
-        List<AnswerDTO> answerDTOs = answerService.findAll();
-        if (answerDTOs.size() > 0) {
-            return new ResponseEntity<List<AnswerDTO>>(answerDTOs, HttpStatus.OK);
-        }
-        return ResponseEntity.badRequest().body("error : " + "list is empty");
+    public ResponseEntity<?> answer(Pageable pageable) {
+        // List<AnswerDTO> answerDTOs = answerService.findAll();
+        // if (answerDTOs.size() > 0) {
+        //     return new ResponseEntity<List<AnswerDTO>>(answerDTOs, HttpStatus.OK);
+        // }
+        // return ResponseEntity.badRequest().body("error : " + "list is empty");
+        return ResponseEntity.ok().body(answerService.findAll(pageable));
     }
 
     @PostMapping("")
@@ -61,10 +63,10 @@ public class AnswerController {
         return ResponseEntity.ok().body("message: " + "add answer success");
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@RequestBody UpdateAnswerDTO answerDTO, @PathVariable("id") Long id) {
+    @PutMapping("/update")
+    public ResponseEntity<?> update(@RequestBody UpdateAnswerDTO answerDTO) {
         try {
-            answerService.updateAnswer(id, answerDTO);
+            answerService.updateAnswer(answerDTO);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("error : " + e.getMessage());
         }
@@ -92,5 +94,7 @@ public class AnswerController {
         }
         return new ResponseEntity<AnswerDTO>(answerDTO, HttpStatus.OK);
     }
+
+
 
 }

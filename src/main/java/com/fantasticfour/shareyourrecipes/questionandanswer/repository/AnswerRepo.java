@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import com.fantasticfour.shareyourrecipes.domains.Answer;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.Modifying;
@@ -16,7 +18,7 @@ import org.springframework.stereotype.Repository;
 public interface AnswerRepo extends JpaRepository<Answer, Long> {
 
     @Query(value = "SELECT * FROM answers a WHERE a.deleted=" + false, nativeQuery = true)
-    List<Answer> findAll();
+    Page<Answer> findAll(Pageable pageable);
 
     @Query(value = "SELECT * FROM answers a WHERE a.answerer_id=:answererId AND  a.deleted="
             + false, nativeQuery = true)
@@ -24,6 +26,8 @@ public interface AnswerRepo extends JpaRepository<Answer, Long> {
 
     @Query(value = "SELECT * FROM  answers a WHERE a.deleted=FALSE AND id=:id", nativeQuery = true)
     Optional<Answer> findById(Long id);
+
+    
 
     @Modifying
     @Transactional

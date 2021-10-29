@@ -124,10 +124,10 @@ public class RecipeCollectionImpl implements RecipeCollectionService {
     }
 
     @Override
-    public void updateRecipeCollection(Long id, UpdateRecipeCollectionDTO collectionDTO) throws Exception {
+    public void updateRecipeCollection(UpdateRecipeCollectionDTO collectionDTO) throws Exception {
         // TODO Auto-generated method stub
 
-        RecipeCollection recipeCollection = this.findById(id);
+        RecipeCollection recipeCollection = this.findById(collectionDTO.getId());
         // if (recipeCollection == null) {
         // throw new Exception("not found collection");
         // }
@@ -146,6 +146,13 @@ public class RecipeCollectionImpl implements RecipeCollectionService {
 
         collectionRepository.save(recipeCollection);
 
+    }
+
+    @Override
+    public RecipeCollectionDTO getCollectionBySlug(String slug) throws Exception {
+        // TODO Auto-generated method stub
+        RecipeCollection collection = collectionRepository.findBySlug(slug).orElseThrow(()-> new IllegalStateException("collection not found"));
+        return new RecipeCollectionDTO(collection);
     }
 
 }

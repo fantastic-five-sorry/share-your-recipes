@@ -7,11 +7,19 @@ import com.fantasticfour.shareyourrecipes.questionandanswer.dto.CreateQuestionDT
 import com.fantasticfour.shareyourrecipes.questionandanswer.dto.QuestionDTO;
 import com.fantasticfour.shareyourrecipes.questionandanswer.dto.UpdateQuestionDTO;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 public interface QuestionService {
-    List<QuestionDTO> findAll();
+    Page<QuestionDTO> findAll(Pageable pageable);
+    Page<QuestionDTO> findByStatus(String status, Pageable pageable);
     void createQuestion(CreateQuestionDTO createQuestionDTO) throws Exception ;
     void deleteQuestion(Long id) throws Exception;
-    void updateQuestion(Long id, UpdateQuestionDTO dto) throws Exception;
+    void updateQuestion(UpdateQuestionDTO dto) throws Exception;
+    void approved(Long idQuestion) throws Exception;
+    void deApproved(Long idQuestion) throws Exception;
     Question findById(Long id) ;
+    Question findQuestionApprovedById(Long id);
     QuestionDTO viewQuestionDTO(Long id)  throws Exception;
+    QuestionDTO getQuestionBySlug(String slug);
 }

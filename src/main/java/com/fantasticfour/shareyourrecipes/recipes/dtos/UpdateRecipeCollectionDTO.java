@@ -7,11 +7,21 @@ import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 
 public class UpdateRecipeCollectionDTO {
     
+    private Long id;
+
     private String name;
     private List<Recipe> recipes;
 
     // private Long upVoteCount;
     // private Long downVoteCount;
+    
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return this.name;

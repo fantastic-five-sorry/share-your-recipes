@@ -116,9 +116,9 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public void updateRecipe(Long id, UpdateRecipeDTO updateRecipeDTO) throws Exception {
+    public void updateRecipe(UpdateRecipeDTO updateRecipeDTO) throws Exception {
         // TODO Auto-generated method stub
-        Recipe recipe = this.findById(id);
+        Recipe recipe = this.findById(updateRecipeDTO.getId());
         // if (recipe == null) {
         // throw new Exception("not found recipe");
 
@@ -147,6 +147,18 @@ public class RecipeServiceImpl implements RecipeService {
     public Page<RecipeDTO> findByStatus(String recipeStatus, Pageable pageable) {
         // TODO Auto-generated method stub
         return recipeRepository.findByStatus(recipeStatus, pageable).map(RecipeDTO::new);
+    }
+
+    @Override
+    public RecipeDTO getRecipeBySlug(String slug) throws Exception {
+        // TODO Auto-generated method stub
+        Recipe recipe = recipeRepository.findBySlug(slug).orElseThrow(()-> new IllegalStateException("recipe not found"));
+        // System.out.println(recipe== null);
+        // if (recipe == null) {
+        //     throw new Exception("not found recipe");
+        // }
+
+        return new RecipeDTO(recipe);
     }
 
 }

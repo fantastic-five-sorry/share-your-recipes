@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import com.fantasticfour.shareyourrecipes.account.UserRepo;
 import com.fantasticfour.shareyourrecipes.domains.Question;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
+import com.fantasticfour.shareyourrecipes.domains.enums.QuestionStatus;
 import com.fantasticfour.shareyourrecipes.questionandanswer.dto.CreateQuestionDTO;
 import com.fantasticfour.shareyourrecipes.questionandanswer.dto.QuestionDTO;
 import com.fantasticfour.shareyourrecipes.questionandanswer.dto.UpdateQuestionDTO;
@@ -19,6 +20,8 @@ import com.fantasticfour.shareyourrecipes.questionandanswer.repository.AnswerRep
 import com.fantasticfour.shareyourrecipes.questionandanswer.repository.QuestionRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -45,9 +48,9 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<QuestionDTO> findAll() {
+    public Page<QuestionDTO> findAll(Pageable pageable) {
         // TODO Auto-generated method stub
-        return questionRepo.findAll().stream().map(QuestionDTO::new).collect(Collectors.toList());
+        return questionRepo.findAll(pageable).map(QuestionDTO::new);
     }
 
     @Override
@@ -96,9 +99,9 @@ public class QuestionServiceImpl implements QuestionService {
         return new QuestionDTO(question);
     }
     @Override
-    public void updateQuestion(Long id, UpdateQuestionDTO dto) throws Exception {
+    public void updateQuestion(UpdateQuestionDTO dto) throws Exception {
         // TODO Auto-generated method stub
-        Question question = this.findById(id);
+        Question question = this.findQuestionApprovedById(dto.getId());
         // if (question == null) {
         //     throw new Exception("not found question");
             
@@ -121,6 +124,54 @@ public class QuestionServiceImpl implements QuestionService {
         }
         // System.out.println(question.getPrice());
         questionRepo.save(question);
+    }
+
+    @Override
+    public Question findQuestionApprovedById(Long id) {
+        // TODO Auto-generated method stub
+        Question question = questionRepo.findQuestionApprovedById(id).orElseThrow(()->new IllegalStateException("question not found"));
+        return question;
+    }
+
+    @Override
+    public void approved(Long idQuestion) throws Exception {
+        // TODO Auto-generated method stub
+        Question question = this.findById(idQuestion);
+        if (question.getStatus() == QuestionStatus.PENDING) {
+            question.setStatus(QuestionStatus.APPROVED);
+            questionRepo.save(question);
+            
+        } else {
+            throw new Exception("The question has already been approved");
+        }
+    
+    }
+
+    @Override
+    public void deApproved(Long idQuestion) throws Exception {
+        // TODO Auto-generated method stub
+        Question question = this.findById(idQuestion);
+        if (question.getStatus() == QuestionStatus.APPROVED) {
+            question.setStatus(QuestionStatus.PENDING);
+            questionRepo.save(question);
+            
+        } else {
+            throw new Exception("The question has already been pending");
+        }
+        
+    }
+
+    @Override
+    public Page<QuestionDTO> findByStatus(String status, Pageable pageable) {
+        // TODO Auto-generated method stub
+        return questionRepo.findByStatus(status, pageable).map(QuestionDTO::new);
+    }
+
+    @Override
+    public QuestionDTO getQuestionBySlug(String slug) {
+        // TODO Auto-generated method stub
+        Question question = questionRepo.findBySlug(slug).orElseThrow(()-> new IllegalStateException("question not found"));
+        return new QuestionDTO(question);
     }
     
 }

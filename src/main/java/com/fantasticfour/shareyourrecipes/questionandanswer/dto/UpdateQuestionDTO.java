@@ -1,10 +1,20 @@
 package com.fantasticfour.shareyourrecipes.questionandanswer.dto;
 
+import com.fantasticfour.shareyourrecipes.domains.enums.QuestionStatus;
+
 public class UpdateQuestionDTO {
+    private Long id;
     private String title;
     private String content;
-    private String status;
+    private QuestionStatus status;
 
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
     public String getTitle() {
         return this.title;
     }
@@ -21,11 +31,11 @@ public class UpdateQuestionDTO {
         this.content = content;
     }
 
-    public String getStatus() {
+    public QuestionStatus getStatus() {
         return this.status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(QuestionStatus status) {
         this.status = status;
     }
     // private Long upVoteCount;
