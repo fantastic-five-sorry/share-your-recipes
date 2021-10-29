@@ -27,6 +27,8 @@ public interface RecipeCollectionRepository extends JpaRepository<RecipeCollecti
     @Query(value ="SELECT * FROM recipes_collection r  WHERE r.deleted=false AND r.creator_id=:creatorId",  nativeQuery = true)
     Page<RecipeCollection> findByCreatorId(Long creatorId, Pageable pageable);
     
+    @Query(value = "SELECT * FROM recipes_collection  r WHERE r.slug=:slug", nativeQuery = true)
+    Optional<RecipeCollection> findBySlug(String slug);
     
     @Modifying
     @Transactional

@@ -12,6 +12,9 @@ import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.domains.recipes.RecipeCollection;
 
 public class RecipeCollectionDTO {
+    private Long id;
+
+    
     private String name;
 
     private UserInfo creator;
@@ -21,6 +24,14 @@ public class RecipeCollectionDTO {
     private String slug;
     private Long upVoteCount;
     private Long downVoteCount;
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getUpVoteCount() {
         return this.upVoteCount;
@@ -76,6 +87,7 @@ public class RecipeCollectionDTO {
     public RecipeCollectionDTO() {}
 
     public RecipeCollectionDTO(RecipeCollection collection) {
+        this.id = collection.getId();
         this.creator =  new UserInfo(collection.getCreator());
         this.name = collection.getName();
         this.recipes = collection.getRecipes().stream().map(RecipeDTO::new).collect(Collectors.toList());

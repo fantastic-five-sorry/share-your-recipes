@@ -30,6 +30,14 @@ public class RecipeDTO {
     private Long upVoteCount;
     private Long downVoteCount;
 
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getUpVoteCount() {
         return this.upVoteCount;
     }

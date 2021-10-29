@@ -36,13 +36,13 @@ public class RecipeCollectionController {
 
     @GetMapping("")
     public ResponseEntity<?> recipeCollection(Pageable pageable) {
-        try {
-            Page<RecipeCollectionDTO> collectionDTOs = recipeCollectionService.findAll(pageable);
-            return new ResponseEntity<Page<RecipeCollectionDTO>>(collectionDTOs, HttpStatus.OK);
-        } catch (Exception e) {
-            // TODO: handle exception
-            return ResponseEntity.badRequest().body("error : " + "Collection is empty");
-        }
+        // try {
+        // } catch (Exception e) {
+        //     // TODO: handle exception
+        //     return ResponseEntity.badRequest().body("error : " + "Collection is empty");
+        // }
+        Page<RecipeCollectionDTO> collectionDTOs = recipeCollectionService.findAll(pageable);
+        return new ResponseEntity<Page<RecipeCollectionDTO>>(collectionDTOs, HttpStatus.OK);
     }
 
     @PostMapping("/create")
@@ -60,11 +60,10 @@ public class RecipeCollectionController {
 
     // Update Collection dung List<Long> recipeIds chu nhi, @RequestBody kieu gi de
     // co dc List<Recipe>
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateCollection(@RequestBody UpdateRecipeCollectionDTO collectionDTO,
-            @PathVariable("id") Long id) {
+    @PutMapping("/update")
+    public ResponseEntity<?> updateCollection(@RequestBody UpdateRecipeCollectionDTO collectionDTO) {
         try {
-            recipeCollectionService.updateRecipeCollection(id, collectionDTO);
+            recipeCollectionService.updateRecipeCollection(collectionDTO);
         } catch (Exception e) {
             // TODO: handle exception
             return ResponseEntity.badRequest().body("error : " + e.getMessage());
@@ -82,6 +81,20 @@ public class RecipeCollectionController {
             // TODO: handle exception
             return ResponseEntity.badRequest().body("error : " + e.getMessage());
         }
+    }
+
+    @GetMapping("/slug/{slug}")
+    public ResponseEntity<?> findCollectionBySlug(@PathVariable("slug") String slug) {
+        // Long id = Long.parseLong(idRecipe);
+
+        RecipeCollectionDTO collectionDTO;
+        try {
+            collectionDTO =  recipeCollectionService.getCollectionBySlug(slug);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            return ResponseEntity.badRequest().body("error: " + e.getMessage());
+        }
+        return  new ResponseEntity< RecipeCollectionDTO>(collectionDTO, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

@@ -6,6 +6,7 @@ import java.util.Map;
 import com.fantasticfour.shareyourrecipes.domains.enums.RecipeStatus;
 
 public class UpdateRecipeDTO {
+    private Long id;
     private String title;
     private String image;
     private Map<String, String> ingredients;
@@ -14,6 +15,15 @@ public class UpdateRecipeDTO {
     private RecipeStatus status;
 
     private Float price;
+
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return this.title;

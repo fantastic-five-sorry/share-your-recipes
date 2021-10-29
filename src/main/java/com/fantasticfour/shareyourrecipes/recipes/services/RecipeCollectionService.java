@@ -19,9 +19,11 @@ public interface RecipeCollectionService {
 
     void deleteRecipeCollection(Long collectionId) throws Exception;
 
-    void updateRecipeCollection(Long id, UpdateRecipeCollectionDTO collectionDTO) throws Exception;
+    void updateRecipeCollection(UpdateRecipeCollectionDTO collectionDTO) throws Exception;
 
     RecipeCollection findById(Long collectionId);
+
+    RecipeCollectionDTO getCollectionBySlug(String slug) throws Exception;
 
     RecipeCollectionDTO viewDRecipeCollectionDTO(Long collectionId) throws Exception;
 

@@ -10,6 +10,9 @@ import com.fantasticfour.shareyourrecipes.domains.Question;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 
 public class QuestionDTO {
+    private Long id;
+
+    
     private String slug;
     private String title;
     private String content;
@@ -18,6 +21,14 @@ public class QuestionDTO {
     private List<AnswerDTO> answerDTOs = new ArrayList<>();
     private Long upVoteCount;
     private Long downVoteCount;
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getUpVoteCount() {
         return this.upVoteCount;
@@ -87,6 +98,7 @@ public class QuestionDTO {
     }
 
     public QuestionDTO(Question question) {
+        this.id = question.getId();
         this.slug = question.getSlug();
         this.title = question.getTitle();
         this.content = question.getContent();

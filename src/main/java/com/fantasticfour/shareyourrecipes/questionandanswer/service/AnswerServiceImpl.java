@@ -17,6 +17,7 @@ import com.fantasticfour.shareyourrecipes.questionandanswer.repository.QuestionR
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,11 +35,11 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public List<AnswerDTO> findAll() {
+    public Page<AnswerDTO> findAll(Pageable pageable) {
         // TODO Auto-generated method stub
-        List<Answer> answers =  answerRepo.findAll();
-        
-        return answers.stream().map(AnswerDTO::new).collect(Collectors.toList());
+        // List<Answer> answers =  answerRepo.findAll();
+        return answerRepo.findAll(pageable).map(AnswerDTO::new);
+        // return answers.stream().map(AnswerDTO::new).collect(Collectors.toList());
     }
 
     @Override
@@ -46,7 +47,7 @@ public class AnswerServiceImpl implements AnswerService {
         // TODO Auto-generated method stub
         Answer answer = new Answer();
         answer.setAnswerer(userRepo.findValidUserById(createAnswerDTO.getAnswererId()));
-        answer.setQuestion(questionRepo.findById(createAnswerDTO.getQuestionId()).get());
+        answer.setQuestion(questionRepo.findQuestionApprovedById(createAnswerDTO.getQuestionId()).get());
         answer.setContent(createAnswerDTO.getContent());
         answerRepo.save(answer);
 
@@ -67,7 +68,7 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public Answer findById(Long id) {
         // TODO Auto-generated method stub
-        Answer answer = answerRepo.findById(id).orElseThrow(()-> new IllegalStateException("question not found"));
+        Answer answer = answerRepo.findById(id).orElseThrow(()-> new IllegalStateException("answer not found"));
         return answer;
     }
 
@@ -82,9 +83,9 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public void updateAnswer(long idAnswer, UpdateAnswerDTO answerDTO) throws Exception {
+    public void updateAnswer(UpdateAnswerDTO answerDTO) throws Exception {
         // TODO Auto-generated method stub
-        Answer answer = this.findById(idAnswer);
+        Answer answer = this.findById(answerDTO.getId());
         // if (answer == null) {
         //     throw new Exception("not found answer");
             
@@ -108,5 +109,6 @@ public class AnswerServiceImpl implements AnswerService {
         // System.out.println(answer.getPrice());
         answerRepo.save(answer);
     }
+
 
 }

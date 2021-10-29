@@ -2,12 +2,15 @@ package com.fantasticfour.shareyourrecipes.questionandanswer.controller;
 
 import java.util.List;
 
+import com.fantasticfour.shareyourrecipes.domains.enums.QuestionStatus;
 import com.fantasticfour.shareyourrecipes.questionandanswer.dto.CreateQuestionDTO;
 import com.fantasticfour.shareyourrecipes.questionandanswer.dto.QuestionDTO;
 import com.fantasticfour.shareyourrecipes.questionandanswer.dto.UpdateQuestionDTO;
 import com.fantasticfour.shareyourrecipes.questionandanswer.service.QuestionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,14 +32,15 @@ public class QuestionController {
         this.QuestionService = QuestionService;
     }
 
-    @GetMapping("/")
-    public ResponseEntity<?> Question() {
-        List<QuestionDTO> QuestionDTOs = QuestionService.findAll();
-        System.out.println(QuestionDTOs.size());
-        if (QuestionDTOs.size() > 0) {
-            return new ResponseEntity<List<QuestionDTO>>(QuestionDTOs, HttpStatus.OK);
-        }
-        return ResponseEntity.badRequest().body("error : " + "list is empty");
+    @GetMapping("")
+    public ResponseEntity<?> Question(Pageable pageable) {
+        // List<QuestionDTO> QuestionDTOs = QuestionService.findAll();
+        // System.out.println(QuestionDTOs.size());
+        // if (QuestionDTOs.size() > 0) {
+        //     return new ResponseEntity<List<QuestionDTO>>(QuestionDTOs, HttpStatus.OK);
+        // }
+        // return ResponseEntity.badRequest().body("error : " + "list is empty");
+        return ResponseEntity.ok().body(QuestionService.findAll(pageable));
     }
 
     @PostMapping("/create")
@@ -50,10 +54,32 @@ public class QuestionController {
         return ResponseEntity.ok().body("message: " + "add Question success");
     }
 
-    @PutMapping("/update/{idQuestion}")
-    public ResponseEntity<?> update(@RequestBody UpdateQuestionDTO questionDTO, @PathVariable("idQuestion")  Long idQuestion) {
+    @PostMapping("/de-approved/{id}")
+    public ResponseEntity<?> deApproved(@PathVariable("id") Long idQuestion) {
         try {
-            QuestionService.updateQuestion(idQuestion, questionDTO);
+            QuestionService.deApproved(idQuestion);   
+        } catch (Exception e) {
+            //TODO: handle exception
+            return ResponseEntity.badRequest().body("error : "  + e.getMessage());
+        }
+        return ResponseEntity.ok().body("message: " + "update status of question  success");
+    }
+
+    @PostMapping("/approved/{id}")
+    public ResponseEntity<?> approved(@PathVariable("id") Long idQuestion) {
+        try {
+            QuestionService.approved(idQuestion);   
+        } catch (Exception e) {
+            //TODO: handle exception
+            return ResponseEntity.badRequest().body("error : "  + e.getMessage());
+        }
+        return ResponseEntity.ok().body("message: " + "update status of question  success");
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> update(@RequestBody UpdateQuestionDTO questionDTO) {
+        try {
+            QuestionService.updateQuestion(questionDTO);
         } catch (Exception e) {
             //TODO: handle exception
             return ResponseEntity.badRequest().body("error : " + e.getMessage());
@@ -84,6 +110,31 @@ public class QuestionController {
             return ResponseEntity.badRequest().body("error: " + e.getMessage());
         }
         return new ResponseEntity<QuestionDTO>(QuestionDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/status/{status}")
+    public ResponseEntity<?> findByStatus(@PathVariable("status") QuestionStatus status, Pageable pageable) {
+        try {
+            System.out.println(status.toString());
+            return  new ResponseEntity<Page<QuestionDTO>>(QuestionService.findByStatus(status.toString(), pageable), HttpStatus.OK);
+        } catch (Exception e) {
+            //TODO: handle exception
+            return ResponseEntity.badRequest().body("error: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/slug/{slug}")
+    public ResponseEntity<?> findQuestionBySlug(@PathVariable("slug") String slug) {
+        // Long id = Long.parseLong(idRecipe);
+
+        QuestionDTO questionDTO;
+        try {
+            questionDTO = QuestionService.getQuestionBySlug(slug);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            return ResponseEntity.badRequest().body("error: " + e.getMessage());
+        }
+        return  new ResponseEntity<QuestionDTO>(questionDTO, HttpStatus.OK);
     }
 
 
