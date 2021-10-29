@@ -61,7 +61,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Page<CommentVoteDto> getCommentVotingsOfRecipe(Long recipeId, Long voterId, Pageable page) {
         Query query = entityManager.createNativeQuery(
-                "select  k1.id as commentId, k1.creator_id, k1.name, k1.email, k1.photo_url, k1.created_at, k1.content, k1.up_vote_count, k1.down_vote_count, k2.type from \n"
+                "select k1.id as commentId, k1.creator_id, k1.name, k1.email, k1.photo_url, k1.created_at, k1.content, k1.up_vote_count, k1.down_vote_count, k2.type from \n"
                         + "(SELECT c.*, u.name, u.photo_url, u.email \n" + "from comments c \n"
                         + "inner join users u \n" + "on c.creator_id = u.id \n"
                         + "where c.recipe_id=:recipeId) as k1 \n" + "left join \n" + "(select v.voter_id, v.type, \n"
