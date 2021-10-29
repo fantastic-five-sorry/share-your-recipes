@@ -21,9 +21,11 @@ public interface RecipeService {
 
     void deleteRecipe(Long id)  throws Exception;
 
-    void updateRecipe(Long id, UpdateRecipeDTO updateRecipeDTO) throws Exception;
+    void updateRecipe(UpdateRecipeDTO updateRecipeDTO) throws Exception;
 
     Recipe findById(Long id);
+
+    RecipeDTO getRecipeBySlug(String slug) throws Exception;
 
     RecipeDTO viewRecipeById(Long id) throws Exception;
 

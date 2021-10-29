@@ -30,6 +30,9 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     @Query("SELECT r FROM Recipe r WHERE r.deleted=FALSE AND id=:id")
     Optional<Recipe> findById(Long id);
 
+    @Query(value = "SELECT * FROM recipes r WHERE r.slug=:slug", nativeQuery = true)
+    Optional<Recipe> findBySlug(String slug);
+
     @Modifying
     @Transactional
     @Query("update Recipe u set u.upVoteCount = u.upVoteCount - 1 where u.id = :id")

@@ -44,13 +44,28 @@ public class RecipeController {
     @GetMapping("")
     public ResponseEntity<?> recipe(Pageable pageable) {
 
+        // try {
+           
+        // } catch (Exception e) {
+        //     //TODO: handle exception
+        // return ResponseEntity.badRequest().body("error: " + "Recipes is empty");
+        // }
+        Page<RecipeDTO> recipes = recipeService.findAll(pageable);
+        return  new ResponseEntity<Page<RecipeDTO>>(recipes, HttpStatus.OK);
+    }
+
+    @GetMapping("/slug/{slug}")
+    public ResponseEntity<?> findRecipeBySlug(@PathVariable("slug") String slug) {
+        // Long id = Long.parseLong(idRecipe);
+
+        RecipeDTO recipeDTO;
         try {
-            Page<RecipeDTO> recipes = recipeService.findAll(pageable);
-            return  new ResponseEntity<Page<RecipeDTO>>(recipes, HttpStatus.OK);
+            recipeDTO = recipeService.getRecipeBySlug(slug);
         } catch (Exception e) {
-            //TODO: handle exception
-        return ResponseEntity.badRequest().body("error: " + "Recipes is empty");
+            // TODO Auto-generated catch block
+            return ResponseEntity.badRequest().body("error: " + e.getMessage());
         }
+        return  new ResponseEntity<RecipeDTO>(recipeDTO, HttpStatus.OK);
     }
 
     @PostMapping("/create")
@@ -64,10 +79,10 @@ public class RecipeController {
         return ResponseEntity.ok().body("message: " + "add recipe success");
     }
 
-    @PutMapping("/{idRecipe}")
-    public ResponseEntity<?> updateRecipe(@PathVariable("idRecipe") Long idRecipe, @RequestBody UpdateRecipeDTO updateRecipeDTO) {
+    @PutMapping("/update")
+    public ResponseEntity<?> updateRecipe(@RequestBody UpdateRecipeDTO updateRecipeDTO) {
         try {
-            recipeService.updateRecipe(idRecipe ,updateRecipeDTO);
+            recipeService.updateRecipe(updateRecipeDTO);
         } catch (Exception e ) {
             return ResponseEntity.badRequest().body("error: " + e.getMessage());
         }
@@ -106,7 +121,7 @@ public class RecipeController {
     @GetMapping("/status/{status}")
     public ResponseEntity<?> findByStatus(@PathVariable("status") RecipeStatus status, Pageable pageable) {
         try {
-            System.out.println(status.toString());
+            // System.out.println(status.toString());
             return  new ResponseEntity<Page<RecipeDTO>>(recipeService.findByStatus(status.toString(), pageable), HttpStatus.OK);
         } catch (Exception e) {
             //TODO: handle exception

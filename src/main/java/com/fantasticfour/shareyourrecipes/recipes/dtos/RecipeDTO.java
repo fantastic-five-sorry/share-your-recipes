@@ -125,7 +125,6 @@ public class RecipeDTO {
     public RecipeDTO() {
     }
 
-
     public Long getId() {
         return this.id;
     }
@@ -133,7 +132,7 @@ public class RecipeDTO {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public RecipeDTO(Recipe recipe) {
         this.id = recipe.getId();
         this.title = recipe.getTitle();
