@@ -1,15 +1,12 @@
 package com.fantasticfour.shareyourrecipes.account;
 
 import java.security.Principal;
-import java.util.List;
 
 import com.fantasticfour.shareyourrecipes.account.dtos.UserInfo;
 import com.fantasticfour.shareyourrecipes.configs.UserPrincipal;
-import com.fantasticfour.shareyourrecipes.domains.auth.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -89,12 +86,4 @@ public class TestOAuthController {
         return "NOT Auth";
     }
 
-    private Long getIdFromRequest(Authentication authentication) {
-
-        if (authentication.getPrincipal() instanceof UserPrincipal) {
-            UserPrincipal userDetails = (UserPrincipal) authentication.getPrincipal();
-            return userDetails.getId();
-        }
-        return null;
-    }
 }

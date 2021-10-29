@@ -8,8 +8,6 @@ import com.fantasticfour.shareyourrecipes.questionandanswer.dto.UpdateAnswerDTO;
 import com.fantasticfour.shareyourrecipes.questionandanswer.service.AnswerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

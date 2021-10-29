@@ -1,11 +1,9 @@
 package com.fantasticfour.shareyourrecipes.votes.repos;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
-import com.fantasticfour.shareyourrecipes.domains.enums.VoteType;
 import com.fantasticfour.shareyourrecipes.domains.votes.RecipeVote;
 import com.fantasticfour.shareyourrecipes.domains.votes.VoteId;
 

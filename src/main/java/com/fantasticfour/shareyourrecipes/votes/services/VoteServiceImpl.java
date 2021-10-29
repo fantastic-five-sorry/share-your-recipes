@@ -1,6 +1,5 @@
 package com.fantasticfour.shareyourrecipes.votes.services;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,14 +17,11 @@ import com.fantasticfour.shareyourrecipes.votes.repos.RecipeVoteRepo;
 
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import com.fantasticfour.shareyourrecipes.account.UserRepo;
-import com.fantasticfour.shareyourrecipes.domains.Answer;
-import com.fantasticfour.shareyourrecipes.domains.auth.User;
+
 import com.fantasticfour.shareyourrecipes.domains.enums.VoteType;
-import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.domains.votes.*;
 
 @Service
