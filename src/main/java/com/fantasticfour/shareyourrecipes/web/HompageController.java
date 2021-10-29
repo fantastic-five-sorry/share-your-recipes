@@ -3,6 +3,8 @@ package com.fantasticfour.shareyourrecipes.web;
 import java.security.Principal;
 
 import com.fantasticfour.shareyourrecipes.account.UserService;
+import com.fantasticfour.shareyourrecipes.account.UserUtils;
+import com.fantasticfour.shareyourrecipes.account.dtos.UserInfo;
 import com.fantasticfour.shareyourrecipes.account.events.SendTokenEmailEvent;
 import com.fantasticfour.shareyourrecipes.configs.UserPrincipal;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
@@ -16,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,12 +40,18 @@ public class HompageController {
     private ApplicationEventPublisher eventPublisher;
 
     // @
-    @GetMapping("/home")
-    public String getHome() {
+    @GetMapping(value = { "/", "/home" })
+    public String getHome(Authentication authentication, Model model) {
+        if (authentication != null)
+            UserUtils.getIdFromRequest(authentication).ifPresent(uid -> {
+                UserInfo user = userService.getUserInfoById(uid);
+                model.addAttribute("user", user);
+            });
+
         return "home";
     }
 
-    @GetMapping("/")
+    @GetMapping("/test-index")
     public String getHom2() {
         return "index";
     }
@@ -79,7 +88,7 @@ public class HompageController {
             return "profile/my-profile";
 
         }
-        return "404";
+        return "error/404";
         // model.addAttribute("your_name", principal.());
     }
 
@@ -88,9 +97,14 @@ public class HompageController {
         return "international";
     }
 
+    @GetMapping("/testpage")
+    public String gettestpagePagex() {
+        return "testpage";
+    }
+
     @GetMapping("/404")
     public String notfoundPage() {
-        return "404";
+        return "error/404";
     }
 
     @GetMapping("/test-role")
@@ -123,6 +137,23 @@ public class HompageController {
         // model.addAttribute("your_email", uid.toString());
         // model.addAttribute("userInfo", userService.getUserInfoById(uid));
         return "testingFunc";
+    }
+
+    @GetMapping("/users")
+    public String newfuncx(Model model) {
+        // System.out.println(oauthUser.getAttribute("email").toString());
+        // model.addAttribute("your_email", uid.toString());
+        // model.addAttribute("userInfo", userService.getUserInfoById(uid));
+        return "users";
+    }
+
+    @GetMapping("/accessDenied")
+    @PreAuthorize("isAuthenticated()")
+    public String accessDeniedPage(Model model) {
+        // System.out.println(oauthUser.getAttribute("email").toString());
+        // model.addAttribute("your_email", uid.toString());
+        // model.addAttribute("userInfo", userService.getUserInfoById(uid));
+        return "error/access-denied";
     }
 
 }

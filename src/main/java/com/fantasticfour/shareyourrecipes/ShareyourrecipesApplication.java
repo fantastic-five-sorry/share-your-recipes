@@ -10,20 +10,20 @@ import com.fantasticfour.shareyourrecipes.configs.AuditorAwareImpl;
 import com.fantasticfour.shareyourrecipes.domains.auth.Role;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
-import com.fantasticfour.shareyourrecipes.domains.enums.VotingType;
+import com.fantasticfour.shareyourrecipes.domains.enums.VoteType;
 import com.fantasticfour.shareyourrecipes.domains.recipes.PurchasedRecipe;
 import com.fantasticfour.shareyourrecipes.domains.recipes.PurchasedRecipeId;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
-import com.fantasticfour.shareyourrecipes.domains.votings.RecipeVoting;
+import com.fantasticfour.shareyourrecipes.domains.votes.RecipeVote;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.PurchasedRecipeRepository;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.RecipeRepository;
 import com.fantasticfour.shareyourrecipes.recipes.services.RecipeService;
 import com.fantasticfour.shareyourrecipes.storages.StorageService;
-import com.fantasticfour.shareyourrecipes.votings.dtos.VotingDto;
-import com.fantasticfour.shareyourrecipes.votings.repos.RecipeVotingRepo;
-import com.fantasticfour.shareyourrecipes.votings.services.VotingService;
+import com.fantasticfour.shareyourrecipes.votes.dtos.VoteDto;
+import com.fantasticfour.shareyourrecipes.votes.repos.RecipeVoteRepo;
+import com.fantasticfour.shareyourrecipes.votes.services.VoteService;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -56,7 +56,7 @@ public class ShareyourrecipesApplication {
 	@Bean
 	public CommandLineRunner run(StorageService storage, RoleRepo roleRepo, UserRepo userRepo,
 			EmailService emailService, PasswordEncoder encoder, RecipeRepository recipeRepo,
-			PurchasedRecipeRepository purRecipeRepo, RecipeService recipeService, VotingService votingService)
+			PurchasedRecipeRepository purRecipeRepo, RecipeService recipeService, VoteService votingService)
 			throws Exception {
 		return args -> {
 			storage.init();
@@ -106,7 +106,7 @@ public class ShareyourrecipesApplication {
 			// r.setIngredients(ingredients);
 			// r.setSteps(steps);
 			CreateRecipeDTO r = new CreateRecipeDTO();
-			r.setTitle("helloo baby");
+			r.setTitle("recipe sample");
 			r.setImage("image");
 			r.setGuideVideoString("guideVideoString");
 			r.setCreatorId(userRepo.findByEmail("admin@lvl.gg").get().getId());

@@ -22,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -35,11 +36,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public AuthEntryPointJwt unauthorizedHandler;
 
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // disable security config for dev purpose only
         // http.authorizeRequests().antMatchers("/greeting").authenticated().anyRequest().permitAll().and()
         http.cors().and().csrf().disable();
+        // http.cors().disable();
 
         // http.exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
 
@@ -48,9 +55,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/test/**").permitAll();
         http.authorizeRequests().antMatchers("/api/comment/**").permitAll();
         http.authorizeRequests().antMatchers("/account/**").permitAll();
-        http.authorizeRequests().antMatchers("/test-role").authenticated();
+        http.authorizeRequests().antMatchers("/test-role", "/newfunc").authenticated();
         http.exceptionHandling().defaultAuthenticationEntryPointFor(unauthorizedHandler,
                 new AntPathRequestMatcher("/api/**"));
+        http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
         http.authorizeRequests().anyRequest().permitAll();
         http.formLogin().loginProcessingUrl("/login").loginPage("/login").defaultSuccessUrl("/")
                 .failureHandler(authenticationFailureHandler()).and().logout().logoutUrl("/logout")

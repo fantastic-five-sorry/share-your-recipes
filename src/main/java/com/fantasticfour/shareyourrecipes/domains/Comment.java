@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
-import com.fantasticfour.shareyourrecipes.domains.votings.CommentVoting;
+import com.fantasticfour.shareyourrecipes.domains.votes.CommentVote;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -38,6 +38,10 @@ public class Comment extends AuditModel {
     private Long upVoteCount;
     @Column(nullable = false)
     private Long downVoteCount;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "comment")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<CommentVote> votes = new ArrayList<>();
 
     public Long getUpVoteCount() {
         return this.upVoteCount;

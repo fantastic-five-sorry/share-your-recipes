@@ -27,7 +27,22 @@ $(document).ready(function () {
   // validate token
   $('form').submit(function (event) {
     event.preventDefault();
-    requestEmail(event, resetPwToken);
+    $.confirm({
+      title: 'Confirm',
+      content: 'Are you sure to reset your password?',
+      type: 'green',
+      buttons: {
+        ok: {
+          text: 'Yes',
+          btnClass: 'btn-primary',
+          keys: ['enter'],
+          action: function () {
+            resetPassword(event, resetPwToken);
+          },
+        },
+        cancel: function () {},
+      },
+    });
   });
   var timeout;
   $(':password').keyup(function () {
@@ -62,7 +77,7 @@ const getUrlParameter = function getUrlParameter(sParam) {
   return false;
 };
 
-function requestEmail(event, token) {
+function resetPassword(event, token) {
   console.log('sign up click');
   event.preventDefault();
   // check pw match

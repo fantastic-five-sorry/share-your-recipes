@@ -1,4 +1,4 @@
-package com.fantasticfour.shareyourrecipes.admin;
+package com.fantasticfour.shareyourrecipes.chef;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/admin")
-@PreAuthorize("hasRole('ADMIN')")
-public class AdminController {
+@RequestMapping("/chef")
+@PreAuthorize("hasRole('CHEF')")
+public class ChefController {
     @GetMapping("hello")
     public String sayHi(@RequestParam(name = "name", required = false) String name) {
 
