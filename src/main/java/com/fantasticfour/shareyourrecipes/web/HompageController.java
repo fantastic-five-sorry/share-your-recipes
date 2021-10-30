@@ -9,11 +9,20 @@ import com.fantasticfour.shareyourrecipes.account.events.SendTokenEmailEvent;
 import com.fantasticfour.shareyourrecipes.configs.UserPrincipal;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
+import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
+import com.fantasticfour.shareyourrecipes.recipes.services.RecipeService;
+import com.fantasticfour.shareyourrecipes.votes.dtos.CommentDto;
+import com.fantasticfour.shareyourrecipes.votes.dtos.CommentVoteDto;
+import com.fantasticfour.shareyourrecipes.votes.services.CommentService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -38,6 +47,10 @@ public class HompageController {
     private UserService userService;
     @Autowired
     private ApplicationEventPublisher eventPublisher;
+    @Autowired 
+    private RecipeService recipeService;
+    @Autowired 
+    private CommentService commentService;
 
     // @
     @GetMapping(value = { "/", "/home" })
@@ -56,8 +69,39 @@ public class HompageController {
         return "index";
     }
 
-    @GetMapping("/recipeDetail")
-    public String getHom2xxxx() {
+    @GetMapping("/recipe/{slug}")
+    public String getHom2xxxx(@PathVariable("slug") String slug, Authentication authentication, Model model) {
+        try {
+            RecipeDTO recipeDTO = recipeService.getRecipeBySlug(slug);
+        
+            if (authentication != null) {
+            
+                Long uid = UserUtils.getIdFromRequest(authentication).orElse(null);
+                // if (uid != null) {
+                //     uid = -1L;
+                // }
+                Pageable page = PageRequest.of(0, 5);
+                Page<CommentVoteDto>  comments = commentService.getCommentVotingsOfRecipe(recipeDTO.getId(), uid, page);
+                model.addAttribute("comments", comments.getContent());
+            
+            } 
+            else {
+                
+                // model.addAttribute("comments", recipeDTO.getComments());
+                Pageable page = PageRequest.of(0, 5);
+                Page<CommentVoteDto>  comments = commentService.getCommentVotingsOfRecipe(recipeDTO.getId(), -1L, page);
+                model.addAttribute("comments", comments.getContent());
+            
+                // recipeDTO.getComments().forEach(System.out::println);
+            }
+
+            model.addAttribute("recipe", recipeDTO);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "error/404";
+        }
+
         return "recipe/recipe-detail";
     }
 
