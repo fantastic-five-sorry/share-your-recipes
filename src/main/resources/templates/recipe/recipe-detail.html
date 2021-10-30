@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Recipe Detail</title>
+    <title th:text="${recipe.title}"></title>
     <link rel="stylesheet" href="/styles/qa/style.css" />
     <script src="/js/qa/main.js"></script>
     <link
@@ -46,18 +50,18 @@
             </div>
             <div class="img_detail">
               <img
-                src="/imgs/taboyaki.jpg"
+                th:src="${recipe.image}"
                 alt="takoyaki"
                 class="img_details"
               />
-              <h4 class="name_details">TaKoYaKi</h4>
+              <h4 class="name_details" th:text="${recipe.title}"></h4>
             </div>
           </div>
         </div>
         <div class="col-md-3">
           <div class="user_img">
-            <img src="/imgs/102180246.jpg" class="user" alt="user" />
-            <h4 class="name-user">Ta Dinh Han</h4>
+            <img th:src="${recipe.creator.photoUrl}" class="user" alt="user" />
+            <h4 class="name-user" th:text="${recipe.creator.name}"></h4>
           </div>
         </div>
       </div>
@@ -69,7 +73,11 @@
       >
         <div class="congthuc">
           <h4 class="tilte_nguyenlieu">Here’s what you need:</h4>
-          <ul class="list-group" style="font-weight: bold">
+          <ul
+            class="list-group"
+            style="font-weight: bold"
+            th:each="element,iter: ${recipe.ingredients}"
+          >
             <li
               class="list-group-item list_bottom step"
               style="
@@ -77,88 +85,10 @@
                 border-top: 1px dashed rgb(170, 170, 170);
               "
             >
-              <div class="step_n">1. Eggs.</div>
-            </li>
-            <li
-              class="list-group-item list_bottom step"
-              style="
-                border-style: none;
-                border-top: 1px dashed rgb(170, 170, 170);
-              "
-            >
-              <div class="step_n">2. Flour.</div>
-            </li>
-            <li
-              class="list-group-item list_bottom step"
-              style="
-                border-style: none;
-                border-top: 1px dashed rgb(170, 170, 170);
-              "
-            >
-              <div class="step_n">3. Dashi powder.</div>
-            </li>
-            <li
-              class="list-group-item list_bottom step"
-              style="
-                border-style: none;
-                border-top: 1px dashed rgb(170, 170, 170);
-              "
-            >
-              <div class="step_n">4. Soy sauce.</div>
-            </li>
-            <li
-              class="list-group-item list_bottom step"
-              style="
-                border-style: none;
-                border-top: 1px dashed rgb(170, 170, 170);
-              "
-            >
-              <div class="step_n">5. Octopus/tako.</div>
-            </li>
-            <li
-              class="list-group-item list_bottom step"
-              style="
-                border-style: none;
-                border-top: 1px dashed rgb(170, 170, 170);
-              "
-            >
-              <div class="step_n">6. Tenkasu.</div>
-            </li>
-            <li
-              class="list-group-item list_bottom step"
-              style="
-                border-style: none;
-                border-top: 1px dashed rgb(170, 170, 170);
-              "
-            >
-              <div class="step_n">7. Takoyaki sauce.</div>
-            </li>
-            <li
-              class="list-group-item list_bottom step"
-              style="
-                border-style: none;
-                border-top: 1px dashed rgb(170, 170, 170);
-              "
-            >
-              <div class="step_n">8. Kewpie mayo.</div>
-            </li>
-            <li
-              class="list-group-item list_bottom step"
-              style="
-                border-style: none;
-                border-top: 1px dashed rgb(170, 170, 170);
-              "
-            >
-              <div class="step_n">9. Bonito flakes.</div>
-            </li>
-            <li
-              class="list-group-item list_bottom step"
-              style="
-                border-style: none;
-                border-top: 1px dashed rgb(170, 170, 170);
-              "
-            >
-              <div class="step_n">10. Seaweed.</div>
+              <div
+                class="step_n"
+                th:text="${iter.count} + '. ' +${element.key} + ' : ' + ${element.value}"
+              ></div>
             </li>
           </ul>
         </div>
@@ -171,7 +101,7 @@
       >
         <div class="congthuc">
           <h4 class="tilte_nguyenlieu">How to make:</h4>
-          <ul class="list-group">
+          <ul class="list-group" th:each="element,iter : ${recipe.steps}">
             <li
               class="list-group-item list_bottom step"
               style="
@@ -180,83 +110,12 @@
               "
             >
               <div class="step_n">
-                <span style="font-weight: bold; margin-right: 5px"
-                  >1. Mix:</span
-                >
-                Mix the batter up with a whisk making sure there are no floury
-                bits.
-              </div>
-            </li>
-            <li
-              class="list-group-item list_bottom step"
-              style="
-                border-style: none;
-                border-top: 1px dashed rgb(170, 170, 170);
-              "
-            >
-              <div class="step_n">
-                <span style="font-weight: bold; margin-right: 5px"
-                  >2.Prep:</span
-                >
-                Prep all of the fillings. Cut up the octopus, slice the green
-                onions and make sure you have everything at the ready: a little
-                dish of oil, all your ingredients, some skewers to flip the
-                balls, and a plate to serve on. Heat up the pan.
-              </div>
-            </li>
-            <li
-              class="list-group-item list_bottom step"
-              style="
-                border-style: none;
-                border-top: 1px dashed rgb(170, 170, 170);
-              "
-            >
-              <div class="step_n">
-                <span style="font-weight: bold; margin-right: 5px"
-                  >3.Pour and fill:</span
-                >Generously oil the pan with a brush or a paper towel dipped in
-                oil. Give the batter a whisk then pour into the individual
-                compartments all the way up to the top. It’s okay if they
-                overflow a bit. Add in the fillings and let cook until the edges
-                start to look more solid and opaque.
-              </div>
-            </li>
-            <li
-              class="list-group-item list_bottom step"
-              style="
-                border-style: none;
-                border-top: 1px dashed rgb(170, 170, 170);
-              "
-            >
-              <div class="step_n">
-                <span style="font-weight: bold; margin-right: 5px"
-                  >4.Flip:</span
-                >
-                Use your skewers to turn the takoyaki 90 degrees. If they don’t
-                easily move, they need more time to crisp up. Once they’re at a
-                90° angle, pour in a bit more batter to ensure a super round
-                ball. Let cook, stuffing in any excess batter that’s outside the
-                ball, then turn again. You should have a round ball. Cook until
-                the balls are crispy and brown, moving the balls around from
-                mold to mold to evenly cook (this is because most pans will have
-                uneven heating). As the balls crisp up, it will be easier to
-                flip them.
-              </div>
-            </li>
-            <li
-              class="list-group-item list_bottom step"
-              style="
-                border-style: none;
-                border-top: 1px dashed rgb(170, 170, 170);
-              "
-            >
-              <div class="step_n">
-                <span style="font-weight: bold; margin-right: 5px"
-                  >5.Sauce:</span
-                >
-                When the balls are golden and crisp, pop them on a plate and
-                brush with takoyaki sauce and squeeze on some mayo. Top. Finish
-                with a sprinkle of bonito and aonori. Enjoy!
+                <span
+                  style="font-weight: bold; margin-right: 5px"
+                  th:text="${iter.count} + '. ' +${element}"
+                ></span>
+                <!-- Mix the batter up with a whisk making sure there are no floury
+                bits. -->
               </div>
             </li>
           </ul>
@@ -272,10 +131,7 @@
         <div class="congthuc">
           <h4 class="tilte_nguyenlieu">Guide video:</h4>
           <div class="video">
-            <iframe
-              class="videocongthuc"
-              src="https://www.youtube.com/embed/b6aRDlV_TUg"
-            >
+            <iframe class="videocongthuc" th:src="${recipe.guideVideoString}">
             </iframe>
           </div>
         </div>
@@ -287,84 +143,61 @@
         <div class="d-flex justify-content-center row">
           <div class="d-flex flex-column col-md-8">
             <div class="coment-bottom bg-white p-2 px-4">
-              <div class="d-flex flex-row add-comment-section mt-4 mb-4">
+              <div
+                sec:authorize="isAuthenticated()"
+                class="d-flex flex-row add-comment-section mt-4 mb-4"
+              >
                 <input
                   type="text"
                   class="form-control mr-3"
                   placeholder="Add comment"
                 /><button class="btn btn-primary" type="button">Comment</button>
               </div>
-              <div class="commented-section mt-2">
-                <div class="d-flex flex-row align-items-center commented-user">
-                  <h5 class="mr-2">Corey oates</h5>
-                  <span class="dot mb-1"></span
-                  ><span class="mb-1 ml-2">4 hours ago</span>
-                </div>
-                <div class="comment-text-sm">
-                  <span
-                    >Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+              <div
+                sec:authorize="!isAuthenticated()"
+                class="d-flex flex-row add-comment-section mt-4 mb-4"
+              >
+                <h2>
+                  To comment this recipe
+                  <span><a th:href="@{/login}">login?</a></span>
+                </h2>
+              </div>
+              <div th:each="element: ${comments}">
+                <div class="commented-section mt-2">
+                  <div
+                    class="d-flex flex-row align-items-ceRenter commented-user"
+                  >
+                    <h5 class="mr-2" th:text="${element.writerName}"></h5>
+                    <span class="dot mb-1"></span
+                    ><span
+                      class="mb-1 ml-2"
+                      th:text="${element.createdAt}"
+                    ></span>
+                  </div>
+                  <div class="comment-text-sm">
+                    <!-- <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                     sed do eiusmod tempor incididunt ut labore et dolore magna
                     aliqua. Ut enim ad minim veniam, quis nostrud exercitation
                     ullamco laboris nisi ut aliquip ex ea commodo
-                    consequat.</span
-                  >
-                </div>
-                <div class="reply-section">
-                  <div class="d-flex flex-row align-items-center voting-icons">
-                    <i class="fa fa-sort-up fa-2x mt-3 hit-voting"></i
-                    ><i class="fa fa-sort-down fa-2x mb-3 hit-voting"></i
-                    ><span class="ml-2 ms-2">10</span
-                    ><span class="dot ml-2"></span>
-                    
+                    consequat.</span> -->
+                    <span th:text="${element.content}"></span>
                   </div>
-                </div>
-              </div>
-              <div class="commented-section mt-2">
-                <div class="d-flex flex-row align-items-center commented-user">
-                  <h5 class="mr-2">Samoya Johns</h5>
-                  <span class="dot mb-1"></span
-                  ><span class="mb-1 ml-2">5 hours ago</span>
-                </div>
-                <div class="comment-text-sm">
-                  <span
-                    >Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua..</span
-                  >
-                </div>
-                <div class="reply-section">
-                  <div class="d-flex flex-row align-items-center voting-icons">
-                    <i class="fa fa-sort-up fa-2x mt-3 hit-voting"></i
-                    ><i class="fa fa-sort-down fa-2x mb-3 hit-voting"></i
-                    ><span class="ml-2 ms-2">15</span
-                    ><span class="dot ml-2"></span>
-                    
-                  </div>
-                </div>
-              </div>
-              <div class="commented-section mt-2">
-                <div class="d-flex flex-row align-items-center commented-user">
-                  <h5 class="mr-2">Makhaya andrew</h5>
-                  <span class="dot mb-1"></span
-                  ><span class="mb-1 ml-2">10 hours ago</span>
-                </div>
-                <div class="comment-text-sm">
-                  <span
-                    >Nunc sed id semper risus in hendrerit gravida rutrum. Non
-                    odio euismod lacinia at quis risus sed. Commodo ullamcorper
-                    a lacus vestibulum sed arcu non odio euismod. Enim facilisis
-                    gravida neque convallis a. In mollis nunc sed id. Adipiscing
-                    elit pellentesque habitant morbi tristique senectus et
-                    netus. Ultrices mi tempus imperdiet nulla malesuada
-                    pellentesque.</span
-                  >
-                </div>
-                <div class="reply-section">
-                  <div class="d-flex flex-row align-items-center voting-icons">
-                    <i class="fa fa-sort-up fa-2x mt-3 hit-voting"></i
-                    ><i class="fa fa-sort-down fa-2x mb-3 hit-voting"></i
-                    ><span class="ml-2 ms-2">25</span
-                    ><span class="dot ml-2"></span>
+                  <div class="reply-section">
+                    <div
+                      class="d-flex flex-row align-items-center voting-icons"
+                    >
+                      <i class="fa fa-sort-up fa-2x mt-3 hit-voting"></i>
+                      <span
+                        class="ml-2 ms-2"
+                        th:text="${element.upVoteCount}"
+                      ></span>
+                      <i class="fa fa-sort-down fa-2x mb-3 hit-voting"></i>
+                      <span
+                        class="ml-2 ms-2"
+                        th:text="${element.downVoteCount}"
+                      ></span>
+                      <span class="dot ml-2"></span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -374,6 +207,5 @@
       </div>
       <!-- end cmt -->
     </div>
-
   </body>
 </html>

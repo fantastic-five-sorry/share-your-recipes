@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 import com.fantasticfour.shareyourrecipes.domains.AuditModel;
 import com.fantasticfour.shareyourrecipes.domains.Comment;
@@ -52,7 +53,9 @@ public class Recipe extends AuditModel {
     @JoinColumn(name = "creator_id", nullable = false)
     private User creator;
 
-    @OneToMany(mappedBy = "creator")
+    @OneToMany(mappedBy = "recipe")
+    @Size(min=1, max=5)
+    @OrderBy("id DESC")
     private List<Comment> comments = new ArrayList<>();
     @Enumerated(EnumType.STRING)
     @Column(length = 10, nullable = false)

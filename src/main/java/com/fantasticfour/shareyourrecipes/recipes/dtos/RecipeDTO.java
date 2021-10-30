@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.fantasticfour.shareyourrecipes.account.dtos.UserInfo;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
@@ -146,6 +147,7 @@ public class RecipeDTO {
         this.upVoteCount = recipe.getUpVoteCount();
         this.downVoteCount = recipe.getDownVoteCount();
         this.price = recipe.getPrice();
+        this.comments = recipe.getComments().stream().map(CommentDto::new).collect(Collectors.toList());
     }
 
 }

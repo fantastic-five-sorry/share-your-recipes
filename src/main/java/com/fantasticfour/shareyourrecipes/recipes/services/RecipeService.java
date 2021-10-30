@@ -19,7 +19,7 @@ public interface RecipeService {
 
     void createRecipe(CreateRecipeDTO recipe);
 
-    void deleteRecipe(Long id)  throws Exception;
+    void deleteRecipe(Long id) throws Exception;
 
     void updateRecipe(UpdateRecipeDTO updateRecipeDTO) throws Exception;
 
