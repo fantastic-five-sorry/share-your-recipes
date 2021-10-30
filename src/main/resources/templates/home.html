@@ -55,6 +55,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                       <li sec:authorize="!isAuthenticated()" class="nav-item nav-login"><a href="/login">Login</a></li>                     
                       <li sec:authorize="!isAuthenticated()" class="nav-item nav-login"><a href="/signup">Sign up</a></li>                     
                       <li sec:authorize="isAuthenticated()" class="nav-item nav-login"><a th:href="@{/profile/{id}(id=${user.id})}"><span><img th:src="${user.photoUrl}" class="avatar" />  </span><span th:text="${user.name}"></span></a></li>                     
+                      <li sec:authorize="hasRole('ADMIN')" class="nav-item nav-login"><a href="/admin/">Manage</a></li>                     
                       <li sec:authorize="isAuthenticated()" class="nav-item nav-login"><a href="/logout">Logout</a></li>                     
                     </ul> 
                    

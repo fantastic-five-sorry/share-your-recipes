@@ -17,6 +17,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -42,11 +43,16 @@ public class HompageController {
     // @
     @GetMapping(value = { "/", "/home" })
     public String getHome(Authentication authentication, Model model) {
-        if (authentication != null)
+        if (authentication != null) {
             UserUtils.getIdFromRequest(authentication).ifPresent(uid -> {
                 UserInfo user = userService.getUserInfoById(uid);
+
                 model.addAttribute("user", user);
             });
+            // if (authentication.getAuthorities().toString().contains("ROLE_ADMIN")) {
+            // return "redirect:/admin/hello";
+            // }
+        }
 
         return "home";
     }
@@ -158,7 +164,11 @@ public class HompageController {
         // System.out.println(oauthUser.getAttribute("email").toString());
         // model.addAttribute("your_email", uid.toString());
         // model.addAttribute("userInfo", userService.getUserInfoById(uid));
-        return "error/access-denied";
+        return "error/403";
     }
 
+    @GetMapping("/loginAdmin")
+    public String viewLogin() {
+        return "admin/login";
+    }
 }

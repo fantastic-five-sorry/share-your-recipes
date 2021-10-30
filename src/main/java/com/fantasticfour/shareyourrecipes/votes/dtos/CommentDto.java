@@ -1,32 +1,21 @@
 package com.fantasticfour.shareyourrecipes.votes.dtos;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
-
-import com.fantasticfour.shareyourrecipes.account.dtos.UserInfo;
 import com.fantasticfour.shareyourrecipes.domains.Comment;
-import com.fantasticfour.shareyourrecipes.domains.votes.CommentVote;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import com.fantasticfour.shareyourrecipes.domains.auth.User;
 
 public class CommentDto {
 
-    private Long id;
-    private UserInfo writer;
-
-    @NotBlank
-    private Long recipeId;
-
-    @NotBlank
+    private LocalDateTime createdAt;
+    private String writerName;
+    private String writerEmail;
+    private String photoUrl;
     private String content;
-
-    private Date createdAt;
+    private Long writerId;
+    private Long id;
 
     private Long upVoteCount;
     private Long downVoteCount;
@@ -34,20 +23,52 @@ public class CommentDto {
     public CommentDto() {
     }
 
-    public UserInfo getWriter() {
-        return this.writer;
+    public CommentDto(Comment comment) {
+
+        User user = comment.getCreator();
+        Instant instant = Instant.ofEpochMilli(comment.getCreatedDate().getTime());
+        LocalDateTime ldt = LocalDateTime.ofInstant(instant, ZoneOffset.UTC);
+        this.createdAt = ldt;
+        this.writerName = user.getName();
+        this.writerEmail = user.getEmail();
+        this.photoUrl = user.getPhotoUrl();
+        this.content = comment.getContent();
+        this.writerId = user.getId();
+        this.id = comment.getId();
+        this.upVoteCount = comment.getUpVoteCount();
+        this.downVoteCount = comment.getDownVoteCount();
     }
 
-    public void setWriter(UserInfo writer) {
-        this.writer = writer;
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
     }
 
-    public Long getRecipeId() {
-        return this.recipeId;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public void setRecipeId(Long recipeId) {
-        this.recipeId = recipeId;
+    public String getWriterName() {
+        return this.writerName;
+    }
+
+    public void setWriterName(String writerName) {
+        this.writerName = writerName;
+    }
+
+    public String getWriterEmail() {
+        return this.writerEmail;
+    }
+
+    public void setWriterEmail(String writerEmail) {
+        this.writerEmail = writerEmail;
+    }
+
+    public String getPhotoUrl() {
+        return this.photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public String getContent() {
@@ -58,22 +79,12 @@ public class CommentDto {
         this.content = content;
     }
 
-    public Date getCreatedAt() {
-        return this.createdAt;
+    public Long getWriterId() {
+        return this.writerId;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public CommentDto(Comment comment) {
-        this.id = comment.getId();
-        this.writer = new UserInfo(comment.getCreator());
-        this.content = comment.getContent();
-        this.createdAt = comment.getCreatedDate();
-        this.recipeId = comment.getRecipe().getId();
-        this.upVoteCount = comment.getUpVoteCount();
-        this.downVoteCount = comment.getDownVoteCount();
+    public void setWriterId(Long writerId) {
+        this.writerId = writerId;
     }
 
     public Long getId() {
@@ -99,5 +110,4 @@ public class CommentDto {
     public void setDownVoteCount(Long downVoteCount) {
         this.downVoteCount = downVoteCount;
     }
-
 }

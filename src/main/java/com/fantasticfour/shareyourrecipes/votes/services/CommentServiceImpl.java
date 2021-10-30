@@ -18,6 +18,7 @@ import com.fantasticfour.shareyourrecipes.votes.dtos.EditCommentDto;
 import com.fantasticfour.shareyourrecipes.votes.dtos.NewCommentDto;
 import com.fantasticfour.shareyourrecipes.votes.repos.CommentRepo;
 
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CommentServiceImpl implements CommentService {
+    Logger logger = LoggerFactory.getLogger(CommentServiceImpl.class);
     @Autowired
     CommentRepo commentRepo;
     @Autowired
@@ -75,6 +77,7 @@ public class CommentServiceImpl implements CommentService {
                         + "from comment_voting v  \n" + "where v.voter_id=:voterId) as k2 \n"
                         + "on k1.id=k2.comment_id")
                 .setParameter("recipeId", recipeId).setParameter("voterId", voterId).getSingleResult()).longValue();
+        logger.info(page.getPageNumber() + " : " + page.getPageSize());
         query.setFirstResult(page.getPageNumber() * page.getPageSize());
         query.setMaxResults(page.getPageSize());
 
