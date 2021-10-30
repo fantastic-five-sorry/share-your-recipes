@@ -1,19 +1,11 @@
 package com.fantasticfour.shareyourrecipes.configs;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
-
 import com.fantasticfour.shareyourrecipes.account.UserRepo;
-import com.fantasticfour.shareyourrecipes.domains.auth.Provider;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
-import com.fantasticfour.shareyourrecipes.exception.LocalAuthenticationFailException;
-import com.fantasticfour.shareyourrecipes.exception.OAuth2AuthenticationProcessingException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

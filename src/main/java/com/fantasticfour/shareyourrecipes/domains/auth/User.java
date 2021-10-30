@@ -3,10 +3,8 @@ package com.fantasticfour.shareyourrecipes.domains.auth;
 import javax.persistence.*;
 
 import com.fantasticfour.shareyourrecipes.domains.Question;
-import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.domains.recipes.RecipeCollection;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -16,8 +14,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "users", schema = "public")

@@ -1,6 +1,5 @@
 package com.fantasticfour.shareyourrecipes.recipes.dtos;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;

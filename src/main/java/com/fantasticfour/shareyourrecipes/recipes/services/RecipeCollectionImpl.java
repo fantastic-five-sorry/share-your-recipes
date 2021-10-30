@@ -52,7 +52,6 @@ public class RecipeCollectionImpl implements RecipeCollectionService {
 
     @Override
     public Page<RecipeCollectionDTO> findAll(Pageable pageable) {
-        // TODO Auto-generated method stub
         // List<RecipeCollection> recipeCollections = collectionRepository.findAll();
         // List<RecipeCollectionDTO> recipeCollectionDTOs = new ArrayList<>();
         // recipeCollectionDTOs =
@@ -62,7 +61,6 @@ public class RecipeCollectionImpl implements RecipeCollectionService {
 
     @Override
     public RecipeCollection findById(Long collectionId) {
-        // TODO Auto-generated method stub
         RecipeCollection recipeCollection = collectionRepository.findById(collectionId)
                 .orElseThrow(() -> new IllegalStateException("collection not found"));
         return recipeCollection;
@@ -71,7 +69,6 @@ public class RecipeCollectionImpl implements RecipeCollectionService {
     @Override
     public void createRecipeCollection(CreateRecipeCollectionDTO collection) throws Exception {
 
-        // TODO Auto-generated method stub
         RecipeCollection recipeCollection = new RecipeCollection();
         recipeCollection.setName(collection.getName());
         recipeCollection.setCreator(userRepo.findValidUserById(collection.getCreatorId()));
@@ -92,7 +89,6 @@ public class RecipeCollectionImpl implements RecipeCollectionService {
 
     @Override
     public void deleteRecipeCollection(Long collectionId) throws Exception {
-        // TODO Auto-generated method stub
         RecipeCollection recipeCollection = this.findById(collectionId);
         // if (recipeCollection == null) {
         // throw new Exception("not found collection");
@@ -104,7 +100,6 @@ public class RecipeCollectionImpl implements RecipeCollectionService {
 
     @Override
     public RecipeCollectionDTO viewDRecipeCollectionDTO(Long collectionId) throws Exception {
-        // TODO Auto-generated method stub
         RecipeCollection collection = this.findById(collectionId);
         // if (collection == null) {
         // throw new Exception("not found collection");
@@ -114,7 +109,6 @@ public class RecipeCollectionImpl implements RecipeCollectionService {
 
     @Override
     public Page<RecipeCollectionDTO> findByCreatorId(Long creatorId, Pageable pageable) {
-        // TODO Auto-generated method stub
         // List<RecipeCollection> recipeCollections =
         // collectionRepository.findByCreatorId(creatorId);
         // List<RecipeCollectionDTO> collectionDTOs = new ArrayList<>();

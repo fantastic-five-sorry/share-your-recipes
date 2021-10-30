@@ -115,6 +115,11 @@ public class HompageController {
         return "qa/answer";
     }
 
+    @GetMapping("/list-question")
+    public String listQuesString() {
+        return "qa/list-question";
+    }
+
     @GetMapping("/my-profile")
     @PreAuthorize("isAuthenticated()")
     public String myProfile(Principal principal, Model model) {

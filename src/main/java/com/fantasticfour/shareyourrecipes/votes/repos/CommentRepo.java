@@ -1,7 +1,5 @@
 package com.fantasticfour.shareyourrecipes.votes.repos;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import com.fantasticfour.shareyourrecipes.domains.Comment;

@@ -1,7 +1,6 @@
 package com.fantasticfour.shareyourrecipes.configs;
 
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -10,15 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fantasticfour.shareyourrecipes.exception.LocalAuthenticationFailException;
 
-import org.apache.catalina.startup.FailedContext;
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
+
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.LocaleResolver;
 
 public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {

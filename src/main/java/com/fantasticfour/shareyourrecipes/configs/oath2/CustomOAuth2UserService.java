@@ -1,6 +1,5 @@
 package com.fantasticfour.shareyourrecipes.configs.oath2;
 
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -17,7 +16,6 @@ import com.fantasticfour.shareyourrecipes.account.RoleRepo;
 import com.fantasticfour.shareyourrecipes.account.UserRepo;
 import com.fantasticfour.shareyourrecipes.configs.UserPrincipal;
 import com.fantasticfour.shareyourrecipes.domains.auth.Provider;
-import com.fantasticfour.shareyourrecipes.domains.auth.Role;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 import com.fantasticfour.shareyourrecipes.exception.OAuth2AuthenticationProcessingException;

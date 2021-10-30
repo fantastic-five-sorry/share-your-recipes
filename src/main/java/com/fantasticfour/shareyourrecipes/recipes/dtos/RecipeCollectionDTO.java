@@ -4,11 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.constraints.NotBlank;
-
 import com.fantasticfour.shareyourrecipes.account.dtos.UserInfo;
-import com.fantasticfour.shareyourrecipes.domains.auth.User;
-import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.domains.recipes.RecipeCollection;
 
 public class RecipeCollectionDTO {

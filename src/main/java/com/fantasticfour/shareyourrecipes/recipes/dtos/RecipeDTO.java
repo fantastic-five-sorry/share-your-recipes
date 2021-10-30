@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import com.fantasticfour.shareyourrecipes.account.dtos.UserInfo;
-import com.fantasticfour.shareyourrecipes.domains.Comment;
-import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.votes.dtos.CommentDto;
 
@@ -29,8 +25,6 @@ public class RecipeDTO {
     private Float price;
     private Long upVoteCount;
     private Long downVoteCount;
-
-
 
     public Long getUpVoteCount() {
         return this.upVoteCount;
@@ -131,7 +125,6 @@ public class RecipeDTO {
     public RecipeDTO() {
     }
 
-
     public Long getId() {
         return this.id;
     }
@@ -139,7 +132,7 @@ public class RecipeDTO {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public RecipeDTO(Recipe recipe) {
         this.id = recipe.getId();
         this.title = recipe.getTitle();
