@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Recipe Detail</title>
+    <title th:text="${recipe.title}"></title>
     <link rel="stylesheet" href="/styles/qa/style.css" />
     <script src="/js/qa/main.js"></script>
     <link
@@ -46,18 +47,18 @@
             </div>
             <div class="img_detail">
               <img
-                src="/imgs/taboyaki.jpg"
+                th:src="${recipe.image}"
                 alt="takoyaki"
                 class="img_details"
               />
-              <h4 class="name_details">TaKoYaKi</h4>
+              <h4 class="name_details" th:text=${recipe.title}></h4>
             </div>
           </div>
         </div>
         <div class="col-md-3">
           <div class="user_img">
-            <img src="/imgs/102180246.jpg" class="user" alt="user" />
-            <h4 class="name-user">Ta Dinh Han</h4>
+            <img th:src="${recipe.creator.photoUrl}" class="user" alt="user" />
+            <h4 class="name-user" th:text="${recipe.creator.name}"></h4>
           </div>
         </div>
       </div>
@@ -69,8 +70,17 @@
       >
         <div class="congthuc">
           <h4 class="tilte_nguyenlieu">Here’s what you need:</h4>
-          <ul class="list-group" style="font-weight: bold">
+          <ul class="list-group" style="font-weight: bold" th:each="element,iter: ${recipe.ingredients}">
             <li
+              class="list-group-item list_bottom step"
+              style="
+                border-style: none;
+                border-top: 1px dashed rgb(170, 170, 170);
+              "
+            >
+              <div class="step_n" th:text="${iter.count} + '. ' +${element.key} + ' : ' + ${element.value}"></div>
+            </li>
+            <!-- <li
               class="list-group-item list_bottom step"
               style="
                 border-style: none;
@@ -159,7 +169,7 @@
               "
             >
               <div class="step_n">10. Seaweed.</div>
-            </li>
+            </li> -->
           </ul>
         </div>
       </div>
@@ -171,8 +181,22 @@
       >
         <div class="congthuc">
           <h4 class="tilte_nguyenlieu">How to make:</h4>
-          <ul class="list-group">
+          <ul class="list-group" th:each="element,iter : ${recipe.steps}">
             <li
+              class="list-group-item list_bottom step"
+              style="
+                border-style: none;
+                border-top: 1px dashed rgb(170, 170, 170);
+              "
+            >
+              <div class="step_n">
+                <span style="font-weight: bold; margin-right: 5px" th:text="${iter.count} + '. ' +${element}"></span
+                >
+                <!-- Mix the batter up with a whisk making sure there are no floury
+                bits. -->
+              </div>
+            </li>
+            <!-- <li
               class="list-group-item list_bottom step"
               style="
                 border-style: none;
@@ -258,7 +282,7 @@
                 brush with takoyaki sauce and squeeze on some mayo. Top. Finish
                 with a sprinkle of bonito and aonori. Enjoy!
               </div>
-            </li>
+            </li> -->
           </ul>
         </div>
       </div>
@@ -274,7 +298,7 @@
           <div class="video">
             <iframe
               class="videocongthuc"
-              src="https://www.youtube.com/embed/b6aRDlV_TUg"
+              th:src="${recipe.guideVideoString}"
             >
             </iframe>
           </div>
@@ -294,8 +318,37 @@
                   placeholder="Add comment"
                 /><button class="btn btn-primary" type="button">Comment</button>
               </div>
-              <div class="commented-section mt-2">
-                <div class="d-flex flex-row align-items-center commented-user">
+              <div th:each="element: ${comments}">
+                <div class="commented-section mt-2">
+                  <div class="d-flex flex-row align-items-ceRenter commented-user">
+                    <h5 class="mr-2" th:text="${element.writerName}"></h5>
+                    <span class="dot mb-1"></span
+                    ><span class="mb-1 ml-2"th:text="${element.createdAt}"></span>
+                  </div>
+                <div class="comment-text-sm">
+                  <!-- <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat.</span> -->
+                    <span th:text="${element.content}"></span>
+                </div>
+                  <div class="reply-section">
+                    <div class="d-flex flex-row align-items-center voting-icons">
+                      <i class="fa fa-sort-up fa-2x mt-3 hit-voting"></i>
+                      <span class="ml-2 ms-2" th:text="${element.upVoteCount}"></span>
+                      <i class="fa fa-sort-down fa-2x mb-3 hit-voting"></i>
+                      <span class="ml-2 ms-2" th:text="${element.downVoteCount}"></span>
+                      <span class="dot ml-2"></span>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+              
+              <!-- <div class="commented-section mt-2">
+                <div class="d-flex flex-row align-items-ceRenter commented-user">
                   <h5 class="mr-2">Corey oates</h5>
                   <span class="dot mb-1"></span
                   ><span class="mb-1 ml-2">4 hours ago</span>
@@ -341,8 +394,8 @@
                     
                   </div>
                 </div>
-              </div>
-              <div class="commented-section mt-2">
+              </div> -->
+              <!-- <div class="commented-section mt-2">
                 <div class="d-flex flex-row align-items-center commented-user">
                   <h5 class="mr-2">Makhaya andrew</h5>
                   <span class="dot mb-1"></span
@@ -367,7 +420,7 @@
                     ><span class="dot ml-2"></span>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>

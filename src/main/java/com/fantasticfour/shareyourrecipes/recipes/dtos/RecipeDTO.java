@@ -146,6 +146,7 @@ public class RecipeDTO {
         this.upVoteCount = recipe.getUpVoteCount();
         this.downVoteCount = recipe.getDownVoteCount();
         this.price = recipe.getPrice();
+        this.comments = recipe.getComments().stream().map(CommentDto::new).collect(Collectors.toList());
     }
 
 }
