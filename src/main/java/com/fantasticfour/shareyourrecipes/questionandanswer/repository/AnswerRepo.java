@@ -24,6 +24,10 @@ public interface AnswerRepo extends JpaRepository<Answer, Long> {
             + false, nativeQuery = true)
     List<Answer> findByIdAnswerer(Long answererId);
 
+    @Query(value = "SELECT * FROM answers a WHERE a.question_id=:idQuestion AND  a.deleted="
+    + false, nativeQuery = true)
+    Page<Answer> findByIdQuestion(Long idQuestion, Pageable pageable);
+
     @Query(value = "SELECT * FROM  answers a WHERE a.deleted=FALSE AND id=:id", nativeQuery = true)
     Optional<Answer> findById(Long id);
 

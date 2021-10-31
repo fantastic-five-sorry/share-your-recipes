@@ -1,6 +1,7 @@
 package com.fantasticfour.shareyourrecipes.questionandanswer.dto;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -21,6 +22,15 @@ public class QuestionDTO {
     private List<AnswerDTO> answerDTOs = new ArrayList<>();
     private Long upVoteCount;
     private Long downVoteCount;
+    private Date createAt;
+
+    public Date getCreateAt() {
+        return this.createAt;
+    }
+
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
+    }
 
     public Long getId() {
         return this.id;
@@ -107,6 +117,7 @@ public class QuestionDTO {
         this.answerDTOs = question.getAnswers().stream().map(AnswerDTO::new).collect(Collectors.toList());
         this.downVoteCount = question.getDownVoteCount();
         this.upVoteCount = question.getUpVoteCount();
+        this.createAt = question.getCreatedDate();
     }
 
 }

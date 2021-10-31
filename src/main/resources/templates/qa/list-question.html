@@ -21,30 +21,6 @@
   <body>
     <div class="container-fluid">
       <div class="container mb-5">
-        <!-- <div   class="col-md-3 nav-admin" >
-                <ul class="nav flex-column mt-4 mb-4 ">
-                    <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="#">
-                        <i class="fas fa-home icon-navleft"></i>  
-                          Home
-                      </a>
-                    </li>
-                    <li class="nav-item" >
-                      <a class="nav-link" href="#" style="display: inline-block;">
-                        <i class="fas fa-folder-open icon-navleft"></i>
-                            Page
-                           
-                        </a>
-                        <i class="fas fa-chevron-down nav-arow" style="line-height: 40px;"></i>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link disabled">Disabled</a>
-                    </li>
-                  </ul>
-            </div> -->
         <div class="container-question row">
           <ul class="nav nav-tabs ms-5 mt-5">
             <li class="nav-item">
@@ -59,142 +35,43 @@
               <a class="nav-link" href="#">Ask a question</a>
             </li>
           </ul>
-          <div class="question">
-            <div class="question-as">
-              <div>
-                <img
-                  src="/imgs/team-8-42x42.jpg"
-                  class="author-img"
-                  alt="author"
-                />
-                <div class="ten">
-                  <h6 class="author-name">Ta Dinh Han</h6>
-                  <p class="date">
-                    Added an answer on April 19, 2018 at 2:00 am
+          <div th:each="element : ${listQuestion}">
+            <div class="question">
+              <div class="question-as">
+                <div>
+                  <img
+                    th:src="${element.creator.photoUrl}"
+                    class="author-img avatar"
+                    alt="author"
+                  />
+                  <div class="ten">
+                    
+                    <h6 class="author-name" th:text=${element.creator.name}></h6>
+                    <p class="date" th:text="'Added an question on ' +${element.createAt}">
+                      <!-- Added an answer on April 19, 2018 at 2:00 am -->
+                    </p>
+                  </div>
+                  <p class="question-detail" th:text="${element.content}">
+                
                   </p>
                 </div>
-                <p class="question-detail">
-                  Yes, I understand it. I hear a lot of this incorrect grammar
-                  from my wife. I would expect that the person that spoke this
-                  was possibly Chinese. In Chinese there are no tenses or
-                  plurals. No he or she pronouns. The context tells all. So it
-                  might have been a direct translation from Chinese.
-                </p>
-              </div>
-              <div style="margin-left: 58px">
-                <div class="like-dis">
-                  <i class="icon-question fas fa-caret-square-up"></i> 40
-                  <i class="icon-question-down fas fa-caret-square-down"></i>
-                </div>
-                <div class="like-dis">
-                  <i class="icon-question reply fas fa-reply"></i>
-                  <p class="reply">reply</p>
+                <div style="margin-left: 58px">
+                  <div class="like-dis">
+                    <i class="icon-question fas fa-caret-square-up"></i>
+                    <span th:text="${element.upVoteCount}"></span>
+                    <i class="icon-question-down fas fa-caret-square-down"></i>
+                    <span th:text="${element.downVoteCount}"></span>
+                  </div>
+                  <div class="like-dis">
+                    <i class="icon-question reply fas fa-reply"></i>
+                    <a th:href="@{'/answer/' + ${element.slug}}"><p class="reply">anwer</p></a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="question">
-            <div class="question-as">
-              <div>
-                <img
-                  src="/imgs/team-8-42x42.jpg"
-                  class="author-img"
-                  alt="author"
-                />
-                <div class="ten">
-                  <h6 class="author-name">Ta Dinh Han</h6>
-                  <p class="date">
-                    Added an answer on April 19, 2018 at 2:00 am
-                  </p>
-                </div>
-                <p class="question-detail">
-                  Yes, I understand it. I hear a lot of this incorrect grammar
-                  from my wife. I would expect that the person that spoke this
-                  was possibly Chinese. In Chinese there are no tenses or
-                  plurals. No he or she pronouns. The context tells all. So it
-                  might have been a direct translation from Chinese.
-                </p>
-              </div>
-              <div style="margin-left: 58px">
-                <div class="like-dis">
-                  <i class="icon-question fas fa-caret-square-up"></i> 40
-                  <i class="icon-question-down fas fa-caret-square-down"></i>
-                </div>
-                <div class="like-dis">
-                  <i class="icon-question reply fas fa-reply"></i>
-                  <p class="reply">reply</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="question">
-            <div class="question-as">
-              <div>
-                <img
-                  src="/imgs/team-8-42x42.jpg"
-                  class="author-img"
-                  alt="author"
-                />
-                <div class="ten">
-                  <h6 class="author-name">Ta Dinh Han</h6>
-                  <p class="date">
-                    Added an answer on April 19, 2018 at 2:00 am
-                  </p>
-                </div>
-                <p class="question-detail">
-                  Yes, I understand it. I hear a lot of this incorrect grammar
-                  from my wife. I would expect that the person that spoke this
-                  was possibly Chinese. In Chinese there are no tenses or
-                  plurals. No he or she pronouns. The context tells all. So it
-                  might have been a direct translation from Chinese.
-                </p>
-              </div>
-              <div style="margin-left: 58px">
-                <div class="like-dis">
-                  <i class="icon-question fas fa-caret-square-up"></i> 40
-                  <i class="icon-question-down fas fa-caret-square-down"></i>
-                </div>
-                <div class="like-dis">
-                  <i class="icon-question reply fas fa-reply"></i>
-                  <p class="reply">reply</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="question">
-            <div class="question-as">
-              <div>
-                <img
-                  src="/imgs/team-8-42x42.jpg"
-                  class="author-img"
-                  alt="author"
-                />
-                <div class="ten">
-                  <h6 class="author-name">Ta Dinh Han</h6>
-                  <p class="date">
-                    Added an answer on April 19, 2018 at 2:00 am
-                  </p>
-                </div>
-                <p class="question-detail">
-                  Yes, I understand it. I hear a lot of this incorrect grammar
-                  from my wife. I would expect that the person that spoke this
-                  was possibly Chinese. In Chinese there are no tenses or
-                  plurals. No he or she pronouns. The context tells all. So it
-                  might have been a direct translation from Chinese.
-                </p>
-              </div>
-              <div style="margin-left: 58px">
-                <div class="like-dis">
-                  <i class="icon-question fas fa-caret-square-up"></i> 40
-                  <i class="icon-question-down fas fa-caret-square-down"></i>
-                </div>
-                <div class="like-dis">
-                  <i class="icon-question reply fas fa-reply"></i>
-                  <p class="reply">reply</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          
+
         </div>
       </div>
     </div>

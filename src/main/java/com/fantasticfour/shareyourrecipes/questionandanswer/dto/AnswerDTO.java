@@ -1,5 +1,7 @@
 package com.fantasticfour.shareyourrecipes.questionandanswer.dto;
 
+import java.util.Date;
+
 import com.fantasticfour.shareyourrecipes.account.dtos.UserInfo;
 import com.fantasticfour.shareyourrecipes.domains.Answer;
 import com.fantasticfour.shareyourrecipes.domains.Question;
@@ -12,6 +14,15 @@ public class AnswerDTO {
     private String content;
     private Long upVoteCount;
     private Long downVoteCount;
+    private Date createAt;
+
+    public Date getCreateAt() {
+        return this.createAt;
+    }
+
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
+    }
 
     public Long getId() {
         return this.id;
@@ -64,6 +75,6 @@ public class AnswerDTO {
         this.content = answer.getContent();
         this.upVoteCount = answer.getUpVoteCount();
         this.downVoteCount = answer.getDownVoteCount();
-
+        this.createAt = answer.getCreatedDate();
     }
 }
