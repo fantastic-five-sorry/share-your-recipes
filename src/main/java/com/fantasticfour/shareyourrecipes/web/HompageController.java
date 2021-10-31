@@ -26,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -47,19 +48,24 @@ public class HompageController {
     private UserService userService;
     @Autowired
     private ApplicationEventPublisher eventPublisher;
-    @Autowired 
+    @Autowired
     private RecipeService recipeService;
-    @Autowired 
+    @Autowired
     private CommentService commentService;
 
     // @
     @GetMapping(value = { "/", "/home" })
     public String getHome(Authentication authentication, Model model) {
-        if (authentication != null)
+        if (authentication != null) {
             UserUtils.getIdFromRequest(authentication).ifPresent(uid -> {
                 UserInfo user = userService.getUserInfoById(uid);
+
                 model.addAttribute("user", user);
             });
+            // if (authentication.getAuthorities().toString().contains("ROLE_ADMIN")) {
+            // return "redirect:/admin/hello";
+            // }
+        }
 
         return "home";
     }
@@ -70,38 +76,20 @@ public class HompageController {
     }
 
     @GetMapping("/recipe/{slug}")
-    public String getHom2xxxx(@PathVariable("slug") String slug, Authentication authentication, Model model) {
+    public String recipeDetailPage(@PathVariable("slug") String slug, Authentication authentication, Model model) {
         try {
+            Long uid = -1L;
             RecipeDTO recipeDTO = recipeService.getRecipeBySlug(slug);
-        
             if (authentication != null) {
-            
-                Long uid = UserUtils.getIdFromRequest(authentication).orElse(null);
-                // if (uid != null) {
-                //     uid = -1L;
-                // }
-                Pageable page = PageRequest.of(0, 5);
-                Page<CommentVoteDto>  comments = commentService.getCommentVotingsOfRecipe(recipeDTO.getId(), uid, page);
-                model.addAttribute("comments", comments.getContent());
-            
-            } 
-            else {
-                
-                // model.addAttribute("comments", recipeDTO.getComments());
-                Pageable page = PageRequest.of(0, 5);
-                Page<CommentVoteDto>  comments = commentService.getCommentVotingsOfRecipe(recipeDTO.getId(), -1L, page);
-                model.addAttribute("comments", comments.getContent());
-            
-                // recipeDTO.getComments().forEach(System.out::println);
+                uid = UserUtils.getIdFromRequest(authentication).orElse(-1L);
             }
-
+            Pageable page = PageRequest.of(0, 5);
+            Page<CommentVoteDto> comments = commentService.getCommentVotingsOfRecipe(recipeDTO.getId(), uid, page);
+            model.addAttribute("comments", comments.getContent());
             model.addAttribute("recipe", recipeDTO);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
             return "error/404";
         }
-
         return "recipe/recipe-detail";
     }
 
@@ -202,7 +190,11 @@ public class HompageController {
         // System.out.println(oauthUser.getAttribute("email").toString());
         // model.addAttribute("your_email", uid.toString());
         // model.addAttribute("userInfo", userService.getUserInfoById(uid));
-        return "error/access-denied";
+        return "error/403";
     }
 
+    @GetMapping("/loginAdmin")
+    public String viewLogin() {
+        return "admin/login";
+    }
 }

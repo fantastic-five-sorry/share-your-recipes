@@ -1,11 +1,47 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
-    <meta th:name="_csrf" th:content="${_csrf.token}" />
-    <meta th:name="_csrf_header" th:content="${_csrf.headerName}" />
+    <!-- <meta th:name="_csrf" th:content="${_csrf.token}" />
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}" /> -->
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+      integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
+      integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+      integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.min.js"
+      integrity="sha512-1zzZ0ynR2KXnFskJ1C2s+7TIEewmkB2y+5o/+ahF7mwNj9n3PnzARpqalvtjSbUETwx6yuxP5AJXZCpnjEJkQw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css"
+    />
     <title>Document</title>
     <script>
       console.log('Yes');
@@ -14,6 +50,39 @@
     </script>
   </head>
   <body>
-    <span>hello</span>
+    <div id="page"></div>
+    <div id="demo"></div>
   </body>
+  <script defer>
+    $.extend($.fn.pagination.defaults, {
+      pageNumber: 0,
+    });
+    const dataContainer = $('#page');
+    $('#demo').pagination({
+      dataSource: '/api/comment/recipe/1000',
+      locator: 'content',
+      totalNumberLocator: function (response) {
+        return response.totalElements;
+      },
+      
+      alias: {
+        pageNumber: 'page',
+        pageSize: 'size',
+      },
+      pageSize: 10,
+      ajax: {
+        beforeSend: function () {
+          dataContainer.html('Loading data from flickr.com ...');
+        },
+      },
+      callback: function (data, pagination) {
+        console.log(data, pagination);
+        // template method of yourself
+        var html = data.map(
+          (item) => `<div>${item.id} : ${item.content}</div>`
+        );
+        dataContainer.html(html);
+      },
+    });
+  </script>
 </html>

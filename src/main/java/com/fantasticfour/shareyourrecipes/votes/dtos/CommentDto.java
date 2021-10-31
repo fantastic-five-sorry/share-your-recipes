@@ -7,11 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
-
-import com.fantasticfour.shareyourrecipes.account.dtos.UserInfo;
 import com.fantasticfour.shareyourrecipes.domains.Comment;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.votes.CommentVote;
@@ -122,5 +117,4 @@ public class CommentDto {
     public void setDownVoteCount(Long downVoteCount) {
         this.downVoteCount = downVoteCount;
     }
-
 }

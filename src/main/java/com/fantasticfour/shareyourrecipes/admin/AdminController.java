@@ -25,8 +25,5 @@ public class AdminController {
         return name == null ? "hello admin home page" : name;
     }
 
-    @GetMapping("/login")
-    public String viewLogin() {
-        return "admin/login";
-    }
+    
 }
