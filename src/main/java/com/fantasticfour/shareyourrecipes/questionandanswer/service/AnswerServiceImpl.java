@@ -110,5 +110,11 @@ public class AnswerServiceImpl implements AnswerService {
         answerRepo.save(answer);
     }
 
+    @Override
+    public Page<AnswerDTO> findByIdQuestion(Long id, Pageable pageable) {
+        // TODO Auto-generated method stub
+        return  answerRepo.findByIdQuestion(id, pageable).map(AnswerDTO::new);
+    }
+
 
 }

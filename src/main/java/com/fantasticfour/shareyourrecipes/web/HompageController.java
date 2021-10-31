@@ -9,6 +9,10 @@ import com.fantasticfour.shareyourrecipes.account.events.SendTokenEmailEvent;
 import com.fantasticfour.shareyourrecipes.configs.UserPrincipal;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
+import com.fantasticfour.shareyourrecipes.questionandanswer.dto.AnswerDTO;
+import com.fantasticfour.shareyourrecipes.questionandanswer.dto.QuestionDTO;
+import com.fantasticfour.shareyourrecipes.questionandanswer.service.AnswerService;
+import com.fantasticfour.shareyourrecipes.questionandanswer.service.QuestionService;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.services.RecipeService;
 import com.fantasticfour.shareyourrecipes.votes.dtos.CommentDto;
@@ -52,6 +56,11 @@ public class HompageController {
     private RecipeService recipeService;
     @Autowired
     private CommentService commentService;
+    @Autowired 
+    private QuestionService questionService;
+    @Autowired 
+    private AnswerService answerService;
+    
 
     // @
     @GetMapping(value = { "/", "/home" })
@@ -93,18 +102,31 @@ public class HompageController {
         return "recipe/recipe-detail";
     }
 
-    @GetMapping("/postQuestion")
+    @GetMapping("/post-question")
     public String postQuestion() {
         return "qa/post-question";
     }
 
-    @GetMapping("/answer")
-    public String anwerQuestion() {
+    @GetMapping("/answer/{slug}")
+    public String anwerQuestion(@PathVariable("slug") String slug, Model model) {
+        try {
+            QuestionDTO questionDTO = questionService.getQuestionBySlug(slug);
+            Pageable page = PageRequest.of(0, 2);
+            Page<AnswerDTO> listAnswer = answerService.findByIdQuestion(questionDTO.getId(), page);
+            model.addAttribute("listAnswer", listAnswer.getContent());
+            model.addAttribute("question", questionDTO);
+        } catch (Exception e) {
+            //TODO: handle exception
+            return "error/404";
+        }
         return "qa/answer";
     }
 
     @GetMapping("/list-question")
-    public String listQuesString() {
+    public String listQuesString(Model model) {
+        Pageable page = PageRequest.of(0, 3);
+        Page<QuestionDTO>  listQuestion = questionService.findAll(page);
+        model.addAttribute("listQuestion", listQuestion.getContent());
         return "qa/list-question";
     }
 
