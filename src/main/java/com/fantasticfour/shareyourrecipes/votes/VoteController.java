@@ -8,6 +8,7 @@ import com.fantasticfour.shareyourrecipes.votes.dtos.UserVoteDto;
 import com.fantasticfour.shareyourrecipes.votes.dtos.VoteDto;
 import com.fantasticfour.shareyourrecipes.votes.services.VoteService;
 
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/voting")
 @PreAuthorize("isAuthenticated()")
 public class VoteController {
+    Logger logger = org.slf4j.LoggerFactory.getLogger(VoteController.class);
     @Autowired
     public VoteService votingService;
 
@@ -77,10 +79,10 @@ public class VoteController {
                     .orElseThrow(() -> new IllegalStateException("User not found"));
             dto.setVoterId(uid);
             votingService.handleVotingToComment(dto);
-
+            logger.info("Voting to comment " + dto.getSubjectId());
             return ResponseEntity.ok().body("success");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("error");
+            return ResponseEntity.badRequest().body("error: " + e.getMessage());
 
         }
     }

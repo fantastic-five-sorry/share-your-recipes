@@ -5,12 +5,15 @@
   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
 >
   <head>
+    <!-- <meta th:name="_csrf" th:content="${_csrf.token}" />
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}" /> -->
+    <meta th:name="recipeId" th:content="${recipe.id}" />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title th:text="${recipe.title}"></title>
     <link rel="stylesheet" href="/styles/qa/style.css" />
-    <script src="/js/qa/main.js"></script>
+
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
       rel="stylesheet"
@@ -26,12 +29,23 @@
       defer
     ></script>
     <script
+      src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"
+      defer
+    ></script>
+    <script
       src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
       integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
       defer
     ></script>
+    <script type="text/javascript" th:inline="javascript" defer>
+      /*<![CDATA[*/
+         var auth = [[${#authentication.getPrincipal()} ?: null]];
+         console.log(auth)
+      /*]]>*/
+    </script>
+    <script src="/js/recipe/recipe.js" defer></script>
   </head>
   <body style="background-color: #f5f5f5">
     <div class="container-fluid">
@@ -162,8 +176,11 @@
                   <span><a th:href="@{/login}">login?</a></span>
                 </h2>
               </div>
-              <div th:each="element: ${comments}">
-                <div class="commented-section mt-2">
+              <div id="commentsDiv">
+                <!-- <div
+                  th:each="element: ${comments}"
+                  class="commented-section mt-2"
+                >
                   <div
                     class="d-flex flex-row align-items-ceRenter commented-user"
                   >
@@ -175,11 +192,6 @@
                     ></span>
                   </div>
                   <div class="comment-text-sm">
-                    <!-- <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo
-                    consequat.</span> -->
                     <span th:text="${element.content}"></span>
                   </div>
                   <div class="reply-section">
@@ -199,9 +211,16 @@
                       <span class="dot ml-2"></span>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
+            <button
+              type="button"
+              id="showMoreBtn"
+              class="btn btn-secondary btn-sm"
+            >
+              show more
+            </button>
           </div>
         </div>
       </div>

@@ -26,7 +26,7 @@ $(document).ready(function () {
           btnClass: 'btn-primary',
           keys: ['enter'],
           action: function () {
-            changePassword(event);
+            changePassword();
           },
         },
         cancel: function () {},
@@ -75,7 +75,7 @@ function getFormData($form) {
   return indexed_array;
 }
 
-function changePassword(event) {
+function changePassword() {
   $('.alert').html('').hide();
   $('.error-list').html('');
 

@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class LoginController {
     @GetMapping("/login")
-    public String uiLogin() {
+    public String uiLogin(HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
+        String referrer = request.getHeader("Referer");
+        request.getSession().setAttribute("url_prior_login", referrer);
         if (auth == null || auth instanceof AnonymousAuthenticationToken) {
             return "login/login";
         }

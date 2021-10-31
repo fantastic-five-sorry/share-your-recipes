@@ -96,13 +96,13 @@ public class CommentController {
     }
 
     @GetMapping("/recipe/{recipeId}")
-    @PreAuthorize("isAuthenticated()")
+    // @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> getCommentVotingsOfRecipe(@PathVariable("recipeId") Long recipeId, Pageable page,
             Authentication authentication) {
         try {
-
-            Long uid = UserUtils.getIdFromRequest(authentication)
-                    .orElseThrow(() -> new IllegalStateException("User not found"));
+            Long uid = -1L;
+            if (authentication != null)
+                uid = UserUtils.getIdFromRequest(authentication).orElse(-1L);
 
             return ResponseEntity.ok().body(commentService.getCommentVotingsOfRecipe(recipeId, uid, page));
 

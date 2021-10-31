@@ -86,7 +86,7 @@ function doVote(subjectId, type) {
 
   $.ajax({
     type: 'post',
-    url: votingUrl,
+    url: voteCommentUrl,
     data: JSON.stringify(data),
     contentType: 'application/json; charset=utf-8',
     headers: {

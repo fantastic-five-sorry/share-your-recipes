@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
@@ -52,15 +53,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 new AntPathRequestMatcher("/api/**"));
         http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
         http.authorizeRequests().anyRequest().permitAll();
-        http.formLogin().loginProcessingUrl("/login").loginPage("/login").defaultSuccessUrl("/")
+        http.formLogin().loginProcessingUrl("/login").loginPage("/login").successHandler(successHandler())
                 .failureHandler(authenticationFailureHandler()).and().logout().logoutUrl("/logout")
                 .logoutSuccessUrl("/login").permitAll().and().httpBasic().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
 
         http.oauth2Login().loginPage("/login").userInfoEndpoint().userService(customOAuth2UserService).and()
-                .defaultSuccessUrl("/").failureUrl("/login?error").and().logout()
+                .successHandler(successHandler()).failureUrl("/login?error").and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login").permitAll();
 
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        return new CustomLoginSuccessHandler("/");
     }
 
     @Bean
