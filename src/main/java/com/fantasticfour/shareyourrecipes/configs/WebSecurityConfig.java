@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // http.exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
 
         http.authorizeRequests().antMatchers("/", "/favicon.ico", "/login/**", "/signup/**", "/oauth/**").permitAll();
-        http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN");
+        // http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN");
         http.authorizeRequests().antMatchers("/test/**").permitAll();
         http.authorizeRequests().antMatchers("/api/comment/**").permitAll();
         http.authorizeRequests().antMatchers("/account/**").permitAll();

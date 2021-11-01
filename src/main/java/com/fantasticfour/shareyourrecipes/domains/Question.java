@@ -30,7 +30,7 @@ public class Question extends AuditModel {
     @SequenceGenerator(name = "quetion_generator", sequenceName = "quetion_sequence", initialValue = 1000, allocationSize = 1)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String slug;
     @Column(nullable = false)
     @Length(max = 100)

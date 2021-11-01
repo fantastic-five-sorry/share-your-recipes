@@ -9,14 +9,10 @@ import java.util.List;
 
 import com.fantasticfour.shareyourrecipes.domains.Comment;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
-import com.fantasticfour.shareyourrecipes.domains.votes.CommentVote;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 public class CommentDto {
 
-    private LocalDateTime createdAt;
+    private Date createdAt;
     private String writerName;
     private String writerEmail;
     private String photoUrl;
@@ -33,9 +29,9 @@ public class CommentDto {
     public CommentDto(Comment comment) {
 
         User user = comment.getCreator();
-        Instant instant = Instant.ofEpochMilli(comment.getCreatedDate().getTime());
-        LocalDateTime ldt = LocalDateTime.ofInstant(instant, ZoneOffset.UTC);
-        this.createdAt = ldt;
+        // Instant instant = Instant.ofEpochMilli(comment.getCreatedDate().getTime());
+        // LocalDateTime ldt = LocalDateTime.ofInstant(instant, ZoneOffset.UTC);
+        this.createdAt = comment.getCreatedDate();
         this.writerName = user.getName();
         this.writerEmail = user.getEmail();
         this.photoUrl = user.getPhotoUrl();
@@ -46,11 +42,11 @@ public class CommentDto {
         this.downVoteCount = comment.getDownVoteCount();
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Date getCreatedAt() {
         return this.createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 

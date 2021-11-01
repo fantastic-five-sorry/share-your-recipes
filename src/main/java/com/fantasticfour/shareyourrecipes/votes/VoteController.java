@@ -3,7 +3,7 @@ package com.fantasticfour.shareyourrecipes.votes;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.fantasticfour.shareyourrecipes.account.UserUtils;
+import com.fantasticfour.shareyourrecipes.account.Utils;
 import com.fantasticfour.shareyourrecipes.votes.dtos.UserVoteDto;
 import com.fantasticfour.shareyourrecipes.votes.dtos.VoteDto;
 import com.fantasticfour.shareyourrecipes.votes.services.VoteService;
@@ -31,7 +31,7 @@ public class VoteController {
     @PostMapping("/answer")
     public ResponseEntity<?> handleAnswerVoting(@RequestBody VoteDto dto, Authentication authentication) {
         try {
-            Long uid = UserUtils.getIdFromRequest(authentication)
+            Long uid = Utils.getIdFromRequest(authentication)
                     .orElseThrow(() -> new IllegalStateException("User not found"));
             dto.setVoterId(uid);
 
@@ -45,7 +45,7 @@ public class VoteController {
     @PostMapping("/recipe")
     public ResponseEntity<?> handleRecipeVoting(@RequestBody VoteDto dto, Authentication authentication) {
         try {
-            Long uid = UserUtils.getIdFromRequest(authentication)
+            Long uid = Utils.getIdFromRequest(authentication)
                     .orElseThrow(() -> new IllegalStateException("User not found"));
             dto.setVoterId(uid);
 
@@ -60,7 +60,7 @@ public class VoteController {
     @PostMapping("/recipeCollection")
     public ResponseEntity<?> handleRecipeCollectionVoting(@RequestBody VoteDto dto, Authentication authentication) {
         try {
-            Long uid = UserUtils.getIdFromRequest(authentication)
+            Long uid = Utils.getIdFromRequest(authentication)
                     .orElseThrow(() -> new IllegalStateException("User not found"));
             dto.setVoterId(uid);
             votingService.handleVotingToRecipeCollection(dto);
@@ -75,7 +75,7 @@ public class VoteController {
     @PostMapping("/comment")
     public ResponseEntity<?> handleCommentVoting(@RequestBody VoteDto dto, Authentication authentication) {
         try {
-            Long uid = UserUtils.getIdFromRequest(authentication)
+            Long uid = Utils.getIdFromRequest(authentication)
                     .orElseThrow(() -> new IllegalStateException("User not found"));
             dto.setVoterId(uid);
             votingService.handleVotingToComment(dto);
@@ -90,7 +90,7 @@ public class VoteController {
     @PostMapping("/question")
     public ResponseEntity<?> handleQuestionVoting(@RequestBody VoteDto dto, Authentication authentication) {
         try {
-            Long uid = UserUtils.getIdFromRequest(authentication)
+            Long uid = Utils.getIdFromRequest(authentication)
                     .orElseThrow(() -> new IllegalStateException("User not found"));
             dto.setVoterId(uid);
 

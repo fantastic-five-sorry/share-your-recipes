@@ -1,6 +1,6 @@
 package com.fantasticfour.shareyourrecipes.votes;
 
-import com.fantasticfour.shareyourrecipes.account.UserUtils;
+import com.fantasticfour.shareyourrecipes.account.Utils;
 import com.fantasticfour.shareyourrecipes.votes.dtos.CommentDto;
 import com.fantasticfour.shareyourrecipes.votes.dtos.EditCommentDto;
 import com.fantasticfour.shareyourrecipes.votes.dtos.NewCommentDto;
@@ -46,12 +46,12 @@ public class CommentController {
     public ResponseEntity<?> commentToRecipe(@RequestBody NewCommentDto comment, Authentication authentication) {
 
         try {
-            Long uid = UserUtils.getIdFromRequest(authentication)
+            Long uid = Utils.getIdFromRequest(authentication)
                     .orElseThrow(() -> new IllegalStateException("user not found"));
             logger.info("User " + uid + " has added comment to recipe" + comment.getRecipeId());
             comment.setWriterId(uid);
-            commentService.writeCommentToRecipe(comment);
-            return ResponseEntity.ok().body("success");
+            CommentDto savedComment = commentService.writeCommentToRecipe(comment);
+            return ResponseEntity.ok().body(savedComment);
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("error: " + e.getMessage());
@@ -102,7 +102,7 @@ public class CommentController {
         try {
             Long uid = -1L;
             if (authentication != null)
-                uid = UserUtils.getIdFromRequest(authentication).orElse(-1L);
+                uid = Utils.getIdFromRequest(authentication).orElse(-1L);
 
             return ResponseEntity.ok().body(commentService.getCommentVotingsOfRecipe(recipeId, uid, page));
 

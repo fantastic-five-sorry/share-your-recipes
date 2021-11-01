@@ -40,10 +40,8 @@
       defer
     ></script>
     <script type="text/javascript" th:inline="javascript" defer>
-      /*<![CDATA[*/
-         var auth = [[${#authentication.getPrincipal()} ?: null]];
-         console.log(auth)
-      /*]]>*/
+      var auth = [[${#authentication.getPrincipal()}]];
+      var recipeId = [[${recipe.getId()}]];
     </script>
     <script src="/js/recipe/recipe.js" defer></script>
   </head>
@@ -157,16 +155,18 @@
         <div class="d-flex justify-content-center row">
           <div class="d-flex flex-column col-md-8">
             <div class="coment-bottom bg-white p-2 px-4">
-              <div
+              <form
                 sec:authorize="isAuthenticated()"
                 class="d-flex flex-row add-comment-section mt-4 mb-4"
+                id="commentForm"
               >
                 <input
                   type="text"
                   class="form-control mr-3"
                   placeholder="Add comment"
-                /><button class="btn btn-primary" type="button">Comment</button>
-              </div>
+                  id="newComment"
+                /><button class="btn btn-primary" type="submit">Comment</button>
+              </form>
               <div
                 sec:authorize="!isAuthenticated()"
                 class="d-flex flex-row add-comment-section mt-4 mb-4"

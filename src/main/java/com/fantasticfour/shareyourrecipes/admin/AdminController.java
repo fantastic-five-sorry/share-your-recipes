@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/admin")
-@PreAuthorize("hasRole('ADMIN')")
+// @PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
     @GetMapping("hello")
     @ResponseBody
@@ -25,5 +25,29 @@ public class AdminController {
         return name == null ? "hello admin home page" : name;
     }
 
-    
+    @GetMapping("/recipe")
+    public String showRecipeManagementPage() {
+        return "admin/recipe-manage";
+    }
+
+    @GetMapping("/report")
+    public String showReportManagementPage() {
+        return "admin/report-manage";
+    }
+
+    @GetMapping("/question")
+    public String showQuestionManagementPage() {
+        return "admin/question-manage";
+    }
+
+    @GetMapping("/user")
+    public String showUserManagementPage() {
+        return "admin/user-manage";
+    }
+
+    @GetMapping("/report/detail")
+    public String showReportDetailPage() {
+        return "admin/report-detail";
+    }
+
 }

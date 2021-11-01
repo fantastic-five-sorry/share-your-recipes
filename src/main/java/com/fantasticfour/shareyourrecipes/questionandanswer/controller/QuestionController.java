@@ -2,6 +2,7 @@ package com.fantasticfour.shareyourrecipes.questionandanswer.controller;
 
 import java.util.List;
 
+import com.fantasticfour.shareyourrecipes.account.Utils;
 import com.fantasticfour.shareyourrecipes.domains.enums.QuestionStatus;
 import com.fantasticfour.shareyourrecipes.questionandanswer.dto.CreateQuestionDTO;
 import com.fantasticfour.shareyourrecipes.questionandanswer.dto.QuestionDTO;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,10 +28,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/question")
 public class QuestionController {
 
-    private final QuestionService QuestionService;
+    private final QuestionService questionService;
+
     @Autowired
     public QuestionController(QuestionService QuestionService) {
-        this.QuestionService = QuestionService;
+        this.questionService = QuestionService;
     }
 
     @GetMapping("")
@@ -37,19 +40,21 @@ public class QuestionController {
         // List<QuestionDTO> QuestionDTOs = QuestionService.findAll();
         // System.out.println(QuestionDTOs.size());
         // if (QuestionDTOs.size() > 0) {
-        //     return new ResponseEntity<List<QuestionDTO>>(QuestionDTOs, HttpStatus.OK);
+        // return new ResponseEntity<List<QuestionDTO>>(QuestionDTOs, HttpStatus.OK);
         // }
         // return ResponseEntity.badRequest().body("error : " + "list is empty");
-        return ResponseEntity.ok().body(QuestionService.findAll(pageable));
+        return ResponseEntity.ok().body(questionService.findAll(pageable));
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody CreateQuestionDTO QuestionDTO) {
+    public ResponseEntity<?> create(@RequestBody CreateQuestionDTO questionDTO, Authentication auth) {
         try {
-            QuestionService.createQuestion(QuestionDTO);   
+            Long uid = Utils.getIdFromRequest(auth).orElseThrow(() -> new IllegalStateException("user not found"));
+            questionDTO.setCreatorId(uid);
+            questionService.createQuestion(questionDTO);
         } catch (Exception e) {
-            //TODO: handle exception
-            return ResponseEntity.badRequest().body("error : "  + e.getMessage());
+            // TODO: handle exception
+            return ResponseEntity.badRequest().body("error : " + e.getMessage());
         }
         return ResponseEntity.ok().body("message: " + "add Question success");
     }
@@ -57,10 +62,10 @@ public class QuestionController {
     @PostMapping("/de-approved/{id}")
     public ResponseEntity<?> deApproved(@PathVariable("id") Long idQuestion) {
         try {
-            QuestionService.deApproved(idQuestion);   
+            questionService.deApproved(idQuestion);
         } catch (Exception e) {
-            //TODO: handle exception
-            return ResponseEntity.badRequest().body("error : "  + e.getMessage());
+            // TODO: handle exception
+            return ResponseEntity.badRequest().body("error : " + e.getMessage());
         }
         return ResponseEntity.ok().body("message: " + "update status of question  success");
     }
@@ -68,10 +73,10 @@ public class QuestionController {
     @PostMapping("/approved/{id}")
     public ResponseEntity<?> approved(@PathVariable("id") Long idQuestion) {
         try {
-            QuestionService.approved(idQuestion);   
+            questionService.approved(idQuestion);
         } catch (Exception e) {
-            //TODO: handle exception
-            return ResponseEntity.badRequest().body("error : "  + e.getMessage());
+            // TODO: handle exception
+            return ResponseEntity.badRequest().body("error : " + e.getMessage());
         }
         return ResponseEntity.ok().body("message: " + "update status of question  success");
     }
@@ -79,34 +84,34 @@ public class QuestionController {
     @PutMapping("/update")
     public ResponseEntity<?> update(@RequestBody UpdateQuestionDTO questionDTO) {
         try {
-            QuestionService.updateQuestion(questionDTO);
+            questionService.updateQuestion(questionDTO);
         } catch (Exception e) {
-            //TODO: handle exception
+            // TODO: handle exception
             return ResponseEntity.badRequest().body("error : " + e.getMessage());
         }
 
-        return ResponseEntity.ok().body("message: " +  "update question success");
+        return ResponseEntity.ok().body("message: " + "update question success");
     }
 
     @DeleteMapping("/{idQuestion}")
     public ResponseEntity<?> delete(@PathVariable("idQuestion") Long idQuestion) {
         try {
-            QuestionService.deleteQuestion(idQuestion);
+            questionService.deleteQuestion(idQuestion);
         } catch (Exception e) {
-            //TODO: handle exception
-            return ResponseEntity.badRequest().body("error : "  + e.getMessage());
+            // TODO: handle exception
+            return ResponseEntity.badRequest().body("error : " + e.getMessage());
         }
 
         return ResponseEntity.ok().body("message: " + "delete Question success");
-    } 
+    }
 
     @GetMapping("/{idQuestion}")
     public ResponseEntity<?> findById(@PathVariable("idQuestion") Long idQuestion) {
         QuestionDTO QuestionDTO;
         try {
-            QuestionDTO = QuestionService.viewQuestionDTO(idQuestion);
+            QuestionDTO = questionService.viewQuestionDTO(idQuestion);
         } catch (Exception e) {
-            //TODO: handle exception
+            // TODO: handle exception
             return ResponseEntity.badRequest().body("error: " + e.getMessage());
         }
         return new ResponseEntity<QuestionDTO>(QuestionDTO, HttpStatus.OK);
@@ -116,9 +121,10 @@ public class QuestionController {
     public ResponseEntity<?> findByStatus(@PathVariable("status") QuestionStatus status, Pageable pageable) {
         try {
             System.out.println(status.toString());
-            return  new ResponseEntity<Page<QuestionDTO>>(QuestionService.findByStatus(status.toString(), pageable), HttpStatus.OK);
+            return new ResponseEntity<Page<QuestionDTO>>(questionService.findByStatus(status.toString(), pageable),
+                    HttpStatus.OK);
         } catch (Exception e) {
-            //TODO: handle exception
+            // TODO: handle exception
             return ResponseEntity.badRequest().body("error: " + e.getMessage());
         }
     }
@@ -129,14 +135,12 @@ public class QuestionController {
 
         QuestionDTO questionDTO;
         try {
-            questionDTO = QuestionService.getQuestionBySlug(slug);
+            questionDTO = questionService.getQuestionBySlug(slug);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             return ResponseEntity.badRequest().body("error: " + e.getMessage());
         }
-        return  new ResponseEntity<QuestionDTO>(questionDTO, HttpStatus.OK);
+        return new ResponseEntity<QuestionDTO>(questionDTO, HttpStatus.OK);
     }
 
-
 }
-

@@ -3,7 +3,7 @@ package com.fantasticfour.shareyourrecipes.web;
 import java.security.Principal;
 
 import com.fantasticfour.shareyourrecipes.account.UserService;
-import com.fantasticfour.shareyourrecipes.account.UserUtils;
+import com.fantasticfour.shareyourrecipes.account.Utils;
 import com.fantasticfour.shareyourrecipes.account.dtos.UserInfo;
 import com.fantasticfour.shareyourrecipes.account.events.SendTokenEmailEvent;
 import com.fantasticfour.shareyourrecipes.configs.UserPrincipal;
@@ -56,17 +56,16 @@ public class HompageController {
     private RecipeService recipeService;
     @Autowired
     private CommentService commentService;
-    @Autowired 
+    @Autowired
     private QuestionService questionService;
-    @Autowired 
+    @Autowired
     private AnswerService answerService;
-    
 
     // @
     @GetMapping(value = { "/", "/home" })
     public String getHome(Authentication authentication, Model model) {
         if (authentication != null) {
-            UserUtils.getIdFromRequest(authentication).ifPresent(uid -> {
+            Utils.getIdFromRequest(authentication).ifPresent(uid -> {
                 UserInfo user = userService.getUserInfoById(uid);
 
                 model.addAttribute("user", user);
@@ -87,14 +86,7 @@ public class HompageController {
     @GetMapping("/recipe/{slug}")
     public String recipeDetailPage(@PathVariable("slug") String slug, Authentication authentication, Model model) {
         try {
-            Long uid = -1L;
             RecipeDTO recipeDTO = recipeService.getRecipeBySlug(slug);
-            if (authentication != null) {
-                uid = UserUtils.getIdFromRequest(authentication).orElse(-1L);
-            }
-            Pageable page = PageRequest.of(0, 5);
-            Page<CommentVoteDto> comments = commentService.getCommentVotingsOfRecipe(recipeDTO.getId(), uid, page);
-            model.addAttribute("comments", comments.getContent());
             model.addAttribute("recipe", recipeDTO);
         } catch (Exception e) {
             return "error/404";
@@ -116,7 +108,7 @@ public class HompageController {
             model.addAttribute("listAnswer", listAnswer.getContent());
             model.addAttribute("question", questionDTO);
         } catch (Exception e) {
-            //TODO: handle exception
+            // TODO: handle exception
             return "error/404";
         }
         return "qa/answer";
@@ -125,7 +117,7 @@ public class HompageController {
     @GetMapping("/list-question")
     public String listQuesString(Model model) {
         Pageable page = PageRequest.of(0, 3);
-        Page<QuestionDTO>  listQuestion = questionService.findAll(page);
+        Page<QuestionDTO> listQuestion = questionService.findAll(page);
         model.addAttribute("listQuestion", listQuestion.getContent());
         return "qa/list-question";
     }

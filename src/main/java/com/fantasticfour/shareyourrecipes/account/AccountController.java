@@ -39,7 +39,7 @@ public class AccountController {
     @Autowired
     ApplicationEventPublisher eventPublisher;
     @Autowired
-    UserUtils userUtils;
+    Utils userUtils;
 
     @Autowired
     @Qualifier("avatar")
@@ -128,7 +128,7 @@ public class AccountController {
                 // update avt url to user
                 String avatarUrl = "/storage/avatar/" + fileName;
                 //
-                Long uid = UserUtils.getIdFromRequest(authentication)
+                Long uid = Utils.getIdFromRequest(authentication)
                         .orElseThrow(() -> new IllegalStateException("User not found"));
 
                 userService.updateAvatar(uid, avatarUrl);

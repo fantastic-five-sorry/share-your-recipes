@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface CommentService {
-    void writeCommentToRecipe(NewCommentDto comment);
+    CommentDto writeCommentToRecipe(NewCommentDto comment);
 
     CommentDto getComment(Long id);
 

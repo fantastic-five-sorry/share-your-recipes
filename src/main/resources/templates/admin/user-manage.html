@@ -1,0 +1,300 @@
+<!------ Include the above in your HEAD tag ---------->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin | Report Manage</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+
+    <!-- Optional theme -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+      crossorigin="anonymous"
+    />
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+  />
+    <script src="/js/admin/main.js"></script>
+    <link rel="stylesheet" href="/styles/admin/layout.css" />
+    <style>
+        .navigation {
+          width: 40%;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        table th,
+        table td {
+          text-align: center;
+          padding: 0;
+        }
+        .table-recipe th,
+        .table-recipe td {
+          padding: 0px;
+        }
+        .table-arow {
+          width: 100%;
+          height: 100%;
+        }
+        .table-arow td {
+          border: none;
+        }
+        .top-recipe {
+          margin: 0px;
+          padding: 5px;
+          text-align: center;
+          color: #fff;
+          font-weight: 200;
+          background-color: #79aefe;
+        }
+        .arow {
+          color: #167daa;
+          font-size: 18px;
+        }
+        .arow:hover {
+          cursor: pointer;
+        }
+        .arow-permission {
+          color: #167daa;
+          font-size: 40px;
+        }
+        .add-chef {
+          margin-top: auto;
+          margin-bottom: auto;
+          margin-left: auto;
+          margin-right: auto;
+          text-align: center;
+        }
+        .icon-add-chef {
+          font-size: 90px;
+  
+          color: green;
+        }
+        .title-add-chef {
+          font-size: 22px;
+          color: green;
+          font-weight: 600;
+        }
+        .paging-user {
+          text-align: center;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .question-recipe {
+          display: block;
+          width: 100%;
+          text-align: center;
+          background-color: #bcd2f1;
+          border: 1px solid #bcd2f1;
+        }
+        .arow-question-recipe {
+          margin-right: 10px;
+          position: relative;
+        }
+        .line {
+          position: absolute;
+          background-color: #000;
+          width: 1px;
+          height: 16px;
+          margin-top: -20px;
+          margin-right: 0px;
+          margin-left: 145px;
+        }
+        .user-recipe {
+          display: block;
+          width: 100%;
+          text-align: center;
+          background-color: #bcd2f1;
+          border: 1px solid #bcd2f1;
+        }
+      </style>  
+</head>
+  <body>
+    <div id="wrapper" class="toggled">
+      <!-- Sidebar -->
+      <nav
+        class="navbar navbar-inverse navbar-fixed-top"
+        id="sidebar-wrapper"
+        role="navigation"
+      >
+        <ul class="nav sidebar-nav">
+          <li class="sidebar-brand">
+            <img
+              class="avatar"
+              src="https://www.w3schools.com/howto/img_avatar.png"
+              alt="avatar"
+            />
+          </li>
+          <li class="sidebar-brand">
+            <a href="#"> Admin name </a>
+          </li>
+          <li>
+            <a href="/admin/stats">Statistics</a>
+          </li>
+          <li>
+            <a href="/admin/user">User</a>
+          </li>
+          <li>
+            <a href="/admin/question">Question</a>
+          </li>
+          <li>
+            <a href="/admin/report">Report</a>
+          </li>
+          <li>
+            <a href="/">Home Page</a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /#sidebar-wrapper -->
+
+      <!-- Page Content -->
+      <div id="page-content-wrapper toggled">
+        <button
+          type="button"
+          class="hamburger is-closed"
+          data-toggle="offcanvas"
+        >
+          <span class="hamb-top"></span>
+          <span class="hamb-middle"></span>
+          <span class="hamb-bottom"></span>
+        </button>
+        <div class="container">
+          <div class="header">
+            <span>COOK WITH ME</span>
+          </div>
+          <div class="container">
+            <div class="row">
+                <div class=col-md-10 mt-5 >
+                  <table class="table-recipe table table-bordered">
+                      <tbody>
+                        <tr style="background-color: #79aefe; color: #fff">
+                          <th>#</th>
+                          <th>Author Name</th>
+                          <th>Role</th>
+                          <th>Permission</th>
+                        </tr>
+                        <tr>
+                          <th scope="row" style="padding-top: 18px">1</th>
+                          <td style="padding-top: 18px">Han</td>
+                          <td style="padding-top: 18px">Administratore</td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <th scope="row" style="padding-top: 18px">2</th>
+                          <td style="padding-top: 18px">Han</td>
+                          <td style="padding-top: 18px">Administratore</td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <th scope="row" style="padding-top: 18px">3</th>
+                          <td style="padding-top: 18px">Han</td>
+                          <td style="padding-top: 18px">Administratore</td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <th scope="row" style="padding-top: 18px">4</th>
+                          <td style="padding-top: 18px">Han</td>
+                          <td style="padding-top: 18px">Administratore</td>
+                          <td>
+                            <i
+                              class="arow-permission fas fa-sort-down"
+                              style="line-height: 27px"
+                            ></i>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th scope="row" style="padding-top: 18px">5</th>
+                          <td style="padding-top: 18px">Han</td>
+                          <td style="padding-top: 18px">Administratore</td>
+                          <td>
+                            <i
+                              class="arow-permission fas fa-sort-down"
+                              style="line-height: 27px"
+                            ></i>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th scope="row" style="padding-top: 18px">6</th>
+                          <td style="padding-top: 18px">Han</td>
+                          <td style="padding-top: 18px">Administratore</td>
+                          <td>
+                            <i
+                              class="arow-permission fas fa-sort-down"
+                              style="line-height: 27px"
+                            ></i>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+                  <div class="col-md-2 add-chef">
+                    <a href="#"><i class="fas fa-plus icon-add-chef"></i></a>
+                    <p class="title-add-chef">Add chef</p>
+                  </div>
+                </div>
+                <!-- add chef -->
+                
+              <div class="pag">
+                <ul class="pagination">
+                  <li class="disabled"><a href="#">«</a></li>
+                  <li class="active">
+                    <a href="#">1 <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li><a href="#">2</a></li>
+                  <li><a href="#">3</a></li>
+                  <li><a href="#">4</a></li>
+                  <li><a href="#">5</a></li>
+                  <li><a href="#">»</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+  </body>
+</html>

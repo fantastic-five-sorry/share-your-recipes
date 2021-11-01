@@ -122,7 +122,7 @@ public class AccountRestController {
     public ResponseEntity<?> handleChangePassword(@RequestBody ChangePasswordDto request,
             Authentication authentication) {
         try {
-            Long userId = UserUtils.getIdFromRequest(authentication)
+            Long userId = Utils.getIdFromRequest(authentication)
                     .orElseThrow(() -> new IllegalStateException("not auth"));
             userService.changePassword(userId, request);
             return ResponseEntity.ok("Successfully changed password");
@@ -165,7 +165,7 @@ public class AccountRestController {
     @PostMapping("/validate-current-password")
     public ResponseEntity<?> validateCurrentPw(@RequestParam("currentPassword") String password,
             Authentication authentication) {
-        Long id = UserUtils.getIdFromRequest(authentication)
+        Long id = Utils.getIdFromRequest(authentication)
                 .orElseThrow(() -> new IllegalStateException("User not found"));
 
         try {

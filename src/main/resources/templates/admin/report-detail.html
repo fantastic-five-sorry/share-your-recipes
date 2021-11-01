@@ -1,0 +1,189 @@
+<!------ Include the above in your HEAD tag ---------->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin | Report Detail</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+
+    <!-- Optional theme -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+      crossorigin="anonymous"
+    />
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/js/admin/main.js"></script>
+    <link rel="stylesheet" href="/styles/admin/layout.css" />
+  </head>
+  <body>
+    <div id="wrapper" class="toggled">
+      <!-- Sidebar -->
+      <nav
+        class="navbar navbar-inverse navbar-fixed-top"
+        id="sidebar-wrapper"
+        role="navigation"
+      >
+        <ul class="nav sidebar-nav">
+          <li class="sidebar-brand">
+            <img
+              class="avatar"
+              src="https://www.w3schools.com/howto/img_avatar.png"
+              alt="avatar"
+            />
+          </li>
+          <li class="sidebar-brand">
+            <a href="#"> Admin name </a>
+          </li>
+          <li>
+            <a href="/admin/stats">Statistics</a>
+          </li>
+          <li>
+            <a href="/admin/user">User</a>
+          </li>
+          <li>
+            <a href="/admin/question">Question</a>
+          </li>
+          <li>
+            <a href="/admin/report">Report</a>
+          </li>
+          <li>
+            <a href="/">Home Page</a>
+          </li>
+          <!-- <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+              >Works <span class="caret"></span
+            ></a>
+            <ul class="dropdown-menu" role="menu">
+              <li class="dropdown-header">Dropdown heading</li>
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li><a href="#">Separated link</a></li>
+              <li><a href="#">One more separated link</a></li>
+            </ul>
+          </li> -->
+          <li>
+            <a href="#">Report</a>
+          </li>
+          <li>
+            <a href="#">Home Page</a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /#sidebar-wrapper -->
+
+      <!-- Page Content -->
+      <div id="page-content-wrapper toggled">
+        <button
+          type="button"
+          class="hamburger is-closed"
+          data-toggle="offcanvas"
+        >
+          <span class="hamb-top"></span>
+          <span class="hamb-middle"></span>
+          <span class="hamb-bottom"></span>
+        </button>
+        <div class="container">
+          <div class="header">
+            <span>COOK WITH ME</span>
+          </div>
+          <div class="container">
+              <div style="display: flex; flex-direction: row;">
+                <table class="table table-user-information" style="margin-right: 30px;">
+                    <tbody>
+                        <tr>
+                            <td>ID Report:</td>
+                            <td>#RP0001</td>
+                        </tr>
+                        <tr>
+                            <td>ID Recipe:</td>
+                            <td>#RECIPE001</td>
+                        </tr>
+                        <tr>
+                            <td>Date Time</td>
+                            <td>01/24/1988</td>
+                        </tr>
+                        <tr>
+                            <tr>
+                                <td>Gender</td>
+                                <td>Male</td>
+                            </tr>
+                            <tr>
+                                <td>Recipe Name</td>
+                                <td>Doe</td>
+                            </tr>
+                            <tr>
+                                <td>Food</td>
+                                <td>Some food</td>
+                            </tr>
+                            <td>Contents of the report</td>
+                            <td>123-4567-890(Landline)<br><br>555-4567-890(Mobile)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-user-information" style="margin-left: 30px;">
+                    <tbody>
+                        <tr>
+                            <td>Status:</td>
+                            <td>Solved</td>
+                        </tr>
+                        <tr>
+                            <td>Reporter</td>
+                            <td>Doe</td>
+                        </tr>
+                    </tbody>
+                </table>
+          </div>
+          <button class="btn" style="margin-right: 100px;">Back</button>
+
+          <button class="btn btn-success confirm">V</button
+            ><button class="btn btn-danger delete">X</button>
+      </div>
+      <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+  </body>
+</html>
+¸

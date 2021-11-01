@@ -1,0 +1,218 @@
+<!------ Include the above in your HEAD tag ---------->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin | Report Manage</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+
+    <!-- Optional theme -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+      crossorigin="anonymous"
+    />
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/js/admin/main.js"></script>
+    <link rel="stylesheet" href="/styles/admin/layout.css" />
+  </head>
+  <body>
+    <div id="wrapper" class="toggled">
+      <!-- Sidebar -->
+      <nav
+        class="navbar navbar-inverse navbar-fixed-top"
+        id="sidebar-wrapper"
+        role="navigation"
+      >
+        <ul class="nav sidebar-nav">
+          <li class="sidebar-brand">
+            <img
+              class="avatar"
+              src="https://www.w3schools.com/howto/img_avatar.png"
+              alt="avatar"
+            />
+          </li>
+          <li class="sidebar-brand">
+            <a href="#"> Admin name </a>
+          </li>
+          <li>
+            <a href="/admin/stats">Statistics</a>
+          </li>
+          <li>
+            <a href="/admin/user">User</a>
+          </li>
+          <li>
+            <a href="/admin/question">Question</a>
+          </li>
+          <li>
+            <a href="/admin/report">Report</a>
+          </li>
+          <li>
+            <a href="/">Home Page</a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /#sidebar-wrapper -->
+
+      <!-- Page Content -->
+      <div id="page-content-wrapper toggled">
+        <button
+          type="button"
+          class="hamburger is-closed"
+          data-toggle="offcanvas"
+        >
+          <span class="hamb-top"></span>
+          <span class="hamb-middle"></span>
+          <span class="hamb-bottom"></span>
+        </button>
+        <div class="container">
+          <div class="header">
+            <span>COOK WITH ME</span>
+          </div>
+          <div class="container">
+            <div class="row">
+              <table class="table" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Date Time</th>
+                    <th>Reporter</th>
+                    <th>Status</th>
+                    <th>Detail</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a href="#">1</a></td>
+                    <td>-/-/-</td>
+                    <td>Doe</td>
+                    <td>Solved</td>
+                    <td><a href="">Detail</a></td>
+                  </tr>
+                  <tr>
+                    <td><a href="#">2</a></td>
+                    <td>-/-/-</td>
+                    <td>Doe</td>
+                    <td>Solved</td>
+                    <td><a href="">Detail</a></td>
+                  </tr>
+                  <tr>
+                    <td><a href="#">3</a></td>
+                    <td>-/-/-</td>
+                    <td>Doe</td>
+                    <td>Solved</td>
+                    <td><a href="">Detail</a></td>
+                  </tr>
+                  <tr>
+                    <td><a href="#">4</a></td>
+                    <td>-/-/-</td>
+                    <td>Doe</td>
+                    <td>Solved</td>
+                    <td><a href="">Detail</a></td>
+                  </tr>
+                  <tr>
+                    <td><a href="#">5</a></td>
+                    <td>-/-/-</td>
+                    <td>Doe</td>
+                    <td>Solved</td>
+                    <td><a href="">Detail</a></td>
+                  </tr>
+                  <tr>
+                    <td><a href="#">6</a></td>
+                    <td>-/-/-</td>
+                    <td>Doe</td>
+                    <td>Solved</td>
+                    <td><a href="">Detail</a></td>
+                  </tr>
+                  <tr>
+                    <td><a href="#">7</a></td>
+                    <td>-/-/-</td>
+                    <td>Doe</td>
+                    <td>Solved</td>
+                    <td><a href="">Detail</a></td>
+                  </tr>
+                  <tr>
+                    <td><a href="#">8</a></td>
+                    <td>-/-/-</td>
+                    <td>Doe</td>
+                    <td>Solved</td>
+                    <td><a href="">Detail</a></td>
+                  </tr>
+                  <tr>
+                    <td><a href="#">9</a></td>
+                    <td>-/-/-</td>
+                    <td>Doe</td>
+                    <td>Solved</td>
+                    <td><a href="">Detail</a></td>
+                  </tr>
+                  <tr>
+                    <td><a href="#">10</a></td>
+                    <td>-/-/-</td>
+                    <td>Doe</td>
+                    <td>Solved</td>
+                    <td><a href="">Detail</a></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="pag">
+                <ul class="pagination">
+                  <li class="disabled"><a href="#">«</a></li>
+                  <li class="active">
+                    <a href="#">1 <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li><a href="#">2</a></li>
+                  <li><a href="#">3</a></li>
+                  <li><a href="#">4</a></li>
+                  <li><a href="#">5</a></li>
+                  <li><a href="#">»</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+  </body>
+</html>

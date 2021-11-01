@@ -11,6 +11,7 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 import com.fantasticfour.shareyourrecipes.account.UserRepo;
+import com.fantasticfour.shareyourrecipes.account.Utils;
 import com.fantasticfour.shareyourrecipes.domains.enums.RecipeStatus;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeDTO;
@@ -31,25 +32,11 @@ public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
     private final UserRepo userRepo;
-    @Value("${lvl.app.maxSlugRandomStringLength}")
-    private int SHORT_ID_LENGTH;
 
     @Autowired
     public RecipeServiceImpl(RecipeRepository recipeRepository, UserRepo userRepo) {
         this.recipeRepository = recipeRepository;
         this.userRepo = userRepo;
-    }
-
-    private final Pattern NONLATIN = Pattern.compile("[^\\w-]");
-    private final Pattern WHITESPACE = Pattern.compile("[\\s]");
-
-    public String toSlug(String input) {
-        String shortId = RandomStringUtils.randomAlphanumeric(SHORT_ID_LENGTH);
-        input = input + " " + shortId;
-        String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
-        String normalized = Normalizer.normalize(nowhitespace, Form.NFD);
-        String slug = NONLATIN.matcher(normalized).replaceAll("");
-        return normalized.toLowerCase(Locale.ENGLISH);
     }
 
     @Override
@@ -80,7 +67,7 @@ public class RecipeServiceImpl implements RecipeService {
         recipe2.setSteps(recipe.getSteps());
         recipe2.setCreator(userRepo.findValidUserById(recipe.getCreatorId()));
         recipe2.setGuideVideoUrl(recipe.getGuideVideoString());
-        recipe2.setSlug(this.toSlug(recipe.getTitle()));
+        recipe2.setSlug(Utils.toSlug(recipe.getTitle()));
         recipeRepository.save(recipe2);
         // System.out.println("okeoke");
 
@@ -152,10 +139,11 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public RecipeDTO getRecipeBySlug(String slug) throws Exception {
         // TODO Auto-generated method stub
-        Recipe recipe = recipeRepository.findBySlug(slug).orElseThrow(()-> new IllegalStateException("recipe not found"));
+        Recipe recipe = recipeRepository.findBySlug(slug)
+                .orElseThrow(() -> new IllegalStateException("recipe not found"));
         // System.out.println(recipe== null);
         // if (recipe == null) {
-        //     throw new Exception("not found recipe");
+        // throw new Exception("not found recipe");
         // }
 
         return new RecipeDTO(recipe);

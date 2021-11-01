@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 
 import com.fantasticfour.shareyourrecipes.account.UserService;
-import com.fantasticfour.shareyourrecipes.account.UserUtils;
+import com.fantasticfour.shareyourrecipes.account.Utils;
 import com.fantasticfour.shareyourrecipes.storages.StorageFileNotFoundException;
 import com.fantasticfour.shareyourrecipes.storages.recipe.RecipeStorageService;
 
@@ -78,7 +78,7 @@ public class AvatarUploadController {
                 String avatarUrl = "/storage/avatar/" + fileName;
 
                 //
-                Long uid = UserUtils.getIdFromRequest(authentication)
+                Long uid = Utils.getIdFromRequest(authentication)
                         .orElseThrow(() -> new IllegalStateException("User not found"));
                        
                 userService.updateAvatar(uid, avatarUrl);
