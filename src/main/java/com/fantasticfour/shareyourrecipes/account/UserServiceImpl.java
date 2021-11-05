@@ -10,6 +10,7 @@ import com.fantasticfour.shareyourrecipes.account.dtos.ChangePasswordDto;
 import com.fantasticfour.shareyourrecipes.account.dtos.ResetPasswordDto;
 import com.fantasticfour.shareyourrecipes.account.dtos.SignUpDto;
 import com.fantasticfour.shareyourrecipes.account.dtos.UserInfo;
+import com.fantasticfour.shareyourrecipes.account.dtos.UserRoleDto;
 import com.fantasticfour.shareyourrecipes.domains.auth.Role;
 import com.fantasticfour.shareyourrecipes.domains.auth.Token;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
@@ -21,6 +22,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -91,8 +94,8 @@ public class UserServiceImpl implements UserService {
         userRepo.save(user);
     };
 
-    public List<User> getUsers() {
-        return userRepo.findAll();
+    public Page<UserRoleDto> getUsers(Pageable page) {
+        return userRepo.findAll(page).map(UserRoleDto::new);
     };
 
     public Boolean isExistsUserByEmail(String email) {

@@ -44,6 +44,10 @@ public class AdminController {
     public String showUserManagementPage() {
         return "admin/user-manage";
     }
+    @GetMapping("/stats")
+    public String showStatsPage() {
+        return "admin/stats";
+    }
 
     @GetMapping("/report/detail")
     public String showReportDetailPage() {

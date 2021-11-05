@@ -52,13 +52,37 @@
         <div class="col-md-9">
           <div class="img-header">
             <div class="icon-report">
-              <i class="arow-up fas fa-caret-up"></i>
-              <i class="arow-up arow-report fas fa-sort-down"></i>
-              <input
+              <div>
+                <i
+                  id="recipeUpBtn"
+                  th:class="${recipe.type == 'UP'} ? 'text-success arow-up fas fa-caret-up' : 'arow-up fas fa-caret-up'"
+                  class="arow-up fas fa-caret-up"
+                ></i
+                ><span
+                  id="recipeUpVoteCount"
+                  th:text="${recipe.upVoteCount}"
+                ></span>
+              </div>
+              <div>
+                <i
+                  id="recipeDownBtn"
+                  th:class="${recipe.type == 'DOWN'} ? 'text-success arow-up fas fa-sort-down' : 'arow-up fas fa-sort-down'"
+                  class="arow-up fas fa-sort-down"
+                ></i
+                ><span
+                  id="recipeDownVoteCount"
+                  th:text="${recipe.downVoteCount}"
+                ></span>
+              </div>
+              <button
                 type="button"
                 class="btn-report btn btn-danger"
                 value="Report"
-              />
+              >
+                <a style="color: inherit" href="/report" target="_blank"
+                  >Report</a
+                >
+              </button>
             </div>
             <div class="img_detail">
               <img

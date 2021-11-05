@@ -9,6 +9,7 @@ import com.fantasticfour.shareyourrecipes.account.events.SendTokenEmailEvent;
 import com.fantasticfour.shareyourrecipes.configs.UserPrincipal;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
+import com.fantasticfour.shareyourrecipes.domains.enums.VoteType;
 import com.fantasticfour.shareyourrecipes.questionandanswer.dto.AnswerDTO;
 import com.fantasticfour.shareyourrecipes.questionandanswer.dto.QuestionDTO;
 import com.fantasticfour.shareyourrecipes.questionandanswer.service.AnswerService;
@@ -86,8 +87,14 @@ public class HompageController {
     @GetMapping("/recipe/{slug}")
     public String recipeDetailPage(@PathVariable("slug") String slug, Authentication authentication, Model model) {
         try {
+            Long uid = -1L;
+            if (authentication != null)
+                uid = Utils.getIdFromRequest(authentication).orElse(-1L);
             RecipeDTO recipeDTO = recipeService.getRecipeBySlug(slug);
             model.addAttribute("recipe", recipeDTO);
+            VoteType votedType = recipeService.getVotedStatus(recipeDTO.getId(), uid);
+            if (votedType != null)
+                recipeDTO.setType(votedType.toString());
         } catch (Exception e) {
             return "error/404";
         }
@@ -210,5 +217,10 @@ public class HompageController {
     @GetMapping("/loginAdmin")
     public String viewLogin() {
         return "admin/login";
+    }
+
+    @GetMapping("/report")
+    public String viewReportPage() {
+        return "report";
     }
 }

@@ -27,6 +27,8 @@ public class RecipeDTO {
     private Long upVoteCount;
     private Long downVoteCount;
 
+    private String type;
+
     public Long getUpVoteCount() {
         return this.upVoteCount;
     }
@@ -148,6 +150,14 @@ public class RecipeDTO {
         this.downVoteCount = recipe.getDownVoteCount();
         this.price = recipe.getPrice();
         this.comments = recipe.getComments().stream().map(CommentDto::new).collect(Collectors.toList());
+    }
+
+    public String getType() {
+        return this.type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 }

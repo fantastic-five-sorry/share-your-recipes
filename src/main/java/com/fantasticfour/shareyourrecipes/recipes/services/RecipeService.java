@@ -3,6 +3,7 @@ package com.fantasticfour.shareyourrecipes.recipes.services;
 import java.util.List;
 
 import com.fantasticfour.shareyourrecipes.domains.enums.RecipeStatus;
+import com.fantasticfour.shareyourrecipes.domains.enums.VoteType;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
@@ -26,6 +27,8 @@ public interface RecipeService {
     Recipe findById(Long id);
 
     RecipeDTO getRecipeBySlug(String slug) throws Exception;
+
+    VoteType getVotedStatus(Long recipeId, Long uid);
 
     RecipeDTO viewRecipeById(Long id) throws Exception;
 

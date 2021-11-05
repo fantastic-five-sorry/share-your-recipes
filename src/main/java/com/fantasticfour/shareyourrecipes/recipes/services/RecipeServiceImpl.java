@@ -13,11 +13,15 @@ import java.util.regex.Pattern;
 import com.fantasticfour.shareyourrecipes.account.UserRepo;
 import com.fantasticfour.shareyourrecipes.account.Utils;
 import com.fantasticfour.shareyourrecipes.domains.enums.RecipeStatus;
+import com.fantasticfour.shareyourrecipes.domains.enums.VoteType;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
+import com.fantasticfour.shareyourrecipes.domains.votes.RecipeVote;
+import com.fantasticfour.shareyourrecipes.domains.votes.VoteId;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.UpdateRecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.RecipeRepository;
+import com.fantasticfour.shareyourrecipes.votes.repos.RecipeVoteRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -32,6 +36,9 @@ public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
     private final UserRepo userRepo;
+
+    @Autowired
+    private RecipeVoteRepo recipeVoteRepo;
 
     @Autowired
     public RecipeServiceImpl(RecipeRepository recipeRepository, UserRepo userRepo) {
@@ -149,4 +156,13 @@ public class RecipeServiceImpl implements RecipeService {
         return new RecipeDTO(recipe);
     }
 
+    @Override
+    public VoteType getVotedStatus(Long recipeId, Long uid) {
+        RecipeVote vote = recipeVoteRepo.findById(new VoteId(recipeId, uid)).orElse(null);
+
+        if (vote != null)
+            return vote.getType();
+        return null;
+
+    }
 }

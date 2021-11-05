@@ -6,11 +6,15 @@ import com.fantasticfour.shareyourrecipes.account.dtos.ChangePasswordDto;
 import com.fantasticfour.shareyourrecipes.account.dtos.ResetPasswordDto;
 import com.fantasticfour.shareyourrecipes.account.dtos.SignUpDto;
 import com.fantasticfour.shareyourrecipes.account.dtos.UserInfo;
+import com.fantasticfour.shareyourrecipes.account.dtos.UserRoleDto;
 import com.fantasticfour.shareyourrecipes.domains.auth.Role;
 import com.fantasticfour.shareyourrecipes.domains.auth.Token;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
 import com.fantasticfour.shareyourrecipes.domains.enums.ETokenPurpose;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface UserService {
     User registerNewAccount(SignUpDto request);
@@ -23,7 +27,7 @@ public interface UserService {
 
     void addRoleToUser(String email, ERole roleName);
 
-    List<User> getUsers();
+    Page<UserRoleDto> getUsers(Pageable page);
 
     Boolean isExistsUserByEmail(String email);
 

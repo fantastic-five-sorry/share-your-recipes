@@ -31,6 +31,21 @@ $(document).ready(function () {
   });
 
   //
+  ///
+  $(document).on('click', '#recipeUpBtn', function (e) {
+    clearTimeout(upTimeOut);
+    upTimeOut = setTimeout(function () {
+      handleUpRecipe(e);
+    }, 300);
+  });
+  $(document).on('click', '#recipeDownBtn', function (e) {
+    clearTimeout(downTimeOut);
+    downTimeOut = setTimeout(function () {
+      handleDownRecipe(e);
+    }, 300);
+  });
+
+  //
   $('#commentForm').submit((e) => {
     e.preventDefault();
     const comment = $('#newComment').val();
@@ -139,9 +154,72 @@ function handleDownVote(e) {
   else downVoteCount -= 1;
   $(`#downVoteCount-${cmtId}`).text(downVoteCount);
 }
+function doVoteRecipe(subjectId, type) {
+  var data = {
+    subjectId: subjectId,
+    type: type,
+  };
 
-function handleVoteRecipe(e) {}
-function handleDownRecipe(e) {}
+  $.ajax({
+    type: 'post',
+    url: voteRecipeUrl,
+    data: JSON.stringify(data),
+    contentType: 'application/json; charset=utf-8',
+    headers: {
+      [header]: token,
+    },
+    traditional: true,
+    success: function (data, textStatus, xhr) {
+      console.log(data);
+    },
+    error: function (error) {
+      console.log(error);
+    },
+  });
+}
+
+function handleUpRecipe(e) {
+  if (auth == 'anonymousUser') {
+    handleNotLoggedIn();
+    return;
+  }
+  const recipeUpBtn = e.target.id;
+  $(`#${recipeUpBtn}`).toggleClass('text-success');
+
+  if ($(`#recipeDownBtn`).hasClass('text-success')) {
+    var downVoteCount = parseInt($(`#recipeDownVoteCount`).text(), 10);
+    downVoteCount -= 1;
+    $(`#recipeDownBtn`).removeClass('text-success');
+    $(`#recipeDownVoteCount`).text(downVoteCount);
+  }
+
+  doVoteRecipe(recipeId, 'UP');
+  var upVoteCount = parseInt($(`#recipeUpVoteCount`).text(), 10);
+  if ($(`#${recipeUpBtn}`).hasClass('text-success')) upVoteCount += 1;
+  else upVoteCount -= 1;
+  $(`#recipeUpVoteCount`).text(upVoteCount);
+}
+function handleDownRecipe(e) {
+  if (auth == 'anonymousUser') {
+    handleNotLoggedIn();
+    return;
+  }
+  const recipeDownBtn = e.target.id;
+  $(`#${recipeDownBtn}`).toggleClass('text-success');
+
+  if ($(`#recipeUpBtn`).hasClass('text-success')) {
+    var downVoteCount = parseInt($(`#recipeUpVoteCount`).text(), 10);
+    downVoteCount -= 1;
+    $(`#recipeUpBtn`).removeClass('text-success');
+    $(`#recipeUpVoteCount`).text(downVoteCount);
+  }
+
+  doVoteRecipe(recipeId, 'DOWN');
+  var downVoteCount = parseInt($(`#recipeDownVoteCount`).text(), 10);
+  if ($(`#${recipeDownBtn}`).hasClass('text-success')) downVoteCount += 1;
+  else downVoteCount -= 1;
+  $(`#recipeDownVoteCount`).text(downVoteCount);
+}
 
 function handleNotLoggedIn() {
   $.confirm({
@@ -186,15 +264,6 @@ function commentToRecipe(comment, recipeId) {
       console.log(error);
     },
   });
-}
-
-{
-  /* <a href='/profile/${writerId}'>
-  <span>
-    <img src='${comment.photoUrl}' class='avatar' />
-  </span>
-  <span>${comment.writerName}</span>
-</a>; */
 }
 
 function template(comment) {
