@@ -175,4 +175,10 @@ public class QuestionServiceImpl implements QuestionService {
         return new QuestionDTO(question);
     }
 
+    @Override
+    public Page<QuestionDTO> findQuestionApproved(Pageable pageable) {
+        // TODO Auto-generated method stub
+        return questionRepo.findQuestionApproved(pageable).map(QuestionDTO::new);
+    }
+
 }

@@ -16,7 +16,11 @@ public interface RecipeService {
 
     Page<RecipeDTO> findAll(Pageable pageable);
 
+    Page<RecipeDTO> findAllApprovedRecipes(Pageable pageable);
+
     Page<RecipeDTO> findByStatus(String recipeStatus, Pageable pageable);
+
+    Page<RecipeDTO> findAllSortByUpVoteCount(Pageable pageable);
 
     void createRecipe(CreateRecipeDTO recipe);
 

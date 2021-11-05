@@ -75,7 +75,11 @@ public class HompageController {
             // return "redirect:/admin/hello";
             // }
         }
-
+        Pageable page = PageRequest.of(0, 8);
+        Page<RecipeDTO> recipesPopular = recipeService.findAllSortByUpVoteCount(page);
+        Page<RecipeDTO> recipesLasted = recipeService.findAll(page);
+        model.addAttribute("recipesPopular", recipesPopular.getContent());
+        model.addAttribute("recipesLasted", recipesLasted.getContent());
         return "home";
     }
 
@@ -110,9 +114,10 @@ public class HompageController {
     public String anwerQuestion(@PathVariable("slug") String slug, Model model) {
         try {
             QuestionDTO questionDTO = questionService.getQuestionBySlug(slug);
-            Pageable page = PageRequest.of(0, 2);
-            Page<AnswerDTO> listAnswer = answerService.findByIdQuestion(questionDTO.getId(), page);
-            model.addAttribute("listAnswer", listAnswer.getContent());
+            // System.out.println(questionDTO.getId());
+            // Pageable page = PageRequest.of(0, 2);
+            // Page<AnswerDTO> listAnswer = answerService.findByIdQuestion(questionDTO.getId(), page);
+            // model.addAttribute("listAnswer", listAnswer.getContent());
             model.addAttribute("question", questionDTO);
         } catch (Exception e) {
             // TODO: handle exception
@@ -123,9 +128,9 @@ public class HompageController {
 
     @GetMapping("/list-question")
     public String listQuesString(Model model) {
-        Pageable page = PageRequest.of(0, 3);
-        Page<QuestionDTO> listQuestion = questionService.findAll(page);
-        model.addAttribute("listQuestion", listQuestion.getContent());
+        // Pageable page = PageRequest.of(0, 3);
+        // Page<QuestionDTO> listQuestion = questionService.findQuestionApproved(page);
+        // model.addAttribute("listQuestion", listQuestion.getContent());
         return "qa/list-question";
     }
 

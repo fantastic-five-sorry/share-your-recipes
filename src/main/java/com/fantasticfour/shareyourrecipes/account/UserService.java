@@ -1,6 +1,5 @@
 package com.fantasticfour.shareyourrecipes.account;
 
-import java.util.List;
 
 import com.fantasticfour.shareyourrecipes.account.dtos.ChangePasswordDto;
 import com.fantasticfour.shareyourrecipes.account.dtos.ResetPasswordDto;

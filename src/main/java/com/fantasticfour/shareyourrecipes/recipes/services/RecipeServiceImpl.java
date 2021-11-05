@@ -47,6 +47,16 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public Page<RecipeDTO> findAllApprovedRecipes(Pageable pageable) {
+        // Page<Recipe> recipes = recipeRepository.findAll();
+        // Page<RecipeDTO> recipeDTOs = new ArrayList<>();
+        // for (Recipe recipe: recipes) {
+        // recipeDTOs.add(new RecipeDTO(recipe));
+        // }
+        return recipeRepository.findAllApprovedRecipes(pageable).map(RecipeDTO::new);
+    }
+
+    @Override
     public Page<RecipeDTO> findAll(Pageable pageable) {
         // Page<Recipe> recipes = recipeRepository.findAll();
         // Page<RecipeDTO> recipeDTOs = new ArrayList<>();
@@ -93,7 +103,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe findById(Long idRecipe) {
-        // TODO Auto-generated method stub
+
         // xai orElseThrow(() -> new IllegalStateException("Recipe not found"))
         Recipe recipe = recipeRepository.findById(idRecipe)
                 .orElseThrow(() -> new IllegalStateException("recipe not found"));
@@ -103,7 +113,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public RecipeDTO viewRecipeById(Long id) throws Exception {
-        // TODO Auto-generated method stub
+
         Recipe recipe = this.findById(id);
 
         return new RecipeDTO(recipe);
@@ -111,7 +121,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public void updateRecipe(UpdateRecipeDTO updateRecipeDTO) throws Exception {
-        // TODO Auto-generated method stub
+
         Recipe recipe = this.findById(updateRecipeDTO.getId());
         // if (recipe == null) {
         // throw new Exception("not found recipe");
@@ -139,13 +149,13 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Page<RecipeDTO> findByStatus(String recipeStatus, Pageable pageable) {
-        // TODO Auto-generated method stub
+
         return recipeRepository.findByStatus(recipeStatus, pageable).map(RecipeDTO::new);
     }
 
     @Override
     public RecipeDTO getRecipeBySlug(String slug) throws Exception {
-        // TODO Auto-generated method stub
+
         Recipe recipe = recipeRepository.findBySlug(slug)
                 .orElseThrow(() -> new IllegalStateException("recipe not found"));
         // System.out.println(recipe== null);
@@ -165,4 +175,10 @@ public class RecipeServiceImpl implements RecipeService {
         return null;
 
     }
+
+    public Page<RecipeDTO> findAllSortByUpVoteCount(Pageable pageable) {
+
+        return recipeRepository.findAllSortByUpVoteCount(pageable).map(RecipeDTO::new);
+    }
+
 }

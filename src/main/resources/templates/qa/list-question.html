@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" 
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Questions</title>
     <link rel="stylesheet" href="/styles/qa/style.css" />
-    <script src="/js/qa/main.js"></script>
+    <!-- <script src="/js/qa/main.js"></script> -->
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
       rel="stylesheet"
@@ -17,6 +20,22 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+    <script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+    defer
+  ></script>
+  <script
+    src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"
+    defer
+  ></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
+    integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+    defer
+  ></script>
+    <script src="/js/qa/question.js" defer></script>
   </head>
   <body>
     <div class="container-fluid">
@@ -35,7 +54,8 @@
               <a class="nav-link" href="#">Ask a question</a>
             </li>
           </ul>
-          <div th:each="element : ${listQuestion}">
+          <div id="questionDiv"> </div>
+          <!-- <div th:each="element : ${listQuestion}">
             <div class="question">
               <div class="question-as">
                 <div>
@@ -48,7 +68,6 @@
                     
                     <h6 class="author-name" th:text=${element.creator.name}></h6>
                     <p class="date" th:text="'Added an question on ' +${element.createAt}">
-                      <!-- Added an answer on April 19, 2018 at 2:00 am -->
                     </p>
                   </div>
                   <p class="question-detail" th:text="${element.content}">
@@ -69,10 +88,19 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           
 
         </div>
+      </div>
+      <div class="showMore">
+        <button
+        type="button"
+        id="showMoreBtn"
+        class="btn btn-secondary btn-sm"
+        >
+        show more
+        </button>
       </div>
     </div>
   </body>

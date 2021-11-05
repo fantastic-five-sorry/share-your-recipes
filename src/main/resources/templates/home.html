@@ -78,22 +78,28 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                 <a href="#" class="viewall"></a>
             </div>
             <div class="row mt-3">
-               
-                <div class="col-md-3 " >
+                <div th:each="element:${recipesPopular}">
+                  <div class="col-md-3 ">
                     <div class="card card_ninki" style="width: 15rem;">
-                        <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
+                        <a th:href="@{'recipe/' + ${element.slug}}"><img th:src="${element.image}" class="card_img card-img-top" th:alt="${element.title}"></a>
                         <div class="card-body" style="background-color: #f6f7f8;">
-                          <h5 class="card_title card-title ">TaKoYaKi</h5>
+                          <h5 class="card_title card-title " th:text=${element.title}></h5>
                           <div class=" card_nd card-text">
                                 <i id="btn_heart"class=" btn_heart  fas fa-heart"  onclick="clickHeart(this)"></i>
-                                <p class="author">Tạ Đình Hân</p>
-                                <i id="btn_like" class="btn_like  fa fa-thumbs-up"  onclick="clickLike(this)"></i>
+                                <span th:text=${element.upVoteCount}></span>
+                                <br/>
+                                <p class="author" >
+                                  <a th:href="@{'/profile/' + ${element.creator.id}}" th:text=${element.creator.name}></a>
+                                </p>
+                                <!-- <i id="btn_like" class="btn_like  fa fa-thumbs-up"  onclick="clickLike(this)"></i> -->
                           </div>
                             
                         </div>
                       </div>    
+                  </div>
                 </div>
-                <div class="col-md-3 " >
+                
+                <!-- <div class="col-md-3 " >
                   <div class="card card_ninki" style="width: 15rem;">
                       <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
                       <div class="card-body" style="background-color: #f6f7f8;">
@@ -106,8 +112,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                           
                       </div>
                     </div>    
-                </div>
-                <div class="col-md-3 " >
+                </div> -->
+                <!-- <div class="col-md-3 " >
                   <div class="card card_ninki" style="width: 15rem;">
                       <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
                       <div class="card-body" style="background-color: #f6f7f8;">
@@ -120,8 +126,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                           
                       </div>
                     </div>    
-                </div>
-                <div class="col-md-3 " >
+                </div> -->
+                <!-- <div class="col-md-3 " >
                 <div class="card card_ninki" style="width: 15rem;">
                     <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
                     <div class="card-body" style="background-color: #f6f7f8;">
@@ -134,11 +140,10 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                         
                     </div>
                   </div>    
-                </div>
+                </div> -->
 
             </div>
-            <div class="row mt-3">
-               
+            <!-- <div class="row mt-3">
               <div class="col-md-3 " >
                   <div class="card card_ninki" style="width: 15rem;">
                       <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
@@ -196,7 +201,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                 </div>    
               </div>
 
-          </div>
+          </div> -->
           
         </div>
         
@@ -208,8 +213,28 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
               <h4 class="nikititle">Latest recipe</h4>
           </div>
           <div class="row mt-3">
-             
-              <div class="col-md-3 " >
+            <div th:each="element:${recipesLasted}">
+              <div class="col-md-3 ">
+                <div class="card card_ninki" style="width: 15rem;">
+                    <a th:href="@{'recipe/' + ${element.slug}}"><img th:src="${element.image}" class="card_img card-img-top" th:alt="${element.title}"></a>
+                    <div class="card-body" style="background-color: #f6f7f8;">
+                      <h5 class="card_title card-title " th:text=${element.title}></h5>
+                      <div class=" card_nd card-text">
+                            <i id="btn_heart"class=" btn_heart  fas fa-heart"  onclick="clickHeart(this)"></i>
+                            <span th:text=${element.upVoteCount}></span>
+                            <br/>
+                            <p class="author" >
+                              <a th:href="@{'/profile/' + ${element.creator.id}}" th:text=${element.creator.name}></a>
+                            </p>
+                            <!-- <i id="btn_like" class="btn_like  fa fa-thumbs-up"  onclick="clickLike(this)"></i> -->
+                      </div>
+                        
+                    </div>
+                  </div>    
+              </div>
+            </div>
+              
+              <!-- <div class="col-md-3 " >
                   <div class="card card_ninki" style="width: 15rem;">
                       <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
                       <div class="card-body" style="background-color: #f6f7f8;">
@@ -222,8 +247,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                           
                       </div>
                     </div>    
-              </div>
-              <div class="col-md-3 " >
+              </div> -->
+              <!-- <div class="col-md-3 " >
                 <div class="card card_ninki" style="width: 15rem;">
                     <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
                     <div class="card-body" style="background-color: #f6f7f8;">
@@ -236,8 +261,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                         
                     </div>
                   </div>    
-              </div>
-              <div class="col-md-3 " >
+              </div> -->
+              <!-- <div class="col-md-3 " >
                 <div class="card card_ninki" style="width: 15rem;">
                     <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
                     <div class="card-body" style="background-color: #f6f7f8;">
@@ -250,8 +275,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                         
                     </div>
                   </div>    
-              </div>
-              <div class="col-md-3 " >
+              </div> -->
+              <!-- <div class="col-md-3 " >
               <div class="card card_ninki" style="width: 15rem;">
                   <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
                   <div class="card-body" style="background-color: #f6f7f8;">
@@ -264,11 +289,10 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                       
                   </div>
                 </div>    
-              </div>
+              </div> -->
 
           </div>
-          <div class="row mt-3">
-               
+          <!-- <div class="row mt-3">
             <div class="col-md-3 " >
                 <div class="card card_ninki" style="width: 15rem;">
                     <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
@@ -326,7 +350,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
               </div>    
             </div>
 
-        </div>
+        </div> -->
       </div>
         <!-- end 最新のレシピ -->
         <!-- begin footer -->
