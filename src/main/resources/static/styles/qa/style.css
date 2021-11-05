@@ -8,7 +8,6 @@ html {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-
 .red {
   color: red;
 }
@@ -198,6 +197,8 @@ html {
 }
 .img_details {
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  max-width: 300px;
+  max-height: 300px;
 }
 .name_details {
   margin-top: 10px;
@@ -375,7 +376,6 @@ html {
 .author-img {
   margin-bottom: 20px;
   border-radius: 50%;
-
 }
 .author-img {
   cursor: pointer;
@@ -456,9 +456,8 @@ html {
   padding-bottom: 50px;
 }
 
-
 .backBtn {
-  display: inline-block;  
+  display: inline-block;
   margin-top: 1rem;
   margin-left: 1rem;
   /* border: 1px solid #000; */
@@ -475,7 +474,6 @@ html {
 }
 
 #showMoreBtn {
-
   color: white;
   background-color: #0dcaf0;
   border: 1px solid #0dcaf0;

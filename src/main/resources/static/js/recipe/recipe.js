@@ -1,6 +1,6 @@
 var currentPage = 2;
 const size = 5;
-
+console.log(recipeId);
 const token = $("meta[name='_csrf']").attr('content');
 const header = $("meta[name='_csrf_header']").attr('content');
 const voteCommentUrl = `/api/voting/comment`;
@@ -57,7 +57,7 @@ $(document).ready(function () {
 });
 
 function getMoreComments(currentPage, size) {
-  const getMoreCommentsUrl = `/api/comment/recipe/1000?size=${size}&page=${currentPage}`;
+  const getMoreCommentsUrl = `/api/comment/recipe/${recipeId}?size=${size}&page=${currentPage}`;
   $.ajax({
     url: getMoreCommentsUrl,
     headers: {
@@ -72,7 +72,10 @@ function getMoreComments(currentPage, size) {
       data.content.map((comment) => {
         newComments = newComments + template(comment);
       });
-      if (newComments == '') {
+      if (!data.totalPages) {
+        $('#showMoreBtn').attr('hidden', true);
+      }
+      if (newComments == '' && totalPages != 0) {
         newComments = `<p>You have reached the end</p>`;
         $('#showMoreBtn').attr('disabled', true);
       }
