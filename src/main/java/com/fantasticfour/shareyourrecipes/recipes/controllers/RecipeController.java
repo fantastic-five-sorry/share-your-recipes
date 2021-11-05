@@ -45,13 +45,13 @@ public class RecipeController {
     public ResponseEntity<?> recipe(Pageable pageable) {
 
         // try {
-           
+
         // } catch (Exception e) {
-        //     //TODO: handle exception
+        // //TODO: handle exception
         // return ResponseEntity.badRequest().body("error: " + "Recipes is empty");
         // }
         Page<RecipeDTO> recipes = recipeService.findAll(pageable);
-        return  new ResponseEntity<Page<RecipeDTO>>(recipes, HttpStatus.OK);
+        return new ResponseEntity<Page<RecipeDTO>>(recipes, HttpStatus.OK);
     }
 
     @GetMapping("/slug/{slug}")
@@ -62,16 +62,15 @@ public class RecipeController {
         try {
             recipeDTO = recipeService.getRecipeBySlug(slug);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             return ResponseEntity.badRequest().body("error: " + e.getMessage());
         }
-        return  new ResponseEntity<RecipeDTO>(recipeDTO, HttpStatus.OK);
+        return new ResponseEntity<RecipeDTO>(recipeDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/create")
-
+    @PostMapping("")
     public ResponseEntity<?> createRecipe(@RequestBody CreateRecipeDTO recipe) {
         try {
+            System.out.println(recipe);
             recipeService.createRecipe(recipe);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("error: " + e.getMessage());
@@ -83,13 +82,11 @@ public class RecipeController {
     public ResponseEntity<?> updateRecipe(@RequestBody UpdateRecipeDTO updateRecipeDTO) {
         try {
             recipeService.updateRecipe(updateRecipeDTO);
-        } catch (Exception e ) {
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body("error: " + e.getMessage());
         }
         return ResponseEntity.ok().body("message: " + "update recipe success");
     }
-
-
 
     // Phan nay deletemapping
     @DeleteMapping("/{idRecipe}")
@@ -112,19 +109,19 @@ public class RecipeController {
         try {
             recipeDTO = recipeService.viewRecipeById(idRecipe);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             return ResponseEntity.badRequest().body("error: " + e.getMessage());
         }
-        return  new ResponseEntity<RecipeDTO>(recipeDTO, HttpStatus.OK);
+        return new ResponseEntity<RecipeDTO>(recipeDTO, HttpStatus.OK);
     }
 
     @GetMapping("/status/{status}")
     public ResponseEntity<?> findByStatus(@PathVariable("status") RecipeStatus status, Pageable pageable) {
         try {
             // System.out.println(status.toString());
-            return  new ResponseEntity<Page<RecipeDTO>>(recipeService.findByStatus(status.toString(), pageable), HttpStatus.OK);
+            return new ResponseEntity<Page<RecipeDTO>>(recipeService.findByStatus(status.toString(), pageable),
+                    HttpStatus.OK);
         } catch (Exception e) {
-            //TODO: handle exception
+            // TODO: handle exception
             return ResponseEntity.badRequest().body("error: " + e.getMessage());
         }
     }

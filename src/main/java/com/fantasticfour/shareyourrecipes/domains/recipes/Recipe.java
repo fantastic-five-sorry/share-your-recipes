@@ -54,7 +54,6 @@ public class Recipe extends AuditModel {
     private User creator;
 
     @OneToMany(mappedBy = "recipe")
-    @Size(min=1, max=5)
     @OrderBy("id DESC")
     private List<Comment> comments = new ArrayList<>();
     @Enumerated(EnumType.STRING)

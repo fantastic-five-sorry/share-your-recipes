@@ -8,19 +8,18 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class CreateRecipeDTO {
-    @NotBlank
+ 
     private String title;
 
     private String image;
 
-    @NotNull
+    
     private Map<String, String> ingredients = new HashMap<>();
-    @NotNull
     private List<String> steps;
     private String guideVideoString;
     private Long creatorId;
 
-    @NotBlank
+  
     private Float price;
 
     public String getTitle() {
@@ -80,6 +79,20 @@ public class CreateRecipeDTO {
     }
 
     public CreateRecipeDTO() {
+    }
+
+
+    @Override
+    public String toString() {
+        return "{" +
+            " title='" + getTitle() + "'" +
+            ", image='" + getImage() + "'" +
+            ", ingredients='" + getIngredients() + "'" +
+            ", steps='" + getSteps() + "'" +
+            ", guideVideoString='" + getGuideVideoString() + "'" +
+            ", creatorId='" + getCreatorId() + "'" +
+            ", price='" + getPrice() + "'" +
+            "}";
     }
 
 }

@@ -86,8 +86,6 @@ public class RecipeServiceImpl implements RecipeService {
         recipe2.setGuideVideoUrl(recipe.getGuideVideoString());
         recipe2.setSlug(Utils.toSlug(recipe.getTitle()));
         recipeRepository.save(recipe2);
-        // System.out.println("okeoke");
-
     }
 
     @Override
