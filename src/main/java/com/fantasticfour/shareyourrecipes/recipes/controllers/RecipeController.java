@@ -70,7 +70,6 @@ public class RecipeController {
     @PostMapping("")
     public ResponseEntity<?> createRecipe(@RequestBody CreateRecipeDTO recipe) {
         try {
-            System.out.println(recipe);
             recipeService.createRecipe(recipe);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("error: " + e.getMessage());
