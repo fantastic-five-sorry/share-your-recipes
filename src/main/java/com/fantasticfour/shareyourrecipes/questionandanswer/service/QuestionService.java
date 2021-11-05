@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 public interface QuestionService {
     Page<QuestionDTO> findAll(Pageable pageable);
     Page<QuestionDTO> findByStatus(String status, Pageable pageable);
+    Page<QuestionDTO> findQuestionApproved(Pageable pageable);
     void createQuestion(CreateQuestionDTO createQuestionDTO) throws Exception ;
     void deleteQuestion(Long id) throws Exception;
     void updateQuestion(UpdateQuestionDTO dto) throws Exception;

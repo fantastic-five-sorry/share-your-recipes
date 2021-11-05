@@ -17,6 +17,8 @@ public interface RecipeService {
 
     Page<RecipeDTO> findByStatus(String recipeStatus, Pageable pageable);
 
+    Page<RecipeDTO> finAllSortByUpVoteCount(Pageable pageable);
+
     void createRecipe(CreateRecipeDTO recipe);
 
     void deleteRecipe(Long id) throws Exception;

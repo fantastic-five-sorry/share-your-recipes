@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" 
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
   <head>
+    <meta th:name="questionId" th:content="${question.id}" />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Answer this question</title>
     <link rel="stylesheet" href="/styles/qa/style.css" />
-    <script src="/js/qa/main.js"></script>
+    <!-- <script src="/js/qa/main.js"></script> -->
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
       rel="stylesheet"
@@ -17,12 +21,36 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+    <script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+    defer
+  ></script>
+  <script
+    src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"
+    defer
+  ></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
+    integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+    defer
+  ></script>
+  <script type="text/javascript" th:inline="javascript" defer>
+    var auth = [[${#authentication.getPrincipal()}]];
+    var questionId = [[${question.getId()}]];
+  </script>
+    <script src="/js/qa/main.js" defer></script>
   </head>
   <body>
+   
     <div class="container-fluid">
-      <div class="container mt-5 mb-5">
+      <a class="backBtn" href="/list-question" > Back</a>
+      <!-- <div class="container mt-5 mb-5"> -->
+      <div class="container">
+
         <div class="row">
-          <a href="/list-question" class="mb-4 ms-1"> Back</a>
+          
           <div class="question question-answer">
             <div class="question-as">
               <div>
@@ -55,25 +83,38 @@
               </div>
             </div>
           </div>
-          <div class="form-group mt-4">
-            <!-- <label for="exampleFormControlTextarea3">
-              Question you want to ask:</label
-            > -->
-            <textarea
-              class="form-control mt-1"
-              style="min-width: 1146px"
-              id="exampleFormControlTextarea3"
-              placeholder="Write the answer here..."
-              rows="7"
-            ></textarea>
+          <div sec:authorize="isAuthenticated()"> 
+            <div class="form-group mt-4">
+              <!-- <label for="exampleFormControlTextarea3">
+                Question you want to ask:</label
+              > -->
+              <textarea
+                class="form-control mt-1"
+                style="min-width: 1146px"
+                id="exampleFormControlTextarea3"
+                placeholder="Write the answer here..."
+                rows="7"
+              ></textarea>
+            </div>
+            <div class="btn mb-5">
+              <button type="button"  id="cancelBtn" class="btn btn-success ms-4">Cancel</button>
+              <button type="button" id="postBtn" class="btn btn-secondary me-2 ms-2" style="margin-right: 10px;">
+                Post
+              </button>
+            </div>
           </div>
-          <div class="btn mb-5">
-            <button type="button" class="btn btn-success ms-4">Cancel</button>
-            <button type="button" class="btn btn-secondary me-2 ms-2" style="margin-right: 10px;">
-              Post
-            </button>
+          <div
+          sec:authorize="!isAuthenticated()"
+          class="d-flex flex-row add-comment-section mt-4 mb-4"
+          >
+            <h2>
+              To answer this question
+              <span><a th:href="@{/login}">login?</a></span>
+            </h2>
           </div>
-          <div th:each="element : ${listAnswer}">
+          
+          <div id="answersDiv"></div>
+          <!-- <div th:each="element : ${listAnswer}">
             <div class="question">
               <div class="question-as">
                 <div>
@@ -86,7 +127,7 @@
                     
                     <h6 class="author-name" th:text=${element.answerer.name}></h6>
                     <p class="date" th:text="'Added an answer on ' +${element.createAt}">
-                      <!-- Added an answer on April 19, 2018 at 2:00 am -->
+                      
                     </p>
                   </div>
                   <p class="question-detail" th:text="${element.content}">
@@ -103,9 +144,21 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
+      <div class="showMore">
+        <button
+        type="button"
+        id="showMoreBtn"
+        class="btn btn-secondary btn-sm"
+        >
+        show more
+        </button>
+      </div>
+      
     </div>
+
+  
   </body>
 </html>

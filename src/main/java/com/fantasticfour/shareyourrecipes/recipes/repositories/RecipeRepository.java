@@ -21,8 +21,12 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     @Query(value = "SELECT * FROM recipes r WHERE r.creator_id=:creatorId", nativeQuery = true)
     List<Recipe> findByCreatorId(Long creatorId);
 
-    @Query(value = "SELECT * FROM recipes r WHERE r.deleted=" + false, nativeQuery = true)
+
+    @Query(value = "SELECT * FROM recipes r WHERE r.deleted=FALSE ORDER BY id DESC", nativeQuery = true)
     Page<Recipe> findAll(Pageable pageable);
+
+    @Query(value = "SELECT * FROM recipes r WHERE r.deleted=FALSE AND r.status='APPROVED' ORDER BY up_vote_count DESC", nativeQuery = true)
+    Page<Recipe>  findAllSortByUpVoteCount(Pageable pageable);
 
     @Query(value = "SELECT * FROM recipes r WHERE r.status=:status", nativeQuery = true)
     Page<Recipe> findByStatus(String status, Pageable pageable);

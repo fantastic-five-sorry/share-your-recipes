@@ -149,4 +149,10 @@ public class RecipeServiceImpl implements RecipeService {
         return new RecipeDTO(recipe);
     }
 
+    @Override
+    public Page<RecipeDTO> finAllSortByUpVoteCount(Pageable pageable) {
+        // TODO Auto-generated method stub
+        return recipeRepository.findAllSortByUpVoteCount(pageable).map(RecipeDTO::new);
+    }
+
 }

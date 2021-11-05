@@ -143,4 +143,10 @@ public class QuestionController {
         return new ResponseEntity<QuestionDTO>(questionDTO, HttpStatus.OK);
     }
 
+
+    @GetMapping("/getQuestionApproved")
+    public ResponseEntity<?> getQuestionApproved(Pageable  pageable) {
+        return ResponseEntity.ok().body(questionService.findQuestionApproved(pageable));
+    }
+
 }

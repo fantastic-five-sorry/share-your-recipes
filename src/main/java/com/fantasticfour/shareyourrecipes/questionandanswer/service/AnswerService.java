@@ -15,7 +15,7 @@ import org.springframework.data.domain.Pageable;
 public interface AnswerService {
     Page<AnswerDTO> findAll(Pageable pageable);
     Page<AnswerDTO> findByIdQuestion(Long id, Pageable pageable);
-    void createAnswer(CreateAnswerDTO createAnswerDTO);
+    AnswerDTO createAnswer(CreateAnswerDTO createAnswerDTO);
     void deleteAnswer(Long id) throws Exception;
     void updateAnswer(UpdateAnswerDTO answerDTO) throws Exception;
     Answer findById(Long id);
