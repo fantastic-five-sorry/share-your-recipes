@@ -56,17 +56,23 @@ public class AnswerController {
         return ResponseEntity.ok().body(answerService.findAll(pageable));
     }
 
+    @GetMapping("/getByIdQuestion/{idQuestion}")
+    public ResponseEntity<?> getAnswerByIdQuestion(Pageable pageable, @PathVariable("idQuestion") Long idQuestion) {
+        return ResponseEntity.ok().body(answerService.findByIdQuestion(idQuestion, pageable));
+    }
+
     @PostMapping("")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> create(@RequestBody CreateAnswerDTO answerDTO, Authentication auth) {
         try {
             Long uid = Utils.getIdFromRequest(auth).orElseThrow(() -> new IllegalStateException("user not found"));
             answerDTO.setAnswererId(uid);
-            answerService.createAnswer(answerDTO);
+            AnswerDTO dto =  answerService.createAnswer(answerDTO);
+            return ResponseEntity.ok().body(dto);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("error : " + e.getMessage());
         }
-        return ResponseEntity.ok().body("message: " + "add answer success");
+       
     }
 
     @PutMapping("/update")

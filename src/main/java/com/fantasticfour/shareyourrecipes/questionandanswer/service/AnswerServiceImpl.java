@@ -43,13 +43,14 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public void createAnswer(CreateAnswerDTO createAnswerDTO) {
+    public AnswerDTO createAnswer(CreateAnswerDTO createAnswerDTO) {
         // TODO Auto-generated method stub
         Answer answer = new Answer();
         answer.setAnswerer(userRepo.findValidUserById(createAnswerDTO.getAnswererId()));
         answer.setQuestion(questionRepo.findQuestionApprovedById(createAnswerDTO.getQuestionId()).get());
         answer.setContent(createAnswerDTO.getContent());
-        answerRepo.save(answer);
+        // answerRepo.save(answer);
+        return new AnswerDTO(answerRepo.save(answer));
 
     }
 

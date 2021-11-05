@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AnswerRepo extends JpaRepository<Answer, Long> {
 
-    @Query(value = "SELECT * FROM answers a WHERE a.deleted=" + false, nativeQuery = true)
+    @Query(value = "SELECT * FROM answers a WHERE a.deleted=" + false + " ORDER BY id DESC", nativeQuery = true)
     Page<Answer> findAll(Pageable pageable);
 
     @Query(value = "SELECT * FROM answers a WHERE a.answerer_id=:answererId AND  a.deleted="
@@ -25,7 +25,7 @@ public interface AnswerRepo extends JpaRepository<Answer, Long> {
     List<Answer> findByIdAnswerer(Long answererId);
 
     @Query(value = "SELECT * FROM answers a WHERE a.question_id=:idQuestion AND  a.deleted="
-    + false, nativeQuery = true)
+    + false + " ORDER BY id DESC", nativeQuery = true)
     Page<Answer> findByIdQuestion(Long idQuestion, Pageable pageable);
 
     @Query(value = "SELECT * FROM  answers a WHERE a.deleted=FALSE AND id=:id", nativeQuery = true)

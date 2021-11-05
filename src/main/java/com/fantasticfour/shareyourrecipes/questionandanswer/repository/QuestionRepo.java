@@ -22,6 +22,9 @@ public interface QuestionRepo extends JpaRepository<Question, Long> {
     @Query(value= "SELECT * FROM questions a WHERE a.creator_id=:creatorId AND a.deleted=" + false ,nativeQuery = true)
     List<Question> findByIdCreator(Long creatorId);
 
+    @Query(value = "SELECT * FROM  questions q WHERE q.deleted=FALSE AND  q.status='APPROVED' ORDER BY id DESC", nativeQuery = true)
+    Page<Question> findQuestionApproved(Pageable pageable);
+
     @Query(value= "SELECT * FROM  questions q WHERE q.deleted=FALSE  AND id=:id", nativeQuery = true)
     Optional<Question> findById(Long id); 
 
