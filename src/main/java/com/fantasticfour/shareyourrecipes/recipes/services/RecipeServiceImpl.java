@@ -182,8 +182,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public VoteType getVotedStatus(Long recipeId, Long uid) {
-        RecipeVote vote = recipeVoteRepo.findById(new VoteId(recipeId, uid)).orElse(null);
-
+        RecipeVote vote = recipeVoteRepo.findById(new VoteId(uid, recipeId)).orElse(null);
         if (vote != null)
             return vote.getType();
         return null;

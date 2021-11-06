@@ -65,7 +65,7 @@ html {
   border-radius: 5px;
 }
 .ninki_ribi {
-  margin-top: 8rem;
+  margin-top: 1rem;
 }
 .niki {
   display: flex;
@@ -132,15 +132,16 @@ html {
   opacity: 0.8;
 }
 .footer {
-  height: 360px;
+  /* height: 360px; */
   width: 100%;
   /* margin-top: 60px; */
   text-align: center;
   background-color: #222222;
 }
 .logo_coki {
-  margin-top: 60px;
-  margin-bottom: 60px;
+  margin: 30px 30px;
+  /* margin-top: 60px;
+  margin-bottom: 60px; */
   color: #fff;
   background-color: #fff;
   border: 2px solid #000;
