@@ -22,7 +22,7 @@ public class AuditorAwareImpl implements AuditorAware<String> {
 
         com.fantasticfour.shareyourrecipes.configs.UserPrincipal oauthUser = (com.fantasticfour.shareyourrecipes.configs.UserPrincipal) authentication
                 .getPrincipal();
-        String userEmail = oauthUser.getAttribute("email").toString();
+        String userEmail = oauthUser.getId().toString();
         logger.info("Email: " + userEmail);
         return Optional.of(userEmail);
     }

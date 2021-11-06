@@ -44,7 +44,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentDto writeCommentToRecipe(NewCommentDto comment) {
+    public CommentDto 
+    writeCommentToRecipe(NewCommentDto comment) {
         User user = userRepo.findValidUserById(comment.getWriterId());
         Recipe recipe = recipeRepo.findById(comment.getRecipeId())
                 .orElseThrow(() -> new IllegalStateException("Recipe not found"));

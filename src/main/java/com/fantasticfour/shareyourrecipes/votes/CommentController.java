@@ -46,14 +46,20 @@ public class CommentController {
     public ResponseEntity<?> commentToRecipe(@RequestBody NewCommentDto comment, Authentication authentication) {
 
         try {
+            // if (authentication != null)
+            System.out.println(comment.toString());
             Long uid = Utils.getIdFromRequest(authentication)
                     .orElseThrow(() -> new IllegalStateException("user not found"));
-            logger.info("User " + uid + " has added comment to recipe" + comment.getRecipeId());
+
             comment.setWriterId(uid);
+
             CommentDto savedComment = commentService.writeCommentToRecipe(comment);
+            logger.info("User " + uid + " has added comment to recipe" + comment.getRecipeId());
+
             return ResponseEntity.ok().body(savedComment);
 
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().body("error: " + e.getMessage());
         }
     }
