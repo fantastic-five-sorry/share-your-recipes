@@ -209,8 +209,8 @@ html {
 }
 .img_details {
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-  max-width: 300px;
-  max-height: 300px;
+  max-width: 500px;
+  max-height: 500px;
 }
 .name_details {
   margin-top: 10px;

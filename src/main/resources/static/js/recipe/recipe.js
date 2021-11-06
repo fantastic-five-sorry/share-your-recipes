@@ -76,7 +76,7 @@ function getMoreComments(currentPage, size) {
         newComments = `<p>No comments yet</p>`;
         $('#showMoreBtn').attr('hidden', true);
       }
-      if (newComments == '' && data.totalPages != 0) {
+      if (newComments == '' && data.totalPages !=0) {
         newComments = `<p>You have reached the end</p>`;
         $('#showMoreBtn').attr('hidden', true);
       }
@@ -265,7 +265,7 @@ function commentToRecipe(comment, recipeId) {
     success: function (data, textStatus, xhr) {
       console.log(data);
       const commentsDiv = $('#commentsDiv');
-      // if (commentsDiv.text().trim() == 'No comments yet') commentsDiv.text('');
+      if (commentsDiv.text().trim() == 'No comments yet') commentsDiv.text('');
       const newComment = template(data);
       commentsDiv.prepend(newComment);
     },
