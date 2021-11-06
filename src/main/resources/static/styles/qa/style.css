@@ -29,18 +29,13 @@ html {
   color: #000;
 }
 .nav-logo {
-  margin: 0 106px;
+  margin: 0 30px;
 }
 .cooki_logo {
   height: 50px;
   width: 280px;
 }
-.d_formsearch {
-  margin: 12px 100px 12px 10px;
-}
-.formSearch {
-  width: 300px;
-}
+
 .btn_search {
   width: 56px;
 }
@@ -90,11 +85,27 @@ html {
   cursor: pointer;
   text-decoration: underline;
 }
+.card-img-top {
+  width: 100%;
+  height: 15vw;
+  object-fit: cover;
+}
 .card_ninki {
+  /* max-width: 100%; */
+  /* max-height: 280px; */
+  flex: 1;
   box-shadow: rgba(47, 47, 49, 0.2) 0px 7px 29px 0px;
+  /* object-fit: cover; */
 }
 .card_title {
-  text-align: center;
+  /* text-align: center;
+   */
+  /* max-width: 210px;
+   */
+  height: 1.2em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .card_nd {
   text-align: center;

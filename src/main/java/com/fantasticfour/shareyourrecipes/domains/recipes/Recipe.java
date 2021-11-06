@@ -16,6 +16,8 @@ import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
@@ -55,6 +57,7 @@ public class Recipe extends AuditModel {
 
     @OneToMany(mappedBy = "recipe")
     @OrderBy("id DESC")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Comment> comments = new ArrayList<>();
     @Enumerated(EnumType.STRING)
     @Column(length = 10, nullable = false)
