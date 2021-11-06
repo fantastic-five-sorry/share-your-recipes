@@ -312,9 +312,11 @@ function template(comment) {
 function timeSince(dateString) {
   //   Date.parse(dateString);
 
-  var seconds = Math.floor((new Date() - Date.parse(dateString)) / 1000);
+  var seconds = Math.floor(
+    (Date.parse(new Date().toISOString()) - Date.parse(dateString)) / 1000
+  );
   // for heroku only
-  seconds -= 7 * 60 * 60;
+  // seconds -= 7 * 60 * 60;
   //
   var interval = seconds / 31536000;
 
