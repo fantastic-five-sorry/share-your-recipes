@@ -8,8 +8,9 @@ const voteRecipeUrl = `/api/voting/recipe`;
 const postCommentUrl = `/api/comment/recipe`;
 
 $(document).ready(function () {
-  var upTimeOut;
-  var downTimeOut;
+  // var upTimeOut;
+  // var downTimeOut;
+  var timeOut;
   getMoreComments(1, size);
   $('#showMoreBtn').click(() => {
     currentPage = currentPage + 1;
@@ -18,14 +19,14 @@ $(document).ready(function () {
 
   ///
   $(document).on('click', '.upVoteBtn', function (e) {
-    clearTimeout(upTimeOut);
-    upTimeOut = setTimeout(function () {
+    clearTimeout(timeOut);
+    timeOut = setTimeout(function () {
       handleUpVote(e);
     }, 300);
   });
   $(document).on('click', '.downVoteBtn', function (e) {
-    clearTimeout(downTimeOut);
-    downTimeOut = setTimeout(function () {
+    clearTimeout(timeOut);
+    timeOut = setTimeout(function () {
       handleDownVote(e);
     }, 300);
   });
@@ -33,14 +34,14 @@ $(document).ready(function () {
   //
   ///
   $(document).on('click', '#recipeUpBtn', function (e) {
-    clearTimeout(upTimeOut);
-    upTimeOut = setTimeout(function () {
+    clearTimeout(timeOut);
+    timeOut = setTimeout(function () {
       handleUpRecipe(e);
     }, 300);
   });
   $(document).on('click', '#recipeDownBtn', function (e) {
-    clearTimeout(downTimeOut);
-    downTimeOut = setTimeout(function () {
+    clearTimeout(timeOut);
+    timeOut = setTimeout(function () {
       handleDownRecipe(e);
     }, 300);
   });
