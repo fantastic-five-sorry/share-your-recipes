@@ -76,7 +76,7 @@ function getMoreComments(currentPage, size) {
         newComments = `<p>No comments yet</p>`;
         $('#showMoreBtn').attr('hidden', true);
       }
-      if (newComments == '' && data.totalPages !=0) {
+      if (newComments == '' && data.totalPages != 0) {
         newComments = `<p>You have reached the end</p>`;
         $('#showMoreBtn').attr('hidden', true);
       }
@@ -312,7 +312,9 @@ function timeSince(dateString) {
   //   Date.parse(dateString);
 
   var seconds = Math.floor((new Date() - Date.parse(dateString)) / 1000);
-
+  // for heroku only
+  seconds -= 7 * 60 * 60;
+  //
   var interval = seconds / 31536000;
 
   if (interval > 1) {
