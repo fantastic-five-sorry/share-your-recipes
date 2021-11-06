@@ -91,6 +91,16 @@ public class HompageController {
     @GetMapping("/recipe/{slug}")
     public String recipeDetailPage(@PathVariable("slug") String slug, Authentication authentication, Model model) {
         try {
+            if (authentication != null) {
+                Utils.getIdFromRequest(authentication).ifPresent(uid -> {
+                    UserInfo user = userService.getUserInfoById(uid);
+
+                    model.addAttribute("user", user);
+                });
+                // if (authentication.getAuthorities().toString().contains("ROLE_ADMIN")) {
+                // return "redirect:/admin/hello";
+                // }
+            }
             Long uid = -1L;
             if (authentication != null)
                 uid = Utils.getIdFromRequest(authentication).orElse(-1L);
