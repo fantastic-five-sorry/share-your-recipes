@@ -316,7 +316,7 @@ function timeSince(dateString) {
     (Date.parse(new Date().toISOString()) - Date.parse(dateString)) / 1000
   );
   // for heroku only
-  // seconds -= 7 * 60 * 60;
+  seconds -= 7 * 60 * 60;
   //
   var interval = seconds / 31536000;
 
