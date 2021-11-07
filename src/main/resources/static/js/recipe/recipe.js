@@ -13,8 +13,8 @@ $(document).ready(function () {
   var timeOut;
   getMoreComments(1, size);
   $('#showMoreBtn').click(() => {
-    currentPage = currentPage + 1;
     getMoreComments(currentPage, size);
+    currentPage = currentPage + 1;
   });
 
   ///
