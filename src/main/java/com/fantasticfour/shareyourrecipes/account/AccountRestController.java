@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/account/")
+@PreAuthorize("hasRole('ADMIN'")
 public class AccountRestController {
     Logger logger = org.slf4j.LoggerFactory.getLogger(AccountRestController.class);
     @Autowired
@@ -165,8 +166,7 @@ public class AccountRestController {
     @PostMapping("/validate-current-password")
     public ResponseEntity<?> validateCurrentPw(@RequestParam("currentPassword") String password,
             Authentication authentication) {
-        Long id = Utils.getIdFromRequest(authentication)
-                .orElseThrow(() -> new IllegalStateException("User not found"));
+        Long id = Utils.getIdFromRequest(authentication).orElseThrow(() -> new IllegalStateException("User not found"));
 
         try {
             User user = userService.getValidUserById(id);
