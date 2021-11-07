@@ -26,7 +26,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/account")
-@PreAuthorize("hasRole('ADMIN'")
 public class AccountController {
     Logger logger = LoggerFactory.getLogger(AccountController.class);
     @Autowired

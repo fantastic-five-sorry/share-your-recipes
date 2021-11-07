@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/admin")
+@PreAuthorize("hasRole('ADMIN')")
+
 public class AdminRestController {
     @Autowired
     UserService userService;

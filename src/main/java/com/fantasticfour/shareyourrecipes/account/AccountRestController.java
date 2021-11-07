@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/account/")
-@PreAuthorize("hasRole('ADMIN'")
 public class AccountRestController {
     Logger logger = org.slf4j.LoggerFactory.getLogger(AccountRestController.class);
     @Autowired
