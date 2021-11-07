@@ -70,7 +70,7 @@
                   </li>
                   <li sec:authorize="!isAuthenticated()" class="nav-item nav-login"><a href="/login">Login</a></li>                     
                   <li sec:authorize="!isAuthenticated()" class="nav-item nav-login"><a href="/signup">Sign up</a></li>                     
-                  <li sec:authorize="isAuthenticated()" class="nav-item nav-login"><a th:href="@{/profile/{id}(id=${user.id})}"><span><img th:src="${user.photoUrl}" class="avatar" />  </span><span th:text="${user.name}"></span></a></li>                     
+                  <li sec:authorize="isAuthenticated()" class="nav-item nav-login" th:if="${user != null}"><a th:href="@{/profile/{id}(id=${user.id})}"><span><img th:src="${user.photoUrl}" class="avatar" />  </span><span th:text="${user.name}"></span></a></li>                     
                   <li sec:authorize="hasRole('ADMIN')" class="nav-item nav-login"><a href="/admin/stats">Manage</a></li>                     
                   <li sec:authorize="isAuthenticated()" class="nav-item nav-login"><a href="/logout">Logout</a></li>                     
                 </ul> 
@@ -229,41 +229,6 @@
                 </h2>
               </div>
               <div id="commentsDiv">
-                <!-- <div
-                  th:each="element: ${comments}"
-                  class="commented-section mt-2"
-                >
-                  <div
-                    class="d-flex flex-row align-items-ceRenter commented-user"
-                  >
-                    <h5 class="mr-2" th:text="${element.writerName}"></h5>
-                    <span class="dot mb-1"></span
-                    ><span
-                      class="mb-1 ml-2"
-                      th:text="${element.createdAt}"
-                    ></span>
-                  </div>
-                  <div class="comment-text-sm">
-                    <span th:text="${element.content}"></span>
-                  </div>
-                  <div class="reply-section">
-                    <div
-                      class="d-flex flex-row align-items-center voting-icons"
-                    >
-                      <i class="fa fa-sort-up fa-2x mt-3 hit-voting"></i>
-                      <span
-                        class="ml-2 ms-2"
-                        th:text="${element.upVoteCount}"
-                      ></span>
-                      <i class="fa fa-sort-down fa-2x mb-3 hit-voting"></i>
-                      <span
-                        class="ml-2 ms-2"
-                        th:text="${element.downVoteCount}"
-                      ></span>
-                      <span class="dot ml-2"></span>
-                    </div>
-                  </div>
-                </div> -->
               </div>
             </div>
             <button

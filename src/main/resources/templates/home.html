@@ -56,7 +56,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                       </li>
                       <li sec:authorize="!isAuthenticated()" class="nav-item nav-login"><a href="/login">Login</a></li>                     
                       <li sec:authorize="!isAuthenticated()" class="nav-item nav-login"><a href="/signup">Sign up</a></li>                     
-                      <li sec:authorize="isAuthenticated()" class="nav-item nav-login"><a th:href="@{/profile/{id}(id=${user.id})}"><span><img th:src="${user.photoUrl}" class="avatar" />  </span><span th:text="${user.name}"></span></a></li>                     
+                      <li sec:authorize="isAuthenticated()" class="nav-item nav-login" th:if="${user != null}"><a th:href="@{/profile/{id}(id=${user.id})}"><span><img th:src="${user.photoUrl}" class="avatar" />  </span><span th:text="${user.name}"></span></a></li>                     
                       <li sec:authorize="hasRole('ADMIN')" class="nav-item nav-login"><a href="/admin/stats">Manage</a></li>                     
                       <li sec:authorize="isAuthenticated()" class="nav-item nav-login"><a href="/logout">Logout</a></li>                     
                     </ul> 
@@ -265,7 +265,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                 <i class="share_logo fab fa-youtube"></i>
                 <i class="share_logo fab fa-tiktok"></i>
             </div>
-            <div class="footer-text">Copyright © 2015 All Rights Reserved.</div>
+            <!-- <div class="footer-text">Copyright © 2015 All Rights Reserved.</div> -->
+            <div class="footer-text"></div>
         </div>
         <!-- end footer -->
         

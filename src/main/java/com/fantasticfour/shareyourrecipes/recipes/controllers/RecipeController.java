@@ -11,6 +11,7 @@ import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.UpdateRecipeDTO;
+import com.fantasticfour.shareyourrecipes.recipes.repositories.RecipeRepository;
 import com.fantasticfour.shareyourrecipes.recipes.services.RecipeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class RecipeController {
 
     private final RecipeService recipeService;
+
+    @Autowired
+    private RecipeRepository recipeRepo;
 
     @Autowired
     public RecipeController(RecipeService recipeService) {
@@ -61,6 +65,22 @@ public class RecipeController {
         RecipeDTO recipeDTO;
         try {
             recipeDTO = recipeService.getRecipeBySlug(slug);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("error: " + e.getMessage());
+        }
+        return new ResponseEntity<RecipeDTO>(recipeDTO, HttpStatus.OK);
+    }
+
+    @PostMapping("/slug/{slug}/{upVote}")
+    public ResponseEntity<?> taoSuaLike(@PathVariable("slug") String slug, @PathVariable("upVote") Long upVote) {
+        // Long id = Long.parseLong(idRecipe);
+
+        RecipeDTO recipeDTO;
+        try {
+            recipeDTO = recipeService.getRecipeBySlug(slug);
+            Recipe recipe = recipeService.findById(recipeDTO.getId());
+            recipe.setUpVoteCount(upVote);
+            recipeRepo.save(recipe);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("error: " + e.getMessage());
         }
