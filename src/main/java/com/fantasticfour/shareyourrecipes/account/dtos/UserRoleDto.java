@@ -8,9 +8,38 @@ import com.fantasticfour.shareyourrecipes.domains.auth.User;
 public class UserRoleDto extends UserInfo {
     private List<String> roles;
 
+    private Boolean enabled;
+    private Boolean blocked;
+
+    public Boolean isEnabled() {
+        return this.enabled;
+    }
+
+    public Boolean getEnabled() {
+        return this.enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Boolean isBlocked() {
+        return this.blocked;
+    }
+
+    public Boolean getBlocked() {
+        return this.blocked;
+    }
+
+    public void setBlocked(Boolean blocked) {
+        this.blocked = blocked;
+    }
+
     public UserRoleDto(User user) {
         super(user);
-        roles = user.getRoles().stream().map(role -> role.toString()).collect(Collectors.toList());
+        this.enabled = user.getEnable();
+        this.blocked = user.getBlocked();
+        roles = user.getRoles().stream().map(role -> role.getName().toString()).collect(Collectors.toList());
     }
 
     public UserRoleDto() {

@@ -1,7 +1,8 @@
 <!------ Include the above in your HEAD tag ---------->
 
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -66,14 +67,10 @@
       >
         <ul class="nav sidebar-nav">
           <li class="sidebar-brand">
-            <img
-              class="avatar"
-              src="https://www.w3schools.com/howto/img_avatar.png"
-              alt="avatar"
-            />
+            <img class="avatar" th:src="${admin.photoUrl}" alt="avatar" />
           </li>
           <li class="sidebar-brand">
-            <a href="#"> Admin name </a>
+            <a href="#" th:text="${admin.name}"> Admin name </a>
           </li>
           <li>
             <a href="/admin/stats">Statistics</a>

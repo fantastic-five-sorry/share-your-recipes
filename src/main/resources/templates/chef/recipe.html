@@ -7,7 +7,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin | Recipe Manage</title>
+    <title>Chef | Recipe Manage</title>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -42,7 +42,7 @@
       integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
       crossorigin="anonymous"
     />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script
       src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
       integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
@@ -82,25 +82,23 @@
       >
         <ul class="nav sidebar-nav">
           <li class="sidebar-brand">
-            <img class="avatar" th:src="${admin.photoUrl}" alt="avatar" />
+            <img
+              class="avatar"
+              src="https://www.w3schools.com/howto/img_avatar.png"
+              alt="avatar"
+            />
           </li>
           <li class="sidebar-brand">
-            <a href="#" th:text="${admin.name}"> Admin name </a>
+            <a href="#">Chef Name</a>
           </li>
           <li>
-            <a href="/admin/stats">Statistics</a>
+            <a href="/chef/addRecipe">Add Recipe</a>
           </li>
           <li>
-            <a href="/admin/recipe">Recipe</a>
+            <a href="/chef/recipe">My Recipe</a>
           </li>
           <li>
-            <a href="/admin/user">User</a>
-          </li>
-          <li>
-            <a href="/admin/question">Question</a>
-          </li>
-          <li>
-            <a href="/admin/report">Report</a>
+            <a href="/chef/info">Your Info</a>
           </li>
           <li>
             <a href="/">Home Page</a>
@@ -179,7 +177,7 @@
                           <th>Author Name</th>
                           <th>Recipe Name</th>
                           <th>Status</th>
-                          <!-- <th>Delete</th> -->
+                          <th>Delete</th>
                         </tr>
                       </thead>
                       <tbody id="pageContentTotal"></tbody>
@@ -199,7 +197,7 @@
                           <th>Author Name</th>
                           <th>Recipe Name</th>
                           <th>Created At</th>
-                          <th>Command</th>
+                          <th>Delete</th>
                         </tr>
                       </thead>
                       <tbody id="pageContentApproved"></tbody>
@@ -219,7 +217,7 @@
                           <th>Author Name</th>
                           <th>Recipe Name</th>
                           <th>Created At</th>
-                          <th>Command</th>
+                          <th>Delete</th>
                         </tr>
                       </thead>
                       <tbody id="pageContentPending"></tbody>
@@ -236,6 +234,6 @@
     </div>
     <!-- /#wrapper -->
   </body>
-  <script src="/js/admin/recipe.js"></script>
+  <script src="/js/chef/main.js"></script>
   <script src="/js/admin/main.js"></script>
 </html>

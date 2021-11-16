@@ -59,12 +59,12 @@
     });
     const dataContainer = $('#page');
     $('#demo').pagination({
-      dataSource: '/api/comment/recipe/1000',
+      dataSource: '/api/comment/recipe/1001',
       locator: 'content',
       totalNumberLocator: function (response) {
         return response.totalElements;
       },
-      
+
       alias: {
         pageNumber: 'page',
         pageSize: 'size',

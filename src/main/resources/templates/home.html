@@ -67,7 +67,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
         <!-- end navbar  -->
         <!-- begin レシピを追加 -->
         <div sec:authorize="hasRole('CHEF')" class="Btn_Add  "> 
-            <button type="button" class="btn_レシピを追加">Add recipe</button>
+            <a href="/chef/addRecipe"><button type="button" class="btn_レシピを追加">Add recipe</button></a>
         </div>
         <!-- end レシピを追加 -->
 
@@ -115,7 +115,6 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
               <div class="col-md-3 ">
                 <div class="card" style="width: 15rem;">
                     <a th:href="@{'recipe/' + ${element.slug}}"><img th:src="${element.image}" class="card_img card-img-top" th:alt="${element.title}"></a>
-                    <!-- <img th:src="${element.image}" class="card_img card-img-top" th:alt="${element.title}"> -->
                     <div class="card-body" style="background-color: #f6f7f8;">
                       <h5 class="card_title card-title" th:text=${element.title}></h5>
                       <div class="card-text">
@@ -125,138 +124,14 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                             </span>
                             <i id="btn_heart"class=" btn_heart  fas fa-heart"></i>
                             <span th:text=${element.upVoteCount}></span>
-                            <!-- <i id="btn_like" class="btn_like  fa fa-thumbs-up"  onclick="clickLike(this)"></i> -->
                       </div>
-                        
                     </div>
                   </div>    
               </div>
             </div>
         </div>
-              
-              <!-- <div class="col-md-3 " >
-                  <div class="card card_ninki" style="width: 15rem;">
-                      <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
-                      <div class="card-body" style="background-color: #f6f7f8;">
-                        <h5 class="card_title card-title ">TaKoYaKi</h5>
-                        <div class=" card_nd card-text">
-                              <i id="btn_heart"class=" btn_heart  fas fa-heart"  onclick="clickHeart(this)"></i>
-                              <p class="author">Tạ Đình Hân</p>
-                              <i id="btn_like" class="btn_like  fa fa-thumbs-up"  onclick="clickLike(this)"></i>
-                        </div>
-                          
-                      </div>
-                    </div>    
-              </div> -->
-              <!-- <div class="col-md-3 " >
-                <div class="card card_ninki" style="width: 15rem;">
-                    <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
-                    <div class="card-body" style="background-color: #f6f7f8;">
-                      <h5 class="card_title card-title ">TaKoYaKi</h5>
-                      <div class=" card_nd card-text">
-                            <i id="btn_heart"class=" btn_heart  fas fa-heart"  onclick="clickHeart(this)"></i>
-                            <p class="author">Tạ Đình Hân</p>
-                            <i id="btn_like" class="btn_like  fa fa-thumbs-up"  onclick="clickLike(this)"></i>
-                      </div>
-                        
-                    </div>
-                  </div>    
-              </div> -->
-              <!-- <div class="col-md-3 " >
-                <div class="card card_ninki" style="width: 15rem;">
-                    <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
-                    <div class="card-body" style="background-color: #f6f7f8;">
-                      <h5 class="card_title card-title ">TaKoYaKi</h5>
-                      <div class=" card_nd card-text">
-                            <i id="btn_heart"class=" btn_heart  fas fa-heart"  onclick="clickHeart(this)"></i>
-                            <p class="author">Tạ Đình Hân</p>
-                            <i id="btn_like" class="btn_like  fa fa-thumbs-up"  onclick="clickLike(this)"></i>
-                      </div>
-                        
-                    </div>
-                  </div>    
-              </div> -->
-              <!-- <div class="col-md-3 " >
-              <div class="card card_ninki" style="width: 15rem;">
-                  <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
-                  <div class="card-body" style="background-color: #f6f7f8;">
-                    <h5 class="card_title card-title ">TaKoYaKi</h5>
-                    <div class=" card_nd card-text">
-                          <i id="btn_heart"class=" btn_heart  fas fa-heart"  onclick="clickHeart(this)"></i>
-                          <p class="author">Tạ Đình Hân</p>
-                          <i id="btn_like" class="btn_like  fa fa-thumbs-up"  onclick="clickLike(this)"></i>
-                    </div>
-                      
-                  </div>
-                </div>    
-              </div> -->
-
-          </div>
-          <!-- <div class="row mt-3">
-            <div class="col-md-3 " >
-                <div class="card card_ninki" style="width: 15rem;">
-                    <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
-                    <div class="card-body" style="background-color: #f6f7f8;">
-                      <h5 class="card_title card-title ">TaKoYaKi</h5>
-                      <div class=" card_nd card-text">
-                            <i id="btn_heart"class=" btn_heart  fas fa-heart"  onclick="clickHeart(this)"></i>
-                            <p class="author">Tạ Đình Hân</p>
-                            <i id="btn_like" class="btn_like  fa fa-thumbs-up"  onclick="clickLike(this)"></i>
-                      </div>
-                        
-                    </div>
-                  </div>    
-            </div>
-            <div class="col-md-3 " >
-              <div class="card card_ninki" style="width: 15rem;">
-                  <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
-                  <div class="card-body" style="background-color: #f6f7f8;">
-                    <h5 class="card_title card-title ">TaKoYaKi</h5>
-                    <div class=" card_nd card-text">
-                          <i id="btn_heart"class=" btn_heart  fas fa-heart"  onclick="clickHeart(this)"></i>
-                          <p class="author">Tạ Đình Hân</p>
-                          <i id="btn_like" class="btn_like  fa fa-thumbs-up"  onclick="clickLike(this)"></i>
-                    </div>
-                      
-                  </div>
-                </div>    
-            </div>
-            <div class="col-md-3 " >
-              <div class="card card_ninki" style="width: 15rem;">
-                  <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
-                  <div class="card-body" style="background-color: #f6f7f8;">
-                    <h5 class="card_title card-title ">TaKoYaKi</h5>
-                    <div class=" card_nd card-text">
-                          <i id="btn_heart"class=" btn_heart  fas fa-heart"  onclick="clickHeart(this)"></i>
-                          <p class="author">Tạ Đình Hân</p>
-                          <i id="btn_like" class="btn_like  fa fa-thumbs-up"  onclick="clickLike(this)"></i>
-                    </div>
-                      
-                  </div>
-                </div>    
-            </div>
-            <div class="col-md-3 " >
-            <div class="card card_ninki" style="width: 15rem;">
-                <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
-                <div class="card-body" style="background-color: #f6f7f8;">
-                  <h5 class="card_title card-title ">TaKoYaKi</h5>
-                  <div class=" card_nd card-text">
-                        <i id="btn_heart"class=" btn_heart  fas fa-heart"  onclick="clickHeart(this)"></i>
-                        <p class="author">Tạ Đình Hân</p>
-                        <i id="btn_like" class="btn_like  fa fa-thumbs-up"  onclick="clickLike(this)"></i>
-                  </div>
-                    
-                </div>
-              </div>    
-            </div>
-
-        </div> -->
       </div>
-        <!-- end 最新のレシピ -->
-        <!-- begin footer -->
-
         <div class="footer">
-           
             <a href="#"> <img src="/imgs/LogoMakr-4NsqL2.png" alt="logo" class="logo_coki"></a>
             <div class="share">
                 <i class="share_logo fab fa-facebook"></i>

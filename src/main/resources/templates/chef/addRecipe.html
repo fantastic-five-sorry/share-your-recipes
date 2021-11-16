@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chef | New Recipe</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+      crossorigin="anonymous"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css"
+    />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
+      integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+   
+    <link rel="stylesheet" href="/styles/admin/layout.css" />
+  </head>
+  <body>
+    <div id="wrapper" class="toggled">
+      <!-- Sidebar -->
+      <nav
+        class="navbar navbar-inverse navbar-fixed-top"
+        id="sidebar-wrapper"
+        role="navigation"
+      >
+        <ul class="nav sidebar-nav">
+          <li class="sidebar-brand">
+            <img
+              class="avatar"
+              src="https://www.w3schools.com/howto/img_avatar.png"
+              alt="avatar"
+            />
+          </li>
+          <li class="sidebar-brand">
+            <a href="#">Chef Name</a>
+          </li>
+          <li>
+            <a href="/chef/addRecipe">Add Recipe</a>
+          </li>
+          <li>
+            <a href="/chef/recipe">My Recipe</a>
+          </li>
+          <li>
+            <a href="/chef/info">Your Info</a>
+          </li>
+          <li>
+            <a href="/">Home Page</a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /#sidebar-wrapper -->
+
+      <!-- Page Content -->
+      <div id="page-content-wrapper toggled">
+        <button
+          type="button"
+          class="hamburger is-closed"
+          data-toggle="offcanvas"
+        >
+          <span class="hamb-top"></span>
+          <span class="hamb-middle"></span>
+          <span class="hamb-bottom"></span>
+        </button>
+        <div class="container">
+          <div class="header">
+            <span>ADD NEW RECIPE</span>
+          </div>
+          <div class="container">
+
+            <form>
+                <div>
+                  <label>Title</label>
+                  <input type="text" name='title' class='title' required/>
+                </div>
+                <div class='imageBox'>
+                  <label>Image</label>
+                  <input
+                    type="file"
+                    name="image"
+                    accept="image/png, image/jpeg"
+                    id="recipeImage"
+                    required
+                  />
+                </div>
+                <div>
+                  <div>Ingredients</div>
+                  <div class='ingredientsGroup'>
+                    <div class='ingredientInput'>
+                      <input type="text" name='ingred' placeholder="Nguyen lieu" required/>
+                      <span>:</span>
+                      <input type="text" name='soluong' placeholder="So luong" required/>
+                    </div>
+                  </div>
+                  <span class='add-button' id='more-ingredient'>Add</span>
+                </div>
+                <div>
+                  <label>Steps</label>
+                  <div class='stepsGroup'>
+                    <div class='stepInput'>
+                    <input type="text" placeholder="step" name='step' required/>
+                  </div>
+                </div>
+                  <span class='add-button'id='more-step'>Add</span>
+                </div>
+          
+                <div>
+                  <label>Guide Video URL</label>
+                  <input type="text" name='guideUrl' class='guideUrl' required/>
+                </div>
+                <div><input type="submit" value="Post new recipe" ></input></div>
+              </form>
+          </div>
+        </div>
+      </div>
+      <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+  </body>
+  <script src="/js/chef/addRecipe.js"></script>
+  <script src="/js/admin/main.js"></script>
+</html>

@@ -36,4 +36,9 @@ public interface RecipeService {
 
     RecipeDTO viewRecipeById(Long id) throws Exception;
 
+    Page<RecipeDTO> findByCreator(Long uid, Pageable page);
+
+    Page<RecipeDTO> findAllNotApprovedRecipesByCreator(Long id, Pageable pageable);
+
+    Page<RecipeDTO> findAllApprovedRecipesByCreator(Long id, Pageable pageable);
 }
