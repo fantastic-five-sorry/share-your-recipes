@@ -148,6 +148,7 @@ public class User implements Serializable {
         this.blocked = false;
         this.enabled = false;
         this.provider = Provider.local;
+        this.photoUrl = "/imgs/default-avatar.png";
     }
 
     public Boolean getBlocked() {

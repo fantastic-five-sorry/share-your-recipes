@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import com.fantasticfour.shareyourrecipes.domains.enums.RecipeStatus;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
+import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,8 +19,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
-    @Query(value = "SELECT * FROM recipes r WHERE r.creator_id=:creatorId", nativeQuery = true)
-    List<Recipe> findByCreatorId(Long creatorId);
+    @Query(value = "SELECT * FROM recipes r WHERE r.creator_id=:creatorId AND r.deleted=FALSE", nativeQuery = true)
+    Page<Recipe> findByCreatorId(Long creatorId, Pageable page);
 
     @Query(value = "SELECT * FROM recipes r WHERE r.deleted=FALSE ORDER BY id DESC", nativeQuery = true)
     Page<Recipe> findAll(Pageable pageable);
@@ -27,10 +28,19 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     @Query(value = "SELECT * FROM recipes r WHERE r.deleted=FALSE AND r.status='APPROVED' ORDER BY id DESC", nativeQuery = true)
     Page<Recipe> findAllApprovedRecipes(Pageable pageable);
 
+    @Query(value = "SELECT * FROM recipes r WHERE r.deleted=FALSE AND r.status='PENDING' ORDER BY id DESC", nativeQuery = true)
+    Page<Recipe> findAllNotApprovedRecipes(Pageable pageable);
+
+    @Query(value = "SELECT * FROM recipes r WHERE r.deleted=FALSE AND r.creator_id=:creatorId AND r.status='APPROVED' ORDER BY id DESC", nativeQuery = true)
+    Page<Recipe> findAllApprovedRecipesByCreator(Long creatorId, Pageable pageable);
+
+    @Query(value = "SELECT * FROM recipes r WHERE r.creator_id=:creatorId AND r.deleted=FALSE AND r.status='PENDING' ORDER BY id DESC", nativeQuery = true)
+    Page<Recipe> findAllNotApprovedRecipesByCreator(Long creatorId, Pageable pageable);
+
     @Query(value = "SELECT * FROM recipes r WHERE r.deleted=FALSE AND r.status='APPROVED' ORDER BY up_vote_count DESC", nativeQuery = true)
     Page<Recipe> findAllSortByUpVoteCount(Pageable pageable);
 
-    @Query(value = "SELECT * FROM recipes r WHERE r.status=:status", nativeQuery = true)
+    @Query(value = "SELECT * FROM recipes r WHERE r.deleted=FALSE AND r.status=:status ORDER BY r.id DESC", nativeQuery = true)
     Page<Recipe> findByStatus(String status, Pageable pageable);
 
     @Query("SELECT r FROM Recipe r WHERE r.deleted=FALSE AND id=:id")

@@ -6,6 +6,8 @@ import javax.transaction.Transactional;
 
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -45,4 +47,6 @@ public interface UserRepo extends JpaRepository<User, Long> {
     // true AND u.email =:email")
     // UserInfo findUserInfoByEmail(String email);
 
+    @Query("SELECT u FROM User u ORDER BY id DESC")
+    Page<User> findAll(Pageable page);
 }

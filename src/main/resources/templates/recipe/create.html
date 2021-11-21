@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create new recipe</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+    ></script>
+    <style>
+      .add-button {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Enter your recipe detail</h1>
+    <!-- <form method="POST" enctype="multipart/form-data"> -->
+    <form>
+      <div>
+        <label>Title</label>
+        <input type="text" name='title' class='title'/>
+      </div>
+      <div class='imageBox'>
+        <label>Image</label>
+        <input
+          type="file"
+          name="image"
+          accept="image/png, image/jpeg"
+          id="recipeImage"
+        />
+      </div>
+      <div>
+        <div>Ingredients</div>
+        <div class='ingredientsGroup'>
+          <div class='ingredientInput'>
+            <input type="text" name='ingred' placeholder="Nguyen lieu"/>
+            <span>:</span>
+            <input type="text" name='soluong' placeholder="So luong"/>
+            <span>X</span>
+          </div>
+        </div>
+        <span class='add-button' id='more-ingredient'>Add</span>
+      </div>
+      <div>
+        <label>Steps</label>
+        <div class='stepsGroup'>
+          <div class='stepInput'>
+          <input type="text" placeholder="step" name='step'/>
+          <span>X</span>
+        </div>
+      </div>
+        <span class='add-button'id='more-step'>Add</span>
+      </div>
+
+      <div>
+        <label>Guide Video URL</label>
+        <input type="text" name='guideUrl' class='guideUrl'/>
+      </div>
+      <div><input type="submit" value="Post new recipe"></input></div>
+    </form>
+  </body>
+  <script>
+function doAjaxPost(event) {
+  event.preventDefault();
+  var ingredients = {}
+  $('.ingredientInput').map(function() {
+    ingredients =  { ...ingredients, 
+       [$(this).find('[name="ingred"]').val()] : 
+       $(this).find('[name="soluong"]').val(),
+    };
+}).get();
+    var steps = $('.stepInput').map(function() {
+    return $(this).find('[name="step"]').val();
+}).get();
+    var title = $('.title').val();
+    var guideUrl = $('.guideUrl').val();
+    var formData = new FormData();
+    var files = $('#recipeImage')[0].files;
+    console.log(title);
+    console.log(guideUrl);
+    console.log(files);
+    if (files.length)
+    formData.append("image", files[0]);
+    // formData.append("document", documentJson); instead of this, use the line below.
+    formData.append("ingredients", JSON.stringify(ingredients));
+    formData.append("steps", JSON.stringify(steps));
+    formData.append("title", title);
+    formData.append("guideUrl", guideUrl);
+
+    axios({
+        method: 'post',
+        url: 'http://localhost:8080/api/recipes/',
+        headers: {
+         "Content-Type": undefined
+        },
+        data: formData,
+    })
+    .then(function (response) {
+        console.log(response);
+    })
+    .catch(function (response) {
+        console.log(response);
+    });
+}
+$(document).ready(function () {
+  $('#more-ingredient').click(() => {
+    $('.ingredientsGroup').append(`<div class='ingredientInput'>
+            <input type="text" name='ingred' placeholder="Nguyen lieu"/>
+            <span>:</span>
+            <input type="text" name='soluong' placeholder="So luong"/>
+            <span>X</span>
+          </div>`)
+  })
+  $('#more-step').click(() => {
+    $('.stepsGroup').append(`<div class='stepInput'>
+          <input type="text" placeholder="step" name='step' />
+          <span>X</span>
+        </div>`)
+  })
+  $(document).on('submit', 'form', function (event) {
+    doAjaxPost(event);
+  });});
+  </script>
+</html>

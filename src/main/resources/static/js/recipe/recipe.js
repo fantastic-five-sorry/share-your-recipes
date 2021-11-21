@@ -10,12 +10,13 @@ const voteRecipeUrl = `/api/voting/recipe`;
 const postCommentUrl = `/api/comment/recipe`;
 
 $(document).ready(function () {
-  var upTimeOut;
-  var downTimeOut;
+  // var upTimeOut;
+  // var downTimeOut;
+  var timeOut;
   getMoreComments(1, size);
   $('#showMoreBtn').click(() => {
-    currentPage = currentPage + 1;
     getMoreComments(currentPage, size);
+    currentPage = currentPage + 1;
   });
 
   ///
@@ -27,14 +28,14 @@ $(document).ready(function () {
 
   ///
   $(document).on('click', '.upVoteBtn', function (e) {
-    clearTimeout(upTimeOut);
-    upTimeOut = setTimeout(function () {
+    clearTimeout(timeOut);
+    timeOut = setTimeout(function () {
       handleUpVote(e);
     }, 300);
   });
   $(document).on('click', '.downVoteBtn', function (e) {
-    clearTimeout(downTimeOut);
-    downTimeOut = setTimeout(function () {
+    clearTimeout(timeOut);
+    timeOut = setTimeout(function () {
       handleDownVote(e);
     }, 300);
   });
@@ -42,14 +43,14 @@ $(document).ready(function () {
   //
   ///
   $(document).on('click', '#recipeUpBtn', function (e) {
-    clearTimeout(upTimeOut);
-    upTimeOut = setTimeout(function () {
+    clearTimeout(timeOut);
+    timeOut = setTimeout(function () {
       handleUpRecipe(e);
     }, 300);
   });
   $(document).on('click', '#recipeDownBtn', function (e) {
-    clearTimeout(downTimeOut);
-    downTimeOut = setTimeout(function () {
+    clearTimeout(timeOut);
+    timeOut = setTimeout(function () {
       handleDownRecipe(e);
     }, 300);
   });
@@ -137,9 +138,9 @@ function getMoreComments(currentPage, size) {
       }
       if (newComments == '' && data.totalPages != 0) {
         newComments = `<p>You have reached the end</p>`;
-        $('#showMoreBtn').attr('disabled', true);
+        $('#showMoreBtn').attr('hidden', true);
       }
-      if (data.totalPages < 2) {
+      if (data.totalPages && data.totalPages < 2) {
         $('#showMoreBtn').attr('hidden', true);
       }
       commentsDiv.append(newComments);
@@ -349,6 +350,7 @@ function commentToRecipe(comment, recipeId) {
     },
     traditional: true,
     success: function (data, textStatus, xhr) {
+      console.log(data);
       const commentsDiv = $('#commentsDiv');
       if (commentsDiv.text().trim() == 'No comments yet') commentsDiv.text('');
       const newComment = template(data);
@@ -446,8 +448,12 @@ function formReply(commentId) {
 function timeSince(dateString) {
   //   Date.parse(dateString);
 
-  var seconds = Math.floor((new Date() - Date.parse(dateString)) / 1000);
-
+  var seconds = Math.floor(
+    (Date.parse(new Date().toISOString()) - Date.parse(dateString)) / 1000
+  );
+  // for heroku only
+  seconds -= 7 * 60 * 60;
+  //
   var interval = seconds / 31536000;
 
   if (interval > 1) {

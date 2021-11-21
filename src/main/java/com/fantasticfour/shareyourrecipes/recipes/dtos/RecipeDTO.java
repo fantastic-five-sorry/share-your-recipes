@@ -1,6 +1,7 @@
 package com.fantasticfour.shareyourrecipes.recipes.dtos;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,16 @@ public class RecipeDTO {
     private String guideVideoString;
     private UserInfo creator;
     private String slug;
+
+    private Date createdAt;
+
+    public Date getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
     private List<CommentDto> comments = new ArrayList<>();
     private String status;
@@ -150,6 +161,7 @@ public class RecipeDTO {
         this.downVoteCount = recipe.getDownVoteCount();
         this.price = recipe.getPrice();
         this.comments = recipe.getComments().stream().map(CommentDto::new).collect(Collectors.toList());
+        this.createdAt = recipe.getCreatedDate();
     }
 
     public String getType() {

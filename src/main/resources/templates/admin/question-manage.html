@@ -1,7 +1,10 @@
 <!------ Include the above in your HEAD tag ---------->
 
 <!DOCTYPE html>
-<html lang="en">
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -53,6 +56,28 @@
       integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
       crossorigin="anonymous"
     ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.min.js"
+      integrity="sha512-1zzZ0ynR2KXnFskJ1C2s+7TIEewmkB2y+5o/+ahF7mwNj9n3PnzARpqalvtjSbUETwx6yuxP5AJXZCpnjEJkQw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css"
+    />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
+      integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css"
+    />
     <script src="/js/admin/main.js"></script>
     <link rel="stylesheet" href="/styles/admin/layout.css" />
   </head>
@@ -66,14 +91,10 @@
       >
         <ul class="nav sidebar-nav">
           <li class="sidebar-brand">
-            <img
-              class="avatar"
-              src="https://www.w3schools.com/howto/img_avatar.png"
-              alt="avatar"
-            />
+            <img class="avatar" th:src="${admin.photoUrl}" alt="avatar" />
           </li>
           <li class="sidebar-brand">
-            <a href="#"> Admin name </a>
+            <a href="#" th:text="${admin.name}"> Admin name </a>
           </li>
           <li>
             <a href="/admin/stats">Statistics</a>

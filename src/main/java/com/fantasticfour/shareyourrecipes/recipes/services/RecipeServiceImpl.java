@@ -63,21 +63,22 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Page<RecipeDTO> findAllApprovedRecipes(Pageable pageable) {
-        // Page<Recipe> recipes = recipeRepository.findAll();
-        // Page<RecipeDTO> recipeDTOs = new ArrayList<>();
-        // for (Recipe recipe: recipes) {
-        // recipeDTOs.add(new RecipeDTO(recipe));
-        // }
         return recipeRepository.findAllApprovedRecipes(pageable).map(RecipeDTO::new);
     }
 
     @Override
+    public Page<RecipeDTO> findAllNotApprovedRecipesByCreator(Long uid, Pageable pageable) {
+        return recipeRepository.findAllNotApprovedRecipesByCreator(uid, pageable).map(RecipeDTO::new);
+    }
+
+    @Override
+    public Page<RecipeDTO> findAllApprovedRecipesByCreator(Long uid, Pageable pageable) {
+        return recipeRepository.findAllApprovedRecipesByCreator(uid, pageable).map(RecipeDTO::new);
+    }
+
+    @Override
     public Page<RecipeDTO> findAll(Pageable pageable) {
-        // Page<Recipe> recipes = recipeRepository.findAll();
-        // Page<RecipeDTO> recipeDTOs = new ArrayList<>();
-        // for (Recipe recipe: recipes) {
-        // recipeDTOs.add(new RecipeDTO(recipe));
-        // }
+
         return recipeRepository.findAll(pageable).map(RecipeDTO::new);
     }
 
@@ -100,7 +101,7 @@ public class RecipeServiceImpl implements RecipeService {
         recipe2.setCreator(userRepo.findValidUserById(recipe.getCreatorId()));
         recipe2.setGuideVideoUrl(recipe.getGuideVideoString());
         recipe2.setSlug(toSlug(recipe.getTitle()));
-        recipe2.setStatus(RecipeStatus.APPROVED);
+        // recipe2.setStatus(RecipeStatus.APPROVED);
         recipeRepository.save(recipe2);
     }
 
@@ -123,6 +124,12 @@ public class RecipeServiceImpl implements RecipeService {
                 .orElseThrow(() -> new IllegalStateException("recipe not found"));
 
         return recipe;
+    }
+
+    @Override
+    public Page<RecipeDTO> findByCreator(Long uid, Pageable page) {
+
+        return recipeRepository.findByCreatorId(uid, page).map(RecipeDTO::new);
     }
 
     @Override

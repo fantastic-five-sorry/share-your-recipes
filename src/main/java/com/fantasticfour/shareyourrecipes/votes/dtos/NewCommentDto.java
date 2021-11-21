@@ -39,4 +39,14 @@ public class NewCommentDto {
     public NewCommentDto() {
     }
 
+
+    @Override
+    public String toString() {
+        return "{" +
+            " writerId='" + getWriterId() + "'" +
+            ", recipeId='" + getRecipeId() + "'" +
+            ", content='" + getContent() + "'" +
+            "}";
+    }
+
 }

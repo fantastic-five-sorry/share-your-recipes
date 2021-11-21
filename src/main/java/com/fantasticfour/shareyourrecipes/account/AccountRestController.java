@@ -165,8 +165,7 @@ public class AccountRestController {
     @PostMapping("/validate-current-password")
     public ResponseEntity<?> validateCurrentPw(@RequestParam("currentPassword") String password,
             Authentication authentication) {
-        Long id = Utils.getIdFromRequest(authentication)
-                .orElseThrow(() -> new IllegalStateException("User not found"));
+        Long id = Utils.getIdFromRequest(authentication).orElseThrow(() -> new IllegalStateException("User not found"));
 
         try {
             User user = userService.getValidUserById(id);
