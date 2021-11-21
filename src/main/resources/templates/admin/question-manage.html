@@ -136,7 +136,7 @@
           <div class="container">
             <div class="row">
               <table class="table-recipe table table-bordered">
-                <tbody>
+                <thead>
                   <tr>
                     <th>#</th>
                     <th>Question</th>
@@ -144,154 +144,10 @@
                     <th>Number of answers</th>
                     <th>Number of votes</th>
                   </tr>
-                  <tr>
-                    <th scope="row" style="padding-top: 10px">1</th>
-                    <td style="padding-top: 10px">Hot dog</td>
-                    <td style="padding-top: 10px">Han</td>
-                    <td style="padding-top: 10px">100</td>
-                    <td>
-                      <i
-                        class="
-                          arow
-                          fas
-                          fa-caret-square-up
-                          mt-1
-                          arow-question-recipe
-                        "
-                      ></i>
-                      <div class="line"></div>
-                      <i class="arow fas fa-caret-square-down mt-1"></i>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row" style="padding-top: 10px">2</th>
-                    <td style="padding-top: 10px">Hot dog</td>
-                    <td style="padding-top: 10px">Han</td>
-                    <td style="padding-top: 10px">100</td>
-                    <td>
-                      <i
-                        class="
-                          arow
-                          fas
-                          fa-caret-square-up
-                          mt-1
-                          arow-question-recipe
-                        "
-                      ></i>
-                      <div class="line"></div>
-                      <i class="arow fas fa-caret-square-down mt-1"></i>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row" style="padding-top: 10px">3</th>
-                    <td style="padding-top: 10px">Hot dog</td>
-                    <td style="padding-top: 10px">Han</td>
-                    <td style="padding-top: 10px">100</td>
-                    <td>
-                      <i
-                        class="
-                          arow
-                          fas
-                          fa-caret-square-up
-                          mt-1
-                          arow-question-recipe
-                        "
-                      ></i>
-                      <div class="line"></div>
-                      <i class="arow fas fa-caret-square-down mt-1"></i>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row" style="padding-top: 10px">4</th>
-                    <td style="padding-top: 10px">Hot dog</td>
-                    <td style="padding-top: 10px">Han</td>
-                    <td style="padding-top: 10px">100</td>
-                    <td>
-                      <i
-                        class="
-                          arow
-                          fas
-                          fa-caret-square-up
-                          mt-1
-                          arow-question-recipe
-                        "
-                      ></i>
-                      <div class="line"></div>
-                      <i class="arow fas fa-caret-square-down mt-1"></i>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row" style="padding-top: 10px">5</th>
-                    <td style="padding-top: 10px">Hot dog</td>
-                    <td style="padding-top: 10px">Han</td>
-                    <td style="padding-top: 10px">100</td>
-                    <td>
-                      <i
-                        class="
-                          arow
-                          fas
-                          fa-caret-square-up
-                          mt-1
-                          arow-question-recipe
-                        "
-                      ></i>
-                      <div class="line"></div>
-                      <i class="arow fas fa-caret-square-down mt-1"></i>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row" style="padding-top: 10px">6</th>
-                    <td style="padding-top: 10px">Hot dog</td>
-                    <td style="padding-top: 10px">Han</td>
-                    <td style="padding-top: 10px">100</td>
-                    <td>
-                      <i
-                        class="
-                          arow
-                          fas
-                          fa-caret-square-up
-                          mt-1
-                          arow-question-recipe
-                        "
-                      ></i>
-                      <div class="line"></div>
-                      <i class="arow fas fa-caret-square-down mt-1"></i>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row" style="padding-top: 10px">7</th>
-                    <td style="padding-top: 10px">Hot dog</td>
-                    <td style="padding-top: 10px">Han</td>
-                    <td style="padding-top: 10px">100</td>
-                    <td>
-                      <i
-                        class="
-                          arow
-                          fas
-                          fa-caret-square-up
-                          mt-1
-                          arow-question-recipe
-                        "
-                      ></i>
-                      <div class="line"></div>
-                      <i class="arow fas fa-caret-square-down mt-1"></i>
-                    </td>
-                  </tr>
-                </tbody>
+                </thead>
+                <tbody id="pageContentTotal"></tbody>
               </table>
-              <div class="pag">
-                <ul class="pagination">
-                  <li class="disabled"><a href="#">«</a></li>
-                  <li class="active">
-                    <a href="#">1 <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li><a href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                  <li><a href="#">4</a></li>
-                  <li><a href="#">5</a></li>
-                  <li><a href="#">»</a></li>
-                </ul>
-              </div>
+              <div id="buttonGroupsTotal"></div>
             </div>
           </div>
         </div>
@@ -300,4 +156,5 @@
     </div>
     <!-- /#wrapper -->
   </body>
+  <script src="/js/admin/recipe.js"></script>
 </html>
