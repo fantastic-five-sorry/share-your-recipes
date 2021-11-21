@@ -44,6 +44,18 @@ public class Comment extends AuditModel {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<CommentVote> votes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "parent")
+    @OrderBy("id DESC")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<ReplyComment> replyComments = new ArrayList<>();
+
+    public List<ReplyComment> getReplyComments() {
+        return this.replyComments;
+    }
+
+    public void setReplyComments(List<ReplyComment> replyComments) {
+        this.replyComments = replyComments;
+    }
 
     @Enumerated(EnumType.STRING)
     @Column(length = 15, nullable = false)

@@ -4,32 +4,32 @@ const postAnswerUrl = `/api/answer`;
 const size = 2;
 var currentPage = 1;
 
-function clickHeart(x){
+// function clickHeart(x){
     
-    var allClass = x.classList.toString();
+//     var allClass = x.classList.toString();
     
-    // kiểm tra nếu chưa tồn tại class active thì thêm class active
-    if (allClass.indexOf('red') == -1) {
-        x.classList.add("red");
-    }
-    else{
-        //Thêm hoặc xóa class fa-thumbs-down
-        x.classList.remove("red");
-    }
-}
-function clickLike(x){
+//     // kiểm tra nếu chưa tồn tại class active thì thêm class active
+//     if (allClass.indexOf('red') == -1) {
+//         x.classList.add("red");
+//     }
+//     else{
+//         //Thêm hoặc xóa class fa-thumbs-down
+//         x.classList.remove("red");
+//     }
+// }
+// function clickLike(x){
    
-    var allClass = x.classList.toString();
+//     var allClass = x.classList.toString();
   
-    // kiểm tra nếu chưa tồn tại class active thì thêm class active
-    if (allClass.indexOf('blue') == -1) {
-        x.classList.add("blue");
-    }
-    else{
-        //Thêm hoặc xóa class fa-thumbs-down
-        x.classList.remove("blue");
-    }
-}
+//     // kiểm tra nếu chưa tồn tại class active thì thêm class active
+//     if (allClass.indexOf('blue') == -1) {
+//         x.classList.add("blue");
+//     }
+//     else{
+//         //Thêm hoặc xóa class fa-thumbs-down
+//         x.classList.remove("blue");
+//     }
+// }
 
 $(document).ready(function() {
     getListAnswers(currentPage, size);

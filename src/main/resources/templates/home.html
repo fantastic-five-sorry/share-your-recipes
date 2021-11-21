@@ -39,17 +39,17 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
         <!-- begin navbar  -->
         <div class="row">
-            <nav class="navbar navbar-expand-lg navbarcooki">
+            <nav class="navbar justify-content-center navbar-expand-lg navbarcooki">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                       <li class="nav-item nav-logo">
                         <a class="nav-link active" aria-current="page" href="#">
-                            <img class="cooki_logo" src="/imgs/LogoMakr-4NsqL2.png" alt="logo">
+                            <img class="" src="/imgs/LogoMakr-4NsqL2.png" alt="logo">
                         </a>
                       </li>
-                      <li class="nav-item">
-                        <form class="d-flex  d_formsearch">
-                            <input class="formSearch form-control me-2" style="width: 400px;" type="search" placeholder="Search by title" aria-label="Search">
-                            <button class="btn btn-outline-success btn_search" type="submit">
+                      <li class="nav-item d-flex flex-row flexjustify-content-center">
+                        <form class="d-flex flex-row justify-content-center" style="padding: 10px 55px;">
+                            <input style="max-width: 400px; min-width: 300px;" type="search" placeholder="Search by title" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit" style="width: fit-content;">
                               <i class="fas fa-search"></i>
                             </button>
                           </form>
@@ -57,7 +57,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                       <li sec:authorize="!isAuthenticated()" class="nav-item nav-login"><a href="/login">Login</a></li>                     
                       <li sec:authorize="!isAuthenticated()" class="nav-item nav-login"><a href="/signup">Sign up</a></li>                     
                       <li sec:authorize="isAuthenticated()" class="nav-item nav-login"><a th:href="@{/profile/{id}(id=${user.id})}"><span><img th:src="${user.photoUrl}" class="avatar" />  </span><span th:text="${user.name}"></span></a></li>                     
-                      <li sec:authorize="hasRole('ADMIN')" class="nav-item nav-login"><a href="/admin/">Manage</a></li>                     
+                      <li sec:authorize="hasRole('ADMIN')" class="nav-item nav-login"><a href="/admin/stats">Manage</a></li>                     
                       <li sec:authorize="isAuthenticated()" class="nav-item nav-login"><a href="/logout">Logout</a></li>                     
                     </ul> 
                    
@@ -66,7 +66,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
         </div>
         <!-- end navbar  -->
         <!-- begin レシピを追加 -->
-        <div class="Btn_Add  "> 
+        <div sec:authorize="hasRole('CHEF')" class="Btn_Add  "> 
             <button type="button" class="btn_レシピを追加">Add recipe</button>
         </div>
         <!-- end レシピを追加 -->
@@ -80,17 +80,18 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
             <div class="row mt-3">
                 <div th:each="element:${recipesPopular}">
                   <div class="col-md-3 ">
-                    <div class="card card_ninki" style="width: 15rem;">
+                    <div class="card" style="width: 15rem;">
                         <a th:href="@{'recipe/' + ${element.slug}}"><img th:src="${element.image}" class="card_img card-img-top" th:alt="${element.title}"></a>
+                        <!-- <img th:src="${element.image}" class="card_img card-img-top" th:alt="${element.title}"> -->
                         <div class="card-body" style="background-color: #f6f7f8;">
-                          <h5 class="card_title card-title " th:text=${element.title}></h5>
-                          <div class=" card_nd card-text">
-                                <i id="btn_heart"class=" btn_heart  fas fa-heart"  onclick="clickHeart(this)"></i>
-                                <span th:text=${element.upVoteCount}></span>
-                                <br/>
-                                <p class="author" >
+                          <h5 class="card_title card-title" th:text=${element.title}></h5>
+                          <div class="card-text">
+                                    <span>by</span>
+                                <span class="author" >
                                   <a th:href="@{'/profile/' + ${element.creator.id}}" th:text=${element.creator.name}></a>
-                                </p>
+                                </span>
+                                <i id="btn_heart"class=" btn_heart  fas fa-heart"></i>
+                                <span th:text=${element.upVoteCount}></span>
                                 <!-- <i id="btn_like" class="btn_like  fa fa-thumbs-up"  onclick="clickLike(this)"></i> -->
                           </div>
                             
@@ -98,110 +99,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                       </div>    
                   </div>
                 </div>
-                
-                <!-- <div class="col-md-3 " >
-                  <div class="card card_ninki" style="width: 15rem;">
-                      <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
-                      <div class="card-body" style="background-color: #f6f7f8;">
-                        <h5 class="card_title card-title ">TaKoYaKi</h5>
-                        <div class=" card_nd card-text">
-                              <i id="btn_heart"class=" btn_heart  fas fa-heart"  onclick="clickHeart(this)"></i>
-                              <p class="author">Tạ Đình Hân</p>
-                              <i id="btn_like" class="btn_like  fa fa-thumbs-up"  onclick="clickLike(this)"></i>
-                        </div>
-                          
-                      </div>
-                    </div>    
-                </div> -->
-                <!-- <div class="col-md-3 " >
-                  <div class="card card_ninki" style="width: 15rem;">
-                      <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
-                      <div class="card-body" style="background-color: #f6f7f8;">
-                        <h5 class="card_title card-title ">TaKoYaKi</h5>
-                        <div class=" card_nd card-text">
-                              <i id="btn_heart"class=" btn_heart  fas fa-heart"  onclick="clickHeart(this)"></i>
-                              <p class="author">Tạ Đình Hân</p>
-                              <i id="btn_like" class="btn_like  fa fa-thumbs-up"  onclick="clickLike(this)"></i>
-                        </div>
-                          
-                      </div>
-                    </div>    
-                </div> -->
-                <!-- <div class="col-md-3 " >
-                <div class="card card_ninki" style="width: 15rem;">
-                    <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
-                    <div class="card-body" style="background-color: #f6f7f8;">
-                      <h5 class="card_title card-title ">TaKoYaKi</h5>
-                      <div class=" card_nd card-text">
-                            <i id="btn_heart"class=" btn_heart  fas fa-heart"  onclick="clickHeart(this)"></i>
-                            <p class="author">Tạ Đình Hân</p>
-                            <i id="btn_like" class="btn_like  fa fa-thumbs-up"  onclick="clickLike(this)"></i>
-                      </div>
-                        
-                    </div>
-                  </div>    
-                </div> -->
-
             </div>
-            <!-- <div class="row mt-3">
-              <div class="col-md-3 " >
-                  <div class="card card_ninki" style="width: 15rem;">
-                      <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
-                      <div class="card-body" style="background-color: #f6f7f8;">
-                        <h5 class="card_title card-title ">TaKoYaKi</h5>
-                        <div class=" card_nd card-text">
-                              <i id="btn_heart"class=" btn_heart  fas fa-heart"  onclick="clickHeart(this)"></i>
-                              <p class="author">Tạ Đình Hân</p>
-                              <i id="btn_like" class="btn_like  fa fa-thumbs-up"  onclick="clickLike(this)"></i>
-                        </div>
-                          
-                      </div>
-                    </div>    
-              </div>
-              <div class="col-md-3 " >
-                <div class="card card_ninki" style="width: 15rem;">
-                    <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
-                    <div class="card-body" style="background-color: #f6f7f8;">
-                      <h5 class="card_title card-title ">TaKoYaKi</h5>
-                      <div class=" card_nd card-text">
-                            <i id="btn_heart"class=" btn_heart  fas fa-heart"  onclick="clickHeart(this)"></i>
-                            <p class="author">Tạ Đình Hân</p>
-                            <i id="btn_like" class="btn_like  fa fa-thumbs-up"  onclick="clickLike(this)"></i>
-                      </div>
-                        
-                    </div>
-                  </div>    
-              </div>
-              <div class="col-md-3 " >
-                <div class="card card_ninki" style="width: 15rem;">
-                    <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
-                    <div class="card-body" style="background-color: #f6f7f8;">
-                      <h5 class="card_title card-title ">TaKoYaKi</h5>
-                      <div class=" card_nd card-text">
-                            <i id="btn_heart"class=" btn_heart  fas fa-heart"  onclick="clickHeart(this)"></i>
-                            <p class="author">Tạ Đình Hân</p>
-                            <i id="btn_like" class="btn_like  fa fa-thumbs-up"  onclick="clickLike(this)"></i>
-                      </div>
-                        
-                    </div>
-                  </div>    
-              </div>
-              <div class="col-md-3 " >
-              <div class="card card_ninki" style="width: 15rem;">
-                  <a href="#"><img src="/imgs/taboyaki.jpg" class="card_img card-img-top" alt="cakhoto"></a>
-                  <div class="card-body" style="background-color: #f6f7f8;">
-                    <h5 class="card_title card-title ">TaKoYaKi</h5>
-                    <div class=" card_nd card-text">
-                          <i id="btn_heart"class=" btn_heart  fas fa-heart"  onclick="clickHeart(this)"></i>
-                          <p class="author">Tạ Đình Hân</p>
-                          <i id="btn_like" class="btn_like  fa fa-thumbs-up"  onclick="clickLike(this)"></i>
-                    </div>
-                      
-                  </div>
-                </div>    
-              </div>
-
-          </div> -->
           
         </div>
         
@@ -215,17 +113,18 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
           <div class="row mt-3">
             <div th:each="element:${recipesLasted}">
               <div class="col-md-3 ">
-                <div class="card card_ninki" style="width: 15rem;">
+                <div class="card" style="width: 15rem;">
                     <a th:href="@{'recipe/' + ${element.slug}}"><img th:src="${element.image}" class="card_img card-img-top" th:alt="${element.title}"></a>
+                    <!-- <img th:src="${element.image}" class="card_img card-img-top" th:alt="${element.title}"> -->
                     <div class="card-body" style="background-color: #f6f7f8;">
-                      <h5 class="card_title card-title " th:text=${element.title}></h5>
-                      <div class=" card_nd card-text">
-                            <i id="btn_heart"class=" btn_heart  fas fa-heart"  onclick="clickHeart(this)"></i>
-                            <span th:text=${element.upVoteCount}></span>
-                            <br/>
-                            <p class="author" >
+                      <h5 class="card_title card-title" th:text=${element.title}></h5>
+                      <div class="card-text">
+                                <span>by</span>
+                            <span class="author" >
                               <a th:href="@{'/profile/' + ${element.creator.id}}" th:text=${element.creator.name}></a>
-                            </p>
+                            </span>
+                            <i id="btn_heart"class=" btn_heart  fas fa-heart"></i>
+                            <span th:text=${element.upVoteCount}></span>
                             <!-- <i id="btn_like" class="btn_like  fa fa-thumbs-up"  onclick="clickLike(this)"></i> -->
                       </div>
                         
@@ -233,6 +132,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                   </div>    
               </div>
             </div>
+        </div>
               
               <!-- <div class="col-md-3 " >
                   <div class="card card_ninki" style="width: 15rem;">

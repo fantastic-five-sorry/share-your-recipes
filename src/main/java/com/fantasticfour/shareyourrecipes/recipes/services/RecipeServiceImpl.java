@@ -34,6 +34,21 @@ import org.apache.commons.lang3.RandomStringUtils;
 @Service
 public class RecipeServiceImpl implements RecipeService {
 
+    @Value("${lvl.app.maxSlugRandomStringLength}")
+    private int SHORT_ID_LENGTH;
+
+    private final Pattern NONLATIN = Pattern.compile("[^\\w-]");
+    private final Pattern WHITESPACE = Pattern.compile("[\\s]");
+
+    public String toSlug(String input) {
+        String shortId = RandomStringUtils.randomAlphanumeric(SHORT_ID_LENGTH);
+        input = input + " " + shortId;
+        String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
+        String normalized = Normalizer.normalize(nowhitespace, Form.NFD);
+        String slug = NONLATIN.matcher(normalized).replaceAll("");
+        return normalized.toLowerCase(Locale.ENGLISH);
+    }
+
     private final RecipeRepository recipeRepository;
     private final UserRepo userRepo;
 
@@ -84,10 +99,9 @@ public class RecipeServiceImpl implements RecipeService {
         recipe2.setSteps(recipe.getSteps());
         recipe2.setCreator(userRepo.findValidUserById(recipe.getCreatorId()));
         recipe2.setGuideVideoUrl(recipe.getGuideVideoString());
-        recipe2.setSlug(Utils.toSlug(recipe.getTitle()));
+        recipe2.setSlug(toSlug(recipe.getTitle()));
+        recipe2.setStatus(RecipeStatus.APPROVED);
         recipeRepository.save(recipe2);
-
-
     }
 
     @Override
@@ -168,8 +182,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public VoteType getVotedStatus(Long recipeId, Long uid) {
-        RecipeVote vote = recipeVoteRepo.findById(new VoteId(recipeId, uid)).orElse(null);
-
+        RecipeVote vote = recipeVoteRepo.findById(new VoteId(uid, recipeId)).orElse(null);
         if (vote != null)
             return vote.getType();
         return null;

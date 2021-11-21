@@ -99,6 +99,7 @@ public class HompageController {
             VoteType votedType = recipeService.getVotedStatus(recipeDTO.getId(), uid);
             if (votedType != null)
                 recipeDTO.setType(votedType.toString());
+            // logger.info("type " + votedType);
         } catch (Exception e) {
             return "error/404";
         }
@@ -116,7 +117,8 @@ public class HompageController {
             QuestionDTO questionDTO = questionService.getQuestionBySlug(slug);
             // System.out.println(questionDTO.getId());
             // Pageable page = PageRequest.of(0, 2);
-            // Page<AnswerDTO> listAnswer = answerService.findByIdQuestion(questionDTO.getId(), page);
+            // Page<AnswerDTO> listAnswer =
+            // answerService.findByIdQuestion(questionDTO.getId(), page);
             // model.addAttribute("listAnswer", listAnswer.getContent());
             model.addAttribute("question", questionDTO);
         } catch (Exception e) {

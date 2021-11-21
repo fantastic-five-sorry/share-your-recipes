@@ -8,7 +8,6 @@ html {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-
 .red {
   color: red;
 }
@@ -30,18 +29,13 @@ html {
   color: #000;
 }
 .nav-logo {
-  margin: 0 106px;
+  margin: 0 30px;
 }
 .cooki_logo {
   height: 50px;
   width: 280px;
 }
-.d_formsearch {
-  margin: 12px 100px 12px 10px;
-}
-.formSearch {
-  width: 300px;
-}
+
 .btn_search {
   width: 56px;
 }
@@ -71,7 +65,7 @@ html {
   border-radius: 5px;
 }
 .ninki_ribi {
-  margin-top: 8rem;
+  margin-top: 1rem;
 }
 .niki {
   display: flex;
@@ -91,11 +85,27 @@ html {
   cursor: pointer;
   text-decoration: underline;
 }
+.card-img-top {
+  width: 100%;
+  height: 15vw;
+  object-fit: cover;
+}
 .card_ninki {
+  /* max-width: 100%; */
+  /* max-height: 280px; */
+  flex: 1;
   box-shadow: rgba(47, 47, 49, 0.2) 0px 7px 29px 0px;
+  /* object-fit: cover; */
 }
 .card_title {
-  text-align: center;
+  /* text-align: center;
+   */
+  /* max-width: 210px;
+   */
+  height: 1.2em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .card_nd {
   text-align: center;
@@ -122,15 +132,16 @@ html {
   opacity: 0.8;
 }
 .footer {
-  height: 360px;
+  /* height: 360px; */
   width: 100%;
   /* margin-top: 60px; */
   text-align: center;
   background-color: #222222;
 }
 .logo_coki {
-  margin-top: 60px;
-  margin-bottom: 60px;
+  margin: 30px 30px;
+  /* margin-top: 60px;
+  margin-bottom: 60px; */
   color: #fff;
   background-color: #fff;
   border: 2px solid #000;
@@ -198,6 +209,8 @@ html {
 }
 .img_details {
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  max-width: 300px;
+  max-height: 300px;
 }
 .name_details {
   margin-top: 10px;
@@ -375,7 +388,6 @@ html {
 .author-img {
   margin-bottom: 20px;
   border-radius: 50%;
-
 }
 .author-img {
   cursor: pointer;
@@ -456,9 +468,8 @@ html {
   padding-bottom: 50px;
 }
 
-
 .backBtn {
-  display: inline-block;  
+  display: inline-block;
   margin-top: 1rem;
   margin-left: 1rem;
   /* border: 1px solid #000; */
@@ -475,7 +486,6 @@ html {
 }
 
 #showMoreBtn {
-
   color: white;
   background-color: #0dcaf0;
   border: 1px solid #0dcaf0;
@@ -487,4 +497,17 @@ html {
   color: rgb(97, 108, 211);
   background-color: #1eaeca;
   text-decoration: none;
+}
+
+
+.reply-cmt:hover {
+  color: #1eaeca;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.reply:hover {
+  color: #1eaeca;
+  cursor: pointer;
+
 }

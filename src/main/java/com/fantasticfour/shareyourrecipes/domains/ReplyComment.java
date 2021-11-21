@@ -13,7 +13,7 @@ public class ReplyComment extends AuditModel {
 
     @Id
     @GeneratedValue(generator = "reply_comments_generator")
-    @SequenceGenerator(name = "reply_comments_generator", sequenceName = "reply_comments_sequence", initialValue = 1000, allocationSize = 1)
+    @SequenceGenerator(name = "reply_comments_generator", sequenceName = "reply_comments_sequence", initialValue = 1, allocationSize = 1)
     private Long id;
 
     @Column(nullable = false)
@@ -26,7 +26,7 @@ public class ReplyComment extends AuditModel {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id", nullable = false)   
-    private Comment commentParent;
+    private Comment parent;
 
     @Column(nullable = false)
     private Boolean deleted;
@@ -72,12 +72,12 @@ public class ReplyComment extends AuditModel {
         this.creator = creator;
     }
 
-    public Comment getCommentParent() {
-        return this.commentParent;
+    public Comment getParent() {
+        return this.parent;
     }
 
-    public void setCommentParent(Comment commentParent) {
-        this.commentParent = commentParent;
+    public void setParent(Comment parent) {
+        this.parent = parent;
     }
 
     public Boolean getDeleted() {
