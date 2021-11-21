@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
+import com.fantasticfour.shareyourrecipes.domains.enums.CommentType;
 import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
 import com.fantasticfour.shareyourrecipes.domains.votes.CommentVote;
 
@@ -43,6 +44,59 @@ public class Comment extends AuditModel {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<CommentVote> votes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "parent")
+    @OrderBy("id DESC")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<ReplyComment> replyComments = new ArrayList<>();
+
+    public List<ReplyComment> getReplyComments() {
+        return this.replyComments;
+    }
+
+    public void setReplyComments(List<ReplyComment> replyComments) {
+        this.replyComments = replyComments;
+    }
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 15, nullable = false)
+    private CommentType type;
+
+    @Column(nullable = false)
+    private Boolean deleted;
+
+    public Boolean isDeleted() {
+        return this.deleted;
+    }
+
+    public Boolean getDeleted() {
+        return this.deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public List<CommentVote> getVotes() {
+        return this.votes;
+    }
+
+    public void setVotes(List<CommentVote> votes) {
+        this.votes = votes;
+    }
+
+    public CommentType getType() {
+        return this.type;
+    }
+
+    public void setType(CommentType type) {
+        this.type = type;
+    }
+
+
+    // @OneToMany(fetch = FetchType.LAZY, mappedBy = "comment")
+    // @OnDelete(action = OnDeleteAction.CASCADE)
+    // private List<ReplyComment> replyComments = new ArrayList<>();
+
     public Long getUpVoteCount() {
         return this.upVoteCount;
     }
@@ -62,6 +116,9 @@ public class Comment extends AuditModel {
     public Comment() {
         upVoteCount = 0L;
         downVoteCount = 0L;
+        deleted = false;
+        type = CommentType.TEXT;
+        
     }
 
     public Long getId() {

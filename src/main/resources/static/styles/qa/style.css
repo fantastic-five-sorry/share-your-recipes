@@ -497,6 +497,20 @@ html {
   text-decoration: none;
 }
 
+<<<<<<< HEAD
+
+.reply-cmt:hover {
+  color: #1eaeca;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.reply:hover {
+  color: #1eaeca;
+  cursor: pointer;
+
+}
+=======
 .voteDiv {
   display: flex;
   flex-direction: column;
@@ -517,3 +531,4 @@ html {
 .recipeImage img {
   max-width: 600px;
 }
+>>>>>>> ea3033aaf8c827d9b9143815e50f1c53955f6c22

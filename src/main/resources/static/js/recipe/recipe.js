@@ -1,6 +1,8 @@
 var currentPage = 2;
 const size = 5;
-console.log(recipeId);
+var currentPageCmt = 0;
+var turnOn = true;
+const sizeCmt = 99999;
 const token = $("meta[name='_csrf']").attr('content');
 const header = $("meta[name='_csrf_header']").attr('content');
 const voteCommentUrl = `/api/voting/comment`;
@@ -15,6 +17,13 @@ $(document).ready(function () {
   $('#showMoreBtn').click(() => {
     getMoreComments(currentPage, size);
     currentPage = currentPage + 1;
+  });
+
+  ///
+  $(document).on('click', '.reply', function (e) {
+    var commentId = e.currentTarget.id;
+    // console.log(e.currentTarget.id);
+    getReplyComment(commentId, currentPageCmt, sizeCmt);
   });
 
   ///
@@ -55,7 +64,57 @@ $(document).ready(function () {
     }
     $('#newComment').val('');
   });
+
+  //
+  $(document).on('click', '.replyBtn', function(e) {
+    var parentId = e.target.id.slice(8);
+    var replyContent = $('#newReply'+parentId).val();
+    if (replyContent != '') {
+      replyToComment(replyContent, parentId);
+    }
+    $('#newReply'+parentId).val('');
+  });
+  
 });
+
+function getReplyComment(commentId, currentPage, size) {
+  
+  const getReplyCommentUrl = `/api/reply/${commentId}?size=${size}&page=${currentPage}`;
+  const replyListDiv = $('.list-reply'+commentId);
+  if (turnOn == false) {
+    replyListDiv.empty();
+    turnOn = true;
+  } else {
+    $.ajax({
+      url: getReplyCommentUrl,
+      headers: {
+        [header]: token,
+      },
+      processData: false,
+      contentType: false,
+      type: 'GET',
+      success: function(data) {
+        var replyArr = data.content;
+        if (replyArr.length > 0) {
+          var newReply = '';
+          replyArr.map((reply) => {
+            newReply = newReply + templateReply(reply);
+          });
+          replyListDiv.append(newReply);
+          
+        }
+        replyListDiv.append(formReply(commentId));
+        turnOn = false
+
+      },
+      error: function(error) {
+        console.log(error);
+      }
+    });
+    
+  }
+  
+}
 
 function getMoreComments(currentPage, size) {
   const getMoreCommentsUrl = `/api/comment/recipe/${recipeId}?size=${size}&page=${currentPage}`;
@@ -248,6 +307,33 @@ function handleNotLoggedIn() {
   });
 }
 
+function replyToComment(content, parentId) {
+  var postReplyUrl = `/api/reply`;
+  var data = {
+    parentId: parentId,
+    content: content
+  }
+
+  $.ajax({
+    type: 'POST', 
+    url: postReplyUrl,
+    data: JSON.stringify(data),
+    contentType: 'application/json; charset=utf-8',
+    headers: {
+      [header]: token,
+    }, 
+    traditional: true,
+    success: function(data) {
+      const listReply = $('.list-reply'+parentId);
+      var newReply = templateReply(data);
+      listReply.prepend(newReply);
+    },
+    error: function(error) {
+      console.log(error);
+    }
+  })
+}
+
 function commentToRecipe(comment, recipeId) {
   var data = {
     recipeId: recipeId,
@@ -277,17 +363,17 @@ function commentToRecipe(comment, recipeId) {
 }
 
 function template(comment) {
-  return `<div class='commented-section mt-2'>
+  return `<div class='commented-section' style="margin-top: 3rem">
     <div class='d-flex align-items-center flex-row commented-user'>
     <div class='d-flex flex-row align-items-center'>
     <a href='/profile/${comment.writerId}'>
     <img src='${comment.photoUrl}' class='avatar' /></a>
-  <div>${comment.writerName}</div>
+  <div style="margin-left: 10px">${comment.writerName}</div>
   </div>
       <div class='dot'></div>
       <div>${timeSince(comment.createdAt)}</div>
     </div>
-    <div class='comment-text-sm'>
+    <div class='comment-text-sm' style="margin-left: 3rem">
       <span>${comment.content}</span>
     </div>
     <div class='reply-section'>
@@ -305,10 +391,60 @@ function template(comment) {
     comment.downVoteCount
   }</span>
         <span class='dot ml-2'></span>
+        <div class='reply-cmt'>reply</div>
       </div>
+      <div id='${comment.id}' class='reply' style="margin-bottom: 1rem;">
+        <i class="fa fa-reply fa-flip-horizontal fa-flip-vertical" aria-hidden="true"></i>
+        <span >view reply</span>
+      </div>
+      <div style="margin-left: 30px" class='list-reply${comment.id}'></div>
+      <div style="border-bottom: 3px solid #1eaeca; margin-top: 1rem"></div>
     </div>
   </div>`;
 }
+
+function templateReply(reply) {
+  return `<div class='commented-section'>
+    <div class='d-flex align-items-center flex-row commented-user'>
+    <div class='d-flex flex-row align-items-center'>
+    <a href='/profile/${reply.writerId}'>
+    <img src='${reply.photoUrl}' class='avatar' /></a>
+  <div style="margin-left: 10px">${reply.writerName}</div>
+  </div>
+      <div class='dot'></div>
+      <div>${timeSince(reply.createdAt)}</div>
+    </div>
+    <div class='comment-text-sm' style="margin-left: 3rem">
+      <span>${reply.content}</span>
+    </div>
+  </div>`;
+}
+
+function formReply(commentId) {
+  return `<div
+            class="d-flex flex-row add-comment-section mt-4 mb-4"
+            >
+            <input
+              type="text"
+              class="form-control mr-3"
+              placeholder="Reply this comment"
+              id="newReply${commentId}"
+            />
+            <button class="btn btn-primary replyBtn" id="replyBtn${commentId}">Reply</button>
+          </div>
+          `;
+          // <div
+          //   sec:authorize="!isAuthenticated()"
+          //   class="d-flex flex-row add-comment-section mt-4 mb-4"
+          // >
+          //   <h2>
+          //     To reply this comment
+          //     <span><a th:href="@{/login}">login?</a></span>
+          //   </h2>
+          // </div>
+          // ;
+}
+
 function timeSince(dateString) {
   //   Date.parse(dateString);
 

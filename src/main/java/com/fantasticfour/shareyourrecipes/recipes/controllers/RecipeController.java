@@ -98,8 +98,10 @@ public class RecipeController {
     @PostMapping("/create")
     public ResponseEntity<?> createRecipe(@RequestBody CreateRecipeDTO recipe) {
         try {
+            System.out.println(recipe);
             recipeService.createRecipe(recipe);
         } catch (Exception e) {
+            // e.printStackTrace();
             return ResponseEntity.badRequest().body("error: " + e.getMessage());
         }
         return ResponseEntity.ok().body("message: " + "add recipe success");
