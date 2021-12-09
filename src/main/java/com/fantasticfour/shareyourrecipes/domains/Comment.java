@@ -61,7 +61,7 @@ public class Comment extends AuditModel {
     @Column(length = 15, nullable = false)
     private CommentType type;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "boolean default false", nullable = false)
     private Boolean deleted;
 
     public Boolean isDeleted() {
@@ -92,7 +92,6 @@ public class Comment extends AuditModel {
         this.type = type;
     }
 
-
     // @OneToMany(fetch = FetchType.LAZY, mappedBy = "comment")
     // @OnDelete(action = OnDeleteAction.CASCADE)
     // private List<ReplyComment> replyComments = new ArrayList<>();
@@ -118,7 +117,7 @@ public class Comment extends AuditModel {
         downVoteCount = 0L;
         deleted = false;
         type = CommentType.TEXT;
-        
+
     }
 
     public Long getId() {
