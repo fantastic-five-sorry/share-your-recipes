@@ -14,16 +14,12 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
-    <script
-      src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
-      defer
-    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
       integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
-      defer
     ></script>
     <link
       rel="stylesheet"
@@ -31,41 +27,21 @@
       integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
       crossorigin="anonymous"
     />
-    <script th:inline="javascript">
-      message = {
-        emailExists: 'Co mail rui',
-        passwordNotMatch: ' sai rui',
-      };
-      // options = {
-      //         common: {minChar:8},
-      //         ui: {
-      //             showVerdictsInsideProgressBar:true,
-      //             showErrors:true,
-      //             errorMessages:{
-      //                   wordLength: [[#{error.wordLength}]],
-      //                   wordNotEmail: [[#{error.wordNotEmail}]],
-      //                   wordSequences: [[#{error.wordSequences}]],
-      //                   wordLowercase: [[#{error.wordLowercase}]],
-      //                   wordUppercase: [[#{error.wordUppercase}]],
-      //                       wordOneNumber: [[#{error.wordOneNumber}]],
-      //                   wordOneSpecialChar: [[#{error.wordOneSpecialChar}]]
-      //                 }
-      //             }
-      //     };
-    </script>
-    <script th:src="@{/js/utils.js}" defer></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
+      integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"
+    />
+   
+    <script th:src="@{/js/utils.js}"></script>
+    <script th:src="@{/js/search.js}"></script>
   </head>
   <body>
-    <div class="container h-100">
-      <div>
-        <h1>hi testing func</h1>
-        <button id="showCmtBtn">Show comments for recipe 1000</button>
-        <!-- <button id="votingCmtBtn">Show comment</button>
-        <button id="showCmtBtn">Show comment</button>
-        <button id="showCmtBtn">Show comment</button>
-        <button id="showCmtBtn">Show comment</button> -->
-        <div id="list"></div>
-      </div>
-    </div>
+    <select class="my-select" style="width: 500px;"></select>
   </body>
 </html>

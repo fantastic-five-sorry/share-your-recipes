@@ -76,7 +76,7 @@ public class CommentServiceImpl implements CommentService {
         Long totalRows = ((java.math.BigInteger) entityManager
                 .createNativeQuery("select  count(k1.*) from \n" + "(SELECT c.id \n" + "from comments c \n"
                         + "where c.recipe_id=:recipeId) as k1 \n" + "left join \n" + "(select v.comment_id \n"
-                        + "from comment_voting v  \n" + "where v.voter_id=:voterId) as k2 \n"
+                        + "from comment_votes v  \n" + "where v.voter_id=:voterId) as k2 \n"
                         + "on k1.id=k2.comment_id")
                 .setParameter("recipeId", recipeId).setParameter("voterId", voterId).getSingleResult()).longValue();
         logger.info(page.getPageNumber() + " : " + page.getPageSize());

@@ -4,7 +4,7 @@ $(document).ready(() => {
   });
   const dataContainer = $('#pageContentTotal');
   $('#buttonGroupsTotal').pagination({
-    dataSource: '/api/recipes',
+    dataSource: '/api/report',
     locator: 'content',
     totalNumberLocator: function (response) {
       return response.totalElements;

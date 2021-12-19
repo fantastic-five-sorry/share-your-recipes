@@ -125,6 +125,7 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
+    @Transactional
     public void handleVotingToComment(VoteDto dto) {
 
         VoteId id = new VoteId(dto.getVoterId(), dto.getSubjectId());
@@ -192,6 +193,7 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
+    @Transactional
     public void handleVotingToQuestion(VoteDto voting) {
         VoteId id = new VoteId(voting.getVoterId(), voting.getSubjectId());
         Optional<QuestionVote> voteOptional = questionVotingRepo.findById(id);

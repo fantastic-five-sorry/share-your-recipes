@@ -21,13 +21,18 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
+import org.hibernate.search.annotations.TermVector;
 
 @Entity
 @Table(name = "recipes", schema = "public")
 @TypeDefs({ @TypeDef(name = "list-array", typeClass = ListArrayType.class),
         @TypeDef(name = "json", typeClass = JsonType.class),
         @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class) })
-
+@Indexed
 public class Recipe extends AuditModel {
     @Id
     @GeneratedValue(generator = "recipe_generator")
@@ -35,6 +40,7 @@ public class Recipe extends AuditModel {
     private Long id;
 
     @Column(nullable = false)
+    @Field(termVector = TermVector.YES, analyze = Analyze.YES, store = Store.YES)
     private String title;
 
     private String image;

@@ -47,6 +47,6 @@ public interface UserRepo extends JpaRepository<User, Long> {
     // true AND u.email =:email")
     // UserInfo findUserInfoByEmail(String email);
 
-    @Query("SELECT u FROM User u ORDER BY id DESC")
+    @Query("SELECT DISTINCT u FROM User u inner join u.roles r WHERE r.name != 'ROLE_ADMIN' ORDER BY u.id DESC")
     Page<User> findAll(Pageable page);
 }

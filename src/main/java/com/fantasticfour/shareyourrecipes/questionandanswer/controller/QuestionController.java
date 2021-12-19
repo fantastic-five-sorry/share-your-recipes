@@ -120,7 +120,6 @@ public class QuestionController {
     @GetMapping("/status/{status}")
     public ResponseEntity<?> findByStatus(@PathVariable("status") QuestionStatus status, Pageable pageable) {
         try {
-            System.out.println(status.toString());
             return new ResponseEntity<Page<QuestionDTO>>(questionService.findByStatus(status.toString(), pageable),
                     HttpStatus.OK);
         } catch (Exception e) {

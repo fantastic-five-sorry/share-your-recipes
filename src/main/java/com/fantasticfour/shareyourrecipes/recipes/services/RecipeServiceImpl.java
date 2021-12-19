@@ -103,7 +103,7 @@ public class RecipeServiceImpl implements RecipeService {
         recipe2.setCreator(userRepo.findValidUserById(recipe.getCreatorId()));
         recipe2.setGuideVideoUrl(recipe.getGuideVideoString());
         recipe2.setSlug(toSlug(recipe.getTitle()));
-        // recipe2.setStatus(RecipeStatus.APPROVED);
+        recipe2.setStatus(RecipeStatus.APPROVED);
         recipeRepository.save(recipe2);
     }
 
