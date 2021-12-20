@@ -1,0 +1,104 @@
+label {
+  color: gray;
+  font-size: 20px;
+  font-weight: 200;
+  display: block;
+}
+
+.body {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+}
+
+.body form {
+  /* border: 1px solid black; */
+  margin: 2rem;
+  padding-left: 3rem;
+  width: 70%;
+}
+
+.add-button {
+  margin-top: 1rem;
+  margin-right: 33%;
+  /* margin-bottom: 2rem; */
+  color: white;
+  text-align: center;
+  font-size: 13px;
+  background: #0066cc;
+  color: #fff;
+  padding: 1rem 2rem;
+  opacity: 0.8;
+  float: right;
+}
+
+.ingred-layout,
+.step-layout {
+  display: flex;
+}
+
+.features {
+  margin-top: 2rem;
+}
+
+.title,
+.step,
+.guideUrl {
+  width: 67%;
+}
+
+.step {
+  margin-top: 10px;
+  margin-right: 3rem;
+}
+
+.stepInput {
+  width: 100%;
+}
+
+.ingredientsGroup {
+  display: flex;
+  width: 78%;
+  justify-content: space-between;
+}
+
+.title,
+.ingred,
+.quantily,
+.guideUrl,
+.step {
+  padding: 1rem;
+  font-size: 18px;
+}
+
+.post-btn {
+  float: right;
+  margin-right: 33%;
+  color: white;
+  display: block;
+  text-align: center;
+  font-size: 13px;
+  background: #0066cc;
+  color: #fff;
+  padding: 1.5rem 2rem;
+  border: none;
+  opacity: 0.8;
+}
+
+.add-button:hover,
+.deleteBtn:hover,
+.post-btn:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.deleteBtn {
+  text-align: center;
+  background-color: red;
+  opacity: 0.8;
+  padding: 1.5rem 2rem;
+}
+
+.ingredientsGroup {
+  margin-top: 10px;
+}
