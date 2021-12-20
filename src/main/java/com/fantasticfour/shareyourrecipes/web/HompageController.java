@@ -1,6 +1,7 @@
 package com.fantasticfour.shareyourrecipes.web;
 
 import java.security.Principal;
+import java.util.List;
 
 import com.fantasticfour.shareyourrecipes.account.UserService;
 import com.fantasticfour.shareyourrecipes.account.Utils;
@@ -15,6 +16,7 @@ import com.fantasticfour.shareyourrecipes.questionandanswer.dto.QuestionDTO;
 import com.fantasticfour.shareyourrecipes.questionandanswer.service.AnswerService;
 import com.fantasticfour.shareyourrecipes.questionandanswer.service.QuestionService;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
+import com.fantasticfour.shareyourrecipes.recipes.repositories.RecipeRepository;
 import com.fantasticfour.shareyourrecipes.recipes.services.RecipeService;
 import com.fantasticfour.shareyourrecipes.votes.dtos.CommentDto;
 import com.fantasticfour.shareyourrecipes.votes.dtos.CommentVoteDto;
@@ -77,7 +79,7 @@ public class HompageController {
         }
         Pageable page = PageRequest.of(0, 8);
         Page<RecipeDTO> recipesPopular = recipeService.findAllSortByUpVoteCount(page);
-        Page<RecipeDTO> recipesLasted = recipeService.findAll(page);
+        Page<RecipeDTO> recipesLasted = recipeService.findAllApprovedRecipes(page);
         model.addAttribute("recipesPopular", recipesPopular.getContent());
         model.addAttribute("recipesLasted", recipesLasted.getContent());
         return "home";
@@ -208,9 +210,6 @@ public class HompageController {
 
     @GetMapping("/newfunc")
     public String newfunc(Model model) {
-        // System.out.println(oauthUser.getAttribute("email").toString());
-        // model.addAttribute("your_email", uid.toString());
-        // model.addAttribute("userInfo", userService.getUserInfoById(uid));
         return "testingFunc";
     }
 

@@ -88,7 +88,6 @@ public class ReplyComment extends AuditModel {
         this.deleted = deleted;
     }
     
-
     public ReplyComment() {
         this.deleted = false;
         this.type = CommentType.TEXT;

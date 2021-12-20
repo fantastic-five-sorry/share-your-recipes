@@ -70,7 +70,7 @@ public class QuestionController {
         return ResponseEntity.ok().body("message: " + "update status of question  success");
     }
 
-    @PostMapping("/approved/{id}")
+    @PostMapping("/approve/{id}")
     public ResponseEntity<?> approved(@PathVariable("id") Long idQuestion) {
         try {
             questionService.approved(idQuestion);
@@ -120,7 +120,6 @@ public class QuestionController {
     @GetMapping("/status/{status}")
     public ResponseEntity<?> findByStatus(@PathVariable("status") QuestionStatus status, Pageable pageable) {
         try {
-            System.out.println(status.toString());
             return new ResponseEntity<Page<QuestionDTO>>(questionService.findByStatus(status.toString(), pageable),
                     HttpStatus.OK);
         } catch (Exception e) {

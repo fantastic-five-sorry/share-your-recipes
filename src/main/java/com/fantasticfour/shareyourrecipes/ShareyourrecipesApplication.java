@@ -3,6 +3,8 @@ package com.fantasticfour.shareyourrecipes;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import javax.persistence.EntityManager;
+
 import com.fantasticfour.shareyourrecipes.account.RoleRepo;
 import com.fantasticfour.shareyourrecipes.account.UserRepo;
 import com.fantasticfour.shareyourrecipes.account.emailsender.EmailService;
@@ -10,19 +12,14 @@ import com.fantasticfour.shareyourrecipes.configs.AuditorAwareImpl;
 import com.fantasticfour.shareyourrecipes.domains.auth.Role;
 import com.fantasticfour.shareyourrecipes.domains.auth.User;
 import com.fantasticfour.shareyourrecipes.domains.enums.ERole;
-import com.fantasticfour.shareyourrecipes.domains.enums.VoteType;
-import com.fantasticfour.shareyourrecipes.domains.recipes.PurchasedRecipe;
-import com.fantasticfour.shareyourrecipes.domains.recipes.PurchasedRecipeId;
-import com.fantasticfour.shareyourrecipes.domains.recipes.Recipe;
-import com.fantasticfour.shareyourrecipes.domains.votes.RecipeVote;
+
 import com.fantasticfour.shareyourrecipes.recipes.dtos.CreateRecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.dtos.RecipeDTO;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.PurchasedRecipeRepository;
 import com.fantasticfour.shareyourrecipes.recipes.repositories.RecipeRepository;
+import com.fantasticfour.shareyourrecipes.recipes.services.IndexingService;
 import com.fantasticfour.shareyourrecipes.recipes.services.RecipeService;
 import com.fantasticfour.shareyourrecipes.storages.StorageService;
-import com.fantasticfour.shareyourrecipes.votes.dtos.VoteDto;
-import com.fantasticfour.shareyourrecipes.votes.repos.RecipeVoteRepo;
 import com.fantasticfour.shareyourrecipes.votes.services.VoteService;
 
 import org.springframework.boot.CommandLineRunner;
@@ -51,15 +48,18 @@ public class ShareyourrecipesApplication {
 	public static void main(String[] args) {
 		System.setProperty("jasypt.encryptor.password", "dummy");
 		SpringApplication.run(ShareyourrecipesApplication.class, args);
+
 	}
 
 	@Bean
 	public CommandLineRunner run(StorageService storage, RoleRepo roleRepo, UserRepo userRepo,
 			EmailService emailService, PasswordEncoder encoder, RecipeRepository recipeRepo,
-			PurchasedRecipeRepository purRecipeRepo, RecipeService recipeService, VoteService votingService)
+			PurchasedRecipeRepository purRecipeRepo, RecipeService recipeService, VoteService votingService,
+			EntityManager entityManager)
 			throws Exception {
 		return args -> {
 			storage.init();
+
 			if (roleRepo.findByName(ERole.ROLE_USER) == null) {
 				roleRepo.save(new Role(ERole.ROLE_USER));
 			}

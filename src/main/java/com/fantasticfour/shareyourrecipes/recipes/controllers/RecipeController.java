@@ -2,6 +2,10 @@ package com.fantasticfour.shareyourrecipes.recipes.controllers;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
+import javax.persistence.EntityManager;
 
 import com.fantasticfour.shareyourrecipes.account.Utils;
 import com.fantasticfour.shareyourrecipes.domains.enums.RecipeStatus;
@@ -14,6 +18,9 @@ import com.fantasticfour.shareyourrecipes.recipes.services.RecipeService;
 import com.fantasticfour.shareyourrecipes.storages.recipe.RecipeStorageService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.Search;
+import org.hibernate.search.query.dsl.QueryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,13 +50,42 @@ public class RecipeController {
     private final RecipeService recipeService;
 
     @Autowired
+    private EntityManager entityManager;
+
+    @Autowired
     private RecipeRepository recipeRepo;
+
     @Autowired
     RecipeStorageService recipeStorageService;
 
     @Autowired
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
+
+    }
+
+    @GetMapping(value = "/search")
+    public List<RecipeDTO> fullTextSearch(@RequestParam(value = "q") String searchKey) {
+        logger.info("Search key " + searchKey);
+        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+
+        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
+                .buildQueryBuilder()
+                .forEntity(Recipe.class)
+                .get();
+
+        org.apache.lucene.search.Query query = queryBuilder
+                .keyword()
+                .wildcard()
+                .onFields("title")
+                .matching(searchKey)
+                .createQuery();
+
+        org.hibernate.search.jpa.FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query,
+                Recipe.class);
+
+        List<Recipe> listResult = jpaQuery.getResultList();
+        return listResult.stream().map(RecipeDTO::new).collect(Collectors.toList());
 
     }
 
@@ -98,7 +134,6 @@ public class RecipeController {
     @PostMapping("/create")
     public ResponseEntity<?> createRecipe(@RequestBody CreateRecipeDTO recipe) {
         try {
-            System.out.println(recipe);
             recipeService.createRecipe(recipe);
         } catch (Exception e) {
             // e.printStackTrace();

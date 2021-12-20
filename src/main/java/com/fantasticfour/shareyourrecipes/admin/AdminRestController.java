@@ -66,6 +66,40 @@ public class AdminRestController {
         return userService.getUsers(page);
     }
 
+    @PostMapping("/blockUser/{id}")
+    public ResponseEntity<?> blockUser(@PathVariable("id") Long uid) {
+        try {
+            User user = userRepo.findById(uid).orElseThrow(() -> new IllegalStateException("User not found"));
+
+            user.setBlocked(true);
+            userRepo.save(user);
+
+            return ResponseEntity.ok().body("Success");
+        }
+
+        catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+        // return userService.getUsers(page);
+    }
+
+    @PostMapping("/unblockUser/{id}")
+    public ResponseEntity<?> unBlockUser(@PathVariable("id") Long uid) {
+        try {
+            User user = userRepo.findById(uid).orElseThrow(() -> new IllegalStateException("User not found"));
+
+            user.setBlocked(false);
+            userRepo.save(user);
+
+            return ResponseEntity.ok().body("Success");
+        }
+
+        catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @GetMapping("/reports")
     public Page<UserRoleDto> getReports(Pageable page) {
         return userService.getUsers(page);
