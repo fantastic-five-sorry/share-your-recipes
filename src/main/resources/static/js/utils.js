@@ -101,3 +101,4 @@ function doVote(subjectId, type) {
     },
   });
 }
+

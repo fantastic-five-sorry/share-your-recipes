@@ -206,158 +206,33 @@
               <div class="col-md-6">
                 <h3 class="mt-5 top-recipe">Top Recipe</h3>
                 <table class="table-recipe table table-bordered">
-                  <tbody>
+                  <tbody th:each="recipe:${topRecipes}">
                     <tr>
-                      <th scope="row" style="padding-top: 18px">1</th>
-                      <td style="padding-top: 18px">Hot dog</td>
-                      <td style="padding-top: 18px">Han</td>
-                      <td>
-                        <table class="table-arow">
-                          <tr>
-                            <td><i class="arow fas fa-caret-square-up"></i></td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <i class="arow fas fa-caret-square-down"></i>
-                            </td>
-                          </tr>
-                        </table>
+                      <th
+                        scope="row"
+                        style="padding-top: 18px"
+                        th:text="${recipe.id}"
+                      >
+                        Recipe ID
+                      </th>
+                      <td style="padding-top: 18px" th:text="${recipe.title}">
+                        Recipe Name
                       </td>
-                    </tr>
-                    <tr>
-                      <th scope="row" style="padding-top: 18px">2</th>
-                      <td style="padding-top: 18px">Hot dog</td>
-                      <td style="padding-top: 18px">Han</td>
-                      <td>
-                        <table class="table-arow">
-                          <tr>
-                            <td><i class="arow fas fa-caret-square-up"></i></td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <i class="arow fas fa-caret-square-down"></i>
-                            </td>
-                          </tr>
-                        </table>
+                      <td
+                        style="padding-top: 18px"
+                        th:text="${recipe.creator.name}"
+                      >
+                        Creator
                       </td>
-                    </tr>
-                    <tr>
-                      <th scope="row" style="padding-top: 18px">3</th>
-                      <td style="padding-top: 18px">Hot dog</td>
-                      <td style="padding-top: 18px">Han</td>
                       <td>
-                        <table class="table-arow">
-                          <tr>
-                            <td><i class="arow fas fa-caret-square-up"></i></td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <i class="arow fas fa-caret-square-down"></i>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row" style="padding-top: 18px">4</th>
-                      <td style="padding-top: 18px">Hot dog</td>
-                      <td style="padding-top: 18px">Han</td>
-                      <td>
-                        <table class="table-arow">
-                          <tr>
-                            <td><i class="arow fas fa-caret-square-up"></i></td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <i class="arow fas fa-caret-square-down"></i>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row" style="padding-top: 18px">5</th>
-                      <td style="padding-top: 18px">Hot dog</td>
-                      <td style="padding-top: 18px">Han</td>
-                      <td>
-                        <table class="table-arow">
-                          <tr>
-                            <td><i class="arow fas fa-caret-square-up"></i></td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <i class="arow fas fa-caret-square-down"></i>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row" style="padding-top: 18px">6</th>
-                      <td style="padding-top: 18px">Hot dog</td>
-                      <td style="padding-top: 18px">Han</td>
-                      <td>
-                        <table class="table-arow">
-                          <tr>
-                            <td><i class="arow fas fa-caret-square-up"></i></td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <i class="arow fas fa-caret-square-down"></i>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row" style="padding-top: 18px">7</th>
-                      <td style="padding-top: 18px">Hot dog</td>
-                      <td style="padding-top: 18px">Han</td>
-                      <td>
-                        <table class="table-arow">
-                          <tr>
-                            <td><i class="arow fas fa-caret-square-up"></i></td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <i class="arow fas fa-caret-square-down"></i>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row" style="padding-top: 18px">8</th>
-                      <td style="padding-top: 18px">Hot dog</td>
-                      <td style="padding-top: 18px">Han</td>
-                      <td>
-                        <table class="table-arow">
-                          <tr>
-                            <td><i class="arow fas fa-caret-square-up"></i></td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <i class="arow fas fa-caret-square-down"></i>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row" style="padding-top: 18px">9</th>
-                      <td style="padding-top: 18px">Hot dog</td>
-                      <td style="padding-top: 18px">Han</td>
-                      <td>
-                        <table class="table-arow">
-                          <tr>
-                            <td><i class="arow fas fa-caret-square-up"></i></td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <i class="arow fas fa-caret-square-down"></i>
-                            </td>
-                          </tr>
-                        </table>
+                        <div>
+                          <i class="arow fas fa-caret-square-up"></i>
+                          <span th:text="${recipe.upVoteCount}"></span>
+                        </div>
+                        <div>
+                          <i class="arow fas fa-caret-square-down"></i>
+                          <span th:text="${recipe.downVoteCount}"></span>
+                        </div>
                       </td>
                     </tr>
                   </tbody>
@@ -367,115 +242,20 @@
               <div class="col-md-6">
                 <h3 class="mt-5 top-recipe">Top Question</h3>
                 <table class="table-recipe table table-bordered">
-                  <tbody>
+                  <tbody th:each="q:${topQuestions}">
                     <tr>
-                      <th scope="row" style="padding-top: 18px">1</th>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        Tips for making hot dogs
+                      <th scope="row" style="padding-top: 18px" th:text="${q.id}"></th>
+                      <td style="padding-top: 18px; padding-bottom: 20px" th:text="${q.title}">
+                        
                       </td>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
+                      <td style="padding-top: 18px; padding-bottom: 20px" th:text="${q.creator.name}">
                         Han
                       </td>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
+                      <td style="padding-top: 18px; padding-bottom: 20px" th:text="${q.upVoteCount}">
                         10
                       </td>
                     </tr>
-                    <tr>
-                      <th scope="row" style="padding-top: 18px">2</th>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        Tips for making hot dogs
-                      </td>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        Han
-                      </td>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        10
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row" style="padding-top: 18px">3</th>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        Tips for making hot dogs
-                      </td>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        Han
-                      </td>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        10
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row" style="padding-top: 18px">4</th>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        Tips for making hot dogs
-                      </td>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        Han
-                      </td>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        10
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row" style="padding-top: 18px">5</th>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        Tips for making hot dogs
-                      </td>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        Han
-                      </td>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        10
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row" style="padding-top: 18px">6</th>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        Tips for making hot dogs
-                      </td>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        Han
-                      </td>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        10
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row" style="padding-top: 18px">7</th>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        Tips for making hot dogs
-                      </td>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        Han
-                      </td>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        10
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row" style="padding-top: 18px">8</th>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        Tips for making hot dogs
-                      </td>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        Han
-                      </td>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        10
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row" style="padding-top: 18px">9</th>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        Tips for making hot dogs
-                      </td>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        Han
-                      </td>
-                      <td style="padding-top: 18px; padding-bottom: 20px">
-                        10
-                      </td>
-                    </tr>
+                    
                   </tbody>
                 </table>
               </div>

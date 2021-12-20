@@ -18,6 +18,8 @@ import org.springframework.stereotype.Repository;
 public interface QuestionRepo extends JpaRepository<Question, Long> {
     @Query(value="SELECT * FROM questions a WHERE a.deleted=" + false + " ORDER BY id DESC ", nativeQuery = true)
     Page<Question> findAll(Pageable pageable);
+    @Query(value="SELECT * FROM questions a WHERE a.deleted=" + false + " ORDER BY up_vote_count DESC LIMIT 10", nativeQuery = true)
+    List<Question> findTopQuestion();
 
     @Query(value= "SELECT * FROM questions a WHERE a.creator_id=:creatorId AND a.deleted=" + false ,nativeQuery = true)
     List<Question> findByIdCreator(Long creatorId);

@@ -4,7 +4,7 @@ $(document).ready(() => {
   });
   const dataContainer = $('#pageContentTotal');
   $('#buttonGroupsTotal').pagination({
-    dataSource: '/api/recipes',
+    dataSource: '/api/question',
     locator: 'content',
     totalNumberLocator: function (response) {
       return response.totalElements;
@@ -25,9 +25,10 @@ $(document).ready(() => {
       var html = data.map(
         (item) => `<tr class="recipe-${item.id}">
         <td><a href="#">${item.id}</a></td>
-        <td>${item.creator.name}</td>
         <td>${item.title}</td>
+        <td>${item.creator.name}</td>
         <td>${item.status}</td>
+        <td>Actions</td>
       </tr>`
       );
       dataContainer.html(html);
