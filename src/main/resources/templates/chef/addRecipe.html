@@ -62,7 +62,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-   
+    <link rel="stylesheet" href="/styles/chef/style.css">
     <link rel="stylesheet" href="/styles/admin/layout.css" />
   </head>
   <body>
@@ -115,49 +115,62 @@
           <div class="header">
             <span>ADD NEW RECIPE</span>
           </div>
-          <div class="container">
+          <div class="container body">
 
             <form>
+            
                 <div>
-                  <label>Title</label>
-                  <input type="text" name='title' class='title' required/>
-                </div>
-                <div class='imageBox'>
-                  <label>Image</label>
-                  <input
-                    type="file"
-                    name="image"
-                    accept="image/png, image/jpeg"
-                    id="recipeImage"
-                    required
-                  />
-                </div>
-                <div>
-                  <div>Ingredients</div>
-                  <div class='ingredientsGroup'>
-                    <div class='ingredientInput'>
-                      <input type="text" name='ingred' placeholder="Nguyen lieu" required/>
-                      <span>:</span>
-                      <input type="text" name='soluong' placeholder="So luong" required/>
+                  <div class="features">
+                    <label>Title</label>
+                    <input type="text" name='title' class='title' required/>
+                  </div>
+                  <div class='imageBox'>
+                    <label>Image</label>
+                    <input
+                      type="file"
+                      name="image"
+                      accept="image/png, image/jpeg"
+                      id="recipeImage"
+                      required
+                    />
+                  </div>
+                  <div class="features">
+                    <label>Ingredients</label>
+                    <div class="ingredientBody">
+                      <div class='ingredientsGroup '>
+                        <div>
+                          <div class="ingred-layout">
+                            <div class='ingredientInput'>
+                              <input type="text" class="ingred" name='ingred' placeholder="Ingredient" required/>
+                              <span>:</span>
+                              <input type="text" class="quantily" name='soluong' placeholder="Quantily" required/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
+                    <span class='add-button' id='more-ingredient'>Add</span>
                   </div>
-                  <span class='add-button' id='more-ingredient'>Add</span>
-                </div>
-                <div>
-                  <label>Steps</label>
-                  <div class='stepsGroup'>
-                    <div class='stepInput'>
-                    <input type="text" placeholder="step" name='step' required/>
-                  </div>
-                </div>
+                  <div class="features">
+                    <label>Steps</label>
+                    <div class="stepBody">
+                      <div class='stepsGroup step-layout step-body'>
+                        <div class='stepInput'>
+                          <input type="text" class="step" placeholder="Step" name='step' required/>
+                          <!-- <span class="deleteBtn">X</span> -->
+                        </div>
+                      </div>
+                    </div>
+                  
                   <span class='add-button'id='more-step'>Add</span>
+                  </div>
+                  <div class="features">
+                    <label>Guide Video URL</label>
+                    <input type="text"  name='guideUrl' class='guideUrl' required/>
+                  </div>
+                  <div><input type="submit" class="features post-btn" value="Add new recipe" ></input></div>
                 </div>
-          
-                <div>
-                  <label>Guide Video URL</label>
-                  <input type="text" name='guideUrl' class='guideUrl' required/>
-                </div>
-                <div><input type="submit" value="Post new recipe" ></input></div>
+               
               </form>
           </div>
         </div>
