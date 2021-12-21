@@ -534,3 +534,8 @@ html {
 .downVoteBtn {
   margin-left: 20px;
 }
+
+#search-text {
+  padding: 5px 15px;
+  font-size: 1.1rem;
+}
