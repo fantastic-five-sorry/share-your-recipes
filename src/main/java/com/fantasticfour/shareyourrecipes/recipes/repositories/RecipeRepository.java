@@ -49,6 +49,9 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     @Query(value = "SELECT * FROM recipes r WHERE r.slug=:slug AND r.status='APPROVED'", nativeQuery = true)
     Optional<Recipe> findBySlug(String slug);
 
+    @Query(value = "SELECT * FROM recipes r WHERE r.deleted=FALSE AND r.status='APPROVED' and r.title ilike %:query% ORDER BY r.id DESC", nativeQuery = true)
+    Page<Recipe> searchByTitle(String query, Pageable pageable);
+
     @Modifying
     @Transactional
     @Query("update Recipe u set u.upVoteCount = u.upVoteCount - 1 where u.id = :id")

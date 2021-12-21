@@ -33,6 +33,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
     crossorigin="anonymous"
   />
+  <script src='/js/recipe/searchsubmit.js' defer></script>
 </head>
 <body style="background-color: #f5f5f5;">
     <div class="container-fluid" >
@@ -47,8 +48,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                         </a>
                       </li>
                       <li class="nav-item d-flex flex-row flexjustify-content-center">
-                        <form class="d-flex flex-row justify-content-center" style="padding: 10px 55px;">
-                            <input style="max-width: 400px; min-width: 300px;" type="search" placeholder="Search by title" aria-label="Search">
+                        <form id='searchForm' class="d-flex flex-row justify-content-center" style="padding: 10px 55px;">
+                            <input style="max-width: 400px; min-width: 300px;" type="text" id='search-text' placeholder="Search by title" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit" style="width: fit-content;">
                               <i class="fas fa-search"></i>
                             </button>
@@ -147,6 +148,5 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
         
     </div>
 
-    <script src="/js/qa/main.js"></script>
 </body>
 </html>

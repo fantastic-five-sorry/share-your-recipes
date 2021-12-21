@@ -1,10 +1,14 @@
 $(document).ready(function () {
+  var urlParams = new URLSearchParams(window.location.search);
+
+  const searchQuery = urlParams.get('q');
+  console.log(searchQuery);
   $.extend($.fn.pagination.defaults, {
     pageNumber: 0,
   });
   const dataContainer = $('#pageContentTotal');
   $('#buttonGroupsTotal').pagination({
-    dataSource: '/api/recipes',
+    dataSource: `/api/recipes/search/${searchQuery}`,
     locator: 'content',
     totalNumberLocator: function (response) {
       return response.totalElements;
@@ -14,7 +18,7 @@ $(document).ready(function () {
       pageNumber: 'page',
       pageSize: 'size',
     },
-    pageSize: 10,
+    pageSize: 12,
     ajax: {
       beforeSend: function () {
         dataContainer.html('Loading data...');
@@ -22,9 +26,11 @@ $(document).ready(function () {
     },
     callback: function (data, pagination) {
       // template method of yourself
-      console.log(data);
+      if (!data.length) {
+        $('.not-found').attr('hidden', false);
+      }
       var html = data.map((item) => templateRecipe(item));
-      // dataContainer.html(html);
+      dataContainer.html(html);
     },
   });
 });
@@ -34,7 +40,7 @@ const templateRecipe = (element) => {
   
   <div class="col-md-3 ">
                 <div class="card" style="width: 15rem;">
-                    <a href="'recipe/' + ${element.slug}"><img src="${element.image}" class="card_img card-img-top" alt="${element.title}"></a>
+                    <a href="recipe/${element.slug}"><img src="${element.image}" class="card_img card-img-top" alt="${element.title}"></a>
                     <div class="card-body" style="background-color: #f6f7f8;">
                       <h5 class="card_title card-title">${element.title}</h5>
                       <div class="card-text">

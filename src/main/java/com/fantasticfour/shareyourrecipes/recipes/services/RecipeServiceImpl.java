@@ -203,4 +203,9 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeRepository.findAllSortByUpVoteCount(pageable).map(RecipeDTO::new);
     }
 
+    public Page<RecipeDTO> searchRecipeByTitle(String query, Pageable pageable) {
+        return recipeRepository.searchByTitle(query, pageable).map(RecipeDTO::new);
+
+    }
+
 }
