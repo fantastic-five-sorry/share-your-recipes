@@ -90,6 +90,21 @@ public class HompageController {
         return "index";
     }
 
+    @GetMapping("/search")
+    public String search(Authentication authentication, Model model) {
+        if (authentication != null) {
+            Utils.getIdFromRequest(authentication).ifPresent(uid -> {
+                UserInfo user = userService.getUserInfoById(uid);
+
+                model.addAttribute("user", user);
+            });
+            // if (authentication.getAuthorities().toString().contains("ROLE_ADMIN")) {
+            // return "redirect:/admin/hello";
+            // }
+        }
+        return "recipe/search";
+    }
+
     @GetMapping("/recipe/{slug}")
     public String recipeDetailPage(@PathVariable("slug") String slug, Authentication authentication, Model model) {
         try {

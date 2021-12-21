@@ -25,7 +25,7 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     @Query(value = "SELECT * FROM recipes r WHERE r.deleted=FALSE ORDER BY id DESC", nativeQuery = true)
     Page<Recipe> findAll(Pageable pageable);
 
-    @Query(value = "SELECT * FROM recipes r WHERE r.deleted=FALSE AND r.status='APPROVED' ORDER BY up_vote_count DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM recipes r WHERE r.deleted=FALSE AND r.status='APPROVED' ORDER BY id DESC", nativeQuery = true)
     Page<Recipe> findAllApprovedRecipes(Pageable pageable);
 
     @Query(value = "SELECT * FROM recipes r WHERE r.deleted=FALSE AND r.status='PENDING' ORDER BY id DESC", nativeQuery = true)
