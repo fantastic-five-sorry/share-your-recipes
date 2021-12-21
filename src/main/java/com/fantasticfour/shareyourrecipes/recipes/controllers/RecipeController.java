@@ -64,30 +64,64 @@ public class RecipeController {
 
     }
 
-    @GetMapping(value = "/search")
-    public List<RecipeDTO> fullTextSearch(@RequestParam(value = "q") String searchKey) {
-        logger.info("Search key " + searchKey);
-        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+    @GetMapping(value = "/search/{query}")
+    public ResponseEntity<?> fullTextSearch(@PathVariable("query") String searchQuery, Pageable page) {
+        logger.info("Search key " + searchQuery);
 
-        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
-                .buildQueryBuilder()
-                .forEntity(Recipe.class)
-                .get();
+        Page<RecipeDTO> recipes = recipeService.searchRecipeByTitle(searchQuery, page);
 
-        org.apache.lucene.search.Query query = queryBuilder
-                .keyword()
-                .wildcard()
-                .onFields("title")
-                .matching(searchKey)
-                .createQuery();
+        return new ResponseEntity<Page<RecipeDTO>>(recipes, HttpStatus.OK);
 
-        org.hibernate.search.jpa.FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query,
-                Recipe.class);
+        // FullTextEntityManager fullTextEntityManager =
+        // Search.getFullTextEntityManager(entityManager);
 
-        List<Recipe> listResult = jpaQuery.getResultList();
-        return listResult.stream().map(RecipeDTO::new).collect(Collectors.toList());
+        // QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
+        // .buildQueryBuilder()
+        // .forEntity(Recipe.class)
+        // .get();
+
+        // org.apache.lucene.search.Query query = queryBuilder
+        // .keyword()
+        // .wildcard()
+        // .onFields("title")
+        // .matching(searchKey)
+        // .createQuery();
+
+        // org.hibernate.search.jpa.FullTextQuery jpaQuery =
+        // fullTextEntityManager.createFullTextQuery(query,
+        // Recipe.class);
+
+        // List<Recipe> listResult = jpaQuery.getResultList();
+        // return listResult.stream().map(RecipeDTO::new).collect(Collectors.toList());
 
     }
+    // @GetMapping(value = "/search")
+    // public List<RecipeDTO> fullTextSearch(@RequestParam(value = "q") String
+    // searchKey) {
+    // logger.info("Search key " + searchKey);
+    // FullTextEntityManager fullTextEntityManager =
+    // Search.getFullTextEntityManager(entityManager);
+
+    // QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
+    // .buildQueryBuilder()
+    // .forEntity(Recipe.class)
+    // .get();
+
+    // org.apache.lucene.search.Query query = queryBuilder
+    // .keyword()
+    // .wildcard()
+    // .onFields("title")
+    // .matching(searchKey)
+    // .createQuery();
+
+    // org.hibernate.search.jpa.FullTextQuery jpaQuery =
+    // fullTextEntityManager.createFullTextQuery(query,
+    // Recipe.class);
+
+    // List<Recipe> listResult = jpaQuery.getResultList();
+    // return listResult.stream().map(RecipeDTO::new).collect(Collectors.toList());
+
+    // }
 
     @GetMapping("")
     public ResponseEntity<?> recipe(Pageable pageable) {

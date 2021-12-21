@@ -1,83 +1,59 @@
 $(document).ready(function () {
-  $('.my-select').change(function () {
-    console.log($(this).val());
-  });
-  $('.my-select').select2({
-    ajax: {
-      url: 'https://api.github.com/search/repositories',
-      dataType: 'json',
-      delay: 250,
-      data: function (params) {
-        return {
-          q: params.term, // search term
-          page: params.page,
-        };
-      },
-      processResults: function (data, params) {
-        // parse the results into the format expected by Select2
-        // since we are using custom formatting functions we do not need to
-        // alter the remote JSON data, except to indicate that infinite
-        // scrolling can be used
-        params.page = params.page || 1;
+  var urlParams = new URLSearchParams(window.location.search);
 
-        return {
-          results: data.items,
-          pagination: {
-            more: params.page * 30 < data.total_count,
-          },
-        };
-      },
-      cache: true,
+  const searchQuery = urlParams.get('q');
+  console.log(searchQuery);
+  $.extend($.fn.pagination.defaults, {
+    pageNumber: 0,
+  });
+  const dataContainer = $('#pageContentTotal');
+  $('#buttonGroupsTotal').pagination({
+    dataSource: `/api/recipes/search/${searchQuery}`,
+    locator: 'content',
+    totalNumberLocator: function (response) {
+      return response.totalElements;
     },
-    placeholder: 'Search for a repository',
-    minimumInputLength: 1,
-    templateResult: formatRepo,
-    templateSelection: formatRepoSelection,
+
+    alias: {
+      pageNumber: 'page',
+      pageSize: 'size',
+    },
+    pageSize: 12,
+    ajax: {
+      beforeSend: function () {
+        dataContainer.html('Loading data...');
+      },
+    },
+    callback: function (data, pagination) {
+      // template method of yourself
+      if (!data.length) {
+        $('.not-found').attr('hidden', false);
+      }
+      var html = data.map((item) => templateRecipe(item));
+      dataContainer.html(html);
+    },
   });
-
-  function formatRepo(repo) {
-    if (repo.loading) {
-      return repo.text;
-    }
-
-    var $container = $(
-      "<a href='/'><div class='select2-result-repository clearfix'>" +
-        "<div class='select2-result-repository__avatar'><img src='" +
-        repo.owner.avatar_url +
-        "' /></div>" +
-        "<div class='select2-result-repository__meta'>" +
-        "<div class='select2-result-repository__title'></div>" +
-        "<div class='select2-result-repository__description'></div>" +
-        "<div class='select2-result-repository__statistics'>" +
-        "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i> </div>" +
-        "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i> </div>" +
-        "<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i> </div>" +
-        '</div>' +
-        '</div>' +
-        '</div></a>'
-    );
-
-    $container.find('.select2-result-repository__title').text(repo.full_name);
-    $container
-      .find('.select2-result-repository__description')
-      .text(repo.description);
-    $container
-      .find('.select2-result-repository__forks')
-      .append(repo.forks_count + ' Forks');
-    $container
-      .find('.select2-result-repository__stargazers')
-      .append(repo.stargazers_count + ' Stars');
-    $container
-      .find('.select2-result-repository__watchers')
-      .append(repo.watchers_count + ' Watchers');
-
-    return $container;
-  }
-
-  function formatRepoSelection(repo) {
-    if (repo.full_name) {
-      window.location.href = '/' + repo.full_name;
-    }
-    return repo.full_name || repo.text;
-  }
 });
+
+const templateRecipe = (element) => {
+  return `
+  
+  <div class="col-md-3 ">
+                <div class="card" style="width: 15rem;">
+                    <a href="recipe/${element.slug}"><img src="${element.image}" class="card_img card-img-top" alt="${element.title}"></a>
+                    <div class="card-body" style="background-color: #f6f7f8;">
+                      <h5 class="card_title card-title">${element.title}</h5>
+                      <div class="card-text">
+                                <span>by</span>
+                            <span class="author" >
+                              <a href="'/profile/' + ${element.creator.id}" >${element.creator.name}</a>
+                            </span>
+                            <i id="btn_heart"class=" btn_heart  fas fa-heart"></i>
+                            <span>${element.upVoteCount}</span>
+                      </div>
+                    </div>
+                  </div>    
+              </div>
+
+  `;
+};

@@ -70,7 +70,7 @@ public class QuestionController {
         return ResponseEntity.ok().body("message: " + "update status of question  success");
     }
 
-    @PostMapping("/approved/{id}")
+    @PostMapping("/approve/{id}")
     public ResponseEntity<?> approved(@PathVariable("id") Long idQuestion) {
         try {
             questionService.approved(idQuestion);

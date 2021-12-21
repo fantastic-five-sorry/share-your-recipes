@@ -26,29 +26,31 @@
     />
     <script
       src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
-      defer
+      
     ></script>
     <link
     rel="stylesheet"
     href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css"
-    defer
+    
   />
   <script
     src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"
-    defer
+    
   ></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
       integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
-      defer
+      
     ></script>
-    <script type="text/javascript" th:inline="javascript" defer>
+    <script type="text/javascript" th:inline="javascript" >
       var auth = [[${#authentication.getPrincipal()}]];
       var recipeId = [[${recipe.getId()}]];
     </script>
-    <script src="/js/recipe/recipe.js" defer></script>
+    <script src="/js/recipe/recipe.js" ></script>
+    <script src="/js/recipe/searchsubmit.js"></script>
+
   </head>
   <body style="background-color: #f5f5f5">
     <div class="container-fluid">
@@ -61,12 +63,12 @@
                     </a>
                   </li>
                   <li class="nav-item d-flex flex-row flexjustify-content-center">
-                    <form class="d-flex flex-row justify-content-center" style="padding: 10px 55px;">
-                        <input style="max-width: 400px; min-width: 300px;" type="search" placeholder="Search by title" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit" style="width: fit-content;">
-                          <i class="fas fa-search"></i>
-                        </button>
-                      </form>
+                    <form id='searchForm' class="d-flex flex-row justify-content-center" style="padding: 10px 55px;">
+                      <input style="max-width: 400px; min-width: 300px;" type="text" id='search-text' placeholder="Search by title" aria-label="Search">
+                      <button class="btn btn-outline-success" type="submit" style="width: fit-content;">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </form>
                   </li>
                   <li sec:authorize="!isAuthenticated()" class="nav-item nav-login"><a href="/login">Login</a></li>                     
                   <li sec:authorize="!isAuthenticated()" class="nav-item nav-login"><a href="/signup">Sign up</a></li>                     
@@ -229,8 +231,10 @@
                 </h2>
               </div>
               <div id="commentsDiv">
+
                 <p id="no-comment" hidden>No comments yet</p>
                 <p id="end-comment" hidden>You have reached the end</p>
+
               </div>
             </div>
             <button

@@ -388,8 +388,6 @@ function template(comment) {
         <span class='ml-2 ms-2' id='downVoteCount-${comment.id}'>${
     comment.downVoteCount
   }</span>
-        <span class='dot ml-2'></span>
-        <div class='reply-cmt'>reply</div>
       </div>
       <div id='${comment.id}' class='reply' style="margin-bottom: 1rem;">
         <i class="fa fa-reply fa-flip-horizontal fa-flip-vertical" aria-hidden="true"></i>

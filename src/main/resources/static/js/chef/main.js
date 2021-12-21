@@ -1,26 +1,26 @@
-var token = $("meta[name='_csrf']").attr('content');
-var header = $("meta[name='_csrf_header']").attr('content');
+var token = $("meta[name='_csrf']").attr("content");
+var header = $("meta[name='_csrf_header']").attr("content");
 
 $(document).ready(() => {
   $.extend($.fn.pagination.defaults, {
     pageNumber: 0,
   });
-  const dataContainer = $('#pageContentTotal');
-  $('#buttonGroupsTotal').pagination({
-    dataSource: '/api/recipes/myRecipe',
-    locator: 'content',
+  const dataContainer = $("#pageContentTotal");
+  $("#buttonGroupsTotal").pagination({
+    dataSource: "/api/recipes/myRecipe",
+    locator: "content",
     totalNumberLocator: function (response) {
       return response.totalElements;
     },
 
     alias: {
-      pageNumber: 'page',
-      pageSize: 'size',
+      pageNumber: "page",
+      pageSize: "size",
     },
     pageSize: 10,
     ajax: {
       beforeSend: function () {
-        dataContainer.html('Loading data...');
+        dataContainer.html("Loading data...");
       },
     },
     callback: function (data, pagination) {
@@ -34,6 +34,8 @@ $(document).ready(() => {
       <td>
       <button
       class="UpdateButton btn btn-success confirm"
+      style="
+
       title="Edit"
       id="update-${item.id}"
     >
@@ -53,22 +55,22 @@ $(document).ready(() => {
 
   ///
 
-  const approvedContainer = $('#pageContentApproved');
-  $('#buttonGroupsApproved').pagination({
-    dataSource: '/api/recipes/myRecipe/approved',
-    locator: 'content',
+  const approvedContainer = $("#pageContentApproved");
+  $("#buttonGroupsApproved").pagination({
+    dataSource: "/api/recipes/myRecipe/approved",
+    locator: "content",
     totalNumberLocator: function (response) {
       return response.totalElements;
     },
 
     alias: {
-      pageNumber: 'page',
-      pageSize: 'size',
+      pageNumber: "page",
+      pageSize: "size",
     },
     pageSize: 10,
     ajax: {
       beforeSend: function () {
-        approvedContainer.html('Loading data...');
+        approvedContainer.html("Loading data...");
       },
     },
     callback: function (data, pagination) {
@@ -100,22 +102,22 @@ $(document).ready(() => {
   });
   ///
 
-  const pendingContainer = $('#pageContentPending');
-  $('#buttonGroupsPending').pagination({
-    dataSource: '/api/recipes/myRecipe/pending',
-    locator: 'content',
+  const pendingContainer = $("#pageContentPending");
+  $("#buttonGroupsPending").pagination({
+    dataSource: "/api/recipes/myRecipe/pending",
+    locator: "content",
     totalNumberLocator: function (response) {
       return response.totalElements;
     },
 
     alias: {
-      pageNumber: 'page',
-      pageSize: 'size',
+      pageNumber: "page",
+      pageSize: "size",
     },
     pageSize: 10,
     ajax: {
       beforeSend: function () {
-        pendingContainer.html('Loading data...');
+        pendingContainer.html("Loading data...");
       },
     },
     callback: function (data, pagination) {
@@ -151,19 +153,19 @@ $(document).ready(() => {
 
   // handle del, update
 
-  $(document).on('click', '.DeleteButton', (e) => {
+  $(document).on("click", ".DeleteButton", (e) => {
     console.log(e.target.id);
-    const recipeId = e.target.id.split('-')[1];
+    const recipeId = e.target.id.split("-")[1];
 
     $.confirm({
-      title: 'Confirm',
-      content: 'Do you really want to delete this recipe?',
-      type: 'green',
+      title: "Confirm",
+      content: "Do you really want to delete this recipe?",
+      type: "green",
       buttons: {
         ok: {
-          text: 'YES',
-          btnClass: 'btn-primary',
-          keys: ['enter'],
+          text: "YES",
+          btnClass: "btn-primary",
+          keys: ["enter"],
           action: function () {
             doDeleteRecipe(recipeId);
           },
@@ -172,35 +174,35 @@ $(document).ready(() => {
       },
     });
   });
-  $(document).on('click', '.UpdateButton', (e) => {
+  $(document).on("click", ".UpdateButton", (e) => {
     console.log(e.target.id);
-    const recipeId = e.target.id.split('-')[1];
+    const recipeId = e.target.id.split("-")[1];
     window.location.href = `/chef/update/${recipeId}`;
   });
 });
 
 const doDeleteRecipe = (recipeId) => {
   $.ajax({
-    type: 'delete',
+    type: "delete",
     url: `/api/recipes/${recipeId}`,
-    contentType: 'application/json; charset=utf-8',
+    contentType: "application/json; charset=utf-8",
     headers: {
       [header]: token,
     },
     traditional: true,
     success: function (data, textStatus, xhr) {
       if (xhr.status == 200) {
-        $.notify('Successfully delete this recipe', {
-          position: 'top center',
-          className: 'success',
+        $.notify("Successfully delete this recipe", {
+          position: "top center",
+          className: "success",
         });
         $(`.recipe-${recipeId}`).hide();
       }
     },
     error: function (error) {
       $.notify(error.responseText, {
-        position: 'top center',
-        className: 'warn',
+        position: "top center",
+        className: "warn",
       });
     },
   });

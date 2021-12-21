@@ -44,4 +44,6 @@ public interface RecipeService {
     Page<RecipeDTO> findAllNotApprovedRecipesByCreator(Long id, Pageable pageable);
 
     Page<RecipeDTO> findAllApprovedRecipesByCreator(Long id, Pageable pageable);
+
+    Page<RecipeDTO> searchRecipeByTitle(String query, Pageable pageable);
 }

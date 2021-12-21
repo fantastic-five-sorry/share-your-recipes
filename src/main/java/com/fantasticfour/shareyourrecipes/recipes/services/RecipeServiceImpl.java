@@ -103,7 +103,7 @@ public class RecipeServiceImpl implements RecipeService {
         recipe2.setCreator(userRepo.findValidUserById(recipe.getCreatorId()));
         recipe2.setGuideVideoUrl(recipe.getGuideVideoString());
         recipe2.setSlug(toSlug(recipe.getTitle()));
-        recipe2.setStatus(RecipeStatus.APPROVED);
+        recipe2.setStatus(RecipeStatus.PENDING);
         recipeRepository.save(recipe2);
     }
 
@@ -201,6 +201,11 @@ public class RecipeServiceImpl implements RecipeService {
     public Page<RecipeDTO> findAllSortByUpVoteCount(Pageable pageable) {
 
         return recipeRepository.findAllSortByUpVoteCount(pageable).map(RecipeDTO::new);
+    }
+
+    public Page<RecipeDTO> searchRecipeByTitle(String query, Pageable pageable) {
+        return recipeRepository.searchByTitle(query, pageable).map(RecipeDTO::new);
+
     }
 
 }

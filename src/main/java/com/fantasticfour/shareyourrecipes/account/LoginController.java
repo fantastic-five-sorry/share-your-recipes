@@ -64,7 +64,7 @@ public class LoginController {
             cookie.setMaxAge(0);
         }
 
-        return "redirect:/login?logout";
+        return "redirect:/";
     }
 
 }
