@@ -29,6 +29,7 @@ public class ChefController {
 
     @GetMapping("/info")
     public String showChefInfo() {
+
         return "chef/info";
     }
 

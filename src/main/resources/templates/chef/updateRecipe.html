@@ -62,7 +62,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-   
+    <link rel="stylesheet" href="/styles/chef/style.css">
     <link rel="stylesheet" href="/styles/admin/layout.css" />
   </head>
   <body>
@@ -114,51 +114,72 @@
           <div class="header">
             <span>UPDATE RECIPE</span>
           </div>
-          <div class="container">
+          <div class="container body">
             <form>
-                <div style="display:none;">
-                  <label>Id</label>
-                  <input th:value="${recipe.id}" type="text" name='id' class='id' required/>
-                </div>
                 <div>
-                  <label>Title</label>
-                  <input th:value="${recipe.title}" type="text" name='title' class='title' required/>
-                </div>
-                <div class='imageBox'>
-                  <label>Image</label>
-                  <input
-                    type="file"
-                    name="image"
-                    accept="image/png, image/jpeg"
-                    id="recipeImage"
-                  />
-                </div>
-                <div>
-                  <div>Ingredients</div>
-                  <div class='ingredientsGroup' th:each="item : ${recipe.ingredients}">
-                    <div class='ingredientInput'>
-                      <input th:value="${item.key}" type="text" name='ingred' placeholder="Nguyen lieu" required/>
-                      <span>:</span>
-                      <input th:value="${item.value}" type="text" name='soluong' placeholder="So luong" required/>
+                  <div style="display:none;">
+                    <label>Id</label>
+                    <input th:value="${recipe.id}" type="text" name='id' class='id' required/>
+                  </div>
+                  <div class="features">
+                    <label>Title</label>
+                    <input th:value="${recipe.title}" type="text" name='title' class='title' required/>
+                  </div>
+                  <div class='imageBox'>
+                    <label>Image (< 512Kb)</label>
+                    <input
+                      type="file"
+                      name="image"
+                      accept="image/png, image/jpeg"
+                      id="recipeImage"
+                    />
+                  </div>
+                  <div class="features">
+                    <label>Ingredients</label>
+                    <div class="ingredientBody">
+                      <div class='ingredientsGroup ' th:each="item : ${recipe.ingredients}">
+                        <div>
+                          <div class="ingred-layout">
+                            <div class='ingredientInput'>
+                              <input type="text" th:value="${item.key}" class="ingred" name='ingred' placeholder="Ingredient" required/>
+                              <span>:</span>
+                              <input type="text" th:value="${item.value}" class="quantily" name='soluong' placeholder="Quantily" required/>
+                            </div>
+                          </div>
+                        </div>
+                        <span class="deleteBtn">X</span>
+                      </div>
                     </div>
+                    <span class='add-button' id='more-ingredient'>Add</span>
+                    <!-- <div class='ingredientsGroup' th:each="item : ${recipe.ingredients}">
+                      <div class='ingredientInput'>
+                        <input th:value="${item.key}" type="text" name='ingred' placeholder="Ingredient" required/>
+                        <span>:</span>
+                        <input th:value="${item.value}" type="text" name='soluong' placeholder="Quantily" required/>
+                      </div>
+                    </div>
+                    <span class='add-button' id='more-ingredient'>Add</span> -->
                   </div>
-                  <span class='add-button' id='more-ingredient'>Add</span>
-                </div>
-                <div>
-                  <label>Steps</label>
-                  <div class='stepsGroup' th:each="step : ${recipe.steps}">
-                    <div class='stepInput'>
-                    <input th:value="${step}" type="text" placeholder="step" name='step' required/>
-                  </div>
-                </div>
+                  <div  class="features">
+                    <label>Steps</label>
+                    <div class="stepBody">
+                      <div class='stepGroup step-layout step-body' th:each="step : ${recipe.steps}">
+                        <div class='stepInput'>
+                          <input type="text"   th:value="${step}" class="step" placeholder="Step" name='step' required/>
+                          <span class="deleteBtn">X</span>
+                        </div>
+                      </div>
+                    </div>
+                  
                   <span class='add-button'id='more-step'>Add</span>
+                   
+                  </div>
+                  <div class="features">
+                    <label>Guide Video URL</label>
+                    <input th:value="${recipe.guideVideoString}" type="text" name='guideUrl' class='guideUrl' required/>
+                  </div>
+                  <div><input type="submit"  class="features post-btn" value="Update recipe" ></input></div>
                 </div>
-          
-                <div>
-                  <label>Guide Video URL</label>
-                  <input th:value="${recipe.guideVideoString}" type="text" name='guideUrl' class='guideUrl' required/>
-                </div>
-                <div><input type="submit" value="Post new recipe" ></input></div>
               </form>
           </div>
         </div>
